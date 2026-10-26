@@ -61,4 +61,17 @@
     <string name="buddy_turn_off_ai">Turn off Buddy AI</string>
     <string name="buddy_note_title">Buddy\'s note</string>
     <string name="buddy_note_loading">Buddy is reading your workout…</string>
+    <string name="buddy_channel">Buddy</string>
+    <string name="buddy_reminders">Reminders</string>
+    <string name="buddy_reminders_hint">A nudge when you fall behind your weekly goal, and your weekly report on Monday mornings (Pro).</string>
+    <string name="buddy_remind_title">Time to train?</string>
+    <string name="buddy_remind_text">Your goal is %1$d workouts a week. Even a short session today keeps you on track.</string>
+    <string name="buddy_weekly_ready_title">Your weekly report is ready</string>
+    <string name="buddy_weekly_ready_text">Buddy looked back at last week. Open GymBuddy to read it.</string>
+    <string name="buddy_weekly_report">Weekly report</string>
+    <string name="buddy_weekly_locked">With Pro, Buddy AI writes you a report every week: workouts against your goal, volume by muscle group, records, and one clear focus for next week.</string>
+    <string name="buddy_weekly_needs_ai">The weekly report is written by Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary.</string>
+    <string name="buddy_weekly_loading">Buddy is looking back at last week…</string>
+    <string name="buddy_weekly_range">%1$s – %2$s</string>
+    <string name="buddy_weekly_discuss">Talk it over with Buddy</string>
 </resources>

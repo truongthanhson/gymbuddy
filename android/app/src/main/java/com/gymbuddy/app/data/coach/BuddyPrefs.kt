@@ -27,6 +27,8 @@ data class BuddySettings(
     val experience: Experience = Experience.INTERMEDIATE,
     /** Free text: injuries or movements to avoid. */
     val limitations: String = "",
+    /** Training reminders and the Monday weekly report notification. */
+    val reminders: Boolean = false,
 ) {
     /** The goal profile as Buddy AI reads it. */
     fun profileJson(): JsonObject = buildJsonObject {
@@ -54,6 +56,7 @@ class BuddyPrefs @Inject constructor(@ApplicationContext context: Context) {
             .putInt(KEY_DAYS, next.daysPerWeek)
             .putString(KEY_EXPERIENCE, next.experience.key)
             .putString(KEY_LIMITATIONS, next.limitations)
+            .putBoolean(KEY_REMINDERS, next.reminders)
             .apply()
         state.value = next
     }
@@ -65,7 +68,18 @@ class BuddyPrefs @Inject constructor(@ApplicationContext context: Context) {
         daysPerWeek = prefs.getInt(KEY_DAYS, DEFAULT_WORKOUTS_PER_WEEK).coerceIn(1, 7),
         experience = Experience.entries.firstOrNull { it.key == prefs.getString(KEY_EXPERIENCE, null) } ?: Experience.INTERMEDIATE,
         limitations = prefs.getString(KEY_LIMITATIONS, "").orEmpty(),
+        reminders = prefs.getBoolean(KEY_REMINDERS, false),
     )
+
+    /** When the last training reminder was shown. */
+    var lastReminderAt: Long
+        get() = prefs.getLong(KEY_LAST_REMINDER, 0)
+        set(value) = prefs.edit().putLong(KEY_LAST_REMINDER, value).apply()
+
+    /** The week (its Monday) whose report was last announced. */
+    var lastWeeklyNotice: String
+        get() = prefs.getString(KEY_LAST_WEEKLY, "").orEmpty()
+        set(value) = prefs.edit().putString(KEY_LAST_WEEKLY, value).apply()
 
     private companion object {
         const val KEY_CONSENT = "ai_consent"
@@ -74,5 +88,8 @@ class BuddyPrefs @Inject constructor(@ApplicationContext context: Context) {
         const val KEY_DAYS = "days_per_week"
         const val KEY_EXPERIENCE = "experience"
         const val KEY_LIMITATIONS = "limitations"
+        const val KEY_REMINDERS = "reminders"
+        const val KEY_LAST_REMINDER = "last_reminder_at"
+        const val KEY_LAST_WEEKLY = "last_weekly_notice"
     }
 }
