@@ -1,5 +1,9 @@
 package com.gymbuddy.app.ui.buddy
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,6 +41,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -303,6 +308,29 @@ fun BuddySettingsSheet(
             modifier = Modifier.fillMaxWidth(),
             maxLines = 3,
         )
+        val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) onChange { it.copy(reminders = true) }
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.buddy_reminders), style = MaterialTheme.typography.titleSmall)
+                Text(
+                    stringResource(R.string.buddy_reminders_hint),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Switch(
+                checked = settings.reminders,
+                onCheckedChange = { on ->
+                    if (on && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    } else {
+                        onChange { it.copy(reminders = on) }
+                    }
+                },
+            )
+        }
         if (onClearHistory != null) {
             OutlinedButton(onClick = onClearHistory, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.buddy_clear_history)) }
         }

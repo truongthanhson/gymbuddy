@@ -7,6 +7,11 @@ import com.gymbuddy.app.data.pro.ProRepository
 import com.gymbuddy.app.data.settings.SettingsRepository
 import com.gymbuddy.app.data.workout.WorkoutDao
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.DayOfWeek
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +20,19 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
+
+/** Monday to Sunday in local time; [toMillis] is the next Monday's start. */
+data class ReportWeek(val monday: LocalDate, val fromMillis: Long, val toMillis: Long)
+
+data class WeeklyReport(val week: ReportWeek, val text: String)
+
+/** The last full week before the one [nowMillis] is in. */
+fun lastFullWeek(nowMillis: Long, zone: ZoneId = ZoneId.systemDefault()): ReportWeek {
+    val today = Instant.ofEpochMilli(nowMillis).atZone(zone).toLocalDate()
+    val thisMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+    val monday = thisMonday.minusWeeks(1)
+    return ReportWeek(monday, monday.atStartOfDay(zone).toInstant().toEpochMilli(), thisMonday.atStartOfDay(zone).toInstant().toEpochMilli())
+}
 
 /** Buddy AI: builds the training summary and asks the coach function. */
 @Singleton
@@ -65,6 +83,14 @@ class BuddyAi @Inject constructor(
         val ctx = context { put("workout", it.workout(workout)) }
         val result = api.report("summary", plan, prefs.settings.value, locale, ctx, ref = workoutId)
         return result["text"]?.jsonPrimitive?.contentOrNull.orEmpty()
+    }
+
+    /** Buddy's report on the last full week (Monday to Sunday); cached on the server per week. */
+    suspend fun weeklyReport(): WeeklyReport {
+        val week = lastFullWeek(System.currentTimeMillis())
+        val ctx = context { put("week", it.week(week.fromMillis, week.toMillis)) }
+        val result = api.report("weekly", plan, prefs.settings.value, locale, ctx, ref = week.monday.toString())
+        return WeeklyReport(week, result["text"]?.jsonPrimitive?.contentOrNull.orEmpty())
     }
 
     /** All exercises Buddy may use when designing a routine. */
