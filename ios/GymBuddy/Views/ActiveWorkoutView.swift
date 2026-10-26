@@ -24,7 +24,10 @@ struct ActiveWorkoutView: View {
         RestTimer.shared.skip()
         let saveable = anyCompleted
         WorkoutService.finish(workout, in: context)
-        defer { SyncService.shared.requestSync() }
+        defer {
+            SyncService.shared.requestSync()
+            WidgetSnapshotWriter.update(in: context)
+        }
         if saveable, let endedAt = workout.endedAt {
             HealthService.saveWorkout(id: workout.id, name: workout.name, start: workout.startedAt, end: endedAt)
         }

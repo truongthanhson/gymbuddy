@@ -182,4 +182,12 @@
     <string name="health_connect">Health Connect</string>
     <string name="health_connect_hint">Lưu buổi tập đã xong và cân nặng vào Health Connect</string>
     <string name="health_rationale">GymBuddy chỉ ghi vào Health Connect: mỗi buổi tập đã xong được lưu thành một buổi tập sức mạnh, và mỗi lần bạn ghi cân nặng. Ứng dụng không đọc dữ liệu sức khỏe của bạn. Bạn có thể tắt bất cứ lúc nào trong Cài đặt của GymBuddy hoặc trong Health Connect.</string>
+    <string name="widget_name">GymBuddy tuần này</string>
+    <string name="widget_description">Số buổi tập tuần này và buổi gần nhất</string>
+    <string name="widget_this_week">Tuần này</string>
+    <string name="widget_last_workout">Gần nhất: %1$s, %2$s</string>
+    <string name="widget_no_workouts">Chưa có buổi tập nào</string>
+    <plurals name="widget_workouts">
+        <item quantity="other">buổi tập</item>
+    </plurals>
 </resources>

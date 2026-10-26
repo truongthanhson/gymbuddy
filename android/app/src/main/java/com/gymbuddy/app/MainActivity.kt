@@ -12,6 +12,7 @@ import com.gymbuddy.app.data.sync.SyncManager
 import com.gymbuddy.app.ui.GymBuddyNavHost
 import com.gymbuddy.app.ui.common.LocalAppSettings
 import com.gymbuddy.app.ui.theme.GymBuddyTheme
+import com.gymbuddy.app.widget.WidgetRefresher
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
 
     @Inject lateinit var settingsRepository: SettingsRepository
     @Inject lateinit var syncManager: SyncManager
+    @Inject lateinit var widgetRefresher: WidgetRefresher
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,5 +39,11 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         syncManager.requestSync()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // Pulled or imported workouts change the widget too.
+        widgetRefresher.refresh()
     }
 }

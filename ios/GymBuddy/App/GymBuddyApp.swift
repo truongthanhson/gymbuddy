@@ -30,6 +30,8 @@ struct GymBuddyApp: App {
         .modelContainer(container)
         .onChange(of: scenePhase, initial: true) { _, phase in
             if phase == .active { SyncService.shared.requestSync() }
+            // Pulled or imported workouts change the widget too.
+            if phase == .background { WidgetSnapshotWriter.update(in: container.mainContext) }
         }
     }
 }
