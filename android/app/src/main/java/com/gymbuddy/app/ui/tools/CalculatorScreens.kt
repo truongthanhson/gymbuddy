@@ -18,6 +18,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.Switch
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -32,9 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gymbuddy.app.R
-import com.gymbuddy.app.domain.defaultBar
-import com.gymbuddy.app.domain.defaultPlates
+import com.gymbuddy.app.domain.plateOptions
+import com.gymbuddy.app.ui.settings.SettingsViewModel
 import com.gymbuddy.app.domain.estimatedOneRepMax
 import com.gymbuddy.app.domain.formatWeight
 import com.gymbuddy.app.domain.plateLoad
@@ -93,9 +95,10 @@ private fun NumberField(@StringRes label: Int, value: String, decimal: Boolean, 
 /** Which plates to load on each side of the bar for a target weight, in the user's unit. */
 @Composable
 fun PlateCalculatorScreen(onBack: () -> Unit) {
-    val unit = LocalAppSettings.current.weightUnit
+    val settings = LocalAppSettings.current
+    val unit = settings.weightUnit
     var target by rememberSaveable { mutableStateOf("") }
-    var bar by rememberSaveable(unit) { mutableStateOf(formatWeight(unit.defaultBar)) }
+    var bar by rememberSaveable(unit) { mutableStateOf(formatWeight(settings.barFor(unit))) }
 
     ToolScaffold(R.string.plate_calculator, onBack) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -103,7 +106,7 @@ fun PlateCalculatorScreen(onBack: () -> Unit) {
             NumberField(R.string.bar_weight, bar, decimal = true, suffix = unit.symbol, modifier = Modifier.weight(1f)) { bar = it }
         }
         val targetValue = parseNumber(target) ?: return@ToolScaffold
-        val load = plateLoad(targetValue, parseNumber(bar) ?: 0.0, unit.defaultPlates)
+        val load = plateLoad(targetValue, parseNumber(bar) ?: 0.0, settings.platesFor(unit))
         Card(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(stringResource(R.string.plates_per_side), style = MaterialTheme.typography.titleMedium)
@@ -129,9 +132,10 @@ fun PlateCalculatorScreen(onBack: () -> Unit) {
 /** Warm-up sets to do before a working weight, like Strong's warm-up calculator. */
 @Composable
 fun WarmupCalculatorScreen(onBack: () -> Unit) {
-    val unit = LocalAppSettings.current.weightUnit
+    val settings = LocalAppSettings.current
+    val unit = settings.weightUnit
     var working by rememberSaveable { mutableStateOf("") }
-    var bar by rememberSaveable(unit) { mutableStateOf(formatWeight(unit.defaultBar)) }
+    var bar by rememberSaveable(unit) { mutableStateOf(formatWeight(settings.barFor(unit))) }
 
     ToolScaffold(R.string.warmup_calculator, onBack) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -139,7 +143,7 @@ fun WarmupCalculatorScreen(onBack: () -> Unit) {
             NumberField(R.string.bar_weight, bar, decimal = true, suffix = unit.symbol, modifier = Modifier.weight(1f)) { bar = it }
         }
         val workingValue = parseNumber(working) ?: return@ToolScaffold
-        val sets = warmupSets(workingValue, parseNumber(bar) ?: 0.0, unit.defaultPlates)
+        val sets = warmupSets(workingValue, parseNumber(bar) ?: 0.0, settings.platesFor(unit))
         if (sets.isEmpty()) {
             Text(stringResource(R.string.no_warmup_needed))
             return@ToolScaffold
@@ -149,7 +153,7 @@ fun WarmupCalculatorScreen(onBack: () -> Unit) {
                 ListItem(
                     headlineContent = { Text("${formatWeight(set.weight)} ${unit.symbol} × ${set.reps}", style = MaterialTheme.typography.titleMedium) },
                     supportingContent = {
-                        val perSide = plateLoad(set.weight, parseNumber(bar) ?: 0.0, unit.defaultPlates).perSide
+                        val perSide = plateLoad(set.weight, parseNumber(bar) ?: 0.0, settings.platesFor(unit)).perSide
                         Text(
                             if (perSide.isEmpty()) {
                                 stringResource(R.string.no_plates_needed)
@@ -202,3 +206,38 @@ fun OneRepMaxCalculatorScreen(onBack: () -> Unit) {
 }
 
 private fun round2(value: Double) = kotlin.math.round(value * 100) / 100
+
+/** The bar and the plates the user has, used by the plate and warm-up calculators and "Add warm-up sets". */
+@Composable
+fun BarAndPlatesScreen(onBack: () -> Unit, viewModel: SettingsViewModel = hiltViewModel()) {
+    val settings = LocalAppSettings.current
+    val unit = settings.weightUnit
+    var bar by rememberSaveable(unit) { mutableStateOf(formatWeight(settings.barFor(unit))) }
+    val plates = settings.platesFor(unit)
+
+    ToolScaffold(R.string.bar_and_plates, onBack) {
+        NumberField(R.string.bar_weight, bar, decimal = true, suffix = unit.symbol, modifier = Modifier.fillMaxWidth()) {
+            bar = it
+            parseNumber(it)?.let { weight -> viewModel.setBar(unit, weight) }
+        }
+        Text(stringResource(R.string.available_plates), style = MaterialTheme.typography.titleMedium)
+        Column {
+            unit.plateOptions.forEach { plate ->
+                val on = plate in plates
+                ListItem(
+                    headlineContent = { Text("${formatWeight(plate)} ${unit.symbol}") },
+                    trailingContent = {
+                        Switch(
+                            checked = on,
+                            // Keep at least one plate so the calculators have something to load.
+                            enabled = !on || plates.size > 1,
+                            onCheckedChange = { checked ->
+                                viewModel.setPlates(unit, if (checked) plates + plate else plates - plate)
+                            },
+                        )
+                    },
+                )
+            }
+        }
+    }
+}

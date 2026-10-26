@@ -249,6 +249,16 @@
         }
       }
     },
+    "Available plates": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bánh tạ có sẵn"
+          }
+        }
+      }
+    },
     "Back": {
       "localizations": {
         "vi": {
@@ -275,6 +285,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Thanh đòn"
+          }
+        }
+      }
+    },
+    "Bar and plates": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thanh đòn và bánh tạ"
           }
         }
       }

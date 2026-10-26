@@ -232,4 +232,7 @@
     <string name="personal_record">Kỷ lục cá nhân</string>
     <string name="tab_profile">Hồ sơ</string>
     <string name="workouts_per_week">Số buổi tập mỗi tuần</string>
+    <string name="bar_and_plates">Thanh đòn và bánh tạ</string>
+    <string name="bar_and_plates_hint">Khối lượng thanh đòn và các bánh tạ bạn có, dùng cho máy tính và set khởi động</string>
+    <string name="available_plates">Bánh tạ có sẵn</string>
 </resources>

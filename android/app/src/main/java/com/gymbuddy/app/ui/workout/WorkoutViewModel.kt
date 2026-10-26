@@ -16,8 +16,6 @@ import com.gymbuddy.app.data.workout.filledFrom
 import com.gymbuddy.app.data.workout.isEmpty
 import com.gymbuddy.app.domain.RestTimerState
 import com.gymbuddy.app.domain.SetValues
-import com.gymbuddy.app.domain.defaultBar
-import com.gymbuddy.app.domain.defaultPlates
 import com.gymbuddy.app.domain.warmupSets
 import com.gymbuddy.app.domain.resolveRestSeconds
 import com.gymbuddy.app.timer.RestTimerController
@@ -86,9 +84,10 @@ class WorkoutViewModel @Inject constructor(
 
     /** Adds Strong-style warm-up sets before the heaviest normal set of the exercise. */
     fun addWarmupSets(item: WorkoutExerciseWithSets) = launch {
-        val unit = settings.settings.value.weightUnit
+        val current = settings.settings.value
+        val unit = current.weightUnit
         val working = item.sets.filter { it.setType == SetType.NORMAL }.mapNotNull { it.weightKg }.maxOrNull() ?: return@launch
-        val sets = warmupSets(unit.display(working), unit.defaultBar, unit.defaultPlates)
+        val sets = warmupSets(unit.display(working), current.barFor(), current.platesFor())
         repository.insertWarmupSets(item.workoutExercise.id, sets.map { unit.toKg(it.weight) to it.reps })
     }
 

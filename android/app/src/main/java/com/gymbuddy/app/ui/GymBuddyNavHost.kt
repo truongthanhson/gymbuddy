@@ -40,6 +40,7 @@ import com.gymbuddy.app.ui.measurements.MeasurementsScreen
 import com.gymbuddy.app.ui.profile.ProfileScreen
 import com.gymbuddy.app.ui.settings.SettingsScreen
 import com.gymbuddy.app.ui.templates.TemplateEditorScreen
+import com.gymbuddy.app.ui.tools.BarAndPlatesScreen
 import com.gymbuddy.app.ui.tools.OneRepMaxCalculatorScreen
 import com.gymbuddy.app.ui.tools.PlateCalculatorScreen
 import com.gymbuddy.app.ui.tools.WarmupCalculatorScreen
@@ -60,6 +61,7 @@ import kotlinx.serialization.Serializable
 @Serializable object PlateCalculatorRoute
 @Serializable object OneRepMaxCalculatorRoute
 @Serializable object WarmupCalculatorRoute
+@Serializable object BarAndPlatesRoute
 @Serializable data class MeasurementDetailRoute(val kind: String)
 @Serializable data class WorkoutEditRoute(val workoutId: String)
 @Serializable object CalendarRoute
@@ -162,11 +164,13 @@ fun GymBuddyNavHost() {
                     onOpenPlateCalculator = { navController.navigate(PlateCalculatorRoute) },
                     onOpenOneRepMaxCalculator = { navController.navigate(OneRepMaxCalculatorRoute) },
                     onOpenWarmupCalculator = { navController.navigate(WarmupCalculatorRoute) },
+                    onOpenBarAndPlates = { navController.navigate(BarAndPlatesRoute) },
                 )
             }
             composable<PlateCalculatorRoute> { PlateCalculatorScreen(onBack = { navController.popBackStack() }) }
             composable<OneRepMaxCalculatorRoute> { OneRepMaxCalculatorScreen(onBack = { navController.popBackStack() }) }
             composable<WarmupCalculatorRoute> { WarmupCalculatorScreen(onBack = { navController.popBackStack() }) }
+            composable<BarAndPlatesRoute> { BarAndPlatesScreen(onBack = { navController.popBackStack() }) }
             composable<ExercisePickerRoute> { entry ->
                 val route = entry.toRoute<ExercisePickerRoute>()
                 val workoutId = route.workoutId
