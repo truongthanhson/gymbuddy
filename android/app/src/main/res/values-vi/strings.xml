@@ -123,4 +123,16 @@
     <string name="create_account">Tạo tài khoản</string>
     <string name="confirm_email">Hãy mở email và bấm link xác nhận, rồi đăng nhập.</string>
     <string name="please_wait">Vui lòng chờ…</string>
+    <string name="charts">Biểu đồ</string>
+    <string name="records">Kỷ lục</string>
+    <string name="metric_one_rep_max">1RM ước tính</string>
+    <string name="metric_max_weight">Mức tạ cao nhất</string>
+    <string name="metric_volume">Khối lượng</string>
+    <string name="record_max_weight">Mức tạ cao nhất</string>
+    <string name="record_max_set_volume">Khối lượng set tốt nhất</string>
+    <string name="record_max_reps">Số rep nhiều nhất</string>
+    <string name="record_max_workout_volume">Khối lượng buổi tập tốt nhất</string>
+    <string name="no_exercise_history">Chưa có set nào hoàn thành cho bài tập này.</string>
+    <string name="not_enough_for_chart">Hoàn thành bài tập này trong ít nhất hai buổi để xem biểu đồ.</string>
+    <string name="one_rep_max_short">1RM %1$s</string>
 </resources>

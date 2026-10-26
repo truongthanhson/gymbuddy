@@ -3,14 +3,11 @@ import SwiftUI
 
 struct ExercisesView: View {
     @State private var creating = false
-    @State private var editing: Exercise?
+    @State private var selected: Exercise?
 
     var body: some View {
         NavigationStack {
-            // Built-in exercises have no detail screen yet; custom ones open the editor.
-            ExerciseBrowser(onTap: { exercise in
-                if exercise.isCustom { editing = exercise }
-            })
+            ExerciseBrowser(onTap: { selected = $0 })
             .navigationTitle("Exercises")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -20,7 +17,7 @@ struct ExercisesView: View {
                 }
             }
             .sheet(isPresented: $creating) { ExerciseEditorView(exercise: nil) }
-            .sheet(item: $editing) { ExerciseEditorView(exercise: $0) }
+            .navigationDestination(item: $selected) { ExerciseDetailView(exercise: $0) }
         }
     }
 }

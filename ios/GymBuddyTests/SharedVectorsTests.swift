@@ -62,4 +62,50 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(Timestamp.format(Date(timeIntervalSince1970: Double(c.epochMillis) / 1000)), c.text)
         }
     }
+
+    func testExerciseRecordsMatchSharedVectors() throws {
+        struct File: Decodable {
+            struct VectorSet: Decodable { let weightKg: Double?; let reps: Int?; let completed: Bool }
+            struct Session: Decodable { let startedAt: Double; let sets: [VectorSet] }
+            struct VectorRecord: Decodable { let value: Double; let startedAt: Double }
+            struct Records: Decodable {
+                let estimatedOneRepMax: VectorRecord?
+                let maxWeight: VectorRecord?
+                let maxSetVolume: VectorRecord?
+                let maxReps: VectorRecord?
+                let maxSessionVolume: VectorRecord?
+            }
+            struct Point: Decodable { let startedAt: Double; let estimatedOneRepMax: Double; let maxWeight: Double; let volumeKg: Double }
+            struct Case: Decodable { let name: String; let sessions: [Session]; let records: Records; let points: [Point] }
+            let cases: [Case]
+        }
+        func date(_ millis: Double) -> Date { Date(timeIntervalSince1970: millis / 1000) }
+        func check(_ actual: Record?, _ expected: File.VectorRecord?, _ label: String) {
+            guard let expected else { return XCTAssertNil(actual, label) }
+            guard let actual else { return XCTFail("missing \(label)") }
+            XCTAssertEqual(actual.value, expected.value, accuracy: 0.01, label)
+            XCTAssertEqual(actual.startedAt, date(expected.startedAt), label)
+        }
+        for c in try vectors("exercise_records", as: File.self).cases {
+            let sessions = c.sessions.map { session in
+                ExerciseSession(
+                    startedAt: date(session.startedAt),
+                    sets: session.sets.map { SetValues(weightKg: $0.weightKg, reps: $0.reps, completed: $0.completed) }
+                )
+            }
+            let (records, points) = exerciseProgress(sessions)
+            check(records.estimatedOneRepMax, c.records.estimatedOneRepMax, "\(c.name) e1RM")
+            check(records.maxWeight, c.records.maxWeight, "\(c.name) max weight")
+            check(records.maxSetVolume, c.records.maxSetVolume, "\(c.name) set volume")
+            check(records.maxReps, c.records.maxReps, "\(c.name) reps")
+            check(records.maxSessionVolume, c.records.maxSessionVolume, "\(c.name) session volume")
+            XCTAssertEqual(points.count, c.points.count, c.name)
+            for (actual, expected) in zip(points, c.points) {
+                XCTAssertEqual(actual.startedAt, date(expected.startedAt), c.name)
+                XCTAssertEqual(actual.estimatedOneRepMax, expected.estimatedOneRepMax, accuracy: 0.01, c.name)
+                XCTAssertEqual(actual.maxWeight, expected.maxWeight, accuracy: 0.01, c.name)
+                XCTAssertEqual(actual.volumeKg, expected.volumeKg, accuracy: 0.01, c.name)
+            }
+        }
+    }
 }

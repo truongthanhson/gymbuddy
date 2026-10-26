@@ -1,0 +1,196 @@
+{
+  "description": "Exercise records and chart points. Only completed sets with reps > 0 count (missing weight = 0). Sessions are taken oldest first; a record belongs to the first session that reached it (ties keep the older one). Compare values with tolerance 0.01.",
+  "cases": [
+    {
+      "name": "mixed sessions",
+      "sessions": [
+        {
+          "startedAt": 1000,
+          "sets": [
+            {
+              "weightKg": 100,
+              "reps": 5,
+              "completed": true
+            },
+            {
+              "weightKg": 105,
+              "reps": 3,
+              "completed": true
+            },
+            {
+              "weightKg": 120,
+              "reps": 5,
+              "completed": false
+            }
+          ]
+        },
+        {
+          "startedAt": 3000,
+          "sets": [
+            {
+              "weightKg": 110,
+              "reps": 1,
+              "completed": true
+            },
+            {
+              "weightKg": 80,
+              "reps": 12,
+              "completed": true
+            }
+          ]
+        },
+        {
+          "startedAt": 2000,
+          "sets": [
+            {
+              "weightKg": 100,
+              "reps": 5,
+              "completed": true
+            },
+            {
+              "weightKg": null,
+              "reps": 20,
+              "completed": true
+            }
+          ]
+        },
+        {
+          "startedAt": 4000,
+          "sets": [
+            {
+              "weightKg": 50,
+              "reps": 0,
+              "completed": true
+            }
+          ]
+        }
+      ],
+      "records": {
+        "estimatedOneRepMax": {
+          "value": 116.6667,
+          "startedAt": 1000
+        },
+        "maxWeight": {
+          "value": 110,
+          "startedAt": 3000
+        },
+        "maxSetVolume": {
+          "value": 960,
+          "startedAt": 3000
+        },
+        "maxReps": {
+          "value": 20,
+          "startedAt": 2000
+        },
+        "maxSessionVolume": {
+          "value": 1070,
+          "startedAt": 3000
+        }
+      },
+      "points": [
+        {
+          "startedAt": 1000,
+          "estimatedOneRepMax": 116.6667,
+          "maxWeight": 105,
+          "volumeKg": 815
+        },
+        {
+          "startedAt": 2000,
+          "estimatedOneRepMax": 116.6667,
+          "maxWeight": 100,
+          "volumeKg": 500
+        },
+        {
+          "startedAt": 3000,
+          "estimatedOneRepMax": 112.0,
+          "maxWeight": 110,
+          "volumeKg": 1070
+        }
+      ]
+    },
+    {
+      "name": "no usable sets",
+      "sessions": [
+        {
+          "startedAt": 1,
+          "sets": [
+            {
+              "weightKg": 100,
+              "reps": 5,
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "records": {
+        "estimatedOneRepMax": null,
+        "maxWeight": null,
+        "maxSetVolume": null,
+        "maxReps": null,
+        "maxSessionVolume": null
+      },
+      "points": []
+    },
+    {
+      "name": "tie keeps older",
+      "sessions": [
+        {
+          "startedAt": 5,
+          "sets": [
+            {
+              "weightKg": 60,
+              "reps": 10,
+              "completed": true
+            }
+          ]
+        },
+        {
+          "startedAt": 9,
+          "sets": [
+            {
+              "weightKg": 60,
+              "reps": 10,
+              "completed": true
+            }
+          ]
+        }
+      ],
+      "records": {
+        "estimatedOneRepMax": {
+          "value": 80.0,
+          "startedAt": 5
+        },
+        "maxWeight": {
+          "value": 60,
+          "startedAt": 5
+        },
+        "maxSetVolume": {
+          "value": 600,
+          "startedAt": 5
+        },
+        "maxReps": {
+          "value": 10,
+          "startedAt": 5
+        },
+        "maxSessionVolume": {
+          "value": 600,
+          "startedAt": 5
+        }
+      },
+      "points": [
+        {
+          "startedAt": 5,
+          "estimatedOneRepMax": 80.0,
+          "maxWeight": 60,
+          "volumeKg": 600
+        },
+        {
+          "startedAt": 9,
+          "estimatedOneRepMax": 80.0,
+          "maxWeight": 60,
+          "volumeKg": 600
+        }
+      ]
+    }
+  ]
+}

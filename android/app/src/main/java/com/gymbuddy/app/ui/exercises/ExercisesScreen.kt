@@ -42,10 +42,9 @@ import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
 
 @Composable
-fun ExercisesScreen(viewModel: ExercisesViewModel = hiltViewModel()) {
+fun ExercisesScreen(onOpenExercise: (String) -> Unit, viewModel: ExercisesViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     var creating by remember { mutableStateOf(false) }
-    var editing by remember { mutableStateOf<ExerciseEntity?>(null) }
 
     Scaffold(
         floatingActionButton = {
@@ -60,8 +59,7 @@ fun ExercisesScreen(viewModel: ExercisesViewModel = hiltViewModel()) {
             onQueryChange = viewModel::onQueryChange,
             onBodyPartSelected = viewModel::onBodyPartSelected,
             modifier = Modifier.padding(padding),
-            // Built-in exercises have no detail screen yet; custom ones open the editor.
-            onExerciseClick = { if (it.isCustom) editing = it },
+            onExerciseClick = { onOpenExercise(it.id) },
         )
     }
 
@@ -70,14 +68,6 @@ fun ExercisesScreen(viewModel: ExercisesViewModel = hiltViewModel()) {
             exercise = null,
             onSave = { name, bodyPart, category -> viewModel.createCustom(name, bodyPart, category) },
             onDismiss = { creating = false },
-        )
-    }
-    editing?.let { exercise ->
-        ExerciseEditorDialog(
-            exercise = exercise,
-            onSave = { name, bodyPart, category -> viewModel.updateCustom(exercise.id, name, bodyPart, category) },
-            onDismiss = { editing = null },
-            onDelete = { viewModel.deleteCustom(exercise.id) },
         )
     }
 }

@@ -6,6 +6,15 @@ import androidx.room.Transaction
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
+/** A completed set with its workout, for an exercise's history. */
+data class ExerciseHistoryRow(
+    val workoutId: String,
+    val workoutName: String,
+    val startedAt: Long,
+    val weightKg: Double?,
+    val reps: Int?,
+)
+
 @Dao
 interface WorkoutDao {
 
@@ -58,6 +67,22 @@ interface WorkoutDao {
         """
     )
     fun observePreviousSets(exerciseId: String): Flow<List<WorkoutSetEntity>>
+
+    /** Every completed set of an exercise in finished workouts, newest workout first. */
+    @Query(
+        """
+        SELECT w.id AS workoutId, w.name AS workoutName, w.startedAt AS startedAt,
+               s.weightKg AS weightKg, s.reps AS reps
+        FROM workout_sets s
+        JOIN workout_exercises we ON s.workoutExerciseId = we.id
+        JOIN workouts w ON we.workoutId = w.id
+        WHERE we.exerciseId = :exerciseId AND s.completed = 1
+          AND s.deletedAt IS NULL AND we.deletedAt IS NULL
+          AND w.endedAt IS NOT NULL AND w.deletedAt IS NULL
+        ORDER BY w.startedAt DESC, we.sortOrder, s.sortOrder
+        """
+    )
+    fun observeExerciseHistory(exerciseId: String): Flow<List<ExerciseHistoryRow>>
 
     @Upsert suspend fun upsertWorkout(workout: WorkoutEntity)
     @Upsert suspend fun upsertWorkoutExercises(items: List<WorkoutExerciseEntity>)

@@ -54,12 +54,4 @@ class ExercisesViewModel @Inject constructor(
     fun createCustom(name: String, bodyPart: BodyPart, category: ExerciseCategory, onCreated: (String) -> Unit = {}) {
         viewModelScope.launch { onCreated(repository.createCustom(name, bodyPart, category)) }
     }
-
-    fun updateCustom(id: String, name: String, bodyPart: BodyPart, category: ExerciseCategory) {
-        viewModelScope.launch { repository.updateCustom(id, name, bodyPart, category) }
-    }
-
-    fun deleteCustom(id: String) {
-        viewModelScope.launch { repository.deleteCustom(id) }
-    }
 }

@@ -124,4 +124,16 @@
     <string name="create_account">Create account</string>
     <string name="confirm_email">Check your email and open the confirmation link, then sign in.</string>
     <string name="please_wait">Please wait…</string>
+    <string name="charts">Charts</string>
+    <string name="records">Records</string>
+    <string name="metric_one_rep_max">Estimated 1RM</string>
+    <string name="metric_max_weight">Max weight</string>
+    <string name="metric_volume">Volume</string>
+    <string name="record_max_weight">Max weight</string>
+    <string name="record_max_set_volume">Best set volume</string>
+    <string name="record_max_reps">Max reps</string>
+    <string name="record_max_workout_volume">Best workout volume</string>
+    <string name="no_exercise_history">No completed sets for this exercise yet.</string>
+    <string name="not_enough_for_chart">Finish this exercise in at least two workouts to see a chart.</string>
+    <string name="one_rep_max_short">1RM %1$s</string>
 </resources>
