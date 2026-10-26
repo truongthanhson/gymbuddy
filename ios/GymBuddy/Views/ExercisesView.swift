@@ -8,9 +8,9 @@ struct ExercisesView: View {
     var body: some View {
         NavigationStack {
             // Built-in exercises have no detail screen yet; custom ones open the editor.
-            ExerciseBrowser { exercise in
+            ExerciseBrowser(onTap: { exercise in
                 if exercise.isCustom { editing = exercise }
-            }
+            })
             .navigationTitle("Exercises")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
