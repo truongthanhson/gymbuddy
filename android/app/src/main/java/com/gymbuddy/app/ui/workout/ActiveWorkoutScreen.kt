@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FilledIconToggleButton
@@ -129,16 +130,35 @@ fun ActiveWorkoutScreen(
 
     if (showFinish) {
         val anyCompleted = workout.exercises.any { e -> e.sets.any { it.completed } }
+        val fromTemplate = workout.workout.templateId != null
+        var saveToTemplate by remember { mutableStateOf(false) }
         AlertDialog(
             onDismissRequest = { showFinish = false },
             title = { Text(stringResource(R.string.finish_title)) },
             text = {
-                Text(stringResource(if (anyCompleted) R.string.finish_message else R.string.finish_empty_message))
+                Column {
+                    Text(stringResource(if (anyCompleted) R.string.finish_message else R.string.finish_empty_message))
+                    if (anyCompleted) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { saveToTemplate = !saveToTemplate }
+                                .padding(top = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Checkbox(checked = saveToTemplate, onCheckedChange = null)
+                            Text(
+                                stringResource(if (fromTemplate) R.string.update_template else R.string.save_as_template),
+                                modifier = Modifier.padding(start = 8.dp),
+                            )
+                        }
+                    }
+                }
             },
             confirmButton = {
                 TextButton(onClick = {
                     showFinish = false
-                    viewModel.finishWorkout(workout)
+                    viewModel.finishWorkout(workout, saveToTemplate)
                 }) { Text(stringResource(R.string.finish)) }
             },
             dismissButton = {
