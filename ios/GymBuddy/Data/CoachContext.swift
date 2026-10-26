@@ -51,6 +51,7 @@ struct CoachContext {
         case .volumeSpike(let part, let sets): ["type": "volume_spike", "bodyPart": part.rawValue, "setsThisWeek": sets]
         case .neglected(let part, let days): ["type": "neglected", "bodyPart": part.rawValue, "days": days]
         case .streak(let weeks): ["type": "streak", "weeks": weeks]
+        case .cycleDeload: ["type": "cycle_deload"]
         }
     }
 
@@ -66,19 +67,51 @@ struct CoachContext {
         let weights = bodyWeights.filter { $0.kind == MeasurementKind.weight.rawValue && $0.deletedAt == nil }
             .sorted { $0.measuredAt > $1.measuredAt }.prefix(10)
             .map { ["date": day($0.measuredAt), "weight": fmt($0.value)] }
+        var engine: [String: Any] = [
+            "insights": snapshot.insights.map(insight),
+            "recovery": snapshot.recovery.map { ["bodyPart": $0.bodyPart.rawValue, "hoursSince": $0.hoursSince, "status": $0.status.rawValue] },
+            "targets": targets,
+        ]
+        if let week = snapshot.cycleWeek { engine["cycleWeek"] = week }
         return [
             "today": day(now),
             "unit": unit.symbol,
             "profile": profile,
             "totalWorkouts": finished.count,
-            "engine": [
-                "insights": snapshot.insights.map(insight),
-                "recovery": snapshot.recovery.map { ["bodyPart": $0.bodyPart.rawValue, "hoursSince": $0.hoursSince, "status": $0.status.rawValue] },
-                "targets": targets,
-            ] as [String: Any],
+            "engine": engine,
             "recentWorkouts": recent.map(workout),
             "records": records(finished),
             "bodyWeight": Array(weights),
+        ]
+    }
+
+    /// Working sets per body part of the workouts started in [from, to).
+    private func setsByBodyPart(from: Date, to: Date) -> [String: Int] {
+        var counts: [String: Int] = [:]
+        for w in workouts where w.endedAt != nil && w.deletedAt == nil && w.startedAt >= from && w.startedAt < to {
+            for item in w.liveExercises {
+                let n = item.liveSets.filter { $0.completed && $0.setType != .warmup }.count
+                if n > 0 { counts[exercises[item.exerciseId]?.bodyPart ?? "other", default: 0] += n }
+            }
+        }
+        return counts
+    }
+
+    /// The week a weekly report covers, [from, to), with the week before for comparison.
+    func week(from: Date, to: Date) -> [String: Any] {
+        let finished = workouts.filter { $0.endedAt != nil && $0.deletedAt == nil }
+        let inWeek = finished.filter { $0.startedAt >= from && $0.startedAt < to }.sorted { $0.startedAt < $1.startedAt }
+        let span = to.timeIntervalSince(from)
+        let before = from.addingTimeInterval(-span)
+        return [
+            "from": day(from),
+            "to": day(to.addingTimeInterval(-1)),
+            "workouts": inWeek.map(workout),
+            "setsByBodyPart": setsByBodyPart(from: from, to: to),
+            "weekBefore": [
+                "workoutCount": finished.filter { $0.startedAt >= before && $0.startedAt < from }.count,
+                "setsByBodyPart": setsByBodyPart(from: before, to: from),
+            ] as [String: Any],
         ]
     }
 

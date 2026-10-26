@@ -433,7 +433,7 @@ final class SharedVectorsTests: XCTestCase {
         struct ExerciseCase: Decodable { let exerciseId: String; let bodyPart: String; let category: String; let sessions: [SessionCase] }
         struct InsightsCase: Decodable {
             let description: String; let now: Double; let goalPerWeek: Int; let workoutStarts: [Double]
-            let exercises: [ExerciseCase]; let bodyPartSets: [PartSet]; let expected: [Insight]
+            let exercises: [ExerciseCase]; let bodyPartSets: [PartSet]; let expected: [Insight]; let cycleWeek: Int?
         }
         struct File: Decodable {
             let nextTarget: [TargetCase]; let recovery: [RecoveryCase]; let volume: [VolumeCase]
@@ -454,6 +454,7 @@ final class SharedVectorsTests: XCTestCase {
             case "deload": .deload(exerciseId: i.exerciseId!, weightKg: i.weightKg!, reps: i.reps!)
             case "volume_spike": .volumeSpike(bodyPart: BodyPart(key: i.bodyPart!), sets: i.value!)
             case "neglected": .neglected(bodyPart: BodyPart(key: i.bodyPart!), days: i.value!)
+            case "cycle_deload": .cycleDeload
             default: .streak(weeks: i.value!)
             }
         }
@@ -486,9 +487,45 @@ final class SharedVectorsTests: XCTestCase {
             }
             let actual = coachInsights(
                 exercises: exercises, bodyPartSets: partSets(c.bodyPartSets),
-                workoutStarts: c.workoutStarts.map(date), goalPerWeek: c.goalPerWeek, now: date(c.now)
+                workoutStarts: c.workoutStarts.map(date), goalPerWeek: c.goalPerWeek, now: date(c.now), cycleWeek: c.cycleWeek
             )
             XCTAssertEqual(actual, c.expected.map(insight), c.description)
+        }
+    }
+
+    func testCycleMatchesSharedVectors() throws {
+        struct Target: Decodable { let kind: String; let weightKg: Double; let reps: Int }
+        struct WeekCase: Decodable { let description: String; let cycleStart: Double?; let now: Double; let expected: Int? }
+        struct TargetCase: Decodable {
+            let description: String; let target: Target?; let week: Int; let bodyPart: String; let category: String; let expected: Target?
+        }
+        struct File: Decodable { let cycle: [WeekCase]; let cycleTarget: [TargetCase] }
+        let file = try vectors("coach", as: File.self)
+        func date(_ millis: Double) -> Date { Date(timeIntervalSince1970: millis / 1000) }
+        for c in file.cycle {
+            XCTAssertEqual(cycleWeek(cycleStart: c.cycleStart.map(date), now: date(c.now)), c.expected, c.description)
+        }
+        for c in file.cycleTarget {
+            let target = c.target.map { SetTarget(kind: TargetKind(rawValue: $0.kind)!, weightKg: $0.weightKg, reps: $0.reps) }
+            let actual = cycleTarget(target, week: c.week, bodyPart: c.bodyPart, category: c.category)
+            if let e = c.expected {
+                let a = try XCTUnwrap(actual, c.description)
+                XCTAssertEqual(a.kind.rawValue, e.kind, c.description)
+                XCTAssertEqual(a.weightKg, e.weightKg, accuracy: 0.01, c.description)
+                XCTAssertEqual(a.reps, e.reps, c.description)
+            } else {
+                XCTAssertNil(actual, c.description)
+            }
+        }
+    }
+
+    func testReminderMatchesSharedVectors() throws {
+        struct Case: Decodable { let description: String; let daysPerWeek: Int; let lastWorkout: Double?; let expected: Double? }
+        struct File: Decodable { let reminder: [Case] }
+        for c in try vectors("coach", as: File.self).reminder {
+            let last = c.lastWorkout.map { Date(timeIntervalSince1970: $0 / 1000) }
+            let actual = reminderDueAt(lastWorkout: last, daysPerWeek: c.daysPerWeek).map { $0.timeIntervalSince1970 * 1000 }
+            XCTAssertEqual(actual, c.expected, c.description)
         }
     }
 

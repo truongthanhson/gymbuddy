@@ -68,4 +68,70 @@ enum HealthService {
         )
         try? await store.save(sample)
     }
+
+    // Buddy may read sleep and steps when the person shares them in Buddy's settings.
+
+    private static var buddyReadTypes: Set<HKObjectType> { [HKCategoryType(.sleepAnalysis), HKQuantityType(.stepCount)] }
+
+    /// Asks for read access to sleep and steps. iOS never says whether reading was allowed, so this only reports errors.
+    static func requestBuddyReadAuthorization() async -> Bool {
+        guard isAvailable else { return false }
+        do {
+            try await HKHealthStore().requestAuthorization(toShare: [], read: buddyReadTypes)
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    /// Sleep (hours, by the day the sleep ended) and steps for each of the last `days` days, oldest first.
+    /// Days without data, or without read access, come back as nil.
+    static func recentSleepAndSteps(days: Int = 7, now: Date = .now) async -> [DayHealth] {
+        guard isAvailable else { return [] }
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: now)
+        guard let first = calendar.date(byAdding: .day, value: -(days - 1), to: today),
+              let end = calendar.date(byAdding: .day, value: 1, to: today) else { return [] }
+        let store = HKHealthStore()
+
+        var steps: [Date: Double] = [:]
+        let stepsQuery = HKStatisticsCollectionQueryDescriptor(
+            predicate: .quantitySample(type: HKQuantityType(.stepCount), predicate: HKQuery.predicateForSamples(withStart: first, end: end)),
+            options: .cumulativeSum,
+            anchorDate: first,
+            intervalComponents: DateComponents(day: 1)
+        )
+        if let collection = try? await stepsQuery.result(for: store) {
+            collection.enumerateStatistics(from: first, to: end) { stats, _ in
+                if let sum = stats.sumQuantity() { steps[calendar.startOfDay(for: stats.startDate)] = sum.doubleValue(for: .count()) }
+            }
+        }
+
+        var sleepMinutes: [Date: Double] = [:]
+        let sleepQuery = HKSampleQueryDescriptor(
+            predicates: [.categorySample(
+                type: HKCategoryType(.sleepAnalysis),
+                predicate: HKQuery.predicateForSamples(withStart: first.addingTimeInterval(-86400), end: end)
+            )],
+            sortDescriptors: []
+        )
+        let asleep = HKCategoryValueSleepAnalysis.allAsleepValues.map(\.rawValue)
+        for sample in (try? await sleepQuery.result(for: store)) ?? [] where asleep.contains(sample.value) {
+            let day = calendar.startOfDay(for: sample.endDate)
+            guard day >= first, day <= today else { continue }
+            sleepMinutes[day, default: 0] += sample.endDate.timeIntervalSince(sample.startDate) / 60
+        }
+
+        return (0..<days).compactMap { i in
+            guard let day = calendar.date(byAdding: .day, value: i, to: first) else { return nil }
+            return DayHealth(date: day, sleepHours: sleepMinutes[day].map { $0 / 60 }, steps: steps[day].map { Int($0) })
+        }
+    }
+}
+
+/// One day of the health data Buddy may read.
+struct DayHealth: Sendable {
+    let date: Date
+    let sleepHours: Double?
+    let steps: Int?
 }

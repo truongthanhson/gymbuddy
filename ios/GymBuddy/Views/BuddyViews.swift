@@ -30,6 +30,8 @@ func insightText(_ insight: CoachInsight, exercises: [String: Exercise], unit: W
         buddy("You haven't trained \(lowercasedLabel(part)) for \(days) days.")
     case .streak(let weeks):
         buddy("\(weeks) weeks in a row on target. Keep it up!")
+    case .cycleDeload:
+        buddy("It's the deload week of your cycle. Every target is lighter this week, so you come back stronger next week.")
     }
 }
 
@@ -47,14 +49,22 @@ struct BuddyTodaySection: View {
     @Query private var exercises: [Exercise]
     @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
     @AppStorage(BuddyKey.daysPerWeek) private var daysPerWeek = defaultWorkoutsPerWeek
+    @AppStorage(BuddyKey.cycleStart) private var cycleStart = 0.0
     @State private var expanded = false
 
     var body: some View {
         let byId = Dictionary(exercises.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        let snapshot = CoachService.snapshot(workouts: workouts, exercises: byId, goalPerWeek: min(max(daysPerWeek, 1), 7))
+        let snapshot = CoachService.snapshot(
+            workouts: workouts, exercises: byId, goalPerWeek: min(max(daysPerWeek, 1), 7), cycleStart: cycleStartDate(cycleStart)
+        )
         Section {
             VStack(alignment: .leading, spacing: 8) {
                 BuddyHeader()
+                if let week = snapshot.cycleWeek {
+                    Text(verbatim: week == 4 ? buddy("Cycle: deload week") : buddy("Cycle: week \(week) of 4"))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
                 if snapshot.workoutCount == 0 {
                     Text(verbatim: buddy("Log your first workout and Buddy will start suggesting weights, rest days and deloads."))
                 } else if snapshot.insights.isEmpty {
@@ -91,6 +101,13 @@ struct BuddyTodaySection: View {
             } label: {
                 Label { Text(verbatim: buddy("Ask Buddy")) } icon: { Image(systemName: "bubble.left.and.text.bubble.right") }
             }
+            if snapshot.workoutCount > 0 {
+                NavigationLink {
+                    BuddyReportView()
+                } label: {
+                    Label { Text(verbatim: buddy("Weekly report")) } icon: { Image(systemName: "calendar.badge.checkmark") }
+                }
+            }
         }
     }
 }
@@ -102,10 +119,12 @@ struct BuddyTargetHint: View {
     let category: String
     @Query(filter: #Predicate<Workout> { $0.endedAt != nil && $0.deletedAt == nil }) private var workouts: [Workout]
     @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
+    @AppStorage(BuddyKey.cycleStart) private var cycleStart = 0.0
 
     var body: some View {
         let sessions = CoachService.sessions(of: workouts)[exerciseId] ?? []
-        if let target = nextTarget(sessions, bodyPart: bodyPart, category: category) {
+        let week = cycleWeek(cycleStart: cycleStartDate(cycleStart), now: .now)
+        if let target = cycleTarget(nextTarget(sessions, bodyPart: bodyPart, category: category), week: week, bodyPart: bodyPart, category: category) {
             Label {
                 Text(verbatim: buddy("Buddy: \(weightUnit.format(target.weightKg)) × \(target.reps)") + " · " + target.kind.buddyLabel)
             } icon: {
@@ -123,14 +142,17 @@ struct BuddyNextTimeSection: View {
     @Query(filter: #Predicate<Workout> { $0.endedAt != nil && $0.deletedAt == nil }) private var workouts: [Workout]
     @Query private var exercises: [Exercise]
     @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
+    @AppStorage(BuddyKey.cycleStart) private var cycleStart = 0.0
 
     var body: some View {
         let byId = Dictionary(exercises.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let sessions = CoachService.sessions(of: workouts)
+        let week = cycleWeek(cycleStart: cycleStartDate(cycleStart), now: .now)
         var seen = Set<String>()
         let rows: [(String, SetTarget)] = exerciseIds.compactMap { id in
             guard seen.insert(id).inserted, let e = byId[id],
-                  let t = nextTarget(sessions[id] ?? [], bodyPart: e.bodyPart, category: e.category) else { return nil }
+                  let t = cycleTarget(nextTarget(sessions[id] ?? [], bodyPart: e.bodyPart, category: e.category), week: week, bodyPart: e.bodyPart, category: e.category)
+            else { return nil }
             return (e.displayName, t)
         }
         if !rows.isEmpty {

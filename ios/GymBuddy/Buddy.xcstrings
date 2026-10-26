@@ -51,6 +51,26 @@
         }
       }
     },
+    "4-week cycles from today: three build weeks, then a lighter deload week. Buddy's targets follow it.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chu kỳ 4 tuần tính từ hôm nay: ba tuần tăng tiến, rồi một tuần giảm tải nhẹ hơn. Mục tiêu của Buddy đi theo chu kỳ."
+          }
+        }
+      }
+    },
+    "A nudge when you fall behind your weekly goal, and your weekly report on Monday mornings (Pro).": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhắc khi bạn tập chậm hơn mục tiêu tuần, và báo cáo tuần vào sáng thứ Hai (Pro)."
+          }
+        }
+      }
+    },
     "Advanced": {
       "localizations": {
         "vi": {
@@ -131,6 +151,16 @@
         }
       }
     },
+    "Buddy AI also reads the last 7 days of sleep and steps from Apple Health.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy AI đọc thêm giấc ngủ và số bước 7 ngày gần nhất từ Apple Health."
+          }
+        }
+      }
+    },
     "Buddy AI needs the GymBuddy server, which isn't set up in this build yet. Buddy's tips on the Workout tab work without it.": {
       "localizations": {
         "vi": {
@@ -161,6 +191,16 @@
         }
       }
     },
+    "Buddy is looking back at last week…": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy đang xem lại tuần trước…"
+          }
+        }
+      }
+    },
     "Buddy is not a doctor or physiotherapist. If something hurts, stop and ask a professional.": {
       "localizations": {
         "vi": {
@@ -171,12 +211,32 @@
         }
       }
     },
+    "Buddy is putting your routine together…": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy đang soạn lịch tập cho bạn…"
+          }
+        }
+      }
+    },
     "Buddy is reading your workout…": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Buddy đang xem buổi tập của bạn…"
+          }
+        }
+      }
+    },
+    "Buddy looked back at last week. Open GymBuddy to read it.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy đã xem lại tuần trước. Mở GymBuddy để đọc."
           }
         }
       }
@@ -221,12 +281,52 @@
         }
       }
     },
+    "Cycle: deload week": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chu kỳ: tuần giảm tải"
+          }
+        }
+      }
+    },
+    "Cycle: week %lld of 4": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chu kỳ: tuần %lld/4"
+          }
+        }
+      }
+    },
     "Delete chat history": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Xoá lịch sử trò chuyện"
+          }
+        }
+      }
+    },
+    "Design a routine": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thiết kế lịch tập"
+          }
+        }
+      }
+    },
+    "Design it": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thiết kế"
           }
         }
       }
@@ -247,6 +347,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kinh nghiệm"
+          }
+        }
+      }
+    },
+    "For example: 4 days a week, upper/lower, about an hour, no barbell squats": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ví dụ: 4 buổi mỗi tuần, chia trên/dưới, khoảng 1 tiếng, không squat tạ đòn"
           }
         }
       }
@@ -341,6 +451,16 @@
         }
       }
     },
+    "It's the deload week of your cycle. Every target is lighter this week, so you come back stronger next week.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đây là tuần giảm tải của chu kỳ. Mọi mục tiêu tuần này nhẹ hơn để tuần sau bạn trở lại khoẻ hơn."
+          }
+        }
+      }
+    },
     "Log your first workout and Buddy will start suggesting weights, rest days and deloads.": {
       "localizations": {
         "vi": {
@@ -401,12 +521,52 @@
         }
       }
     },
+    "Reminders": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhắc nhở"
+          }
+        }
+      }
+    },
+    "Save as templates": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lưu thành mẫu"
+          }
+        }
+      }
+    },
+    "Saved. You'll find it as a folder of templates on the Workout tab.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã lưu. Bạn sẽ thấy một thư mục mẫu ở tab Tập luyện."
+          }
+        }
+      }
+    },
     "Send": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Gửi"
+          }
+        }
+      }
+    },
+    "Share sleep and steps": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chia sẻ giấc ngủ và số bước"
           }
         }
       }
@@ -451,12 +611,62 @@
         }
       }
     },
+    "Talk it over with Buddy": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trao đổi với Buddy"
+          }
+        }
+      }
+    },
+    "Tell Buddy what you want. It uses your goal profile, history and recovery, and only exercises from your library.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nói với Buddy bạn muốn gì. Buddy dùng hồ sơ mục tiêu, lịch sử, mức hồi phục và chỉ các bài trong thư viện của bạn."
+          }
+        }
+      }
+    },
+    "The weekly report is written by Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Báo cáo tuần do Buddy AI viết. Hãy bật nó trước: mở Buddy, đăng nhập và đồng ý gửi bản tóm tắt tập luyện."
+          }
+        }
+      }
+    },
+    "This needs Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tính năng này cần Buddy AI. Hãy bật nó trước: mở Buddy, đăng nhập và đồng ý gửi bản tóm tắt tập luyện."
+          }
+        }
+      }
+    },
     "This week %@ got %lld sets, much more than last week. Watch out for overload.": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Tuần này %1$@ đã %2$lld set, nhiều hơn hẳn tuần trước. Cẩn thận quá tải."
+          }
+        }
+      }
+    },
+    "Time to train?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đến giờ tập chưa?"
           }
         }
       }
@@ -481,6 +691,16 @@
         }
       }
     },
+    "Training cycle": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chu kỳ tập"
+          }
+        }
+      }
+    },
     "Try again": {
       "localizations": {
         "vi": {
@@ -491,12 +711,32 @@
         }
       }
     },
+    "Try another": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thử phương án khác"
+          }
+        }
+      }
+    },
     "Turn off Buddy AI": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Tắt Buddy AI"
+          }
+        }
+      }
+    },
+    "Weekly report": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Báo cáo tuần"
           }
         }
       }
@@ -517,6 +757,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vì sao tôi tiến bộ chậm lại?"
+          }
+        }
+      }
+    },
+    "With Pro, Buddy AI designs a routine around your goal, schedule and history, using exercises from your library. You check it before it becomes templates.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Với Pro, Buddy AI thiết kế lịch tập theo mục tiêu, thời gian và lịch sử của bạn, dùng các bài trong thư viện. Bạn xem lại trước khi lưu thành mẫu."
+          }
+        }
+      }
+    },
+    "With Pro, Buddy AI writes you a report every week: workouts against your goal, volume by muscle group, records, and one clear focus for next week.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Với Pro, Buddy AI viết báo cáo cho bạn mỗi tuần: số buổi so với mục tiêu, khối lượng theo nhóm cơ, kỷ lục và một trọng tâm rõ ràng cho tuần tới."
           }
         }
       }
@@ -561,12 +821,32 @@
         }
       }
     },
+    "Your goal is %lld workouts a week. Even a short session today keeps you on track.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mục tiêu của bạn là %lld buổi mỗi tuần. Một buổi ngắn hôm nay cũng giúp bạn giữ nhịp."
+          }
+        }
+      }
+    },
     "Your session expired. Sign in again in Settings.": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Phiên đăng nhập đã hết hạn. Hãy đăng nhập lại trong Cài đặt."
+          }
+        }
+      }
+    },
+    "Your weekly report is ready": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Báo cáo tuần đã sẵn sàng"
           }
         }
       }

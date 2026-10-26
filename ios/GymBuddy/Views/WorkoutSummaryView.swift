@@ -69,6 +69,7 @@ struct WorkoutSummary: Identifiable {
 struct WorkoutSummaryView: View {
     let summary: WorkoutSummary
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
 
     var body: some View {
@@ -110,6 +111,7 @@ struct WorkoutSummaryView: View {
                 BuddyNextTimeSection(exerciseIds: summary.exerciseIds)
             }
             .navigationTitle("Summary")
+            .task { BuddyReminders.reschedule(in: modelContext) }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

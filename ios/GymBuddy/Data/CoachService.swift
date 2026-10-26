@@ -7,6 +7,8 @@ struct CoachSnapshot {
     /// Next target per exercise id.
     var targets: [String: SetTarget] = [:]
     var workoutCount = 0
+    /// Week 1–4 of the training cycle, or nil without one.
+    var cycleWeek: Int?
 }
 
 /// Default weekly goal until the goal profile lets people pick one.
@@ -33,8 +35,10 @@ enum CoachService {
         workouts: [Workout],
         exercises: [String: Exercise],
         goalPerWeek: Int = defaultWorkoutsPerWeek,
+        cycleStart: Date? = nil,
         now: Date = .now
     ) -> CoachSnapshot {
+        let week = cycleWeek(cycleStart: cycleStart, now: now)
         let finished = workouts.filter { $0.endedAt != nil && $0.deletedAt == nil }
         var coachExercises: [CoachExercise] = []
         var partSets: [BodyPartSet] = []
@@ -47,7 +51,9 @@ enum CoachService {
         }
         var targets: [String: SetTarget] = [:]
         for e in coachExercises {
-            targets[e.exerciseId] = nextTarget(e.sessions, bodyPart: e.bodyPart, category: e.category)
+            targets[e.exerciseId] = cycleTarget(
+                nextTarget(e.sessions, bodyPart: e.bodyPart, category: e.category), week: week, bodyPart: e.bodyPart, category: e.category
+            )
         }
         return CoachSnapshot(
             insights: coachInsights(
@@ -55,11 +61,13 @@ enum CoachService {
                 bodyPartSets: partSets,
                 workoutStarts: finished.map(\.startedAt),
                 goalPerWeek: goalPerWeek,
-                now: now
+                now: now,
+                cycleWeek: week
             ),
             recovery: recovery(partSets, now: now),
             targets: targets,
-            workoutCount: finished.count
+            workoutCount: finished.count,
+            cycleWeek: week
         )
     }
 }
