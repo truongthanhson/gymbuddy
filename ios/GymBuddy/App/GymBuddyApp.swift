@@ -20,6 +20,7 @@ struct GymBuddyApp: App {
         }
         ExerciseSeeder.seedIfNeeded(context: container.mainContext)
         SyncService.shared.context = container.mainContext
+        WatchBridge.shared.activate(context: container.mainContext)
         UNUserNotificationCenter.current().delegate = notificationDelegate
     }
 

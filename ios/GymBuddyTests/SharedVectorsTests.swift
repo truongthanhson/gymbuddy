@@ -213,4 +213,30 @@ final class SharedVectorsTests: XCTestCase {
         }
         XCTAssertNil(importCsv("a,b\n1,2\n", defaultUnit: .kg))
     }
+
+    func testWatchLinkMatchesSharedVectors() throws {
+        struct File: Decodable {
+            struct Labels: Decodable { let types: [String]; let labels: [String] }
+            struct Next: Decodable { let note: String; let state: WatchState; let exercise: Int?; let setId: String? }
+            struct Action: Decodable { let json: String; let action: String; let setId: String? }
+            let labels: [Labels]
+            let nextSet: [Next]
+            let actions: [Action]
+        }
+        let file = try vectors("watch", as: File.self)
+        for c in file.labels {
+            XCTAssertEqual(watchSetLabels(c.types), c.labels)
+        }
+        for c in file.nextSet {
+            let next = c.state.workout?.nextSet
+            XCTAssertEqual(next?.exerciseIndex, c.exercise, c.note)
+            XCTAssertEqual(next?.set.id, c.setId, c.note)
+            XCTAssertEqual(WatchState.decode(try XCTUnwrap(c.state.encoded())), c.state, c.note)
+        }
+        for c in file.actions {
+            let action = try XCTUnwrap(WatchAction.decode(c.json))
+            XCTAssertEqual(action.action, c.action)
+            XCTAssertEqual(action.setId, c.setId)
+        }
+    }
 }
