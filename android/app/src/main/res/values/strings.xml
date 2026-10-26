@@ -260,4 +260,15 @@
     <string name="pro_restore">Restore purchases</string>
     <string name="pro_unlock">Unlock with Pro</string>
     <string name="pro_debug_override">Pro without purchase (debug builds)</string>
+    <string name="done">Done</string>
+    <string name="share">Share</string>
+    <string name="duration">Duration</string>
+    <string name="volume">Volume</string>
+    <string name="share_workout">Share workout</string>
+    <string name="workout_complete">Workout complete!</string>
+    <string name="workout_number">Congratulations! That was your workout #%1$d.</string>
+    <plurals name="sets_of_exercise">
+        <item quantity="one">%1$d × %2$s</item>
+        <item quantity="other">%1$d × %2$s</item>
+    </plurals>
 </resources>

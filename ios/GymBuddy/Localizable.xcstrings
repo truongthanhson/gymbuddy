@@ -519,6 +519,16 @@
         }
       }
     },
+    "Congratulations! That was your workout #%lld.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chúc mừng! Đây là buổi tập thứ %lld của bạn."
+          }
+        }
+      }
+    },
     "Core": {
       "localizations": {
         "vi": {
@@ -655,6 +665,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Xóa buổi tập?"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xong"
           }
         }
       }
@@ -1712,6 +1732,16 @@
         }
       }
     },
+    "Share": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chia sẻ"
+          }
+        }
+      }
+    },
     "Shoulders": {
       "localizations": {
         "vi": {
@@ -1788,6 +1818,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bắt đầu tập"
+          }
+        }
+      }
+    },
+    "Summary": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tổng kết"
           }
         }
       }
@@ -2088,6 +2128,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tập luyện"
+          }
+        }
+      }
+    },
+    "Workout complete!": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoàn thành buổi tập!"
           }
         }
       }

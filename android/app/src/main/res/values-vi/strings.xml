@@ -254,4 +254,14 @@
     <string name="pro_restore">Khôi phục giao dịch</string>
     <string name="pro_unlock">Mở khóa với Pro</string>
     <string name="pro_debug_override">Pro không cần mua (bản debug)</string>
+    <string name="done">Xong</string>
+    <string name="share">Chia sẻ</string>
+    <string name="duration">Thời gian</string>
+    <string name="volume">Khối lượng</string>
+    <string name="share_workout">Chia sẻ buổi tập</string>
+    <string name="workout_complete">Hoàn thành buổi tập!</string>
+    <string name="workout_number">Chúc mừng! Đây là buổi tập thứ %1$d của bạn.</string>
+    <plurals name="sets_of_exercise">
+        <item quantity="other">%1$d × %2$s</item>
+    </plurals>
 </resources>

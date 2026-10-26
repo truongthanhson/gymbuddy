@@ -44,7 +44,9 @@ fun WorkoutTab(
     templatesViewModel: TemplatesViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val summary by viewModel.summary.collectAsStateWithLifecycle()
     val current = state
+    summary?.let { WorkoutSummaryDialog(it, onDismiss = viewModel::summaryShown) }
     when {
         current == null -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
