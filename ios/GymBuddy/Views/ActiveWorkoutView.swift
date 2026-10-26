@@ -317,6 +317,9 @@ private struct ExerciseSection: View {
         let sets = item.liveSets
         let labels = watchSetLabels(sets.map(\.setTypeRaw))
         Section {
+            if !editing, let exercise {
+                BuddyTargetHint(exerciseId: item.exerciseId, bodyPart: exercise.bodyPart, category: exercise.category)
+            }
             if item.note != nil || noteOpen {
                 NoteField(note: item.note, placeholder: "Note") {
                     // Keep the field while the user clears it.
