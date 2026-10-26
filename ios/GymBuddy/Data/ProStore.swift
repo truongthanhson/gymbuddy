@@ -11,19 +11,26 @@ final class ProStore {
 
     private static let purchasedKey = "pro.purchased"
     private static let debugKey = "pro.debugOverride"
+    private static let subscribedKey = "pro.subscribed"
 
     /// Sorted monthly, yearly, lifetime; empty until the store answers or when the products don't exist yet.
     private(set) var products: [Product] = []
     private(set) var purchased: Bool
+    /// A monthly or yearly subscription is active, not only the lifetime purchase.
+    private(set) var subscribed: Bool
     /// Debug builds can turn Pro on without a purchase, to try the locked screens.
     private(set) var debugOverride: Bool
 
     var isPro: Bool { purchased || debugOverride }
 
+    /// Lifetime Pro without a subscription; Buddy AI allows it fewer messages a month.
+    var isLifetimeOnly: Bool { purchased && !subscribed && !debugOverride }
+
     @ObservationIgnored private var updates: Task<Void, Never>?
 
     private init() {
         purchased = UserDefaults.standard.bool(forKey: Self.purchasedKey)
+        subscribed = UserDefaults.standard.bool(forKey: Self.subscribedKey)
         #if DEBUG
         debugOverride = UserDefaults.standard.bool(forKey: Self.debugKey)
         #else
@@ -71,14 +78,18 @@ final class ProStore {
 
     private func refreshEntitlements() async {
         var owned = false
+        var subscription = false
         for await result in Transaction.currentEntitlements {
             if case .verified(let transaction) = result,
                ProProducts.all.contains(transaction.productID),
                transaction.revocationDate == nil {
                 owned = true
+                if transaction.productID != ProProducts.lifetime { subscription = true }
             }
         }
         purchased = owned
         UserDefaults.standard.set(owned, forKey: Self.purchasedKey)
+        subscribed = subscription
+        UserDefaults.standard.set(subscription, forKey: Self.subscribedKey)
     }
 }

@@ -13,6 +13,8 @@ struct WorkoutSummary: Identifiable {
     let exercises: [ShareExercise]
     /// For Buddy's targets for next time.
     let exerciseIds: [String]
+    /// For Buddy AI's note.
+    var workoutId: UUID?
 
     @MainActor
     static func make(for workout: Workout, names: [String: Exercise], in context: ModelContext) -> WorkoutSummary {
@@ -34,7 +36,8 @@ struct WorkoutSummary: Identifiable {
             number: (try? context.fetchCount(finished)) ?? 0,
             records: records,
             exercises: shareExercises(of: workout, names: names),
-            exerciseIds: workout.liveExercises.map(\.exerciseId)
+            exerciseIds: workout.liveExercises.map(\.exerciseId),
+            workoutId: workout.id
         )
     }
 
@@ -103,6 +106,7 @@ struct WorkoutSummaryView: View {
                         Text(verbatim: "\(exercise.sets.count) × \(exercise.name)")
                     }
                 }
+                if let workoutId = summary.workoutId { BuddyAiNoteSection(workoutId: workoutId) }
                 BuddyNextTimeSection(exerciseIds: summary.exerciseIds)
             }
             .navigationTitle("Summary")
