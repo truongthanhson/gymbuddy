@@ -58,6 +58,7 @@ struct ProfileView: View {
                     }
                 }
             }
+            .appBackground()
             .navigationTitle("Profile")
             .toolbar {
                 NavigationLink {
