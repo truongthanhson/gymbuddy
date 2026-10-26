@@ -33,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
 import com.gymbuddy.app.domain.canAddTemplate
+import com.gymbuddy.app.ui.buddy.BuddyTodayCard
 import com.gymbuddy.app.ui.common.LocalIsPro
 import com.gymbuddy.app.ui.common.useVietnameseNames
 import com.gymbuddy.app.ui.templates.TemplateActions
@@ -122,6 +123,7 @@ private fun StartWorkoutScreen(
                 Text(stringResource(R.string.quick_start), style = MaterialTheme.typography.headlineMedium)
             }
         }
+        item { BuddyTodayCard() }
         item {
             Button(
                 onClick = onStartEmpty,
