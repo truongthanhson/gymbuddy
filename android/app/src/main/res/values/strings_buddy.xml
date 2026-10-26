@@ -91,4 +91,5 @@
     <string name="buddy_routine_save">Save as templates</string>
     <string name="buddy_routine_again">Try another</string>
     <string name="buddy_routine_saved">Saved. You\'ll find it as a folder of templates on the Workout tab.</string>
+    <string name="buddy_needs_ai">This needs Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary.</string>
 </resources>

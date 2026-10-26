@@ -145,7 +145,7 @@ fun BuddyRoutineScreen(
                     Button(onClick = onOpenPaywall, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.buddy_upgrade)) }
                 }
                 state.needsBuddyAi -> {
-                    Text(stringResource(R.string.buddy_weekly_needs_ai))
+                    Text(stringResource(R.string.buddy_needs_ai))
                     Button(onClick = onOpenBuddy, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.buddy_ask)) }
                 }
                 else -> {
