@@ -114,4 +114,22 @@ final class WorkoutServiceTests: XCTestCase {
         XCTAssertEqual(rpeOptions.last, 10)
         XCTAssertEqual(rpeOptions.count, 9)
     }
+
+    func testWarmupSetsGoBeforeTheWorkingSets() throws {
+        let container = try makeContainer()
+        let context = container.mainContext
+        let workout = WorkoutService.startEmptyWorkout(name: "A", in: context)
+        WorkoutService.addExercises(["squat_barbell"], to: workout, in: context)
+        let item = try XCTUnwrap(workout.liveExercises.first)
+        let working = try XCTUnwrap(item.liveSets.first)
+        working.weightKg = 100
+        working.reps = 5
+
+        WorkoutService.insertWarmupSets([(20, 10), (40, 5)], into: item, in: context)
+
+        let sets = item.liveSets
+        XCTAssertEqual(sets.map(\.weightKg), [20, 40, 100])
+        XCTAssertEqual(sets.map(\.setType), [.warmup, .warmup, .normal])
+        XCTAssertEqual(watchSetLabels(sets.map(\.setTypeRaw)), ["W", "W", "1"])
+    }
 }

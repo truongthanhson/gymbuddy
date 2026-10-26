@@ -37,3 +37,22 @@ fun plateLoad(target: Double, bar: Double, plates: List<Double>): PlateLoad {
 /** Weight you could lift for [reps] given a one-rep max (Epley inverted). */
 fun repMaxWeight(oneRepMax: Double, reps: Int): Double =
     if (reps <= 1) oneRepMax else oneRepMax / (1 + reps / 30.0)
+
+data class WarmupSet(val weight: Double, val reps: Int)
+
+/** Percent of the working weight and reps of each warm-up step; null is the empty bar. */
+private val WARMUP_STEPS = listOf<Pair<Double?, Int>>(null to 10, 0.4 to 5, 0.6 to 3, 0.8 to 2)
+
+/**
+ * Warm-up sets before [working], each rounded down to what [plates] can load on [bar].
+ * Steps that are not heavier than the one before, or not lighter than [working], are left out.
+ */
+fun warmupSets(working: Double, bar: Double, plates: List<Double>): List<WarmupSet> {
+    val sets = mutableListOf<WarmupSet>()
+    for ((percent, reps) in WARMUP_STEPS) {
+        val weight = if (percent == null) bar else plateLoad(working * percent, bar, plates).loaded
+        val heavier = sets.lastOrNull()?.let { weight > it.weight + 1e-9 } ?: true
+        if (heavier && weight < working - 1e-9) sets += WarmupSet(weight, reps)
+    }
+    return sets
+}

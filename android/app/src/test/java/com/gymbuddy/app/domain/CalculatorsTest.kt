@@ -41,4 +41,22 @@ class CalculatorsTest {
             assertEquals("$reps reps", row["weight"]!!.jsonPrimitive.double, repMaxWeight(oneRepMax, reps), 0.01)
         }
     }
+
+    @Test
+    fun warmupMatchesSharedVectors() {
+        file["warmup"]!!.jsonObject["cases"]!!.jsonArray.forEach { element ->
+            val c = element.jsonObject
+            val name = c["name"]!!.jsonPrimitive.content
+            val sets = warmupSets(
+                c["working"]!!.jsonPrimitive.double,
+                c["bar"]!!.jsonPrimitive.double,
+                c["plates"]!!.jsonArray.map { it.jsonPrimitive.double },
+            )
+            val expected = c["sets"]!!.jsonArray.map { pair ->
+                val (weight, reps) = pair.jsonArray.map { it.jsonPrimitive.double }
+                WarmupSet(weight, reps.toInt())
+            }
+            assertEquals(name, expected, sets)
+        }
+    }
 }

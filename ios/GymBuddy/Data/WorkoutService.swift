@@ -56,6 +56,22 @@ enum WorkoutService {
         return set
     }
 
+    /// Puts warm-up sets (weight in kg, reps) before the exercise's sets.
+    static func insertWarmupSets(_ sets: [(weightKg: Double, reps: Int)], into item: WorkoutExercise, in context: ModelContext, now: Date = .now) {
+        guard !sets.isEmpty else { return }
+        for set in item.liveSets {
+            set.sortOrder += sets.count
+            set.updatedAt = now
+        }
+        for (index, warmup) in sets.enumerated() {
+            let set = WorkoutSet(sortOrder: index, weightKg: warmup.weightKg, reps: warmup.reps, now: now)
+            set.setType = .warmup
+            context.insert(set)
+            set.workoutExercise = item
+        }
+        save(context)
+    }
+
     /// Ticking an empty set fills it from the previous session.
     static func toggle(_ set: WorkoutSet, previous: WorkoutSet?, in context: ModelContext, now: Date = .now) {
         if !set.completed, set.weightKg == nil, set.reps == nil, set.durationSec == nil, set.distanceM == nil, let previous {

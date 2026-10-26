@@ -278,6 +278,18 @@ private fun ExerciseCard(
                             restDialogOpen = true
                         },
                     )
+                    if (item.sets.any { it.setType == SetType.NORMAL && it.weightKg != null } &&
+                        item.sets.none { it.setType == SetType.WARMUP } &&
+                        SetField.WEIGHT in setFields(item.exercise?.category ?: "")
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.add_warmup_sets)) },
+                            onClick = {
+                                menuOpen = false
+                                viewModel.addWarmupSets(item)
+                            },
+                        )
+                    }
                     if (item.workoutExercise.note == null && !noteOpen) {
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.add_note)) },

@@ -121,6 +121,16 @@
         }
       }
     },
+    "Add warm-up sets": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm set khởi động"
+          }
+        }
+      }
+    },
     "All": {
       "localizations": {
         "vi": {
@@ -1034,6 +1044,16 @@
         }
       }
     },
+    "No warm-up sets needed for this weight.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mức tạ này không cần set khởi động."
+          }
+        }
+      }
+    },
     "No workouts yet. Finished workouts show up here.": {
       "localizations": {
         "vi": {
@@ -1604,6 +1624,16 @@
         }
       }
     },
+    "Warm-up calculator": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tính set khởi động"
+          }
+        }
+      }
+    },
     "Warm-up set": {
       "localizations": {
         "vi": {
@@ -1630,6 +1660,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trọng lượng cơ thể + tạ"
+          }
+        }
+      }
+    },
+    "Working weight": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mức tạ chính"
           }
         }
       }

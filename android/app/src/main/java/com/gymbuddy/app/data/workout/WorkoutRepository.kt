@@ -64,6 +64,28 @@ class WorkoutRepository @Inject constructor(private val db: GymBuddyDatabase) {
         )
     }
 
+    /** Puts warm-up sets ([weightKg] to reps) before the exercise's sets. */
+    suspend fun insertWarmupSets(workoutExerciseId: String, sets: List<Pair<Double, Int>>) = db.withTransaction {
+        if (sets.isEmpty()) return@withTransaction
+        val now = clock()
+        val existing = dao.getSets(workoutExerciseId)
+        dao.upsertSets(existing.map { it.copy(sortOrder = it.sortOrder + sets.size, updatedAt = now) })
+        dao.upsertSets(
+            sets.mapIndexed { index, (weightKg, reps) ->
+                WorkoutSetEntity(
+                    id = newId(),
+                    workoutExerciseId = workoutExerciseId,
+                    sortOrder = index,
+                    setType = SetType.WARMUP,
+                    weightKg = weightKg,
+                    reps = reps,
+                    createdAt = now,
+                    updatedAt = now,
+                )
+            },
+        )
+    }
+
     suspend fun updateSet(setId: String, transform: (WorkoutSetEntity) -> WorkoutSetEntity) = db.withTransaction {
         val set = dao.getSet(setId) ?: return@withTransaction
         dao.upsertSet(transform(set).copy(updatedAt = clock()))

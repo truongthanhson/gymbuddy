@@ -129,6 +129,20 @@ private struct ExerciseSection: View {
 
     private var title: String { exercise?.displayName ?? item.exerciseId }
 
+    private var canAddWarmup: Bool {
+        let sets = item.liveSets
+        return setFields(category: exercise?.category ?? "").contains(.weight)
+            && sets.contains { $0.setType == .normal && $0.weightKg != nil }
+            && !sets.contains { $0.setType == .warmup }
+    }
+
+    /// Strong-style warm-up sets before the heaviest normal set.
+    private func addWarmupSets() {
+        guard let working = item.liveSets.filter({ $0.setType == .normal }).compactMap(\.weightKg).max() else { return }
+        let sets = warmupSets(working: weightUnit.display(working), bar: weightUnit.defaultBar, plates: weightUnit.defaultPlates)
+        WorkoutService.insertWarmupSets(sets.map { (weightUnit.toKg($0.weight), $0.reps) }, into: item, in: context)
+    }
+
     private var restSeconds: Int {
         resolveRestSeconds(
             workoutExerciseRest: item.restSeconds,
@@ -190,6 +204,13 @@ private struct ExerciseSection: View {
                         }
                     } label: {
                         Label("Rest timer", systemImage: "timer")
+                    }
+                    if canAddWarmup {
+                        Button {
+                            addWarmupSets()
+                        } label: {
+                            Label("Add warm-up sets", systemImage: "flame")
+                        }
                     }
                     if item.note == nil && !noteOpen {
                         Button {
