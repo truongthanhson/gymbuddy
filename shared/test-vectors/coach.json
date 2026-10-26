@@ -1,0 +1,1659 @@
+{
+ "description": "Coach Engine rules, see shared/coach-rules.md. Times are epoch milliseconds; weights are kg; compare weights with tolerance 0.01.",
+ "nextTarget": [
+  {
+   "description": "all sets at the top of 8-12 add one step",
+   "bodyPart": "chest",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 60,
+       "reps": 12,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 60,
+       "reps": 12,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 60,
+       "reps": 12,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "increase",
+    "weightKg": 62.5,
+    "reps": 8
+   }
+  },
+  {
+   "description": "short of the top of the range: one more rep",
+   "bodyPart": "chest",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 60,
+       "reps": 9,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 60,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 60,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "repeat",
+    "weightKg": 60,
+    "reps": 9
+   }
+  },
+  {
+   "description": "legs step is 5 kg; 4-6 range",
+   "bodyPart": "legs",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 6,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 100,
+       "reps": 6,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 100,
+       "reps": 6,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "increase",
+    "weightKg": 105.0,
+    "reps": 4
+   }
+  },
+  {
+   "description": "legs 4-6 range not done yet",
+   "bodyPart": "legs",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 100,
+       "reps": 4,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "repeat",
+    "weightKg": 100,
+    "reps": 5
+   }
+  },
+  {
+   "description": "dumbbell step is 2 kg",
+   "bodyPart": "chest",
+   "category": "dumbbell",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 20,
+       "reps": 12,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 20,
+       "reps": 12,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "increase",
+    "weightKg": 22.0,
+    "reps": 8
+   }
+  },
+  {
+   "description": "warm-ups and lighter back-off sets are ignored",
+   "bodyPart": "back",
+   "category": "cable",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 40,
+       "reps": 10,
+       "rpe": null,
+       "warmup": true
+      },
+      {
+       "weightKg": 80,
+       "reps": 6,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 80,
+       "reps": 5,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 70,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "repeat",
+    "weightKg": 80,
+    "reps": 6
+   }
+  },
+  {
+   "description": "high-rep range 12-20",
+   "bodyPart": "arms",
+   "category": "machine",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 30,
+       "reps": 20,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 30,
+       "reps": 20,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "increase",
+    "weightKg": 32.5,
+    "reps": 12
+   }
+  },
+  {
+   "description": "only the latest session decides the target",
+   "bodyPart": "shoulders",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1799395200000,
+     "sets": [
+      {
+       "weightKg": 50,
+       "reps": 12,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 50,
+       "reps": 12,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 52.5,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      },
+      {
+       "weightKg": 52.5,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "repeat",
+    "weightKg": 52.5,
+    "reps": 9
+   }
+  },
+  {
+   "description": "RPE 9+ in the last two sessions means deload",
+   "bodyPart": "chest",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1799740800000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": 9,
+       "warmup": false
+      },
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": 9.5,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": 9,
+       "warmup": false
+      },
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": 9,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "deload",
+    "weightKg": 90.0,
+    "reps": 5
+   }
+  },
+  {
+   "description": "one high-RPE session is not enough",
+   "bodyPart": "chest",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1799740800000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": 8,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": 10,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "repeat",
+    "weightKg": 100,
+    "reps": 6
+   }
+  },
+  {
+   "description": "no new e1RM in the last three of four sessions means deload",
+   "bodyPart": "chest",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1799222400000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1799481600000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 4,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1799740800000,
+     "sets": [
+      {
+       "weightKg": 97.5,
+       "reps": 5,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "deload",
+    "weightKg": 90.0,
+    "reps": 5
+   }
+  },
+  {
+   "description": "a new e1RM in the last three: keep progressing",
+   "bodyPart": "chest",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1799222400000,
+     "sets": [
+      {
+       "weightKg": 95,
+       "reps": 5,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1799481600000,
+     "sets": [
+      {
+       "weightKg": 97.5,
+       "reps": 5,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1799740800000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 5,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 100,
+       "reps": 6,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "increase",
+    "weightKg": 102.5,
+    "reps": 4
+   }
+  },
+  {
+   "description": "deload weight rounds down to the step",
+   "bodyPart": "shoulders",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1799222400000,
+     "sets": [
+      {
+       "weightKg": 62.5,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1799481600000,
+     "sets": [
+      {
+       "weightKg": 62.5,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1799740800000,
+     "sets": [
+      {
+       "weightKg": 60,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    },
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 62.5,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "kind": "deload",
+    "weightKg": 55.0,
+    "reps": 8
+   }
+  },
+  {
+   "description": "reps-only exercises get no target",
+   "bodyPart": "core",
+   "category": "reps_only",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 0,
+       "reps": 15,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": null
+  },
+  {
+   "description": "assisted exercises get no target",
+   "bodyPart": "back",
+   "category": "assisted_bodyweight",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 20,
+       "reps": 8,
+       "rpe": null,
+       "warmup": false
+      }
+     ]
+    }
+   ],
+   "expected": null
+  },
+  {
+   "description": "no working sets",
+   "bodyPart": "chest",
+   "category": "barbell",
+   "sessions": [
+    {
+     "startedAt": 1800000000000,
+     "sets": [
+      {
+       "weightKg": 40,
+       "reps": 10,
+       "rpe": null,
+       "warmup": true
+      }
+     ]
+    }
+   ],
+   "expected": null
+  },
+  {
+   "description": "no sessions",
+   "bodyPart": "chest",
+   "category": "barbell",
+   "sessions": [],
+   "expected": null
+  }
+ ],
+ "recovery": [
+  {
+   "now": 1800000000000,
+   "sets": [
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799928000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799928000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799928000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799820000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799820000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799820000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799820000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1799827200001,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1799827200001,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1797408000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1797408000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "core",
+     "startedAt": 1799982000000,
+     "warmup": true
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1799992800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "mystery",
+     "startedAt": 1799996400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1800003600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799748000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799748000000,
+     "warmup": false
+    }
+   ],
+   "expected": [
+    {
+     "bodyPart": "legs",
+     "hoursSince": 50,
+     "status": "ready"
+    },
+    {
+     "bodyPart": "back",
+     "hoursSince": 47,
+     "status": "recovering"
+    },
+    {
+     "bodyPart": "chest",
+     "hoursSince": 20,
+     "status": "recovering"
+    }
+   ]
+  },
+  {
+   "now": 1800000000000,
+   "sets": [],
+   "expected": []
+  }
+ ],
+ "volume": [
+  {
+   "now": 1800000000000,
+   "sets": [
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1797408000000,
+     "warmup": true
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1797408000000,
+     "warmup": true
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    }
+   ],
+   "expected": [
+    {
+     "type": "neglected",
+     "bodyPart": "back",
+     "value": 20
+    },
+    {
+     "type": "volume_spike",
+     "bodyPart": "legs",
+     "value": 12
+    }
+   ]
+  },
+  {
+   "now": 1800000000000,
+   "sets": [],
+   "expected": []
+  }
+ ],
+ "streak": [
+  {
+   "description": "three weeks of 3 workouts",
+   "now": 1800000000000,
+   "goalPerWeek": 3,
+   "workoutStarts": [
+    1799913600000,
+    1799740800000,
+    1799568000000,
+    1799308800000,
+    1799136000000,
+    1798963200000,
+    1798704000000,
+    1798531200000,
+    1798358400000
+   ],
+   "expected": 3
+  },
+  {
+   "description": "this week not met yet: count from last week",
+   "now": 1800000000000,
+   "goalPerWeek": 3,
+   "workoutStarts": [
+    1799913600000,
+    1799308800000,
+    1799136000000,
+    1798963200000,
+    1798704000000,
+    1798531200000,
+    1798358400000,
+    1798099200000
+   ],
+   "expected": 2
+  },
+  {
+   "description": "a gap ends the streak",
+   "now": 1800000000000,
+   "goalPerWeek": 2,
+   "workoutStarts": [
+    1799913600000,
+    1799827200000,
+    1799308800000,
+    1799222400000,
+    1798099200000,
+    1798012800000
+   ],
+   "expected": 2
+  },
+  {
+   "description": "nothing",
+   "now": 1800000000000,
+   "goalPerWeek": 3,
+   "workoutStarts": [],
+   "expected": 0
+  }
+ ],
+ "insights": [
+  {
+   "description": "deload, volume spike and streak, most urgent first",
+   "now": 1800000000000,
+   "goalPerWeek": 3,
+   "workoutStarts": [
+    1799956800000,
+    1799740800000,
+    1799568000000,
+    1799308800000,
+    1799136000000,
+    1798963200000,
+    1798704000000,
+    1798531200000,
+    1798358400000
+   ],
+   "exercises": [
+    {
+     "exerciseId": "row",
+     "bodyPart": "back",
+     "category": "barbell",
+     "sessions": [
+      {
+       "startedAt": 1800000000000,
+       "sets": [
+        {
+         "weightKg": 60,
+         "reps": 12,
+         "rpe": null,
+         "warmup": false
+        },
+        {
+         "weightKg": 60,
+         "reps": 12,
+         "rpe": null,
+         "warmup": false
+        },
+        {
+         "weightKg": 60,
+         "reps": 12,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "exerciseId": "bench",
+     "bodyPart": "chest",
+     "category": "barbell",
+     "sessions": [
+      {
+       "startedAt": 1799222400000,
+       "sets": [
+        {
+         "weightKg": 100,
+         "reps": 5,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      },
+      {
+       "startedAt": 1799481600000,
+       "sets": [
+        {
+         "weightKg": 100,
+         "reps": 4,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      },
+      {
+       "startedAt": 1799740800000,
+       "sets": [
+        {
+         "weightKg": 97.5,
+         "reps": 5,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      },
+      {
+       "startedAt": 1800000000000,
+       "sets": [
+        {
+         "weightKg": 100,
+         "reps": 5,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "exerciseId": "ohp",
+     "bodyPart": "shoulders",
+     "category": "barbell",
+     "sessions": [
+      {
+       "startedAt": 1796630400000,
+       "sets": [
+        {
+         "weightKg": 62.5,
+         "reps": 8,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      },
+      {
+       "startedAt": 1796889600000,
+       "sets": [
+        {
+         "weightKg": 62.5,
+         "reps": 8,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      },
+      {
+       "startedAt": 1797148800000,
+       "sets": [
+        {
+         "weightKg": 60,
+         "reps": 8,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      },
+      {
+       "startedAt": 1797408000000,
+       "sets": [
+        {
+         "weightKg": 62.5,
+         "reps": 8,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "bodyPartSets": [
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799913600000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "legs",
+     "startedAt": 1799222400000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799827200000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "chest",
+     "startedAt": 1799308800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1797408000000,
+     "warmup": true
+    },
+    {
+     "bodyPart": "back",
+     "startedAt": 1797408000000,
+     "warmup": true
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "shoulders",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "arms",
+     "startedAt": 1799740800000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    },
+    {
+     "bodyPart": "cardio",
+     "startedAt": 1798272000000,
+     "warmup": false
+    }
+   ],
+   "expected": [
+    {
+     "type": "deload",
+     "exerciseId": "bench",
+     "weightKg": 90.0,
+     "reps": 5
+    },
+    {
+     "type": "volume_spike",
+     "bodyPart": "legs",
+     "value": 12
+    },
+    {
+     "type": "neglected",
+     "bodyPart": "back",
+     "value": 20
+    },
+    {
+     "type": "streak",
+     "value": 3
+    }
+   ]
+  },
+  {
+   "description": "a week off comes first",
+   "now": 1800000000000,
+   "goalPerWeek": 3,
+   "workoutStarts": [
+    1799222400000,
+    1799049600000,
+    1798876800000
+   ],
+   "exercises": [],
+   "bodyPartSets": [],
+   "expected": [
+    {
+     "type": "inactive",
+     "value": 9
+    }
+   ]
+  },
+  {
+   "description": "nothing to say",
+   "now": 1800000000000,
+   "goalPerWeek": 3,
+   "workoutStarts": [],
+   "exercises": [],
+   "bodyPartSets": [],
+   "expected": []
+  }
+ ]
+}
