@@ -34,6 +34,7 @@ struct HistoryView: View {
 }
 
 private struct WorkoutCard: View {
+    @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
     let workout: Workout
     let namesById: [String: Exercise]
 
@@ -47,7 +48,7 @@ private struct WorkoutCard: View {
             Text(workout.startedAt, format: .dateTime.day().month().year().hour().minute())
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            Text(verbatim: "\(formatElapsed(duration)) · \(formatWeight(volumeKg(allSets))) kg")
+            Text(verbatim: "\(formatElapsed(duration)) · \(weightUnit.format(volumeKg(allSets)))")
                 .font(.caption)
                 .foregroundStyle(.secondary)
             ForEach(items) { item in
@@ -57,7 +58,7 @@ private struct WorkoutCard: View {
                         .lineLimit(1)
                     Spacer()
                     if let index = bestSetIndex(sets) {
-                        Text(verbatim: "\(formatWeight(sets[index].weightKg ?? 0)) kg × \(sets[index].reps ?? 0)")
+                        Text(verbatim: "\(weightUnit.format(sets[index].weightKg ?? 0)) × \(sets[index].reps ?? 0)")
                     }
                 }
                 .font(.subheadline)

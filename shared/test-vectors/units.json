@@ -27,5 +27,45 @@
       "kg": 142.5,
       "lb": 314.16
     }
-  ]
+  ],
+  "roundTrip": {
+    "description": "A value typed in a unit, stored as kg, then shown again (rounded to 2 decimals) must come back unchanged. 'formatted' is the label shown.",
+    "cases": [
+      {
+        "unit": "lb",
+        "typed": 100,
+        "formatted": "100 lb"
+      },
+      {
+        "unit": "lb",
+        "typed": 45.5,
+        "formatted": "45.5 lb"
+      },
+      {
+        "unit": "lb",
+        "typed": 102.25,
+        "formatted": "102.25 lb"
+      },
+      {
+        "unit": "lb",
+        "typed": 225,
+        "formatted": "225 lb"
+      },
+      {
+        "unit": "kg",
+        "typed": 102.5,
+        "formatted": "102.5 kg"
+      },
+      {
+        "unit": "kg",
+        "typed": 60,
+        "formatted": "60 kg"
+      },
+      {
+        "unit": "kg",
+        "typed": 1.25,
+        "formatted": "1.25 kg"
+      }
+    ]
+  }
 }

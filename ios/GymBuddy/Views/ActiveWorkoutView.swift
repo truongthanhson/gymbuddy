@@ -111,22 +111,28 @@ struct ActiveWorkoutView: View {
 
 private struct ExerciseSection: View {
     @Environment(\.modelContext) private var context
+    @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
+    @AppStorage(SettingsKey.defaultRestSeconds) private var appDefaultRest = defaultRestSeconds
     let item: WorkoutExercise
     let exercise: Exercise?
 
     private var title: String { exercise?.displayName ?? item.exerciseId }
 
     private var restSeconds: Int {
-        resolveRestSeconds(workoutExerciseRest: item.restSeconds, exerciseDefault: exercise?.defaultRestSeconds)
+        resolveRestSeconds(
+            workoutExerciseRest: item.restSeconds,
+            exerciseDefault: exercise?.defaultRestSeconds,
+            appDefault: appDefaultRest
+        )
     }
 
     var body: some View {
         let previous = WorkoutService.previousSets(for: item.exerciseId, in: context)
         Section {
-            SetHeader()
+            SetHeader(unit: weightUnit)
             ForEach(Array(item.liveSets.enumerated()), id: \.element.id) { index, set in
                 let previousSet = previous.indices.contains(index) ? previous[index] : nil
-                SetRow(index: index, set: set, previous: previousSet) {
+                SetRow(index: index, set: set, previous: previousSet, unit: weightUnit) {
                     let wasCompleted = set.completed
                     WorkoutService.toggle(set, previous: previousSet, in: context)
                     if !wasCompleted {
@@ -181,11 +187,13 @@ private enum Column {
 }
 
 private struct SetHeader: View {
+    let unit: WeightUnit
+
     var body: some View {
         HStack {
             Text("Set").frame(width: Column.set)
             Text("Previous").frame(maxWidth: .infinity)
-            Text("kg").frame(width: Column.value)
+            Text(verbatim: unit.symbol).frame(width: Column.value)
             Text("Reps").frame(width: Column.value)
             Image(systemName: "checkmark").frame(width: Column.check)
         }
@@ -198,18 +206,19 @@ private struct SetRow: View {
     let index: Int
     @Bindable var set: WorkoutSet
     let previous: WorkoutSet?
+    let unit: WeightUnit
     let onToggle: () -> Void
 
     var body: some View {
         HStack {
             Text(verbatim: "\(index + 1)").frame(width: Column.set)
-            Text(verbatim: previous.map(previousLabel) ?? "—")
+            Text(verbatim: previous.map { previousLabel($0, unit: unit) } ?? "—")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity)
             TextField(
-                previous?.weightKg.map(formatWeight) ?? "",
-                value: $set.weightKg,
+                previous?.weightKg.map { formatWeight(unit.display($0)) } ?? "",
+                value: $set.weightKg.weight(in: unit),
                 format: .number
             )
             .keyboardType(.decimalPad)
@@ -239,11 +248,11 @@ private struct SetRow: View {
     }
 }
 
-private func previousLabel(_ set: WorkoutSet) -> String {
+private func previousLabel(_ set: WorkoutSet, unit: WeightUnit) -> String {
     switch (set.weightKg, set.reps) {
-    case let (weight?, reps?): "\(formatWeight(weight)) kg × \(reps)"
+    case let (weight?, reps?): "\(unit.format(weight)) × \(reps)"
     case let (nil, reps?): "× \(reps)"
-    case let (weight?, nil): "\(formatWeight(weight)) kg"
+    case let (weight?, nil): unit.format(weight)
     default: "—"
     }
 }

@@ -62,7 +62,10 @@ import com.gymbuddy.app.data.workout.WorkoutWithExercises
 import com.gymbuddy.app.domain.REST_TIME_OPTIONS
 import com.gymbuddy.app.domain.formatElapsed
 import com.gymbuddy.app.domain.resolveRestSeconds
+import com.gymbuddy.app.domain.WeightUnit
 import com.gymbuddy.app.domain.formatWeight
+import com.gymbuddy.app.ui.common.LocalAppSettings
+import com.gymbuddy.app.ui.common.restLabel
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
 import kotlinx.coroutines.delay
@@ -232,7 +235,12 @@ private fun ExerciseCard(
     val previous by previousFlow.collectAsStateWithLifecycle(emptyList())
     var menuOpen by remember { mutableStateOf(false) }
     var restDialogOpen by remember { mutableStateOf(false) }
-    val restSeconds = resolveRestSeconds(item.workoutExercise.restSeconds, item.exercise?.defaultRestSeconds)
+    val settings = LocalAppSettings.current
+    val restSeconds = resolveRestSeconds(
+        item.workoutExercise.restSeconds,
+        item.exercise?.defaultRestSeconds,
+        settings.defaultRestSeconds,
+    )
 
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -262,7 +270,7 @@ private fun ExerciseCard(
                 }
             }
         }
-        SetHeader()
+        SetHeader(settings.weightUnit)
         item.sets.forEachIndexed { index, set ->
             // Keyed so a swiped-away row doesn't hand its state to the next one.
             key(set.id) {
@@ -272,6 +280,7 @@ private fun ExerciseCard(
                     set = set,
                     previous = previousSet,
                     onToggle = { viewModel.toggleSet(item, set, previousSet, title) },
+                    unit = settings.weightUnit,
                     viewModel = viewModel,
                 )
             }
@@ -311,20 +320,16 @@ private fun ExerciseCard(
     }
 }
 
-@Composable
-private fun restLabel(seconds: Int): String =
-    if (seconds <= 0) stringResource(R.string.rest_off) else formatElapsed(seconds.toLong())
-
 private val SetColumn = 40.dp
 private val ValueColumn = 72.dp
 private val CheckColumn = 48.dp
 
 @Composable
-private fun SetHeader() {
+private fun SetHeader(unit: WeightUnit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         HeaderText(stringResource(R.string.col_set), Modifier.width(SetColumn))
         HeaderText(stringResource(R.string.col_previous), Modifier.weight(1f))
-        HeaderText(stringResource(R.string.col_kg), Modifier.width(ValueColumn))
+        HeaderText(unit.symbol, Modifier.width(ValueColumn))
         HeaderText(stringResource(R.string.col_reps), Modifier.width(ValueColumn))
         Box(Modifier.width(CheckColumn), contentAlignment = Alignment.Center) {
             Icon(Icons.Filled.Check, contentDescription = null)
@@ -343,6 +348,7 @@ private fun SetRow(
     set: WorkoutSetEntity,
     previous: WorkoutSetEntity?,
     onToggle: () -> Unit,
+    unit: WeightUnit,
     viewModel: WorkoutViewModel,
 ) {
     val dismissState = rememberSwipeToDismissBoxState(
@@ -385,19 +391,19 @@ private fun SetRow(
         ) {
             Text("${index + 1}", modifier = Modifier.width(SetColumn), textAlign = TextAlign.Center)
             Text(
-                previous?.let { previousLabel(it) } ?: "—",
+                previous?.let { previousLabel(it, unit) } ?: "—",
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodySmall,
             )
             NumberField(
-                value = set.weightKg,
+                value = set.weightKg?.let(unit::display),
                 format = ::formatWeight,
                 parse = { it.replace(',', '.').toDoubleOrNull() },
-                placeholder = previous?.weightKg?.let(::formatWeight),
+                placeholder = previous?.weightKg?.let { formatWeight(unit.display(it)) },
                 decimal = true,
-                onValueChange = { viewModel.setWeight(set.id, it) },
+                onValueChange = { viewModel.setWeight(set.id, it?.let(unit::toKg)) },
             )
             NumberField(
                 value = set.reps,
@@ -419,10 +425,10 @@ private fun SetRow(
     }
 }
 
-private fun previousLabel(set: WorkoutSetEntity): String = when {
-    set.weightKg != null && set.reps != null -> "${formatWeight(set.weightKg)} kg × ${set.reps}"
+private fun previousLabel(set: WorkoutSetEntity, unit: WeightUnit): String = when {
+    set.weightKg != null && set.reps != null -> "${unit.format(set.weightKg)} × ${set.reps}"
     set.reps != null -> "× ${set.reps}"
-    set.weightKg != null -> "${formatWeight(set.weightKg)} kg"
+    set.weightKg != null -> unit.format(set.weightKg)
     else -> "—"
 }
 

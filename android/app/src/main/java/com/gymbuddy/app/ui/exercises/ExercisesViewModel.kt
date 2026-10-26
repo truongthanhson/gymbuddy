@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gymbuddy.app.data.exercise.ExerciseDao
 import com.gymbuddy.app.data.exercise.ExerciseEntity
+import com.gymbuddy.app.data.exercise.ExerciseRepository
 import com.gymbuddy.app.domain.BodyPart
+import com.gymbuddy.app.domain.ExerciseCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 data class ExercisesUiState(
     val query: String = "",
@@ -24,7 +27,10 @@ data class ExercisesUiState(
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
-class ExercisesViewModel @Inject constructor(dao: ExerciseDao) : ViewModel() {
+class ExercisesViewModel @Inject constructor(
+    dao: ExerciseDao,
+    private val repository: ExerciseRepository,
+) : ViewModel() {
 
     private val query = MutableStateFlow("")
     private val bodyPart = MutableStateFlow<BodyPart?>(null)
@@ -42,5 +48,18 @@ class ExercisesViewModel @Inject constructor(dao: ExerciseDao) : ViewModel() {
 
     fun onBodyPartSelected(value: BodyPart?) {
         bodyPart.value = value
+    }
+
+    /** [onCreated] gets the new exercise's id, e.g. to select it in the picker. */
+    fun createCustom(name: String, bodyPart: BodyPart, category: ExerciseCategory, onCreated: (String) -> Unit = {}) {
+        viewModelScope.launch { onCreated(repository.createCustom(name, bodyPart, category)) }
+    }
+
+    fun updateCustom(id: String, name: String, bodyPart: BodyPart, category: ExerciseCategory) {
+        viewModelScope.launch { repository.updateCustom(id, name, bodyPart, category) }
+    }
+
+    fun deleteCustom(id: String) {
+        viewModelScope.launch { repository.deleteCustom(id) }
     }
 }

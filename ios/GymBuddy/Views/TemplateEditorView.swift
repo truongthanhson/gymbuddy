@@ -5,6 +5,7 @@ import SwiftUI
 struct TemplateEditorView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
     @Query(filter: #Predicate<TemplateFolder> { $0.deletedAt == nil }, sort: \TemplateFolder.sortOrder)
     private var folders: [TemplateFolder]
     @Query private var exercises: [Exercise]
@@ -36,7 +37,7 @@ struct TemplateEditorView: View {
                     Section {
                         HStack {
                             Text("Set").frame(width: 32)
-                            Text("kg").frame(maxWidth: .infinity)
+                            Text(verbatim: weightUnit.symbol).frame(maxWidth: .infinity)
                             Text("Reps").frame(maxWidth: .infinity)
                             Spacer().frame(width: 24)
                         }
@@ -45,7 +46,7 @@ struct TemplateEditorView: View {
                         ForEach(Array($exercise.sets.enumerated()), id: \.element.id) { index, $set in
                             HStack {
                                 Text(verbatim: "\(index + 1)").frame(width: 32)
-                                TextField("kg", value: $set.targetWeightKg, format: .number)
+                                TextField(weightUnit.symbol, value: $set.targetWeightKg.weight(in: weightUnit), format: .number)
                                     .keyboardType(.decimalPad)
                                     .multilineTextAlignment(.center)
                                     .textFieldStyle(.roundedBorder)

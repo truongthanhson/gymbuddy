@@ -30,4 +30,20 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(WeightUnit.lb.toKg(c.lb), c.kg, accuracy: 0.01)
         }
     }
+
+    func testTypedWeightsSurviveTheKgRoundTrip() throws {
+        struct File: Decodable {
+            struct RoundTrip: Decodable {
+                struct Case: Decodable { let unit: String; let typed: Double; let formatted: String }
+                let cases: [Case]
+            }
+            let roundTrip: RoundTrip
+        }
+        for c in try vectors("units", as: File.self).roundTrip.cases {
+            let unit = try XCTUnwrap(WeightUnit(rawValue: c.unit))
+            let kg = unit.toKg(c.typed)
+            XCTAssertEqual(unit.display(kg), c.typed, accuracy: 1e-9, "\(c.typed) \(c.unit)")
+            XCTAssertEqual(unit.format(kg), c.formatted)
+        }
+    }
 }

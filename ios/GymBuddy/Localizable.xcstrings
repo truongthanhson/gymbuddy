@@ -11,6 +11,16 @@
         }
       }
     },
+    "About": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thông tin"
+          }
+        }
+      }
+    },
     "Add (%lld)": {
       "localizations": {
         "vi": {
@@ -71,12 +81,52 @@
         }
       }
     },
+    "Assisted bodyweight": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trọng lượng cơ thể có hỗ trợ"
+          }
+        }
+      }
+    },
     "Back": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Lưng"
+          }
+        }
+      }
+    },
+    "Barbell": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thanh đòn"
+          }
+        }
+      }
+    },
+    "Body part": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhóm cơ"
+          }
+        }
+      }
+    },
+    "Cable": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cáp"
           }
         }
       }
@@ -121,6 +171,16 @@
         }
       }
     },
+    "Category": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loại"
+          }
+        }
+      }
+    },
     "Chest": {
       "localizations": {
         "vi": {
@@ -141,12 +201,42 @@
         }
       }
     },
+    "Custom": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tự tạo"
+          }
+        }
+      }
+    },
+    "Default rest timer": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thời gian nghỉ mặc định"
+          }
+        }
+      }
+    },
     "Delete": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Xóa"
+          }
+        }
+      }
+    },
+    "Delete exercise?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa bài tập?"
           }
         }
       }
@@ -181,6 +271,16 @@
         }
       }
     },
+    "Dumbbell": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tạ đơn"
+          }
+        }
+      }
+    },
     "Duplicate": {
       "localizations": {
         "vi": {
@@ -191,12 +291,32 @@
         }
       }
     },
+    "Duration": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thời gian"
+          }
+        }
+      }
+    },
     "Edit": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Sửa"
+          }
+        }
+      }
+    },
+    "Edit exercise": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sửa bài tập"
           }
         }
       }
@@ -291,6 +411,19 @@
         }
       }
     },
+    "General": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chung"
+          }
+        }
+      }
+    },
+    "GymBuddy": {
+      "shouldTranslate": false
+    },
     "History": {
       "localizations": {
         "vi": {
@@ -307,6 +440,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tập tiếp"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngôn ngữ"
           }
         }
       }
@@ -331,6 +474,16 @@
         }
       }
     },
+    "Machine": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Máy"
+          }
+        }
+      }
+    },
     "Move to folder": {
       "localizations": {
         "vi": {
@@ -351,12 +504,32 @@
         }
       }
     },
+    "Name": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tên"
+          }
+        }
+      }
+    },
     "Never used": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Chưa dùng"
+          }
+        }
+      }
+    },
+    "New exercise": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bài tập mới"
           }
         }
       }
@@ -471,6 +644,16 @@
         }
       }
     },
+    "Past workouts keep their sets for this exercise.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Các buổi tập cũ vẫn giữ các set của bài tập này."
+          }
+        }
+      }
+    },
     "Previous": {
       "localizations": {
         "vi": {
@@ -517,6 +700,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reps"
+          }
+        }
+      }
+    },
+    "Reps only": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chỉ đếm số lần"
           }
         }
       }
@@ -581,6 +774,16 @@
         }
       }
     },
+    "Settings": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cài đặt"
+          }
+        }
+      }
+    },
     "Shoulders": {
       "localizations": {
         "vi": {
@@ -641,12 +844,52 @@
         }
       }
     },
+    "The default rest timer is used when an exercise has no rest time of its own. The app language is chosen in the Settings app.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thời gian nghỉ mặc định được dùng khi bài tập chưa có thời gian nghỉ riêng. Ngôn ngữ ứng dụng được chọn trong ứng dụng Cài đặt."
+          }
+        }
+      }
+    },
     "Time for your next set.": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Đến set tiếp theo rồi."
+          }
+        }
+      }
+    },
+    "Units": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đơn vị"
+          }
+        }
+      }
+    },
+    "Weight": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khối lượng"
+          }
+        }
+      }
+    },
+    "Weighted bodyweight": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trọng lượng cơ thể + tạ"
           }
         }
       }
@@ -667,16 +910,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tên buổi tập"
-          }
-        }
-      }
-    },
-    "kg": {
-      "localizations": {
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "kg"
           }
         }
       }
