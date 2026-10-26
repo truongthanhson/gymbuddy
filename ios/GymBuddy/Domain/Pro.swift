@@ -5,13 +5,14 @@ let freeTemplateLimit = 3
 
 /// What GymBuddy Pro unlocks. Everything else, including logging, history and sync, stays free.
 enum ProFeature: CaseIterable, Sendable {
-    case unlimitedTemplates, exerciseCharts, bodyMeasurements
+    case unlimitedTemplates, exerciseCharts, bodyMeasurements, profileDashboard
 
     var label: LocalizedStringResource {
         switch self {
         case .unlimitedTemplates: "Unlimited routines (free: \(freeTemplateLimit))"
         case .exerciseCharts: "Charts of every exercise"
         case .bodyMeasurements: "Body fat and body part measurements"
+        case .profileDashboard: "Muscle groups and body weight on your profile"
         }
     }
 }

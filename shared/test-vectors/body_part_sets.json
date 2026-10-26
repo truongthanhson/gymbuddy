@@ -1,0 +1,25 @@
+{
+  "description": "Completed sets per body part since a time, for the Profile's muscle groups card. Warm-up sets and sets started before `since` are left out. Most sets first; ties keep the order of the body part keys below.",
+  "order": ["chest", "back", "legs", "shoulders", "arms", "core", "olympic", "full_body", "cardio", "other"],
+  "cases": [
+    {
+      "since": 1000,
+      "sets": [
+        { "bodyPart": "legs", "startedAt": 2000, "warmup": false },
+        { "bodyPart": "chest", "startedAt": 2000, "warmup": false },
+        { "bodyPart": "legs", "startedAt": 3000, "warmup": false },
+        { "bodyPart": "legs", "startedAt": 3000, "warmup": true },
+        { "bodyPart": "back", "startedAt": 500, "warmup": false },
+        { "bodyPart": "back", "startedAt": 3000, "warmup": false },
+        { "bodyPart": "mystery", "startedAt": 3000, "warmup": false }
+      ],
+      "expected": [
+        { "bodyPart": "legs", "sets": 2 },
+        { "bodyPart": "chest", "sets": 1 },
+        { "bodyPart": "back", "sets": 1 },
+        { "bodyPart": "other", "sets": 1 }
+      ]
+    },
+    { "since": 0, "sets": [], "expected": [] }
+  ]
+}

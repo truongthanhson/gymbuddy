@@ -1062,6 +1062,16 @@
         }
       }
     },
+    "Log your body weight at least twice in Measure to see a chart.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ghi cân nặng ít nhất hai lần trong mục Đo để xem biểu đồ."
+          }
+        }
+      }
+    },
     "Machine": {
       "localizations": {
         "vi": {
@@ -1138,6 +1148,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chuyển lên"
+          }
+        }
+      }
+    },
+    "Muscle groups and body weight charts come with GymBuddy Pro": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Biểu đồ nhóm cơ và cân nặng có trong GymBuddy Pro"
+          }
+        }
+      }
+    },
+    "Muscle groups and body weight on your profile": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhóm cơ và cân nặng trên trang hồ sơ"
           }
         }
       }
@@ -1238,6 +1268,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Không tìm thấy bài tập"
+          }
+        }
+      }
+    },
+    "No finished sets yet.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có set nào hoàn thành."
           }
         }
       }
@@ -1708,6 +1748,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Set"
+          }
+        }
+      }
+    },
+    "Sets per muscle group, last %lld days": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số set theo nhóm cơ, %lld ngày qua"
           }
         }
       }

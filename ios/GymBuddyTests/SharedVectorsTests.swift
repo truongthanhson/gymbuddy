@@ -381,4 +381,20 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(workoutShareText(title: c.title, subtitle: c.subtitle, exercises: exercises, unit: unit), c.text)
         }
     }
+
+    func testBodyPartSetsMatchSharedVectors() throws {
+        struct SetCase: Decodable { let bodyPart: String; let startedAt: Double; let warmup: Bool }
+        struct Count: Decodable { let bodyPart: String; let sets: Int }
+        struct Case: Decodable { let since: Double; let sets: [SetCase]; let expected: [Count] }
+        struct File: Decodable { let order: [String]; let cases: [Case] }
+        let file = try vectors("body_part_sets", as: File.self)
+        XCTAssertEqual(BodyPart.allCases.map(\.rawValue), file.order)
+        // Times are epoch millis.
+        func date(_ millis: Double) -> Date { Date(timeIntervalSince1970: millis / 1000) }
+        for c in file.cases {
+            let sets = c.sets.map { BodyPartSet(bodyPart: $0.bodyPart, startedAt: date($0.startedAt), warmup: $0.warmup) }
+            let expected = c.expected.map { BodyPartCount(bodyPart: BodyPart(key: $0.bodyPart), sets: $0.sets) }
+            XCTAssertEqual(setsPerBodyPart(sets, since: date(c.since)), expected)
+        }
+    }
 }
