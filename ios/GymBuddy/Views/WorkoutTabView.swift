@@ -9,15 +9,17 @@ struct WorkoutTabView: View {
         order: .reverse
     )
     private var activeWorkouts: [Workout]
+    @State private var summary: WorkoutSummary?
 
     var body: some View {
         NavigationStack {
             if let workout = activeWorkouts.first {
-                ActiveWorkoutView(workout: workout)
+                ActiveWorkoutView(workout: workout, onFinished: { summary = $0 })
             } else {
                 StartWorkoutView()
             }
         }
+        .sheet(item: $summary) { WorkoutSummaryView(summary: $0) }
     }
 }
 

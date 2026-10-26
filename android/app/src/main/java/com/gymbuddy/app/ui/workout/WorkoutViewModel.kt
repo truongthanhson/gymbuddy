@@ -16,12 +16,16 @@ import com.gymbuddy.app.data.workout.filledFrom
 import com.gymbuddy.app.data.workout.isEmpty
 import com.gymbuddy.app.domain.RestTimerState
 import com.gymbuddy.app.domain.SetValues
+import com.gymbuddy.app.domain.liveRecords
 import com.gymbuddy.app.domain.warmupSets
 import com.gymbuddy.app.domain.resolveRestSeconds
 import com.gymbuddy.app.timer.RestTimerController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -30,6 +34,9 @@ import kotlinx.coroutines.launch
 
 /** [workout] is null when no workout is in progress. */
 data class ActiveWorkoutState(val workout: WorkoutWithExercises?)
+
+/** What the "workout complete" screen shows: the [number]th finished workout, with [records] record-setting sets. */
+data class WorkoutSummary(val workout: WorkoutWithExercises, val number: Int, val records: Int)
 
 @HiltViewModel
 class WorkoutViewModel @Inject constructor(
@@ -43,6 +50,15 @@ class WorkoutViewModel @Inject constructor(
 ) : ViewModel() {
 
     val restTimerState: StateFlow<RestTimerState?> = restTimer.state
+
+    private val summaryState = MutableStateFlow<WorkoutSummary?>(null)
+
+    /** The workout just finished, until its summary is closed. */
+    val summary: StateFlow<WorkoutSummary?> = summaryState.asStateFlow()
+
+    fun summaryShown() {
+        summaryState.value = null
+    }
 
     /** Null until the database has answered, so the UI doesn't flash the start screen. */
     val state: StateFlow<ActiveWorkoutState?> = repository.observeActive()
@@ -171,6 +187,7 @@ class WorkoutViewModel @Inject constructor(
             return@launch
         }
         repository.finishWorkout(id)
+        summaryState.value = summarize(id)
         if (saveToTemplate) {
             val templateId = workout.workout.templateId
             if (templateId != null) templates.updateFromWorkout(templateId, id) else templates.createFromWorkout(id)
@@ -178,6 +195,18 @@ class WorkoutViewModel @Inject constructor(
         sync.requestSync()
         health.onWorkoutFinished(id)
         widgets.refresh()
+    }
+
+    private suspend fun summarize(workoutId: String): WorkoutSummary? {
+        val finished = repository.observeWorkout(workoutId).first() ?: return null
+        val number = repository.observeHistory().first().size
+        // Warm-up sets never count as records, as on the sets while logging.
+        val records = finished.exercises.sumOf { exercise ->
+            val history = repository.observeHistorySets(exercise.workoutExercise.exerciseId, finished.workout.startedAt).first()
+            val sets = exercise.sets.map { SetValues(it.weightKg, it.reps, it.completed && it.setType != SetType.WARMUP) }
+            liveRecords(history, sets).count { it.isNotEmpty() }
+        }
+        return WorkoutSummary(finished, number, records)
     }
 
     /** Leaving the editor of a finished workout. */

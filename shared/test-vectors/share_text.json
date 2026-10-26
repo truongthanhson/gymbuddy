@@ -1,0 +1,40 @@
+{
+  "description": "How one set is written in text, and the text a finished workout is shared as. Only completed sets are passed in; exercises without sets are left out. Normal sets are numbered; warm-up, drop and failure sets show W, D and F.",
+  "setText": [
+    { "category": "barbell", "unit": "kg", "weightKg": 100, "reps": 5, "text": "100 kg × 5" },
+    { "category": "barbell", "unit": "kg", "weightKg": 102.5, "reps": null, "text": "102.5 kg" },
+    { "category": "dumbbell", "unit": "lb", "weightKg": 20.411656, "reps": 10, "text": "45 lb × 10" },
+    { "category": "reps_only", "unit": "kg", "weightKg": null, "reps": 12, "text": "× 12" },
+    { "category": "cardio", "unit": "kg", "distanceM": 5000, "durationSec": 1500, "text": "5 km · 25:00" },
+    { "category": "cardio", "unit": "lb", "distanceM": 1609.344, "durationSec": null, "text": "1 mi" },
+    { "category": "duration", "unit": "kg", "durationSec": 3909, "text": "1:05:09" },
+    { "category": "barbell", "unit": "kg", "weightKg": null, "reps": null, "text": "—" }
+  ],
+  "shareText": [
+    {
+      "title": "Push Day",
+      "subtitle": "26 Oct 2026",
+      "unit": "kg",
+      "exercises": [
+        {
+          "name": "Bench Press (Barbell)",
+          "category": "barbell",
+          "sets": [
+            { "type": "warmup", "weightKg": 40, "reps": 10 },
+            { "type": "normal", "weightKg": 60, "reps": 10 },
+            { "type": "drop", "weightKg": 50, "reps": 8 },
+            { "type": "normal", "weightKg": 60, "reps": 8 },
+            { "type": "failure", "weightKg": 60, "reps": 6 }
+          ]
+        },
+        { "name": "Plank", "category": "duration", "sets": [] },
+        {
+          "name": "Running",
+          "category": "cardio",
+          "sets": [{ "type": "normal", "distanceM": 2500, "durationSec": 780 }]
+        }
+      ],
+      "text": "Push Day\n26 Oct 2026\n\nBench Press (Barbell)\nW: 40 kg × 10\n1: 60 kg × 10\nD: 50 kg × 8\n2: 60 kg × 8\nF: 60 kg × 6\n\nRunning\n1: 2.5 km · 13:00"
+    }
+  ]
+}

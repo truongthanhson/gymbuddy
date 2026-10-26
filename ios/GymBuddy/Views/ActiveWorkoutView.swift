@@ -11,6 +11,8 @@ struct ActiveWorkoutView: View {
     private var activeWorkouts: [Workout]
     let workout: Workout
     var editing = false
+    /// Called with the summary when a workout with ticked sets is finished.
+    var onFinished: (WorkoutSummary) -> Void = { _ in }
 
     @State private var showPicker = false
     @State private var showFinish = false
@@ -41,6 +43,7 @@ struct ActiveWorkoutView: View {
         }
         if saveable, let endedAt = workout.endedAt {
             HealthService.saveWorkout(id: workout.id, name: workout.name, start: workout.startedAt, end: endedAt)
+            onFinished(WorkoutSummary.make(for: workout, names: namesById, in: context))
         }
         guard saveToTemplate, saveable else { return }
         if let templateId = workout.templateId, let template = TemplateService.template(id: templateId, in: context) {
@@ -202,6 +205,15 @@ extension ActiveWorkoutView {
             Button("Rename", systemImage: "pencil") {
                 newName = workout.name
                 showRename = true
+            }
+            ShareLink(
+                item: WorkoutSummary.shareText(
+                    name: workout.name,
+                    startedAt: workout.startedAt,
+                    exercises: WorkoutSummary.shareExercises(of: workout, names: namesById)
+                )
+            ) {
+                Label("Share", systemImage: "square.and.arrow.up")
             }
             Button("Save as a new template", systemImage: "doc.on.doc") {
                 TemplateService.createTemplate(from: workout, in: context)

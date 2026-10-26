@@ -345,4 +345,40 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(result, c.counts, c.name)
         }
     }
+
+    func testShareTextMatchesSharedVectors() throws {
+        struct SetCase: Decodable {
+            let type: String?
+            let weightKg: Double?
+            let reps: Int?
+            let durationSec: Int?
+            let distanceM: Double?
+            var share: ShareSet {
+                ShareSet(type: type ?? "normal", weightKg: weightKg, reps: reps, durationSec: durationSec, distanceM: distanceM)
+            }
+        }
+        struct TextCase: Decodable {
+            let category: String
+            let unit: String
+            let text: String
+            let weightKg: Double?
+            let reps: Int?
+            let durationSec: Int?
+            let distanceM: Double?
+        }
+        struct ExerciseCase: Decodable { let name: String; let category: String; let sets: [SetCase] }
+        struct ShareCase: Decodable { let title: String; let subtitle: String; let unit: String; let exercises: [ExerciseCase]; let text: String }
+        struct File: Decodable { let setText: [TextCase]; let shareText: [ShareCase] }
+        let file = try vectors("share_text", as: File.self)
+        for c in file.setText {
+            let unit = try XCTUnwrap(WeightUnit(rawValue: c.unit))
+            let set = ShareSet(weightKg: c.weightKg, reps: c.reps, durationSec: c.durationSec, distanceM: c.distanceM)
+            XCTAssertEqual(setText(category: c.category, set: set, unit: unit), c.text)
+        }
+        for c in file.shareText {
+            let unit = try XCTUnwrap(WeightUnit(rawValue: c.unit))
+            let exercises = c.exercises.map { ShareExercise(name: $0.name, category: $0.category, sets: $0.sets.map(\.share)) }
+            XCTAssertEqual(workoutShareText(title: c.title, subtitle: c.subtitle, exercises: exercises, unit: unit), c.text)
+        }
+    }
 }

@@ -42,6 +42,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
 import com.gymbuddy.app.data.workout.WorkoutEntity
 import com.gymbuddy.app.domain.formatElapsed
+import com.gymbuddy.app.ui.common.LocalAppSettings
+import com.gymbuddy.app.ui.common.useVietnameseNames
+import com.gymbuddy.app.ui.workout.shareWorkout
 import com.gymbuddy.app.ui.workout.ActiveWorkoutScreen
 import com.gymbuddy.app.ui.workout.WorkoutViewModel
 import java.text.DateFormat
@@ -69,6 +72,10 @@ fun WorkoutEditScreen(
     }
     BackHandler(onBack = close)
 
+    val context = LocalContext.current
+    val vietnamese = useVietnameseNames()
+    val unit = LocalAppSettings.current.weightUnit
+    val shareTitle = stringResource(R.string.share_workout)
     val current = workout
     if (current == null) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
@@ -82,6 +89,7 @@ fun WorkoutEditScreen(
         editHeader = { onRename ->
             EditHeader(
                 workout = current.workout,
+                onShare = { shareWorkout(context, current, vietnamese, unit, shareTitle) },
                 canRepeat = active?.workout == null,
                 viewModel = viewModel,
                 onRename = onRename,
@@ -101,6 +109,7 @@ fun WorkoutEditScreen(
 @Composable
 private fun EditHeader(
     workout: WorkoutEntity,
+    onShare: () -> Unit,
     canRepeat: Boolean,
     viewModel: WorkoutViewModel,
     onRename: () -> Unit,
@@ -131,6 +140,13 @@ private fun EditHeader(
                             menuOpen = false
                             viewModel.saveAsTemplate(workout.id)
                             Toast.makeText(context, templateSaved, Toast.LENGTH_SHORT).show()
+                        },
+                    )
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.share)) },
+                        onClick = {
+                            menuOpen = false
+                            onShare()
                         },
                     )
                     if (canRepeat) {
