@@ -1654,6 +1654,116 @@
    "exercises": [],
    "bodyPartSets": [],
    "expected": []
+  },
+  {
+   "description": "deload week of a cycle: one cycle_deload instead of per-exercise deloads",
+   "now": 1800000000000,
+   "goalPerWeek": 3,
+   "cycleWeek": 4,
+   "workoutStarts": [
+    1799956800000,
+    1799740800000,
+    1799568000000,
+    1799308800000,
+    1799136000000,
+    1798963200000,
+    1798704000000,
+    1798531200000,
+    1798358400000
+   ],
+   "exercises": [
+    {
+     "exerciseId": "row",
+     "bodyPart": "back",
+     "category": "barbell",
+     "sessions": [
+      {
+       "startedAt": 1800000000000,
+       "sets": [
+        {
+         "weightKg": 60,
+         "reps": 12,
+         "rpe": null,
+         "warmup": false
+        },
+        {
+         "weightKg": 60,
+         "reps": 12,
+         "rpe": null,
+         "warmup": false
+        },
+        {
+         "weightKg": 60,
+         "reps": 12,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "exerciseId": "bench",
+     "bodyPart": "chest",
+     "category": "barbell",
+     "sessions": [
+      {
+       "startedAt": 1799222400000,
+       "sets": [
+        {
+         "weightKg": 100,
+         "reps": 5,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      },
+      {
+       "startedAt": 1799481600000,
+       "sets": [
+        {
+         "weightKg": 100,
+         "reps": 4,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      },
+      {
+       "startedAt": 1799740800000,
+       "sets": [
+        {
+         "weightKg": 97.5,
+         "reps": 5,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      },
+      {
+       "startedAt": 1800000000000,
+       "sets": [
+        {
+         "weightKg": 100,
+         "reps": 5,
+         "rpe": null,
+         "warmup": false
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "bodyPartSets": [],
+   "expected": [
+    {
+     "type": "cycle_deload"
+    },
+    {
+     "type": "streak",
+     "value": 3
+    }
+   ]
   }
  ],
  "reminder": [
@@ -1697,6 +1807,162 @@
    "description": "no workout yet: no reminder",
    "daysPerWeek": 3,
    "lastWorkout": null,
+   "expected": null
+  }
+ ],
+ "cycle": [
+  {
+   "description": "first day is week 1",
+   "cycleStart": 1800000000000,
+   "now": 1800000000000,
+   "expected": 1
+  },
+  {
+   "description": "day 6 still week 1",
+   "cycleStart": 1800000000000,
+   "now": 1800601200000,
+   "expected": 1
+  },
+  {
+   "description": "day 7 starts week 2",
+   "cycleStart": 1800000000000,
+   "now": 1800604800000,
+   "expected": 2
+  },
+  {
+   "description": "day 21 is the deload week",
+   "cycleStart": 1800000000000,
+   "now": 1801814400000,
+   "expected": 4
+  },
+  {
+   "description": "day 28 starts the next cycle",
+   "cycleStart": 1800000000000,
+   "now": 1802419200000,
+   "expected": 1
+  },
+  {
+   "description": "week 8 is a deload again",
+   "cycleStart": 1800000000000,
+   "now": 1804320000000,
+   "expected": 4
+  },
+  {
+   "description": "before the start: no cycle",
+   "cycleStart": 1800000000000,
+   "now": 1799913600000,
+   "expected": null
+  },
+  {
+   "description": "no cycle",
+   "cycleStart": null,
+   "now": 1800000000000,
+   "expected": null
+  }
+ ],
+ "cycleTarget": [
+  {
+   "description": "deload week: 90% of the working weight",
+   "target": {
+    "kind": "repeat",
+    "weightKg": 100,
+    "reps": 6
+   },
+   "week": 4,
+   "bodyPart": "chest",
+   "category": "barbell",
+   "expected": {
+    "kind": "deload",
+    "weightKg": 90.0,
+    "reps": 6
+   }
+  },
+  {
+   "description": "deload week: an increase is undone first",
+   "target": {
+    "kind": "increase",
+    "weightKg": 102.5,
+    "reps": 8
+   },
+   "week": 4,
+   "bodyPart": "chest",
+   "category": "barbell",
+   "expected": {
+    "kind": "deload",
+    "weightKg": 90.0,
+    "reps": 8
+   }
+  },
+  {
+   "description": "deload week: legs round down to 5 kg",
+   "target": {
+    "kind": "repeat",
+    "weightKg": 140,
+    "reps": 5
+   },
+   "week": 4,
+   "bodyPart": "legs",
+   "category": "barbell",
+   "expected": {
+    "kind": "deload",
+    "weightKg": 125.0,
+    "reps": 5
+   }
+  },
+  {
+   "description": "deload week: dumbbells to 2 kg",
+   "target": {
+    "kind": "increase",
+    "weightKg": 24,
+    "reps": 8
+   },
+   "week": 4,
+   "bodyPart": "shoulders",
+   "category": "dumbbell",
+   "expected": {
+    "kind": "deload",
+    "weightKg": 18.0,
+    "reps": 8
+   }
+  },
+  {
+   "description": "an engine deload stays as it is",
+   "target": {
+    "kind": "deload",
+    "weightKg": 90,
+    "reps": 5
+   },
+   "week": 4,
+   "bodyPart": "chest",
+   "category": "barbell",
+   "expected": {
+    "kind": "deload",
+    "weightKg": 90,
+    "reps": 5
+   }
+  },
+  {
+   "description": "build weeks keep the target",
+   "target": {
+    "kind": "increase",
+    "weightKg": 102.5,
+    "reps": 8
+   },
+   "week": 2,
+   "bodyPart": "chest",
+   "category": "barbell",
+   "expected": {
+    "kind": "increase",
+    "weightKg": 102.5,
+    "reps": 8
+   }
+  },
+  {
+   "description": "no target",
+   "target": null,
+   "week": 4,
+   "bodyPart": "chest",
+   "category": "barbell",
    "expected": null
   }
  ]

@@ -8,6 +8,7 @@ struct TemplateDraft: Equatable {
         var exerciseId: String
         var restSeconds: Int?
         var supersetGroup: Int?
+        var note: String?
         var sets: [SetDraft] = [SetDraft()]
     }
 
@@ -46,6 +47,7 @@ enum TemplateService {
                     exerciseId: e.exerciseId,
                     restSeconds: e.restSeconds,
                     supersetGroup: e.supersetGroup,
+                    note: e.note,
                     sets: e.liveSets.map { TemplateDraft.SetDraft(id: $0.id, targetWeightKg: $0.targetWeightKg, targetReps: $0.targetReps) }
                 )
             }
@@ -95,6 +97,7 @@ enum TemplateService {
             item.sortOrder = index
             item.restSeconds = e.restSeconds
             item.supersetGroup = e.supersetGroup
+            item.note = e.note
             item.deletedAt = nil
             item.updatedAt = now
 
@@ -145,10 +148,13 @@ enum TemplateService {
         return save(copy, in: context)
     }
 
-    static func createFolder(named name: String, in context: ModelContext, now: Date = .now) {
+    @discardableResult
+    static func createFolder(named name: String, in context: ModelContext, now: Date = .now) -> TemplateFolder {
         let order = ((try? context.fetch(FetchDescriptor<TemplateFolder>()))?.map(\.sortOrder).max() ?? -1) + 1
-        context.insert(TemplateFolder(name: name, sortOrder: order, now: now))
+        let folder = TemplateFolder(name: name, sortOrder: order, now: now)
+        context.insert(folder)
         save(context)
+        return folder
     }
 
     static func rename(_ folder: TemplateFolder, to name: String, in context: ModelContext, now: Date = .now) {

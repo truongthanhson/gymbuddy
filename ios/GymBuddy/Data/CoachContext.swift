@@ -51,6 +51,7 @@ struct CoachContext {
         case .volumeSpike(let part, let sets): ["type": "volume_spike", "bodyPart": part.rawValue, "setsThisWeek": sets]
         case .neglected(let part, let days): ["type": "neglected", "bodyPart": part.rawValue, "days": days]
         case .streak(let weeks): ["type": "streak", "weeks": weeks]
+        case .cycleDeload: ["type": "cycle_deload"]
         }
     }
 
@@ -66,16 +67,18 @@ struct CoachContext {
         let weights = bodyWeights.filter { $0.kind == MeasurementKind.weight.rawValue && $0.deletedAt == nil }
             .sorted { $0.measuredAt > $1.measuredAt }.prefix(10)
             .map { ["date": day($0.measuredAt), "weight": fmt($0.value)] }
+        var engine: [String: Any] = [
+            "insights": snapshot.insights.map(insight),
+            "recovery": snapshot.recovery.map { ["bodyPart": $0.bodyPart.rawValue, "hoursSince": $0.hoursSince, "status": $0.status.rawValue] },
+            "targets": targets,
+        ]
+        if let week = snapshot.cycleWeek { engine["cycleWeek"] = week }
         return [
             "today": day(now),
             "unit": unit.symbol,
             "profile": profile,
             "totalWorkouts": finished.count,
-            "engine": [
-                "insights": snapshot.insights.map(insight),
-                "recovery": snapshot.recovery.map { ["bodyPart": $0.bodyPart.rawValue, "hoursSince": $0.hoursSince, "status": $0.status.rawValue] },
-                "targets": targets,
-            ] as [String: Any],
+            "engine": engine,
             "recentWorkouts": recent.map(workout),
             "records": records(finished),
             "bodyWeight": Array(weights),

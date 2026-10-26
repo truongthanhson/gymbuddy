@@ -130,6 +130,8 @@ enum CoachInsight: Equatable, Sendable {
     case volumeSpike(bodyPart: BodyPart, sets: Int)
     case neglected(bodyPart: BodyPart, days: Int)
     case streak(weeks: Int)
+    /// The deload week of a training cycle: every target is lighter this week.
+    case cycleDeload
 }
 
 private func wholeDays(_ interval: TimeInterval) -> Int { Int((interval / day).rounded(.down)) }
@@ -179,12 +181,27 @@ func streakWeeks(_ workoutStarts: [Date], now: Date, goalPerWeek: Int) -> Int {
 }
 
 /// Everything Buddy has to say, most urgent first.
+/// Week 1–4 of a 4-week training cycle started at `cycleStart`; week 4 is the deload. Nil without a cycle.
+func cycleWeek(cycleStart: Date?, now: Date) -> Int? {
+    guard let cycleStart, now >= cycleStart else { return nil }
+    return Int((now.timeIntervalSince(cycleStart) / (7 * day)).rounded(.down)) % 4 + 1
+}
+
+/// The target for `week` of a cycle: in the deload week, 90% of the working weight.
+func cycleTarget(_ target: SetTarget?, week: Int?, bodyPart: String, category: String) -> SetTarget? {
+    guard let target, week == 4, target.kind != .deload else { return target }
+    let step = coachStep(bodyPart: bodyPart, category: category)
+    let working = target.kind == .increase ? target.weightKg - step : target.weightKg
+    return SetTarget(kind: .deload, weightKg: floorToStep(working * 0.9, step), reps: target.reps)
+}
+
 func coachInsights(
     exercises: [CoachExercise],
     bodyPartSets: [BodyPartSet],
     workoutStarts: [Date],
     goalPerWeek: Int,
-    now: Date
+    now: Date,
+    cycleWeek: Int? = nil
 ) -> [CoachInsight] {
     var out: [CoachInsight] = []
     let starts = workoutStarts.filter { $0 <= now }
@@ -192,7 +209,8 @@ func coachInsights(
         let days = wholeDays(now.timeIntervalSince(latest))
         if days >= 7 { out.append(.inactive(days: days)) }
     }
-    let deloads: [(Date, CoachInsight)] = exercises.compactMap { e in
+    if cycleWeek == 4 { out.append(.cycleDeload) }
+    let deloads: [(Date, CoachInsight)] = cycleWeek == 4 ? [] : exercises.compactMap { e in
         guard let target = nextTarget(e.sessions, bodyPart: e.bodyPart, category: e.category),
               let latest = e.sessions.map(\.startedAt).max(),
               target.kind == .deload, now.timeIntervalSince(latest) <= 14 * day else { return nil }
