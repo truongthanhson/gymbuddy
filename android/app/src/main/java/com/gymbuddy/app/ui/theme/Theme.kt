@@ -1,33 +1,31 @@
 package com.gymbuddy.app.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 
-private val Blue = Color(0xFF1E88E5)
+private val LocalExtendedColors = staticCompositionLocalOf { LightExtendedColors }
 
-private val LightColors = lightColorScheme(primary = Blue)
-private val DarkColors = darkColorScheme(primary = Color(0xFF90CAF9))
-
+/** The app's own brand colors, not the wallpaper's, so both platforms look the same. */
 @Composable
 fun GymBuddyTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val colors = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColors
-        else -> LightColors
+    CompositionLocalProvider(LocalExtendedColors provides if (darkTheme) DarkExtendedColors else LightExtendedColors) {
+        MaterialTheme(
+            colorScheme = if (darkTheme) DarkColors else LightColors,
+            typography = GymBuddyTypography,
+            shapes = GymBuddyShapes,
+            content = content,
+        )
     }
-    MaterialTheme(colorScheme = colors, content = content)
+}
+
+object GymBuddyTheme {
+    val colors: ExtendedColors
+        @Composable @ReadOnlyComposable get() = LocalExtendedColors.current
 }

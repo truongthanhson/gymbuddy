@@ -17,12 +17,14 @@ struct HistoryView: View {
                     WorkoutCard(workout: workout, namesById: namesById)
                 }
             }
+            .listRowSpacing(Spacing.md)
+            .appBackground()
             .overlay {
                 if workouts.isEmpty {
                     ContentUnavailableView(
-                        "History",
+                        "No workouts yet",
                         systemImage: "clock",
-                        description: Text("No workouts yet. Finished workouts show up here.")
+                        description: Text("Finish a workout and it shows up here.")
                     )
                 }
             }
@@ -60,9 +62,12 @@ private struct WorkoutCard: View {
             Text(workout.startedAt, format: .dateTime.day().month().year().hour().minute())
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            Text(verbatim: "\(formatElapsed(duration)) · \(weightUnit.format(volumeKg(allSets)))")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            HStack(spacing: Spacing.sm) {
+                StatTile(value: formatElapsed(duration), label: "Duration")
+                StatTile(value: weightUnit.format(volumeKg(allSets)), label: "Volume")
+                StatTile(value: "\(allSets.count)", label: "Sets")
+            }
+            .padding(.vertical, Spacing.xs)
             ForEach(items) { item in
                 let sets = item.liveSets.map(\.values)
                 HStack {
@@ -71,6 +76,7 @@ private struct WorkoutCard: View {
                     Spacer()
                     if let index = bestSetIndex(sets) {
                         Text(verbatim: "\(weightUnit.format(sets[index].weightKg ?? 0)) × \(sets[index].reps ?? 0)")
+                            .foregroundStyle(Palette.secondaryText)
                     }
                 }
                 .font(.subheadline)
@@ -162,7 +168,7 @@ private struct DayCell: View {
             NavigationLink(value: workout) {
                 Text(verbatim: "\(number)")
                     .frame(maxWidth: .infinity, minHeight: 32)
-                    .background(Circle().fill(Color.accentColor))
+                    .background(Circle().fill(Palette.primary))
                     .foregroundStyle(.white)
             }
             .buttonStyle(.plain)
