@@ -9,10 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -75,7 +78,12 @@ fun insightText(insight: CoachInsight, snapshot: CoachSnapshot): String {
 
 /** Buddy's card on the start screen: the most urgent tips and which muscles are rested. */
 @Composable
-fun BuddyTodayCard(modifier: Modifier = Modifier, viewModel: BuddyViewModel = hiltViewModel()) {
+fun BuddyTodayCard(
+    onAsk: () -> Unit,
+    modifier: Modifier = Modifier,
+    onReport: (() -> Unit)? = null,
+    viewModel: BuddyViewModel = hiltViewModel(),
+) {
     val snapshot by viewModel.snapshot.collectAsStateWithLifecycle()
     val current = snapshot ?: return
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -119,6 +127,17 @@ fun BuddyTodayCard(modifier: Modifier = Modifier, viewModel: BuddyViewModel = hi
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
+                }
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilledTonalButton(onClick = onAsk, modifier = Modifier.weight(1f)) {
+                    Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Text(stringResource(R.string.buddy_ask), modifier = Modifier.padding(start = 8.dp))
+                }
+                if (onReport != null && current.workoutCount > 0) {
+                    OutlinedButton(onClick = onReport, modifier = Modifier.weight(1f)) {
+                        Text(stringResource(R.string.buddy_weekly_report))
+                    }
                 }
             }
         }

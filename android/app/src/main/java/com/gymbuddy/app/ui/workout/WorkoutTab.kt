@@ -50,6 +50,8 @@ fun WorkoutTab(
     onReplaceExercise: (workoutId: String, workoutExerciseId: String) -> Unit,
     onEditTemplate: (templateId: String?) -> Unit,
     onOpenPaywall: () -> Unit,
+    onOpenBuddy: () -> Unit,
+    onOpenBuddyReport: () -> Unit,
     viewModel: WorkoutViewModel = hiltViewModel(),
     templatesViewModel: TemplatesViewModel = hiltViewModel(),
 ) {
@@ -75,6 +77,8 @@ fun WorkoutTab(
             val canAdd = canAddTemplate(templates.templates.size, LocalIsPro.current)
             StartWorkoutScreen(
                 templates = templates,
+                onOpenBuddy = onOpenBuddy,
+                onOpenBuddyReport = onOpenBuddyReport,
                 onStartEmpty = {
                     askNotifications()
                     viewModel.startEmptyWorkout(defaultName)
@@ -107,6 +111,8 @@ fun WorkoutTab(
 @Composable
 private fun StartWorkoutScreen(
     templates: TemplatesUiState,
+    onOpenBuddy: () -> Unit,
+    onOpenBuddyReport: () -> Unit,
     onStartEmpty: () -> Unit,
     actions: TemplateActions,
 ) {
@@ -123,7 +129,7 @@ private fun StartWorkoutScreen(
                 Text(stringResource(R.string.quick_start), style = MaterialTheme.typography.headlineMedium)
             }
         }
-        item { BuddyTodayCard() }
+        item { BuddyTodayCard(onAsk = onOpenBuddy, onReport = onOpenBuddyReport) }
         item {
             Button(
                 onClick = onStartEmpty,
