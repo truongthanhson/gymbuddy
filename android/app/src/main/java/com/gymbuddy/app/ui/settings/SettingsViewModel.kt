@@ -8,6 +8,7 @@ import com.gymbuddy.app.data.csv.CsvRepository
 import com.gymbuddy.app.data.health.HealthConnectManager
 import com.gymbuddy.app.data.settings.AppSettings
 import com.gymbuddy.app.data.settings.SettingsRepository
+import com.gymbuddy.app.data.settings.ThemeMode
 import com.gymbuddy.app.data.sync.SyncManager
 import com.gymbuddy.app.domain.WeightUnit
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,6 +40,8 @@ class SettingsViewModel @Inject constructor(
     val message: StateFlow<CsvMessage?> = csvMessage.asStateFlow()
 
     fun setWeightUnit(unit: WeightUnit) = repository.setWeightUnit(unit)
+
+    fun setTheme(theme: ThemeMode) = repository.setTheme(theme)
 
     fun setBar(unit: WeightUnit, weight: Double) = repository.setBar(unit, weight)
 

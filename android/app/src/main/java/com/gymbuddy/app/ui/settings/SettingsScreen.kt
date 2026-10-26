@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
+import com.gymbuddy.app.data.settings.ThemeMode
 import com.gymbuddy.app.domain.REST_TIME_OPTIONS
 import com.gymbuddy.app.domain.WeightUnit
 import com.gymbuddy.app.ui.common.restLabel
@@ -98,6 +99,30 @@ fun SettingsScreen(
         HorizontalDivider()
 
         SectionTitle(R.string.settings_general)
+        ListItem(
+            headlineContent = { Text(stringResource(R.string.settings_theme)) },
+            supportingContent = {
+                SingleChoiceSegmentedButtonRow(Modifier.padding(top = 8.dp)) {
+                    ThemeMode.entries.forEachIndexed { index, mode ->
+                        SegmentedButton(
+                            selected = settings.theme == mode,
+                            onClick = { viewModel.setTheme(mode) },
+                            shape = SegmentedButtonDefaults.itemShape(index, ThemeMode.entries.size),
+                        ) {
+                            Text(
+                                stringResource(
+                                    when (mode) {
+                                        ThemeMode.SYSTEM -> R.string.theme_system
+                                        ThemeMode.LIGHT -> R.string.theme_light
+                                        ThemeMode.DARK -> R.string.theme_dark
+                                    },
+                                ),
+                            )
+                        }
+                    }
+                }
+            },
+        )
         ListItem(
             modifier = Modifier.clickable { restDialogOpen = true },
             headlineContent = { Text(stringResource(R.string.settings_default_rest)) },

@@ -569,6 +569,16 @@
         }
       }
     },
+    "Dark": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tối"
+          }
+        }
+      }
+    },
     "Data": {
       "localizations": {
         "vi": {
@@ -1048,6 +1058,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trọn đời"
+          }
+        }
+      }
+    },
+    "Light": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sáng"
           }
         }
       }
@@ -1942,6 +1962,16 @@
         }
       }
     },
+    "System": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theo máy"
+          }
+        }
+      }
+    },
     "Target weight": {
       "localizations": {
         "vi": {
@@ -1988,6 +2018,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Không đọc hoặc ghi được file."
+          }
+        }
+      }
+    },
+    "Theme": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giao diện"
           }
         }
       }
