@@ -641,6 +641,16 @@
         }
       }
     },
+    "This needs Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tính năng này cần Buddy AI. Hãy bật nó trước: mở Buddy, đăng nhập và đồng ý gửi bản tóm tắt tập luyện."
+          }
+        }
+      }
+    },
     "This week %@ got %lld sets, much more than last week. Watch out for overload.": {
       "localizations": {
         "vi": {

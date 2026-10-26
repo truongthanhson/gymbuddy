@@ -24,7 +24,7 @@ struct BuddyRoutineView: View {
                 }
             } else if !BuddyAI.isAvailable || !consent || AuthService.shared.session == nil {
                 Section {
-                    Text(verbatim: buddy("The weekly report is written by Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary."))
+                    Text(verbatim: buddy("This needs Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary."))
                     NavigationLink { BuddyChatView() } label: { Text(verbatim: buddy("Ask Buddy")) }
                 }
             } else {
