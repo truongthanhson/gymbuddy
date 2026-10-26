@@ -82,6 +82,36 @@ struct CoachContext {
         ]
     }
 
+    /// Working sets per body part of the workouts started in [from, to).
+    private func setsByBodyPart(from: Date, to: Date) -> [String: Int] {
+        var counts: [String: Int] = [:]
+        for w in workouts where w.endedAt != nil && w.deletedAt == nil && w.startedAt >= from && w.startedAt < to {
+            for item in w.liveExercises {
+                let n = item.liveSets.filter { $0.completed && $0.setType != .warmup }.count
+                if n > 0 { counts[exercises[item.exerciseId]?.bodyPart ?? "other", default: 0] += n }
+            }
+        }
+        return counts
+    }
+
+    /// The week a weekly report covers, [from, to), with the week before for comparison.
+    func week(from: Date, to: Date) -> [String: Any] {
+        let finished = workouts.filter { $0.endedAt != nil && $0.deletedAt == nil }
+        let inWeek = finished.filter { $0.startedAt >= from && $0.startedAt < to }.sorted { $0.startedAt < $1.startedAt }
+        let span = to.timeIntervalSince(from)
+        let before = from.addingTimeInterval(-span)
+        return [
+            "from": day(from),
+            "to": day(to.addingTimeInterval(-1)),
+            "workouts": inWeek.map(workout),
+            "setsByBodyPart": setsByBodyPart(from: from, to: to),
+            "weekBefore": [
+                "workoutCount": finished.filter { $0.startedAt >= before && $0.startedAt < from }.count,
+                "setsByBodyPart": setsByBodyPart(from: before, to: from),
+            ] as [String: Any],
+        ]
+    }
+
     /// Best estimated 1RM per exercise for the 15 exercises done most often.
     private func records(_ finished: [Workout]) -> [[String: Any]] {
         struct Best { var sessions = 0; var e1rm = 0.0; var set = ""; var date = "" }

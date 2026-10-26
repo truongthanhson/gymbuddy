@@ -1,6 +1,32 @@
 import Foundation
 import SwiftData
 
+/// Monday to Sunday in local time; `to` is the next Monday's start.
+struct ReportWeek: Sendable {
+    let from: Date
+    let to: Date
+
+    /// "2026-10-19", the report's key on the server, as on Android.
+    var mondayKey: String {
+        let c = Calendar.current.dateComponents([.year, .month, .day], from: from)
+        return String(format: "%04d-%02d-%02d", c.year ?? 0, c.month ?? 0, c.day ?? 0)
+    }
+}
+
+struct WeeklyReport: Sendable {
+    let week: ReportWeek
+    let text: String
+}
+
+/// The last full week before the one `now` is in.
+func lastFullWeek(_ now: Date, calendar base: Calendar = .current) -> ReportWeek {
+    var calendar = base
+    calendar.firstWeekday = 2
+    let thisMonday = calendar.dateInterval(of: .weekOfYear, for: now)?.start ?? calendar.startOfDay(for: now)
+    let monday = calendar.date(byAdding: .day, value: -7, to: thisMonday) ?? thisMonday
+    return ReportWeek(from: monday, to: thisMonday)
+}
+
 /// Buddy AI: builds the training summary and asks the coach function.
 @MainActor
 enum BuddyAI {
@@ -50,6 +76,16 @@ enum BuddyAI {
             kind: "summary", plan: plan, settings: .current, locale: locale, context: ctx, ref: workout.id.uuidString.lowercased()
         )
         return result["text"] as? String ?? ""
+    }
+
+    /// Buddy's report on the last full week (Monday to Sunday); cached on the server per week.
+    static func weeklyReport(in modelContext: ModelContext, now: Date = .now) async throws -> WeeklyReport {
+        let week = lastFullWeek(now)
+        let ctx = context(in: modelContext, now: now) { builder, out in out["week"] = builder.week(from: week.from, to: week.to) }
+        let result = try await CoachAPI.report(
+            kind: "weekly", plan: plan, settings: .current, locale: locale, context: ctx, ref: week.mondayKey
+        )
+        return WeeklyReport(week: week, text: result["text"] as? String ?? "")
     }
 
     /// All exercises Buddy may use when designing a routine.

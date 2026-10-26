@@ -157,6 +157,14 @@ func volumeInsights(_ sets: [BodyPartSet], now: Date) -> [CoachInsight] {
 }
 
 /// Weeks in a row (7-day blocks back from now) with at least `goalPerWeek` workouts.
+/// Whole days without a workout before Buddy reminds the person; see shared/coach-rules.md.
+func reminderGapDays(_ daysPerWeek: Int) -> Int { max(2, 7 / min(max(daysPerWeek, 1), 7) + 1) }
+
+/// When the training reminder is due, or nil before the first workout.
+func reminderDueAt(lastWorkout: Date?, daysPerWeek: Int) -> Date? {
+    lastWorkout.map { $0 + Double(reminderGapDays(daysPerWeek)) * day }
+}
+
 func streakWeeks(_ workoutStarts: [Date], now: Date, goalPerWeek: Int) -> Int {
     func count(_ i: Int) -> Int {
         workoutStarts.filter { $0 > now - Double(7 * (i + 1)) * day && $0 <= now - Double(7 * i) * day }.count

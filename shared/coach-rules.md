@@ -52,7 +52,7 @@ this week `(now - 7D, now]`, last week `(now - 14D, now - 7D]`, and before `(now
 - `neglected` (value = whole days since that body part's latest set) when this week and last week are both 0
   and the window before had at least 6 sets.
 
-Spikes and neglects come out in body part order.
+Spikes come first, then neglects, each in body part order.
 
 ## Streak (`streak`)
 
@@ -69,3 +69,10 @@ The list Buddy shows, most urgent first:
    recent first, with `exerciseId`, `weightKg`, `reps`.
 3. `volume_spike` entries, then `neglected` entries, from Volume.
 4. `streak` (value = weeks) when the streak is 2 or more.
+
+## Training reminder (`reminder`)
+
+Buddy nudges the person when they fall behind their weekly goal. With `daysPerWeek` clamped to 1–7, the gap is
+`max(2, 7 / daysPerWeek + 1)` whole days (integer division): 3 a week → 3 days, 4 → 2, 1 → 8. The reminder is due at
+`lastWorkout + gap × D`; with no workout yet there is none. The apps show it at the first 09:00 local time at or after
+that moment, at most once per gap, and only when reminders are on.

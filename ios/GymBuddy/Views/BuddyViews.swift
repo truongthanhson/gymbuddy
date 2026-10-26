@@ -91,6 +91,13 @@ struct BuddyTodaySection: View {
             } label: {
                 Label { Text(verbatim: buddy("Ask Buddy")) } icon: { Image(systemName: "bubble.left.and.text.bubble.right") }
             }
+            if snapshot.workoutCount > 0 {
+                NavigationLink {
+                    BuddyReportView()
+                } label: {
+                    Label { Text(verbatim: buddy("Weekly report")) } icon: { Image(systemName: "calendar.badge.checkmark") }
+                }
+            }
         }
     }
 }

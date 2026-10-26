@@ -51,6 +51,16 @@
         }
       }
     },
+    "A nudge when you fall behind your weekly goal, and your weekly report on Monday mornings (Pro).": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhắc khi bạn tập chậm hơn mục tiêu tuần, và báo cáo tuần vào sáng thứ Hai (Pro)."
+          }
+        }
+      }
+    },
     "Advanced": {
       "localizations": {
         "vi": {
@@ -161,6 +171,16 @@
         }
       }
     },
+    "Buddy is looking back at last week…": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy đang xem lại tuần trước…"
+          }
+        }
+      }
+    },
     "Buddy is not a doctor or physiotherapist. If something hurts, stop and ask a professional.": {
       "localizations": {
         "vi": {
@@ -177,6 +197,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Buddy đang xem buổi tập của bạn…"
+          }
+        }
+      }
+    },
+    "Buddy looked back at last week. Open GymBuddy to read it.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy đã xem lại tuần trước. Mở GymBuddy để đọc."
           }
         }
       }
@@ -401,6 +431,16 @@
         }
       }
     },
+    "Reminders": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhắc nhở"
+          }
+        }
+      }
+    },
     "Send": {
       "localizations": {
         "vi": {
@@ -451,12 +491,42 @@
         }
       }
     },
+    "Talk it over with Buddy": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trao đổi với Buddy"
+          }
+        }
+      }
+    },
+    "The weekly report is written by Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Báo cáo tuần do Buddy AI viết. Hãy bật nó trước: mở Buddy, đăng nhập và đồng ý gửi bản tóm tắt tập luyện."
+          }
+        }
+      }
+    },
     "This week %@ got %lld sets, much more than last week. Watch out for overload.": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Tuần này %1$@ đã %2$lld set, nhiều hơn hẳn tuần trước. Cẩn thận quá tải."
+          }
+        }
+      }
+    },
+    "Time to train?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đến giờ tập chưa?"
           }
         }
       }
@@ -501,6 +571,16 @@
         }
       }
     },
+    "Weekly report": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Báo cáo tuần"
+          }
+        }
+      }
+    },
     "What should I train this week?": {
       "localizations": {
         "vi": {
@@ -517,6 +597,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vì sao tôi tiến bộ chậm lại?"
+          }
+        }
+      }
+    },
+    "With Pro, Buddy AI writes you a report every week: workouts against your goal, volume by muscle group, records, and one clear focus for next week.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Với Pro, Buddy AI viết báo cáo cho bạn mỗi tuần: số buổi so với mục tiêu, khối lượng theo nhóm cơ, kỷ lục và một trọng tâm rõ ràng cho tuần tới."
           }
         }
       }
@@ -561,12 +651,32 @@
         }
       }
     },
+    "Your goal is %lld workouts a week. Even a short session today keeps you on track.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mục tiêu của bạn là %lld buổi mỗi tuần. Một buổi ngắn hôm nay cũng giúp bạn giữ nhịp."
+          }
+        }
+      }
+    },
     "Your session expired. Sign in again in Settings.": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Phiên đăng nhập đã hết hạn. Hãy đăng nhập lại trong Cài đặt."
+          }
+        }
+      }
+    },
+    "Your weekly report is ready": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Báo cáo tuần đã sẵn sàng"
           }
         }
       }

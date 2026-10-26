@@ -492,6 +492,16 @@ final class SharedVectorsTests: XCTestCase {
         }
     }
 
+    func testReminderMatchesSharedVectors() throws {
+        struct Case: Decodable { let description: String; let daysPerWeek: Int; let lastWorkout: Double?; let expected: Double? }
+        struct File: Decodable { let reminder: [Case] }
+        for c in try vectors("coach", as: File.self).reminder {
+            let last = c.lastWorkout.map { Date(timeIntervalSince1970: $0 / 1000) }
+            let actual = reminderDueAt(lastWorkout: last, daysPerWeek: c.daysPerWeek).map { $0.timeIntervalSince1970 * 1000 }
+            XCTAssertEqual(actual, c.expected, c.description)
+        }
+    }
+
     func testChartRangesMatchSharedVectors() throws {
         struct File: Decodable {
             struct Filter: Decodable { let days: [Double]; let range: String; let kept: [Int] }

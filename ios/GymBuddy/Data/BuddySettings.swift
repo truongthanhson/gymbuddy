@@ -8,6 +8,7 @@ enum BuddyKey {
     static let daysPerWeek = "buddy.daysPerWeek"
     static let experience = "buddy.experience"
     static let limitations = "buddy.limitations"
+    static let reminders = "buddy.reminders"
 }
 
 /// How Buddy talks.
