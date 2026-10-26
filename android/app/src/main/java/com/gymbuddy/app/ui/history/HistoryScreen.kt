@@ -70,7 +70,7 @@ fun HistoryScreen(
                 contentPadding = PaddingValues(start = Spacing.lg, end = Spacing.lg, top = Spacing.sm, bottom = Spacing.xl),
                 verticalArrangement = Arrangement.spacedBy(Spacing.md),
             ) {
-                items(list, key = { it.id }) { WorkoutCard(it, onClick = { onOpenWorkout(it.id) }) }
+                items(list, key = { it.id }, contentType = { "workout" }) { WorkoutCard(it, onClick = { onOpenWorkout(it.id) }) }
             }
         }
     }

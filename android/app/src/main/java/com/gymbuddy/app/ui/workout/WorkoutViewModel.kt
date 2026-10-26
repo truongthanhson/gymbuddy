@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gymbuddy.app.data.health.HealthConnectManager
 import com.gymbuddy.app.data.settings.SettingsRepository
-import com.gymbuddy.app.widget.WidgetRefresher
 import com.gymbuddy.app.data.sync.SyncManager
 import com.gymbuddy.app.data.template.TemplateRepository
+import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.data.workout.WorkoutExerciseWithSets
 import com.gymbuddy.app.data.workout.WorkoutRepository
-import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
 import com.gymbuddy.app.data.workout.filledFrom
@@ -17,17 +16,21 @@ import com.gymbuddy.app.data.workout.isEmpty
 import com.gymbuddy.app.domain.RestTimerState
 import com.gymbuddy.app.domain.SetValues
 import com.gymbuddy.app.domain.liveRecords
-import com.gymbuddy.app.domain.warmupSets
+import com.gymbuddy.app.domain.recordHolders
 import com.gymbuddy.app.domain.resolveRestSeconds
+import com.gymbuddy.app.domain.warmupSets
 import com.gymbuddy.app.timer.RestTimerController
+import com.gymbuddy.app.widget.WidgetRefresher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -65,12 +68,25 @@ class WorkoutViewModel @Inject constructor(
         .map { ActiveWorkoutState(it) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
-    /** Sets from the last finished workout with this exercise that started before [before]. */
-    fun previousSets(exerciseId: String, before: Long): Flow<List<WorkoutSetEntity>> =
-        repository.observePreviousSets(exerciseId, before)
+    // Cached per exercise so a card scrolling back into view reuses the result instead of querying again.
+    private val previousCache = mutableMapOf<Pair<String, Long>, StateFlow<List<WorkoutSetEntity>>>()
+    private val historyCache = mutableMapOf<Pair<String, Long>, StateFlow<List<SetValues>>>()
 
-    fun historySets(exerciseId: String, before: Long): Flow<List<SetValues>> =
-        repository.observeHistorySets(exerciseId, before)
+    /** Sets from the last finished workout with this exercise that started before [before]. */
+    fun previousSets(exerciseId: String, before: Long): StateFlow<List<WorkoutSetEntity>> =
+        previousCache.getOrPut(exerciseId to before) {
+            repository.observePreviousSets(exerciseId, before)
+                .stateIn(viewModelScope, SharingStarted.WhileSubscribed(CACHE_MILLIS), emptyList())
+        }
+
+    /** Only the sets holding a record: enough for the live PR badges, and cheap to compare against. */
+    fun historySets(exerciseId: String, before: Long): StateFlow<List<SetValues>> =
+        historyCache.getOrPut(exerciseId to before) {
+            repository.observeHistorySets(exerciseId, before)
+                .map(::recordHolders)
+                .flowOn(Dispatchers.Default)
+                .stateIn(viewModelScope, SharingStarted.WhileSubscribed(CACHE_MILLIS), emptyList())
+        }
 
     /** A finished workout from history, for editing. Emits null once it is deleted. */
     fun workout(workoutId: String): Flow<WorkoutWithExercises?> = repository.observeWorkout(workoutId)
@@ -244,3 +260,5 @@ class WorkoutViewModel @Inject constructor(
         viewModelScope.launch { block() }
     }
 }
+
+private const val CACHE_MILLIS = 60_000L
