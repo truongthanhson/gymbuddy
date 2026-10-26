@@ -49,6 +49,7 @@ import com.gymbuddy.app.ui.tools.PlateCalculatorScreen
 import com.gymbuddy.app.ui.tools.WarmupCalculatorScreen
 import com.gymbuddy.app.ui.workout.WorkoutTab
 import com.gymbuddy.app.ui.workout.WorkoutViewModel
+import com.gymbuddy.app.ui.buddy.BuddyChatScreen
 import kotlinx.serialization.Serializable
 
 @Serializable object HistoryRoute
@@ -69,6 +70,7 @@ import kotlinx.serialization.Serializable
 @Serializable data class WorkoutEditRoute(val workoutId: String)
 @Serializable object CalendarRoute
 @Serializable object PaywallRoute
+@Serializable object BuddyRoute
 
 /** Picker → template editor: the picked exercise ids, set on the editor's back stack entry. */
 private const val PICKED_EXERCISES = "picked_exercises"
@@ -145,6 +147,14 @@ fun GymBuddyNavHost() {
                         navController.navigate(ExercisePickerRoute(workoutId, replaceWorkoutExerciseId = workoutExerciseId))
                     },
                     onEditTemplate = { navController.navigate(TemplateEditorRoute(it)) },
+                    onOpenPaywall = { navController.navigate(PaywallRoute) },
+                    onOpenBuddy = { navController.navigate(BuddyRoute) },
+                )
+            }
+            composable<BuddyRoute> {
+                BuddyChatScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenSettings = { navController.navigate(SettingsRoute) },
                     onOpenPaywall = { navController.navigate(PaywallRoute) },
                 )
             }

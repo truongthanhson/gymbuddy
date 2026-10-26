@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.gymbuddy.app.R
+import com.gymbuddy.app.ui.buddy.BuddyAiNote
 import com.gymbuddy.app.ui.buddy.BuddyNextTime
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
@@ -102,6 +103,7 @@ fun WorkoutSummaryDialog(summary: WorkoutSummary, onDismiss: () -> Unit) {
                     )
                 }
                 HorizontalDivider()
+                BuddyAiNote(workout.id)
                 BuddyNextTime(summary.workout.exercises.map { it.workoutExercise.exerciseId })
             }
         },
