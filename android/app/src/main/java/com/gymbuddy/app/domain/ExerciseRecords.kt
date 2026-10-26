@@ -48,3 +48,32 @@ fun exerciseProgress(sessions: List<ExerciseSession>): Pair<ExerciseRecords, Lis
     }
     return records to points
 }
+
+enum class RecordKind { ONE_REP_MAX, WEIGHT, VOLUME, REPS }
+
+/**
+ * Personal-record badges for each of [current], the sets of the workout being logged, against [previous]:
+ * the exercise's sets from earlier workouts. Must match shared/test-vectors/live_records.json (and iOS).
+ */
+fun liveRecords(previous: List<SetValues>, current: List<SetValues>): List<Set<RecordKind>> {
+    fun SetValues.counts() = completed && (reps ?: 0) > 0
+    fun SetValues.value(kind: RecordKind): Double {
+        val weight = weightKg ?: 0.0
+        val reps = reps ?: 0
+        return when (kind) {
+            RecordKind.ONE_REP_MAX -> estimatedOneRepMax(weight, reps)
+            RecordKind.WEIGHT -> weight
+            RecordKind.VOLUME -> weight * reps
+            RecordKind.REPS -> reps.toDouble()
+        }
+    }
+    val history = previous.filter { it.counts() }
+    if (history.isEmpty()) return current.map { emptySet() }
+    val best = RecordKind.entries.associateWith { kind -> history.maxOf { it.value(kind) } }.toMutableMap()
+    return current.map { set ->
+        if (!set.counts()) return@map emptySet()
+        RecordKind.entries.filter { kind -> set.value(kind) > best.getValue(kind) }.toSet().also { beaten ->
+            beaten.forEach { best[it] = set.value(it) }
+        }
+    }
+}

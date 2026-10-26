@@ -312,4 +312,19 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(grid.weeks, c.weeks, "\(c.year)-\(c.month)")
         }
     }
+
+    func testLiveRecordsMatchSharedVectors() throws {
+        struct File: Decodable {
+            struct SetCase: Decodable { let weightKg: Double?; let reps: Int?; let completed: Bool }
+            struct Case: Decodable { let name: String; let previous: [SetCase]; let current: [SetCase]; let badges: [[String]] }
+            let cases: [Case]
+        }
+        func values(_ sets: [File.SetCase]) -> [SetValues] {
+            sets.map { SetValues(weightKg: $0.weightKg, reps: $0.reps, completed: $0.completed) }
+        }
+        for c in try vectors("live_records", as: File.self).cases {
+            let expected = c.badges.map { Set($0.compactMap(RecordKind.init(rawValue:))) }
+            XCTAssertEqual(liveRecords(previous: values(c.previous), current: values(c.current)), expected, c.name)
+        }
+    }
 }

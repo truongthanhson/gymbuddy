@@ -59,6 +59,16 @@
         }
       }
     },
+    "1RM": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1RM"
+          }
+        }
+      }
+    },
     "1RM %@": {
       "localizations": {
         "vi": {
@@ -1288,6 +1298,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tập lại"
+          }
+        }
+      }
+    },
+    "Personal record": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kỷ lục cá nhân"
           }
         }
       }

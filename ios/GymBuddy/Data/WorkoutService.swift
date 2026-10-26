@@ -258,6 +258,19 @@ enum WorkoutService {
         return latest?.liveSets.filter(\.completed) ?? []
     }
 
+    /// Completed sets of `exerciseId` in finished workouts started before `before`, for personal records.
+    static func historySets(for exerciseId: String, before: Date, in context: ModelContext) -> [SetValues] {
+        let id = exerciseId
+        let descriptor = FetchDescriptor<WorkoutExercise>(
+            predicate: #Predicate { $0.exerciseId == id && $0.deletedAt == nil }
+        )
+        return ((try? context.fetch(descriptor)) ?? [])
+            .filter { $0.workout?.endedAt != nil && $0.workout?.deletedAt == nil && ($0.workout?.startedAt ?? .distantFuture) < before }
+            .flatMap(\.liveSets)
+            .filter(\.completed)
+            .map { SetValues(weightKg: $0.weightKg, reps: $0.reps, completed: true) }
+    }
+
     private static func save(_ context: ModelContext) {
         do {
             try context.save()

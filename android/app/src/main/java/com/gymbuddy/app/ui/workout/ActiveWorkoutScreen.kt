@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -22,6 +23,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -65,6 +67,9 @@ import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
 import com.gymbuddy.app.domain.ExerciseCategory
 import com.gymbuddy.app.domain.REST_TIME_OPTIONS
+import com.gymbuddy.app.domain.RecordKind
+import com.gymbuddy.app.domain.SetValues
+import com.gymbuddy.app.domain.liveRecords
 import com.gymbuddy.app.domain.SetField
 import com.gymbuddy.app.domain.distanceUnit
 import com.gymbuddy.app.domain.formatDuration
@@ -283,6 +288,13 @@ private fun ExerciseCard(
     // In an edited workout, "Previous" is the session before that one.
     val previousFlow = remember(exerciseId, startedAt) { viewModel.previousSets(exerciseId, before = startedAt) }
     val previous by previousFlow.collectAsStateWithLifecycle(emptyList())
+    val historyFlow = remember(exerciseId, startedAt) { viewModel.historySets(exerciseId, before = startedAt) }
+    val history by historyFlow.collectAsStateWithLifecycle(emptyList())
+    // Warm-up sets never count as records.
+    val records = liveRecords(
+        history,
+        item.sets.map { SetValues(it.weightKg, it.reps, it.completed && it.setType != SetType.WARMUP) },
+    )
     var menuOpen by remember { mutableStateOf(false) }
     var restDialogOpen by remember { mutableStateOf(false) }
     var noteOpen by remember { mutableStateOf(false) }
@@ -426,6 +438,7 @@ private fun ExerciseCard(
                     label = labels[setIndex],
                     set = set,
                     previous = previousSet,
+                    records = records[setIndex],
                     onToggle = { viewModel.toggleSet(item, set, previousSet, title, !editing && startsRest(groups, index)) },
                     unit = settings.weightUnit,
                     fields = fields,
@@ -512,6 +525,7 @@ private fun SetRow(
     label: String,
     set: WorkoutSetEntity,
     previous: WorkoutSetEntity?,
+    records: Set<RecordKind>,
     onToggle: () -> Unit,
     unit: WeightUnit,
     fields: List<SetField>,
@@ -556,13 +570,15 @@ private fun SetRow(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             SetLabel(label, set, viewModel)
-            Text(
-                previous?.let { previousLabel(it, unit, fields) } ?: "—",
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                style = MaterialTheme.typography.bodySmall,
-            )
+            Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    previous?.let { previousLabel(it, unit, fields) } ?: "—",
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                if (records.isNotEmpty()) RecordBadge(records)
+            }
             fields.forEach { field ->
                 when (field) {
                     SetField.WEIGHT -> NumberField(
@@ -608,6 +624,35 @@ private fun SetRow(
                 }
             }
         }
+    }
+}
+
+/** Strong-style medal on a set that beat a personal record, naming which ones. */
+@Composable
+private fun RecordBadge(records: Set<RecordKind>) {
+    val names = records.sorted().map {
+        stringResource(
+            when (it) {
+                RecordKind.ONE_REP_MAX -> R.string.pr_one_rep_max
+                RecordKind.WEIGHT -> R.string.pr_weight
+                RecordKind.VOLUME -> R.string.pr_volume
+                RecordKind.REPS -> R.string.pr_reps
+            },
+        )
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            Icons.Filled.EmojiEvents,
+            contentDescription = stringResource(R.string.personal_record),
+            tint = MaterialTheme.colorScheme.tertiary,
+            modifier = Modifier.size(14.dp),
+        )
+        Text(
+            names.joinToString(" · "),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.tertiary,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 

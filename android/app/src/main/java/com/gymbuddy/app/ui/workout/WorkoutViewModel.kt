@@ -15,6 +15,7 @@ import com.gymbuddy.app.data.workout.WorkoutWithExercises
 import com.gymbuddy.app.data.workout.filledFrom
 import com.gymbuddy.app.data.workout.isEmpty
 import com.gymbuddy.app.domain.RestTimerState
+import com.gymbuddy.app.domain.SetValues
 import com.gymbuddy.app.domain.defaultBar
 import com.gymbuddy.app.domain.defaultPlates
 import com.gymbuddy.app.domain.warmupSets
@@ -53,6 +54,9 @@ class WorkoutViewModel @Inject constructor(
     /** Sets from the last finished workout with this exercise that started before [before]. */
     fun previousSets(exerciseId: String, before: Long): Flow<List<WorkoutSetEntity>> =
         repository.observePreviousSets(exerciseId, before)
+
+    fun historySets(exerciseId: String, before: Long): Flow<List<SetValues>> =
+        repository.observeHistorySets(exerciseId, before)
 
     /** A finished workout from history, for editing. Emits null once it is deleted. */
     fun workout(workoutId: String): Flow<WorkoutWithExercises?> = repository.observeWorkout(workoutId)

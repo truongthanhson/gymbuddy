@@ -5,7 +5,9 @@ import com.gymbuddy.app.data.GymBuddyDatabase
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.gymbuddy.app.domain.SetValues
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 /** All writes to workouts go through here so timestamps and soft deletes stay consistent for sync. */
 @Singleton
@@ -17,6 +19,12 @@ class WorkoutRepository @Inject constructor(private val db: GymBuddyDatabase) {
     fun observeWorkout(workoutId: String): Flow<WorkoutWithExercises?> = dao.observeWorkout(workoutId)
     fun observePreviousSets(exerciseId: String, before: Long): Flow<List<WorkoutSetEntity>> =
         dao.observePreviousSets(exerciseId, before)
+
+    /** Completed sets of [exerciseId] in finished workouts started before [before], for personal records. */
+    fun observeHistorySets(exerciseId: String, before: Long): Flow<List<SetValues>> =
+        dao.observeExerciseHistory(exerciseId).map { rows ->
+            rows.filter { it.startedAt < before }.map { SetValues(it.weightKg, it.reps, completed = true) }
+        }
 
     /** Starts a new workout, or returns the one already in progress. */
     suspend fun startEmptyWorkout(name: String): String = db.withTransaction {
