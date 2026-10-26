@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.gymbuddy.app.data.exercise.ExerciseEntity
+import com.gymbuddy.app.data.measurement.MeasurementEntity
 import com.gymbuddy.app.data.template.FolderEntity
 import com.gymbuddy.app.data.template.TemplateEntity
 import com.gymbuddy.app.data.template.TemplateExerciseEntity
@@ -27,6 +28,15 @@ interface SyncDao {
 
     @Upsert
     suspend fun upsertCustomExercises(rows: List<ExerciseEntity>)
+
+    @Query("SELECT * FROM measurements WHERE updatedAt >= :since")
+    suspend fun changedMeasurements(since: Long): List<MeasurementEntity>
+
+    @Query("SELECT id, updatedAt FROM measurements WHERE id IN (:ids)")
+    suspend fun versionsOfMeasurements(ids: List<String>): List<RowVersion>
+
+    @Upsert
+    suspend fun upsertMeasurements(rows: List<MeasurementEntity>)
 
     @Query("SELECT * FROM folders WHERE updatedAt >= :since")
     suspend fun changedFolders(since: Long): List<FolderEntity>
@@ -109,6 +119,9 @@ interface SyncDao {
 
     @Query("DELETE FROM templates")
     suspend fun deleteTemplates()
+
+    @Query("DELETE FROM measurements")
+    suspend fun deleteMeasurements()
 
     @Query("DELETE FROM folders")
     suspend fun deleteFolders()

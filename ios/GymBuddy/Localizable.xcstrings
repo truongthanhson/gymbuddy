@@ -91,6 +91,16 @@
         }
       }
     },
+    "Add measurement": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm số đo"
+          }
+        }
+      }
+    },
     "Add set": {
       "localizations": {
         "vi": {
@@ -211,12 +221,32 @@
         }
       }
     },
+    "Body fat": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tỷ lệ mỡ"
+          }
+        }
+      }
+    },
     "Body part": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Nhóm cơ"
+          }
+        }
+      }
+    },
+    "Body weight": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cân nặng"
           }
         }
       }
@@ -604,6 +634,16 @@
     "GymBuddy": {
       "shouldTranslate": false
     },
+    "Hips": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hông"
+          }
+        }
+      }
+    },
     "History": {
       "localizations": {
         "vi": {
@@ -664,6 +704,36 @@
         }
       }
     },
+    "Left arm": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bắp tay trái"
+          }
+        }
+      }
+    },
+    "Left calf": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bắp chân trái"
+          }
+        }
+      }
+    },
+    "Left thigh": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đùi trái"
+          }
+        }
+      }
+    },
     "Legs": {
       "localizations": {
         "vi": {
@@ -714,6 +784,16 @@
         }
       }
     },
+    "Measure": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số đo"
+          }
+        }
+      }
+    },
     "Move to folder": {
       "localizations": {
         "vi": {
@@ -740,6 +820,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tên"
+          }
+        }
+      }
+    },
+    "Neck": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cổ"
           }
         }
       }
@@ -790,6 +880,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chưa có set nào hoàn thành cho bài tập này."
+          }
+        }
+      }
+    },
+    "No entries yet. Tap + to log one.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có số đo nào. Bấm + để ghi."
           }
         }
       }
@@ -1034,6 +1134,36 @@
         }
       }
     },
+    "Right arm": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bắp tay phải"
+          }
+        }
+      }
+    },
+    "Right calf": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bắp chân phải"
+          }
+        }
+      }
+    },
+    "Right thigh": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đùi phải"
+          }
+        }
+      }
+    },
     "Save": {
       "localizations": {
         "vi": {
@@ -1274,12 +1404,32 @@
         }
       }
     },
+    "Value": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giá trị"
+          }
+        }
+      }
+    },
     "Volume": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Khối lượng"
+          }
+        }
+      }
+    },
+    "Waist": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eo"
           }
         }
       }

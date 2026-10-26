@@ -1,6 +1,7 @@
 package com.gymbuddy.app.data.sync
 
 import com.gymbuddy.app.data.exercise.ExerciseEntity
+import com.gymbuddy.app.data.measurement.MeasurementEntity
 import com.gymbuddy.app.data.template.FolderEntity
 import com.gymbuddy.app.data.template.TemplateEntity
 import com.gymbuddy.app.data.template.TemplateExerciseEntity
@@ -205,4 +206,24 @@ fun WorkoutSetEntity.toRow() = WorkoutSetRow(
 fun WorkoutSetRow.toEntity() = WorkoutSetEntity(
     id, workoutExerciseId, sortOrder, setTypeOf(setType), weightKg, reps, durationSec, distanceM, rpe, completed,
     completedAt.ms(), createdAt.ms(), updatedAt.ms(), deletedAt.ms(),
+)
+
+@Serializable
+data class MeasurementRow(
+    override val id: String,
+    val kind: String,
+    val value: Double,
+    val unit: String,
+    @SerialName("measured_at") val measuredAt: String,
+    @SerialName("created_at") val createdAt: String,
+    @SerialName("updated_at") override val updatedAt: String,
+    @SerialName("deleted_at") val deletedAt: String? = null,
+) : SyncedRow
+
+fun MeasurementEntity.toRow() = MeasurementRow(
+    id, kind, value, unit, measuredAt.ts(), createdAt.ts(), updatedAt.ts(), deletedAt.ts(),
+)
+
+fun MeasurementRow.toEntity() = MeasurementEntity(
+    id, kind, value, unit, measuredAt.ms(), createdAt.ms(), updatedAt.ms(), deletedAt.ms(),
 )

@@ -67,6 +67,7 @@ final class SyncService {
         for workout in try context.fetch(FetchDescriptor<Workout>()) { context.delete(workout) }
         for template in try context.fetch(FetchDescriptor<WorkoutTemplate>()) { context.delete(template) }
         for folder in try context.fetch(FetchDescriptor<TemplateFolder>()) { context.delete(folder) }
+        for measurement in try context.fetch(FetchDescriptor<BodyMeasurement>()) { context.delete(measurement) }
         for exercise in try context.fetch(FetchDescriptor<Exercise>(predicate: #Predicate { $0.isCustom })) {
             context.delete(exercise)
         }

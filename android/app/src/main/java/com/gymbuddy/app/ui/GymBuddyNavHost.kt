@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.MonitorWeight
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -31,6 +32,8 @@ import com.gymbuddy.app.ui.exercise.ExerciseDetailScreen
 import com.gymbuddy.app.ui.exercises.ExercisesScreen
 import com.gymbuddy.app.ui.exercises.ExercisePickerScreen
 import com.gymbuddy.app.ui.history.HistoryScreen
+import com.gymbuddy.app.ui.measurements.MeasurementDetailScreen
+import com.gymbuddy.app.ui.measurements.MeasurementsScreen
 import com.gymbuddy.app.ui.settings.SettingsScreen
 import com.gymbuddy.app.ui.templates.TemplateEditorScreen
 import com.gymbuddy.app.ui.tools.OneRepMaxCalculatorScreen
@@ -43,11 +46,13 @@ import kotlinx.serialization.Serializable
 @Serializable object WorkoutRoute
 @Serializable object ExercisesRoute
 @Serializable object SettingsRoute
+@Serializable object MeasurementsRoute
 @Serializable data class ExercisePickerRoute(val workoutId: String? = null)
 @Serializable data class TemplateEditorRoute(val templateId: String? = null)
 @Serializable data class ExerciseDetailRoute(val exerciseId: String)
 @Serializable object PlateCalculatorRoute
 @Serializable object OneRepMaxCalculatorRoute
+@Serializable data class MeasurementDetailRoute(val kind: String)
 
 /** Picker → template editor: the picked exercise ids, set on the editor's back stack entry. */
 private const val PICKED_EXERCISES = "picked_exercises"
@@ -56,6 +61,7 @@ private enum class Tab(val route: Any, @StringRes val label: Int, val icon: Imag
     History(HistoryRoute, R.string.tab_history, Icons.Filled.History),
     Workout(WorkoutRoute, R.string.tab_workout, Icons.Filled.Add),
     Exercises(ExercisesRoute, R.string.tab_exercises, Icons.Filled.FitnessCenter),
+    Measure(MeasurementsRoute, R.string.tab_measure, Icons.Filled.MonitorWeight),
     Settings(SettingsRoute, R.string.tab_settings, Icons.Filled.Settings),
 }
 
@@ -110,6 +116,10 @@ fun GymBuddyNavHost() {
             }
             composable<ExercisesRoute> { ExercisesScreen(onOpenExercise = { navController.navigate(ExerciseDetailRoute(it)) }) }
             composable<ExerciseDetailRoute> { ExerciseDetailScreen(onBack = { navController.popBackStack() }) }
+            composable<MeasurementsRoute> {
+                MeasurementsScreen(onOpenKind = { navController.navigate(MeasurementDetailRoute(it.key)) })
+            }
+            composable<MeasurementDetailRoute> { MeasurementDetailScreen(onBack = { navController.popBackStack() }) }
             composable<SettingsRoute> {
                 SettingsScreen(
                     onOpenPlateCalculator = { navController.navigate(PlateCalculatorRoute) },

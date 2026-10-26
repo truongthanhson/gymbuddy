@@ -40,7 +40,7 @@ private func isNewer(_ row: SyncRow, than local: Date?) -> Bool {
 @MainActor
 enum SyncTables {
     static var all: [SyncTable] {
-        [customExercises, folders, templates, templateExercises, templateSets, workouts, workoutExercises, workoutSets]
+        [customExercises, folders, templates, templateExercises, templateSets, workouts, workoutExercises, workoutSets, measurements]
     }
 
     static let customExercises = SyncTable(
@@ -322,6 +322,38 @@ enum SyncTables {
                 set.createdAt = row.date("created_at") ?? .now
                 set.updatedAt = row.date("updated_at") ?? .now
                 set.deletedAt = row.date("deleted_at")
+            }
+        }
+    )
+
+    static let measurements = SyncTable(
+        name: "measurements",
+        changed: { context, since in
+            try context.fetch(FetchDescriptor<BodyMeasurement>(predicate: #Predicate { $0.updatedAt >= since })).map { m -> SyncRow in
+                [
+                    "id": key(m.id), "kind": m.kind, "value": m.value, "unit": m.unit, "measured_at": ts(m.measuredAt),
+                    "created_at": ts(m.createdAt), "updated_at": ts(m.updatedAt), "deleted_at": tsOrNull(m.deletedAt),
+                ]
+            }
+        },
+        apply: { context, rows in
+            let ids = rows.compactMap { $0.uuid("id") }
+            let existing = try context.fetch(FetchDescriptor<BodyMeasurement>(predicate: #Predicate { ids.contains($0.id) }))
+            let byId = Dictionary(existing.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            for row in rows {
+                guard let id = row.uuid("id"), isNewer(row, than: byId[id]?.updatedAt) else { continue }
+                let measurement = byId[id] ?? {
+                    let created = BodyMeasurement(id: id, kind: "", value: 0, unit: "")
+                    context.insert(created)
+                    return created
+                }()
+                measurement.kind = row.string("kind") ?? ""
+                measurement.value = row.double("value") ?? 0
+                measurement.unit = row.string("unit") ?? ""
+                measurement.measuredAt = row.date("measured_at") ?? .now
+                measurement.createdAt = row.date("created_at") ?? .now
+                measurement.updatedAt = row.date("updated_at") ?? .now
+                measurement.deletedAt = row.date("deleted_at")
             }
         }
     )
