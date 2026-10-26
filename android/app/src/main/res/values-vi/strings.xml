@@ -245,7 +245,7 @@
     <string name="pro_upgrade_hint">Không giới hạn routine, biểu đồ và mọi số đo</string>
     <string name="pro_feature_templates">Không giới hạn routine (miễn phí: %1$d)</string>
     <string name="pro_feature_charts">Biểu đồ cho mọi bài tập</string>
-    <string name="pro_feature_measurements">Tỷ lệ mỡ, calo và số đo các bộ phận cơ thể</string>
+    <string name="pro_feature_measurements">Tỷ lệ mỡ và số đo các bộ phận cơ thể</string>
     <string name="pro_unavailable">Pro sẽ sớm có thể mua.</string>
     <string name="pro_plan_price">%1$s · %2$s</string>
     <string name="pro_monthly">Hằng tháng</string>

@@ -251,7 +251,7 @@
     <string name="pro_upgrade_hint">Unlimited routines, charts and all measurements</string>
     <string name="pro_feature_templates">Unlimited routines (free: %1$d)</string>
     <string name="pro_feature_charts">Charts of every exercise</string>
-    <string name="pro_feature_measurements">Body fat, calories and body part measurements</string>
+    <string name="pro_feature_measurements">Body fat and body part measurements</string>
     <string name="pro_unavailable">Pro will be available to buy soon.</string>
     <string name="pro_plan_price">%1$s · %2$s</string>
     <string name="pro_monthly">Monthly</string>
