@@ -4,10 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -17,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.gymbuddy.app.R
@@ -42,25 +44,43 @@ fun RestTimerBar(
         if (remaining == 0) onElapsed()
     }
 
-    Surface(tonalElevation = 3.dp, shadowElevation = 6.dp) {
+    // A dark floating pill that stands out from the white set cards in both themes.
+    val onTimer = MaterialTheme.colorScheme.inverseOnSurface
+    Surface(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
+        shape = MaterialTheme.shapes.extraLarge,
+        color = MaterialTheme.colorScheme.inverseSurface,
+        contentColor = onTimer,
+        shadowElevation = 8.dp,
+    ) {
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(horizontal = 16.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            LinearProgressIndicator(progress = { state.progress(now) }, modifier = Modifier.fillMaxWidth())
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(onClick = { onAdjust(-15) }) { Text("−15s") }
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
                     formatElapsed(remaining.toLong()),
                     modifier = Modifier.weight(1f),
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    style = MaterialTheme.typography.headlineMedium,
                 )
-                OutlinedButton(onClick = { onAdjust(15) }) { Text("+15s") }
-                TextButton(onClick = onSkip) { Text(stringResource(R.string.skip)) }
+                TextButton(onClick = { onAdjust(-15) }, colors = ButtonDefaults.textButtonColors(contentColor = onTimer)) { Text("−15s") }
+                TextButton(onClick = { onAdjust(15) }, colors = ButtonDefaults.textButtonColors(contentColor = onTimer)) { Text("+15s") }
+                TextButton(
+                    onClick = onSkip,
+                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.inversePrimary),
+                ) { Text(stringResource(R.string.skip)) }
             }
+            LinearProgressIndicator(
+                progress = { state.progress(now) },
+                modifier = Modifier.fillMaxWidth().height(6.dp),
+                color = MaterialTheme.colorScheme.inversePrimary,
+                trackColor = onTimer.copy(alpha = 0.2f),
+                strokeCap = StrokeCap.Round,
+                gapSize = 0.dp,
+                drawStopIndicator = {},
+            )
         }
     }
 }

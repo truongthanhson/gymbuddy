@@ -14,14 +14,15 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,6 +40,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
 import com.gymbuddy.app.data.exercise.ExerciseEntity
 import com.gymbuddy.app.domain.BodyPart
+import com.gymbuddy.app.ui.common.ExerciseAvatar
+import com.gymbuddy.app.ui.common.ScreenHeader
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
 
@@ -54,13 +58,15 @@ fun ExercisesScreen(onOpenExercise: (String) -> Unit, viewModel: ExercisesViewMo
         },
         contentWindowInsets = WindowInsets(0),
     ) { padding ->
-        ExerciseBrowser(
-            state = state,
-            onQueryChange = viewModel::onQueryChange,
-            onBodyPartSelected = viewModel::onBodyPartSelected,
-            modifier = Modifier.padding(padding),
-            onExerciseClick = { onOpenExercise(it.id) },
-        )
+        Column(Modifier.padding(padding)) {
+            ScreenHeader(stringResource(R.string.tab_exercises))
+            ExerciseBrowser(
+                state = state,
+                onQueryChange = viewModel::onQueryChange,
+                onBodyPartSelected = viewModel::onBodyPartSelected,
+                onExerciseClick = { onOpenExercise(it.id) },
+            )
+        }
     }
 
     if (creating) {
@@ -94,6 +100,12 @@ fun ExerciseBrowser(
             placeholder = { Text(stringResource(R.string.search_exercises)) },
             leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
             singleLine = true,
+            shape = MaterialTheme.shapes.medium,
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                unfocusedBorderColor = Color.Transparent,
+            ),
         )
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
@@ -116,7 +128,7 @@ fun ExerciseBrowser(
         }
         if (state.exercises.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(stringResource(R.string.no_exercises))
+                Text(stringResource(R.string.no_exercises), color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         } else {
             LazyColumn(Modifier.fillMaxSize()) {
@@ -126,20 +138,21 @@ fun ExerciseBrowser(
                     } else {
                         Modifier
                     }
+                    val name = exercise.displayName(vietnamese)
                     ListItem(
                         modifier = rowModifier,
-                        headlineContent = { Text(exercise.displayName(vietnamese)) },
+                        leadingContent = { ExerciseAvatar(name, BodyPart.fromKey(exercise.bodyPart)) },
+                        headlineContent = { Text(name, style = MaterialTheme.typography.titleSmall) },
                         supportingContent = {
                             val bodyPart = stringResource(BodyPart.fromKey(exercise.bodyPart).label)
                             Text(if (exercise.isCustom) "$bodyPart · ${stringResource(R.string.custom_exercise)}" else bodyPart)
                         },
                         trailingContent = if (isSelected(exercise)) {
-                            { Icon(Icons.Filled.Check, contentDescription = null) }
+                            { Icon(Icons.Filled.CheckCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary) }
                         } else {
                             null
                         },
                     )
-                    HorizontalDivider()
                 }
             }
         }

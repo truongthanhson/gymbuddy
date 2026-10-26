@@ -889,6 +889,16 @@
         }
       }
     },
+    "Finish a workout and it shows up here.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoàn thành một buổi tập để thấy nó ở đây."
+          }
+        }
+      }
+    },
     "Finish and save as a new template": {
       "localizations": {
         "vi": {
@@ -1442,6 +1452,16 @@
         }
       }
     },
+    "No workouts yet": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có buổi tập"
+          }
+        }
+      }
+    },
     "No workouts yet. Finished workouts show up here.": {
       "localizations": {
         "vi": {
@@ -1878,6 +1898,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Set"
+          }
+        }
+      }
+    },
+    "Sets": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiệp"
           }
         }
       }

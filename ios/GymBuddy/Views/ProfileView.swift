@@ -61,6 +61,7 @@ struct ProfileView: View {
                     }
                 }
             }
+            .appBackground()
             .navigationTitle("Profile")
             .onAppear {
                 // Bars grow from zero each time the tab appears.

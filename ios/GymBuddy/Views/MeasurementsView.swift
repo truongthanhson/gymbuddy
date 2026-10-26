@@ -30,6 +30,7 @@ struct MeasurementsView: View {
                     row(kind, latest: latest[kind.rawValue])
                 }
             }
+            .appBackground()
             .navigationTitle("Measure")
         }
     }
