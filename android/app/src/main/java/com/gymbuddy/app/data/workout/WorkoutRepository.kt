@@ -14,7 +14,9 @@ class WorkoutRepository @Inject constructor(private val db: GymBuddyDatabase) {
 
     fun observeActive(): Flow<WorkoutWithExercises?> = dao.observeActive()
     fun observeHistory(): Flow<List<WorkoutWithExercises>> = dao.observeHistory()
-    fun observePreviousSets(exerciseId: String): Flow<List<WorkoutSetEntity>> = dao.observePreviousSets(exerciseId)
+    fun observeWorkout(workoutId: String): Flow<WorkoutWithExercises?> = dao.observeWorkout(workoutId)
+    fun observePreviousSets(exerciseId: String, before: Long): Flow<List<WorkoutSetEntity>> =
+        dao.observePreviousSets(exerciseId, before)
 
     /** Starts a new workout, or returns the one already in progress. */
     suspend fun startEmptyWorkout(name: String): String = db.withTransaction {
@@ -158,6 +160,69 @@ class WorkoutRepository @Inject constructor(private val db: GymBuddyDatabase) {
         val workout = dao.getWorkout(workoutId) ?: return@withTransaction
         cleanUpUncompletedSets(workoutId, now)
         dao.upsertWorkout(workout.copy(endedAt = now, updatedAt = now))
+    }
+
+    /** Done editing a finished workout: like finishing, sets that are not ticked are dropped. */
+    suspend fun finishEditing(workoutId: String) = db.withTransaction {
+        val now = clock()
+        cleanUpUncompletedSets(workoutId, now)
+        touchWorkout(workoutId, now)
+    }
+
+    suspend fun setWorkoutTimes(workoutId: String, startedAt: Long, endedAt: Long) =
+        updateWorkout(workoutId) { it.copy(startedAt = startedAt, endedAt = endedAt) }
+
+    /**
+     * Starts a new workout with the exercises and sets of [workoutId], not ticked yet, like Strong's "Perform again".
+     * Returns null if a workout is already in progress.
+     */
+    suspend fun repeatWorkout(workoutId: String): String? = db.withTransaction {
+        if (dao.getActive() != null) return@withTransaction null
+        val source = dao.getWorkoutWithExercises(workoutId) ?: return@withTransaction null
+        val now = clock()
+        val id = newId()
+        dao.upsertWorkout(
+            WorkoutEntity(
+                id = id,
+                name = source.workout.name,
+                templateId = source.workout.templateId,
+                startedAt = now,
+                createdAt = now,
+                updatedAt = now,
+            ),
+        )
+        source.exercises.forEachIndexed { index, e ->
+            val workoutExerciseId = newId()
+            dao.upsertWorkoutExercise(
+                WorkoutExerciseEntity(
+                    id = workoutExerciseId,
+                    workoutId = id,
+                    exerciseId = e.workoutExercise.exerciseId,
+                    sortOrder = index,
+                    restSeconds = e.workoutExercise.restSeconds,
+                    supersetGroup = e.workoutExercise.supersetGroup,
+                    createdAt = now,
+                    updatedAt = now,
+                ),
+            )
+            dao.upsertSets(
+                e.sets.mapIndexed { setIndex, s ->
+                    WorkoutSetEntity(
+                        id = newId(),
+                        workoutExerciseId = workoutExerciseId,
+                        sortOrder = setIndex,
+                        setType = s.setType,
+                        weightKg = s.weightKg,
+                        reps = s.reps,
+                        durationSec = s.durationSec,
+                        distanceM = s.distanceM,
+                        createdAt = now,
+                        updatedAt = now,
+                    )
+                },
+            )
+        }
+        id
     }
 
     suspend fun discardWorkout(workoutId: String) = updateWorkout(workoutId) { it.copy(deletedAt = clock()) }

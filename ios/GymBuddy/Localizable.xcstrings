@@ -21,6 +21,34 @@
         }
       }
     },
+    "%lld workouts": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld workout"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld workouts"
+                }
+              }
+            }
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld buổi tập"
+          }
+        }
+      }
+    },
     "(copy)": {
       "localizations": {
         "vi": {
@@ -311,6 +339,16 @@
         }
       }
     },
+    "Calendar": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lịch"
+          }
+        }
+      }
+    },
     "Cancel": {
       "localizations": {
         "vi": {
@@ -357,6 +395,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Loại"
+          }
+        }
+      }
+    },
+    "Changes are saved as you go. Sets that are not ticked are removed when you tap Save.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thay đổi được lưu ngay. Các set chưa đánh dấu sẽ bị xóa khi bạn bấm Lưu."
           }
         }
       }
@@ -461,6 +509,16 @@
         }
       }
     },
+    "Date": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngày"
+          }
+        }
+      }
+    },
     "Default rest timer": {
       "localizations": {
         "vi": {
@@ -521,6 +579,26 @@
         }
       }
     },
+    "Delete workout": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa buổi tập"
+          }
+        }
+      }
+    },
+    "Delete workout?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa buổi tập?"
+          }
+        }
+      }
+    },
     "Drop set": {
       "localizations": {
         "vi": {
@@ -557,6 +635,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Thời gian"
+          }
+        }
+      }
+    },
+    "Duration (minutes)": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thời lượng (phút)"
           }
         }
       }
@@ -1194,6 +1282,16 @@
         }
       }
     },
+    "Perform again": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tập lại"
+          }
+        }
+      }
+    },
     "Plate calculator": {
       "localizations": {
         "vi": {
@@ -1270,6 +1368,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bỏ khỏi superset"
+          }
+        }
+      }
+    },
+    "Rename": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đổi tên"
           }
         }
       }
@@ -1370,6 +1478,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lưu"
+          }
+        }
+      }
+    },
+    "Save as a new template": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lưu thành mẫu mới"
+          }
+        }
+      }
+    },
+    "Saved as a template": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã lưu thành mẫu"
           }
         }
       }
@@ -1610,6 +1738,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "File này không phải file CSV buổi tập."
+          }
+        }
+      }
+    },
+    "This workout will be removed from your history.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buổi tập này sẽ bị xóa khỏi lịch sử."
           }
         }
       }

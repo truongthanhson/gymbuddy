@@ -1,0 +1,11 @@
+{
+  "description": "Month grid of the history calendar. Weekdays are ISO numbers (1 = Monday, 7 = Sunday). firstDayOfWeek comes from the user's locale; leading is the number of empty cells before day 1, and weeks is the number of rows the month needs.",
+  "monthGrid": [
+    { "year": 2026, "month": 10, "firstDayOfWeek": 1, "leading": 3, "days": 31, "weeks": 5 },
+    { "year": 2026, "month": 10, "firstDayOfWeek": 7, "leading": 4, "days": 31, "weeks": 5 },
+    { "year": 2026, "month": 2, "firstDayOfWeek": 7, "leading": 0, "days": 28, "weeks": 4 },
+    { "year": 2024, "month": 2, "firstDayOfWeek": 1, "leading": 3, "days": 29, "weeks": 5 },
+    { "year": 2026, "month": 11, "firstDayOfWeek": 1, "leading": 6, "days": 30, "weeks": 6 },
+    { "year": 2027, "month": 5, "firstDayOfWeek": 6, "leading": 0, "days": 31, "weeks": 5 }
+  ]
+}

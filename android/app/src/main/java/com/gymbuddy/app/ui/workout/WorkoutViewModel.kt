@@ -50,7 +50,12 @@ class WorkoutViewModel @Inject constructor(
         .map { ActiveWorkoutState(it) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
-    fun previousSets(exerciseId: String): Flow<List<WorkoutSetEntity>> = repository.observePreviousSets(exerciseId)
+    /** Sets from the last finished workout with this exercise that started before [before]. */
+    fun previousSets(exerciseId: String, before: Long): Flow<List<WorkoutSetEntity>> =
+        repository.observePreviousSets(exerciseId, before)
+
+    /** A finished workout from history, for editing. Emits null once it is deleted. */
+    fun workout(workoutId: String): Flow<WorkoutWithExercises?> = repository.observeWorkout(workoutId)
 
     fun startEmptyWorkout(name: String) = launch { repository.startEmptyWorkout(name) }
 
@@ -169,6 +174,32 @@ class WorkoutViewModel @Inject constructor(
         }
         sync.requestSync()
         health.onWorkoutFinished(id)
+        widgets.refresh()
+    }
+
+    /** Leaving the editor of a finished workout. */
+    fun finishEditing(workoutId: String) = launch {
+        repository.finishEditing(workoutId)
+        afterHistoryChange()
+    }
+
+    fun setWorkoutTimes(workoutId: String, startedAt: Long, endedAt: Long) = launch {
+        repository.setWorkoutTimes(workoutId, startedAt, endedAt)
+        afterHistoryChange()
+    }
+
+    fun deleteWorkout(workoutId: String) = launch {
+        repository.discardWorkout(workoutId)
+        afterHistoryChange()
+    }
+
+    fun saveAsTemplate(workoutId: String) = launch { templates.createFromWorkout(workoutId) }
+
+    /** Starts a new workout like [workoutId]; does nothing while another one is in progress. */
+    fun repeatWorkout(workoutId: String) = launch { repository.repeatWorkout(workoutId) }
+
+    private fun afterHistoryChange() {
+        sync.requestSync()
         widgets.refresh()
     }
 

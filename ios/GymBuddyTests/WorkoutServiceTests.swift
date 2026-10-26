@@ -150,4 +150,43 @@ final class WorkoutServiceTests: XCTestCase {
         WorkoutService.updateSupersets(in: workout, context: context) { supersetWithNext(groups: $0, index: 0) }
         XCTAssertEqual(workout.liveExercises.map(\.supersetGroup), [1, 1, nil])
     }
+
+    func testEditingAFinishedWorkoutAndPerformingItAgain() throws {
+        let container = try makeContainer()
+        let context = container.mainContext
+        let start = Date(timeIntervalSince1970: 1_800_000_000)
+        let old = WorkoutService.startEmptyWorkout(name: "Old", in: context, now: start)
+        WorkoutService.addExercises(["squat_barbell"], to: old, in: context)
+        let oldSet = try XCTUnwrap(old.liveExercises.first?.liveSets.first)
+        oldSet.weightKg = 100
+        oldSet.reps = 5
+        WorkoutService.toggle(oldSet, previous: nil, in: context)
+        WorkoutService.finish(old, in: context, now: start.addingTimeInterval(3_600))
+
+        let later = WorkoutService.startEmptyWorkout(name: "Later", in: context, now: start.addingTimeInterval(86_400))
+        WorkoutService.addExercises(["squat_barbell"], to: later, in: context)
+        let laterSet = try XCTUnwrap(later.liveExercises.first?.liveSets.first)
+        laterSet.weightKg = 110
+        laterSet.reps = 5
+        WorkoutService.toggle(laterSet, previous: nil, in: context)
+        WorkoutService.finish(later, in: context, now: start.addingTimeInterval(90_000))
+
+        // "Previous" for the older workout skips the later one.
+        XCTAssertEqual(WorkoutService.previousSets(for: "squat_barbell", in: context).map(\.weightKg), [110])
+        XCTAssertEqual(WorkoutService.previousSets(for: "squat_barbell", before: later.startedAt, in: context).map(\.weightKg), [100])
+        XCTAssertTrue(WorkoutService.previousSets(for: "squat_barbell", before: old.startedAt, in: context).isEmpty)
+
+        // An unticked set added while editing is dropped on Save.
+        WorkoutService.addSet(to: try XCTUnwrap(old.liveExercises.first), in: context)
+        WorkoutService.finishEditing(old, in: context)
+        XCTAssertEqual(old.liveExercises.first?.liveSets.count, 1)
+
+        let again = try XCTUnwrap(WorkoutService.repeatWorkout(old, in: context))
+        XCTAssertNil(again.endedAt)
+        XCTAssertEqual(again.name, "Old")
+        let set = try XCTUnwrap(again.liveExercises.first?.liveSets.first)
+        XCTAssertEqual(set.weightKg, 100)
+        XCTAssertFalse(set.completed)
+        XCTAssertNil(WorkoutService.repeatWorkout(old, in: context), "one workout at a time")
+    }
 }

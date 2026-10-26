@@ -1,5 +1,6 @@
 package com.gymbuddy.app.ui.history
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,9 +43,20 @@ import java.text.DateFormat
 import java.util.Date
 
 @Composable
-fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
+fun HistoryScreen(
+    onOpenWorkout: (workoutId: String) -> Unit,
+    onOpenCalendar: () -> Unit,
+    viewModel: HistoryViewModel = hiltViewModel(),
+) {
     val workouts by viewModel.workouts.collectAsStateWithLifecycle()
     val list = workouts
+    Column(Modifier.fillMaxSize()) {
+    Row(Modifier.fillMaxWidth().padding(start = 16.dp, top = 8.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(stringResource(R.string.tab_history), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.weight(1f))
+        IconButton(onClick = onOpenCalendar) {
+            Icon(Icons.Filled.CalendarMonth, contentDescription = stringResource(R.string.calendar))
+        }
+    }
     when {
         list == null -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
@@ -52,15 +68,16 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(list, key = { it.workout.id }) { WorkoutCard(it) }
+            items(list, key = { it.workout.id }) { WorkoutCard(it, onClick = { onOpenWorkout(it.workout.id) }) }
         }
+    }
     }
 }
 
 private fun WorkoutSetEntity.values() = SetValues(weightKg, reps, completed)
 
 @Composable
-private fun WorkoutCard(item: WorkoutWithExercises) {
+private fun WorkoutCard(item: WorkoutWithExercises, onClick: () -> Unit) {
     val vietnamese = useVietnameseNames()
     val unit = LocalAppSettings.current.weightUnit
     val workout = item.workout
@@ -68,7 +85,7 @@ private fun WorkoutCard(item: WorkoutWithExercises) {
     val duration = ((workout.endedAt ?: workout.startedAt) - workout.startedAt) / 1_000
     val date = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(Date(workout.startedAt))
 
-    Card(Modifier.fillMaxWidth()) {
+    Card(Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(workout.name, style = MaterialTheme.typography.titleMedium)
             Text(date, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
