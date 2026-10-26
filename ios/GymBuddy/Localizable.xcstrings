@@ -1342,6 +1342,16 @@
         }
       }
     },
+    "Profile": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hồ sơ"
+          }
+        }
+      }
+    },
     "Quick start": {
       "localizations": {
         "vi": {
@@ -1862,6 +1872,16 @@
         }
       }
     },
+    "Week": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuần"
+          }
+        }
+      }
+    },
     "Weight": {
       "localizations": {
         "vi": {
@@ -1922,6 +1942,16 @@
         }
       }
     },
+    "Workouts": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buổi tập"
+          }
+        }
+      }
+    },
     "Workouts exported: %lld": {
       "localizations": {
         "vi": {
@@ -1938,6 +1968,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Số buổi tập đã nhập: %lld"
+          }
+        }
+      }
+    },
+    "Workouts per week": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số buổi tập mỗi tuần"
           }
         }
       }

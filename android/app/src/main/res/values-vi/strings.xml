@@ -230,4 +230,6 @@
     <string name="pr_volume">Khối lượng</string>
     <string name="pr_reps">Số rep</string>
     <string name="personal_record">Kỷ lục cá nhân</string>
+    <string name="tab_profile">Hồ sơ</string>
+    <string name="workouts_per_week">Số buổi tập mỗi tuần</string>
 </resources>

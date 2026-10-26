@@ -2,7 +2,7 @@ import SwiftData
 import SwiftUI
 
 struct RootView: View {
-    private enum Tab: Hashable { case history, workout, exercises, measure, settings }
+    private enum Tab: Hashable { case profile, history, workout, exercises, measure }
 
     @Query(filter: #Predicate<Workout> { $0.endedAt == nil && $0.deletedAt == nil })
     private var activeWorkouts: [Workout]
@@ -10,6 +10,9 @@ struct RootView: View {
 
     var body: some View {
         TabView(selection: $tab) {
+            ProfileView()
+                .tabItem { Label("Profile", systemImage: "person") }
+                .tag(Tab.profile)
             HistoryView()
                 .tabItem { Label("History", systemImage: "clock") }
                 .tag(Tab.history)
@@ -22,9 +25,6 @@ struct RootView: View {
             MeasurementsView()
                 .tabItem { Label("Measure", systemImage: "ruler") }
                 .tag(Tab.measure)
-            SettingsView()
-                .tabItem { Label("Settings", systemImage: "gearshape") }
-                .tag(Tab.settings)
         }
         // A workout started from another tab ("Perform again" in history) opens the Workout tab.
         .onChange(of: activeWorkouts.first?.id) { old, new in
