@@ -188,9 +188,9 @@ private struct ExerciseSection: View {
             let category = exercise?.category ?? ""
             let fields = setFields(category: category)
             SetHeader(unit: weightUnit, fields: fields, assisted: category == ExerciseCategory.assistedBodyweight.rawValue)
-            ForEach(Array(sets.enumerated()), id: \.element.id) { index, set in
-                let previousSet = previous.indices.contains(index) ? previous[index] : nil
-                SetRow(label: labels[index], set: set, previous: previousSet, unit: weightUnit, fields: fields) {
+            ForEach(Array(sets.enumerated()), id: \.element.id) { setIndex, set in
+                let previousSet = previous.indices.contains(setIndex) ? previous[setIndex] : nil
+                SetRow(label: labels[setIndex], set: set, previous: previousSet, unit: weightUnit, fields: fields) {
                     let wasCompleted = set.completed
                     WorkoutService.toggle(set, previous: previousSet, in: context)
                     if !wasCompleted {

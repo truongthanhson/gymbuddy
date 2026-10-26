@@ -401,12 +401,12 @@ private fun ExerciseCard(
         val fields = setFields(category)
         SetHeader(settings.weightUnit, fields, assisted = category == ExerciseCategory.ASSISTED_BODYWEIGHT.key)
         val labels = setLabels(item.sets.map { it.setType.name.lowercase() })
-        item.sets.forEachIndexed { index, set ->
+        item.sets.forEachIndexed { setIndex, set ->
             // Keyed so a swiped-away row doesn't hand its state to the next one.
             key(set.id) {
-                val previousSet = previous.getOrNull(index)
+                val previousSet = previous.getOrNull(setIndex)
                 SetRow(
-                    label = labels[index],
+                    label = labels[setIndex],
                     set = set,
                     previous = previousSet,
                     onToggle = { viewModel.toggleSet(item, set, previousSet, title, startsRest(groups, index)) },
