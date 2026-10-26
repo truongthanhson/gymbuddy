@@ -195,4 +195,15 @@
         <item quantity="one">workout</item>
         <item quantity="other">workouts</item>
     </plurals>
+    <string name="set_type_warmup">Warm-up set</string>
+    <string name="set_type_normal">Normal set</string>
+    <string name="set_type_drop">Drop set</string>
+    <string name="set_type_failure">Failure set</string>
+    <string name="set_rpe">Set RPE</string>
+    <string name="rpe">RPE</string>
+    <string name="rpe_none">None</string>
+    <string name="rpe_hint">How hard was the set? 10 means no reps left, 8 means two more were possible.</string>
+    <string name="add_note">Add note</string>
+    <string name="note_placeholder">Note</string>
+    <string name="workout_note_placeholder">Workout note</string>
 </resources>

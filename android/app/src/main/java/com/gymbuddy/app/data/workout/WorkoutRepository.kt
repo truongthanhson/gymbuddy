@@ -90,6 +90,13 @@ class WorkoutRepository @Inject constructor(private val db: GymBuddyDatabase) {
 
     suspend fun renameWorkout(workoutId: String, name: String) = updateWorkout(workoutId) { it.copy(name = name) }
 
+    suspend fun setWorkoutNote(workoutId: String, note: String?) = updateWorkout(workoutId) { it.copy(note = note) }
+
+    suspend fun setExerciseNote(workoutExerciseId: String, note: String?) = db.withTransaction {
+        val item = dao.getWorkoutExercise(workoutExerciseId) ?: return@withTransaction
+        dao.upsertWorkoutExercise(item.copy(note = note, updatedAt = clock()))
+    }
+
     /** Ends the workout; sets that were never ticked are dropped. */
     suspend fun finishWorkout(workoutId: String) = db.withTransaction {
         val now = clock()

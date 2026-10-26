@@ -68,6 +68,31 @@ enum WorkoutService {
         save(context)
     }
 
+    static func setType(_ type: SetType, for set: WorkoutSet, in context: ModelContext, now: Date = .now) {
+        set.setType = type
+        set.updatedAt = now
+        save(context)
+    }
+
+    static func setRpe(_ rpe: Double?, for set: WorkoutSet, in context: ModelContext, now: Date = .now) {
+        set.rpe = rpe
+        set.updatedAt = now
+        save(context)
+    }
+
+    /// A blank note is stored as no note.
+    static func setNote(_ note: String, for item: WorkoutExercise, in context: ModelContext, now: Date = .now) {
+        item.note = note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : note
+        item.updatedAt = now
+        save(context)
+    }
+
+    static func setNote(_ note: String, for workout: Workout, in context: ModelContext, now: Date = .now) {
+        workout.note = note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : note
+        workout.updatedAt = now
+        save(context)
+    }
+
     static func delete(_ set: WorkoutSet, in context: ModelContext, now: Date = .now) {
         set.deletedAt = now
         set.updatedAt = now

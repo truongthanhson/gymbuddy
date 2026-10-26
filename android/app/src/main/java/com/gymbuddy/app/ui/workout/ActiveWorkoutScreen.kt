@@ -56,10 +56,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
+import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.data.workout.WorkoutExerciseWithSets
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
 import com.gymbuddy.app.domain.REST_TIME_OPTIONS
+import com.gymbuddy.app.domain.RPE_OPTIONS
+import com.gymbuddy.app.domain.formatRpe
 import com.gymbuddy.app.domain.formatElapsed
 import com.gymbuddy.app.domain.resolveRestSeconds
 import com.gymbuddy.app.domain.WeightUnit
@@ -68,6 +71,7 @@ import com.gymbuddy.app.ui.common.LocalAppSettings
 import com.gymbuddy.app.ui.common.restLabel
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
+import com.gymbuddy.watchlink.setLabels
 import kotlinx.coroutines.delay
 
 @Composable
@@ -99,6 +103,13 @@ fun ActiveWorkoutScreen(
                     }
                     Button(onClick = { showFinish = true }) { Text(stringResource(R.string.finish)) }
                 }
+            }
+            item {
+                NoteField(
+                    note = workout.workout.note,
+                    placeholder = stringResource(R.string.workout_note_placeholder),
+                    onNoteChange = { viewModel.setWorkoutNote(workout.workout.id, it) },
+                )
             }
             items(workout.exercises, key = { it.workoutExercise.id }) { item ->
                 ExerciseCard(
@@ -235,6 +246,7 @@ private fun ExerciseCard(
     val previous by previousFlow.collectAsStateWithLifecycle(emptyList())
     var menuOpen by remember { mutableStateOf(false) }
     var restDialogOpen by remember { mutableStateOf(false) }
+    var noteOpen by remember { mutableStateOf(false) }
     val settings = LocalAppSettings.current
     val restSeconds = resolveRestSeconds(
         item.workoutExercise.restSeconds,
@@ -260,6 +272,15 @@ private fun ExerciseCard(
                             restDialogOpen = true
                         },
                     )
+                    if (item.workoutExercise.note == null && !noteOpen) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.add_note)) },
+                            onClick = {
+                                menuOpen = false
+                                noteOpen = true
+                            },
+                        )
+                    }
                     DropdownMenuItem(
                         text = { Text(stringResource(R.string.remove_exercise)) },
                         onClick = {
@@ -270,13 +291,25 @@ private fun ExerciseCard(
                 }
             }
         }
+        if (item.workoutExercise.note != null || noteOpen) {
+            NoteField(
+                note = item.workoutExercise.note,
+                placeholder = stringResource(R.string.note_placeholder),
+                onNoteChange = {
+                    // Keep the field while the user clears it.
+                    noteOpen = true
+                    viewModel.setExerciseNote(item.workoutExercise.id, it)
+                },
+            )
+        }
         SetHeader(settings.weightUnit)
+        val labels = setLabels(item.sets.map { it.setType.name.lowercase() })
         item.sets.forEachIndexed { index, set ->
             // Keyed so a swiped-away row doesn't hand its state to the next one.
             key(set.id) {
                 val previousSet = previous.getOrNull(index)
                 SetRow(
-                    index = index,
+                    label = labels[index],
                     set = set,
                     previous = previousSet,
                     onToggle = { viewModel.toggleSet(item, set, previousSet, title) },
@@ -344,7 +377,7 @@ private fun HeaderText(text: String, modifier: Modifier) {
 
 @Composable
 private fun SetRow(
-    index: Int,
+    label: String,
     set: WorkoutSetEntity,
     previous: WorkoutSetEntity?,
     onToggle: () -> Unit,
@@ -389,7 +422,7 @@ private fun SetRow(
                 .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text("${index + 1}", modifier = Modifier.width(SetColumn), textAlign = TextAlign.Center)
+            SetLabel(label, set, viewModel)
             Text(
                 previous?.let { previousLabel(it, unit) } ?: "—",
                 modifier = Modifier.weight(1f),
@@ -423,6 +456,112 @@ private fun SetRow(
             }
         }
     }
+}
+
+/** The set's number or W/D/F; tapping it changes the set type or the RPE. */
+@Composable
+private fun SetLabel(label: String, set: WorkoutSetEntity, viewModel: WorkoutViewModel) {
+    var menuOpen by remember { mutableStateOf(false) }
+    var rpeOpen by remember { mutableStateOf(false) }
+    val color = when (set.setType) {
+        SetType.WARMUP -> MaterialTheme.colorScheme.tertiary
+        SetType.DROP -> MaterialTheme.colorScheme.secondary
+        SetType.FAILURE -> MaterialTheme.colorScheme.error
+        SetType.NORMAL -> LocalContentColor.current
+    }
+    Box(Modifier.width(SetColumn)) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .clickable { menuOpen = true },
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(label, color = color, fontWeight = FontWeight.Bold)
+            set.rpe?.let {
+                Text("@${formatRpe(it)}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+        DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+            SetType.entries.forEach { type ->
+                DropdownMenuItem(
+                    text = { Text(stringResource(type.labelRes())) },
+                    leadingIcon = {
+                        if (type == set.setType) Icon(Icons.Filled.Check, contentDescription = null)
+                    },
+                    onClick = {
+                        menuOpen = false
+                        viewModel.setSetType(set.id, type)
+                    },
+                )
+            }
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.set_rpe)) },
+                onClick = {
+                    menuOpen = false
+                    rpeOpen = true
+                },
+            )
+        }
+    }
+
+    if (rpeOpen) {
+        AlertDialog(
+            onDismissRequest = { rpeOpen = false },
+            title = { Text(stringResource(R.string.rpe)) },
+            text = {
+                Column {
+                    Text(stringResource(R.string.rpe_hint), style = MaterialTheme.typography.bodySmall)
+                    (listOf<Double?>(null) + RPE_OPTIONS).forEach { option ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    rpeOpen = false
+                                    viewModel.setRpe(set.id, option)
+                                }
+                                .padding(vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            RadioButton(selected = option == set.rpe, onClick = null)
+                            Text(
+                                option?.let(::formatRpe) ?: stringResource(R.string.rpe_none),
+                                modifier = Modifier.padding(start = 12.dp),
+                            )
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { rpeOpen = false }) { Text(stringResource(R.string.close)) }
+            },
+        )
+    }
+}
+
+private fun SetType.labelRes(): Int = when (this) {
+    SetType.WARMUP -> R.string.set_type_warmup
+    SetType.NORMAL -> R.string.set_type_normal
+    SetType.DROP -> R.string.set_type_drop
+    SetType.FAILURE -> R.string.set_type_failure
+}
+
+/** A note that saves as the user types; it keeps its own text so saving doesn't move the cursor. */
+@Composable
+private fun NoteField(note: String?, placeholder: String, onNoteChange: (String) -> Unit) {
+    var text by remember { mutableStateOf(note ?: "") }
+    LaunchedEffect(note) {
+        if (text.ifBlank { null } != note) text = note ?: ""
+    }
+    OutlinedTextField(
+        value = text,
+        onValueChange = {
+            text = it
+            onNoteChange(it)
+        },
+        placeholder = { Text(placeholder) },
+        textStyle = MaterialTheme.typography.bodyMedium,
+        modifier = Modifier.fillMaxWidth(),
+    )
 }
 
 private fun previousLabel(set: WorkoutSetEntity, unit: WeightUnit): String = when {

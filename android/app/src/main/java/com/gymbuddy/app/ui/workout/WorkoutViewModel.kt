@@ -9,6 +9,7 @@ import com.gymbuddy.app.data.sync.SyncManager
 import com.gymbuddy.app.data.template.TemplateRepository
 import com.gymbuddy.app.data.workout.WorkoutExerciseWithSets
 import com.gymbuddy.app.data.workout.WorkoutRepository
+import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
 import com.gymbuddy.app.domain.RestTimerState
@@ -60,6 +61,21 @@ class WorkoutViewModel @Inject constructor(
     fun setReps(setId: String, reps: Int?) = launch {
         repository.updateSet(setId) { it.copy(reps = reps) }
     }
+
+    fun setSetType(setId: String, type: SetType) = launch {
+        repository.updateSet(setId) { it.copy(setType = type) }
+    }
+
+    fun setRpe(setId: String, rpe: Double?) = launch {
+        repository.updateSet(setId) { it.copy(rpe = rpe) }
+    }
+
+    /** A blank note is stored as no note. */
+    fun setExerciseNote(workoutExerciseId: String, note: String) =
+        launch { repository.setExerciseNote(workoutExerciseId, note.ifBlank { null }) }
+
+    fun setWorkoutNote(workoutId: String, note: String) =
+        launch { repository.setWorkoutNote(workoutId, note.ifBlank { null }) }
 
     /**
      * Ticking an empty set fills it from the previous session, like Strong.
