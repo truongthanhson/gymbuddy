@@ -1,0 +1,40 @@
+{
+  "description": "Personal-record badges on the sets of the workout being logged. previous holds the exercise's sets from earlier finished workouts; only completed sets with reps > 0 count, missing weight = 0. Sets are taken in order and a set gets a badge for each best it strictly beats: the best of previous and of the earlier sets of this workout. With no counting previous set there are no badges. Kinds, in this order: oneRepMax (Epley), weight, volume (weight × reps of one set), reps.",
+  "cases": [
+    {
+      "name": "mixed",
+      "previous": [
+        { "weightKg": 100, "reps": 5, "completed": true },
+        { "weightKg": 80, "reps": 4, "completed": true }
+      ],
+      "current": [
+        { "weightKg": 90, "reps": 10, "completed": true },
+        { "weightKg": 100, "reps": 5, "completed": true },
+        { "weightKg": 105, "reps": 3, "completed": true },
+        { "weightKg": 110, "reps": 1, "completed": false }
+      ],
+      "badges": [["oneRepMax", "volume", "reps"], [], ["weight"], []]
+    },
+    {
+      "name": "first time doing the exercise",
+      "previous": [],
+      "current": [{ "weightKg": 100, "reps": 5, "completed": true }],
+      "badges": [[]]
+    },
+    {
+      "name": "sets that were not ticked are not history",
+      "previous": [{ "weightKg": 200, "reps": 5, "completed": false }],
+      "current": [{ "weightKg": 100, "reps": 5, "completed": true }],
+      "badges": [[]]
+    },
+    {
+      "name": "bodyweight reps",
+      "previous": [{ "weightKg": null, "reps": 10, "completed": true }],
+      "current": [
+        { "weightKg": null, "reps": 12, "completed": true },
+        { "weightKg": null, "reps": 12, "completed": true }
+      ],
+      "badges": [["reps"], []]
+    }
+  ]
+}

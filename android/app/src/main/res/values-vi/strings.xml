@@ -225,4 +225,9 @@
     <plurals name="workouts_count">
         <item quantity="other">%d buổi tập</item>
     </plurals>
+    <string name="pr_one_rep_max">1RM</string>
+    <string name="pr_weight">Tạ</string>
+    <string name="pr_volume">Khối lượng</string>
+    <string name="pr_reps">Số rep</string>
+    <string name="personal_record">Kỷ lục cá nhân</string>
 </resources>

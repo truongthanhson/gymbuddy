@@ -295,6 +295,13 @@ private struct ExerciseSection: View {
     var body: some View {
         // In an edited workout, "Previous" is the session before that one.
         let previous = WorkoutService.previousSets(for: item.exerciseId, before: workout.startedAt, in: context)
+        // Warm-up sets never count as records.
+        let records = liveRecords(
+            previous: WorkoutService.historySets(for: item.exerciseId, before: workout.startedAt, in: context),
+            current: item.liveSets.map {
+                SetValues(weightKg: $0.weightKg, reps: $0.reps, completed: $0.completed && $0.setType != .warmup)
+            }
+        )
         let sets = item.liveSets
         let labels = watchSetLabels(sets.map(\.setTypeRaw))
         Section {
@@ -310,7 +317,7 @@ private struct ExerciseSection: View {
             SetHeader(unit: weightUnit, fields: fields, assisted: category == ExerciseCategory.assistedBodyweight.rawValue)
             ForEach(Array(sets.enumerated()), id: \.element.id) { setIndex, set in
                 let previousSet = previous.indices.contains(setIndex) ? previous[setIndex] : nil
-                SetRow(label: labels[setIndex], set: set, previous: previousSet, unit: weightUnit, fields: fields) {
+                SetRow(label: labels[setIndex], set: set, previous: previousSet, records: records[setIndex], unit: weightUnit, fields: fields) {
                     let wasCompleted = set.completed
                     WorkoutService.toggle(set, previous: previousSet, in: context)
                     if !wasCompleted, !editing {
@@ -455,11 +462,39 @@ private struct SetHeader: View {
     }
 }
 
+/// Strong-style medal on a set that beat a personal record, naming which ones.
+private struct RecordBadge: View {
+    let records: Set<RecordKind>
+
+    var body: some View {
+        let names = RecordKind.allCases.filter(records.contains).map { String(localized: name($0)) }
+        Label {
+            Text(verbatim: names.joined(separator: " · "))
+        } icon: {
+            Image(systemName: "trophy.fill")
+        }
+        .labelStyle(.titleAndIcon)
+        .font(.caption2)
+        .foregroundStyle(.orange)
+        .accessibilityLabel("Personal record")
+    }
+
+    private func name(_ kind: RecordKind) -> LocalizedStringResource {
+        switch kind {
+        case .oneRepMax: "1RM"
+        case .weight: "Weight"
+        case .volume: "Volume"
+        case .reps: "Reps"
+        }
+    }
+}
+
 private struct SetRow: View {
     @Environment(\.modelContext) private var context
     let label: String
     @Bindable var set: WorkoutSet
     let previous: WorkoutSet?
+    var records: Set<RecordKind> = []
     let unit: WeightUnit
     let fields: [SetField]
     let onToggle: () -> Void
@@ -468,10 +503,15 @@ private struct SetRow: View {
         HStack {
             SetLabel(label: label, set: set)
                 .frame(width: Column.set)
-            Text(verbatim: previous.map { previousLabel($0, unit: unit, fields: fields) } ?? "—")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity)
+            VStack(spacing: 2) {
+                Text(verbatim: previous.map { previousLabel($0, unit: unit, fields: fields) } ?? "—")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                if !records.isEmpty {
+                    RecordBadge(records: records)
+                }
+            }
+            .frame(maxWidth: .infinity)
             ForEach(fields, id: \.self) { field in
                 Group {
                     switch field {

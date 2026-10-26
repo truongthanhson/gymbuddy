@@ -231,4 +231,9 @@
         <item quantity="one">%d workout</item>
         <item quantity="other">%d workouts</item>
     </plurals>
+    <string name="pr_one_rep_max">1RM</string>
+    <string name="pr_weight">Weight</string>
+    <string name="pr_volume">Volume</string>
+    <string name="pr_reps">Reps</string>
+    <string name="personal_record">Personal record</string>
 </resources>

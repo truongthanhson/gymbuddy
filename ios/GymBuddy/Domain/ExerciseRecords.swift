@@ -60,3 +60,34 @@ func exerciseProgress(_ sessions: [ExerciseSession]) -> (records: ExerciseRecord
     }
     return (records, points)
 }
+
+enum RecordKind: String, CaseIterable, Sendable {
+    case oneRepMax, weight, volume, reps
+}
+
+/// Personal-record badges for each of `current`, the sets of the workout being logged, against `previous`:
+/// the exercise's sets from earlier workouts. Must match shared/test-vectors/live_records.json (and Android).
+func liveRecords(previous: [SetValues], current: [SetValues]) -> [Set<RecordKind>] {
+    func counts(_ set: SetValues) -> Bool { set.completed && (set.reps ?? 0) > 0 }
+    func value(_ set: SetValues, _ kind: RecordKind) -> Double {
+        let weight = set.weightKg ?? 0
+        let reps = set.reps ?? 0
+        switch kind {
+        case .oneRepMax: return estimatedOneRepMax(weightKg: weight, reps: reps)
+        case .weight: return weight
+        case .volume: return weight * Double(reps)
+        case .reps: return Double(reps)
+        }
+    }
+    let history = previous.filter(counts)
+    guard !history.isEmpty else { return current.map { _ in [] } }
+    var best = Dictionary(uniqueKeysWithValues: RecordKind.allCases.map { kind in
+        (kind, history.map { value($0, kind) }.max() ?? 0)
+    })
+    return current.map { set in
+        guard counts(set) else { return [] }
+        let beaten = Set(RecordKind.allCases.filter { value(set, $0) > best[$0]! })
+        for kind in beaten { best[kind] = value(set, kind) }
+        return beaten
+    }
+}
