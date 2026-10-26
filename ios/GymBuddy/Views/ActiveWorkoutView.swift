@@ -47,6 +47,9 @@ struct ActiveWorkoutView: View {
                         .font(.title3.monospacedDigit())
                         .foregroundStyle(.secondary)
                 }
+                NoteField(note: workout.note, placeholder: "Workout note") {
+                    WorkoutService.setNote($0, for: workout, in: context)
+                }
             }
             ForEach(workout.liveExercises) { item in
                 ExerciseSection(item: item, exercise: namesById[item.exerciseId])
@@ -122,6 +125,7 @@ private struct ExerciseSection: View {
     @AppStorage(SettingsKey.defaultRestSeconds) private var appDefaultRest = defaultRestSeconds
     let item: WorkoutExercise
     let exercise: Exercise?
+    @State private var noteOpen = false
 
     private var title: String { exercise?.displayName ?? item.exerciseId }
 
@@ -135,11 +139,20 @@ private struct ExerciseSection: View {
 
     var body: some View {
         let previous = WorkoutService.previousSets(for: item.exerciseId, in: context)
+        let sets = item.liveSets
+        let labels = watchSetLabels(sets.map(\.setTypeRaw))
         Section {
+            if item.note != nil || noteOpen {
+                NoteField(note: item.note, placeholder: "Note") {
+                    // Keep the field while the user clears it.
+                    noteOpen = true
+                    WorkoutService.setNote($0, for: item, in: context)
+                }
+            }
             SetHeader(unit: weightUnit)
-            ForEach(Array(item.liveSets.enumerated()), id: \.element.id) { index, set in
+            ForEach(Array(sets.enumerated()), id: \.element.id) { index, set in
                 let previousSet = previous.indices.contains(index) ? previous[index] : nil
-                SetRow(index: index, set: set, previous: previousSet, unit: weightUnit) {
+                SetRow(label: labels[index], set: set, previous: previousSet, unit: weightUnit) {
                     let wasCompleted = set.completed
                     WorkoutService.toggle(set, previous: previousSet, in: context)
                     if !wasCompleted {
@@ -176,6 +189,13 @@ private struct ExerciseSection: View {
                     } label: {
                         Label("Rest timer", systemImage: "timer")
                     }
+                    if item.note == nil && !noteOpen {
+                        Button {
+                            noteOpen = true
+                        } label: {
+                            Label("Add note", systemImage: "note.text")
+                        }
+                    }
                     Button("Remove exercise", role: .destructive) {
                         WorkoutService.remove(item, in: context)
                     }
@@ -210,7 +230,8 @@ private struct SetHeader: View {
 }
 
 private struct SetRow: View {
-    let index: Int
+    @Environment(\.modelContext) private var context
+    let label: String
     @Bindable var set: WorkoutSet
     let previous: WorkoutSet?
     let unit: WeightUnit
@@ -218,7 +239,8 @@ private struct SetRow: View {
 
     var body: some View {
         HStack {
-            Text(verbatim: "\(index + 1)").frame(width: Column.set)
+            SetLabel(label: label, set: set)
+                .frame(width: Column.set)
             Text(verbatim: previous.map { previousLabel($0, unit: unit) } ?? "—")
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -252,6 +274,77 @@ private struct SetRow: View {
         .listRowBackground(set.completed ? Color.green.opacity(0.15) : nil)
         .onChange(of: set.weightKg) { set.updatedAt = .now }
         .onChange(of: set.reps) { set.updatedAt = .now }
+    }
+}
+
+/// The set's number or W/D/F; tapping it changes the set type or the RPE.
+private struct SetLabel: View {
+    @Environment(\.modelContext) private var context
+    let label: String
+    let set: WorkoutSet
+
+    private var color: Color {
+        switch set.setType {
+        case .warmup: .orange
+        case .drop: .purple
+        case .failure: .red
+        case .normal: .primary
+        }
+    }
+
+    var body: some View {
+        Menu {
+            ForEach(SetType.allCases, id: \.self) { type in
+                Button {
+                    WorkoutService.setType(type, for: set, in: context)
+                } label: {
+                    if type == set.setType {
+                        Label(type.title, systemImage: "checkmark")
+                    } else {
+                        Text(verbatim: type.title)
+                    }
+                }
+            }
+            Menu("RPE") {
+                Button("None") { WorkoutService.setRpe(nil, for: set, in: context) }
+                ForEach(rpeOptions, id: \.self) { option in
+                    Button {
+                        WorkoutService.setRpe(option, for: set, in: context)
+                    } label: {
+                        if option == set.rpe {
+                            Label(formatRpe(option), systemImage: "checkmark")
+                        } else {
+                            Text(verbatim: formatRpe(option))
+                        }
+                    }
+                }
+            }
+        } label: {
+            VStack(spacing: 0) {
+                Text(verbatim: label).bold().foregroundStyle(color)
+                if let rpe = set.rpe {
+                    Text(verbatim: "@\(formatRpe(rpe))").font(.caption2).foregroundStyle(.secondary)
+                }
+            }
+        }
+        .buttonStyle(.borderless)
+    }
+}
+
+/// A note that saves as the user types.
+private struct NoteField: View {
+    let note: String?
+    let placeholder: LocalizedStringKey
+    let onChange: (String) -> Void
+    @State private var text = ""
+
+    var body: some View {
+        TextField(placeholder, text: $text, axis: .vertical)
+            .font(.callout)
+            .onAppear { text = note ?? "" }
+            .onChange(of: text) { _, newValue in
+                if newValue != (note ?? "") { onChange(newValue) }
+            }
     }
 }
 

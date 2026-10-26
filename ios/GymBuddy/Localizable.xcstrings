@@ -101,6 +101,16 @@
         }
       }
     },
+    "Add note": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm ghi chú"
+          }
+        }
+      }
+    },
     "Add set": {
       "localizations": {
         "vi": {
@@ -501,6 +511,16 @@
         }
       }
     },
+    "Drop set": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drop set"
+          }
+        }
+      }
+    },
     "Dumbbell": {
       "localizations": {
         "vi": {
@@ -597,6 +617,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Xuất buổi tập (CSV)"
+          }
+        }
+      }
+    },
+    "Failure set": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set tới giới hạn"
           }
         }
       }
@@ -1014,6 +1044,26 @@
         }
       }
     },
+    "None": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không"
+          }
+        }
+      }
+    },
+    "Normal set": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set thường"
+          }
+        }
+      }
+    },
     "Not signed in": {
       "localizations": {
         "vi": {
@@ -1030,6 +1080,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chưa đồng bộ"
+          }
+        }
+      }
+    },
+    "Note": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ghi chú"
           }
         }
       }
@@ -1130,6 +1190,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bắt đầu nhanh"
+          }
+        }
+      }
+    },
+    "RPE": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RPE"
           }
         }
       }
@@ -1524,6 +1594,16 @@
         }
       }
     },
+    "Warm-up set": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set khởi động"
+          }
+        }
+      }
+    },
     "Weight": {
       "localizations": {
         "vi": {
@@ -1560,6 +1640,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tên buổi tập"
+          }
+        }
+      }
+    },
+    "Workout note": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ghi chú buổi tập"
           }
         }
       }

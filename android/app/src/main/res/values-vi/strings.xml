@@ -190,4 +190,15 @@
     <plurals name="widget_workouts">
         <item quantity="other">buổi tập</item>
     </plurals>
+    <string name="set_type_warmup">Set khởi động</string>
+    <string name="set_type_normal">Set thường</string>
+    <string name="set_type_drop">Drop set</string>
+    <string name="set_type_failure">Set tới giới hạn</string>
+    <string name="set_rpe">Đặt RPE</string>
+    <string name="rpe">RPE</string>
+    <string name="rpe_none">Không</string>
+    <string name="rpe_hint">Set này nặng thế nào? 10 là không thể làm thêm rep nào, 8 là còn làm được 2 rep.</string>
+    <string name="add_note">Thêm ghi chú</string>
+    <string name="note_placeholder">Ghi chú</string>
+    <string name="workout_note_placeholder">Ghi chú buổi tập</string>
 </resources>

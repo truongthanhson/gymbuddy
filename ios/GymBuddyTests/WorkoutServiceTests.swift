@@ -90,4 +90,28 @@ final class WorkoutServiceTests: XCTestCase {
         XCTAssertEqual(set.weightKg, 60)
         XCTAssertEqual(set.reps, 10)
     }
+
+    func testSetDetailsAndNotes() throws {
+        let container = try makeContainer()
+        let context = container.mainContext
+        let workout = WorkoutService.startEmptyWorkout(name: "A", in: context)
+        WorkoutService.addExercises(["squat_barbell"], to: workout, in: context)
+        let item = try XCTUnwrap(workout.liveExercises.first)
+        let set = try XCTUnwrap(item.liveSets.first)
+
+        WorkoutService.setType(.warmup, for: set, in: context)
+        WorkoutService.setRpe(8.5, for: set, in: context)
+        XCTAssertEqual(set.setType, .warmup)
+        XCTAssertEqual(set.rpe, 8.5)
+
+        WorkoutService.setNote("Belt on", for: item, in: context)
+        WorkoutService.setNote("Felt strong", for: workout, in: context)
+        XCTAssertEqual(item.note, "Belt on")
+        XCTAssertEqual(workout.note, "Felt strong")
+        WorkoutService.setNote("  ", for: item, in: context)
+        XCTAssertNil(item.note)
+        XCTAssertEqual(rpeOptions.first, 6)
+        XCTAssertEqual(rpeOptions.last, 10)
+        XCTAssertEqual(rpeOptions.count, 9)
+    }
 }
