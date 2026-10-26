@@ -23,6 +23,10 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts WHERE id = :id")
     suspend fun getWorkout(id: String): WorkoutEntity?
 
+    @Transaction
+    @Query("SELECT * FROM workouts WHERE id = :id")
+    suspend fun getWorkoutWithExercises(id: String): WorkoutWithExercises?
+
     @Query("SELECT * FROM workout_exercises WHERE id = :id")
     suspend fun getWorkoutExercise(id: String): WorkoutExerciseEntity?
 

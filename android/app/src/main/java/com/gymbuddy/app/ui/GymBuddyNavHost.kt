@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -28,6 +29,7 @@ import com.gymbuddy.app.R
 import com.gymbuddy.app.ui.exercises.ExercisesScreen
 import com.gymbuddy.app.ui.exercises.ExercisePickerScreen
 import com.gymbuddy.app.ui.history.HistoryScreen
+import com.gymbuddy.app.ui.templates.TemplateEditorScreen
 import com.gymbuddy.app.ui.workout.WorkoutTab
 import com.gymbuddy.app.ui.workout.WorkoutViewModel
 import kotlinx.serialization.Serializable
@@ -35,7 +37,11 @@ import kotlinx.serialization.Serializable
 @Serializable object HistoryRoute
 @Serializable object WorkoutRoute
 @Serializable object ExercisesRoute
-@Serializable data class ExercisePickerRoute(val workoutId: String)
+@Serializable data class ExercisePickerRoute(val workoutId: String? = null)
+@Serializable data class TemplateEditorRoute(val templateId: String? = null)
+
+/** Picker → template editor: the picked exercise ids, set on the editor's back stack entry. */
+private const val PICKED_EXERCISES = "picked_exercises"
 
 private enum class Tab(val route: Any, @StringRes val label: Int, val icon: ImageVector) {
     History(HistoryRoute, R.string.tab_history, Icons.Filled.History),
@@ -77,17 +83,34 @@ fun GymBuddyNavHost() {
         ) {
             composable<HistoryRoute> { HistoryScreen() }
             composable<WorkoutRoute> {
-                WorkoutTab(onAddExercises = { navController.navigate(ExercisePickerRoute(it)) })
+                WorkoutTab(
+                    onAddExercises = { navController.navigate(ExercisePickerRoute(it)) },
+                    onEditTemplate = { navController.navigate(TemplateEditorRoute(it)) },
+                )
+            }
+            composable<TemplateEditorRoute> { entry ->
+                val picked by entry.savedStateHandle.getStateFlow<ArrayList<String>?>(PICKED_EXERCISES, null)
+                    .collectAsStateWithLifecycle()
+                TemplateEditorScreen(
+                    pickedExercises = picked,
+                    onPickedConsumed = { entry.savedStateHandle[PICKED_EXERCISES] = null },
+                    onAddExercises = { navController.navigate(ExercisePickerRoute()) },
+                    onClose = { navController.popBackStack() },
+                )
             }
             composable<ExercisesRoute> { ExercisesScreen() }
             composable<ExercisePickerRoute> { entry ->
-                val route = entry.toRoute<ExercisePickerRoute>()
+                val workoutId = entry.toRoute<ExercisePickerRoute>().workoutId
                 // Scope the view model to the Workout tab so the insert survives popping this screen.
                 val workoutEntry = remember(entry) { navController.getBackStackEntry<WorkoutRoute>() }
                 val workoutViewModel: WorkoutViewModel = hiltViewModel(workoutEntry)
                 ExercisePickerScreen(
                     onDone = { ids ->
-                        workoutViewModel.addExercises(route.workoutId, ids)
+                        if (workoutId != null) {
+                            workoutViewModel.addExercises(workoutId, ids)
+                        } else {
+                            navController.previousBackStackEntry?.savedStateHandle?.set(PICKED_EXERCISES, ArrayList(ids))
+                        }
                         navController.popBackStack()
                     },
                     onBack = { navController.popBackStack() },

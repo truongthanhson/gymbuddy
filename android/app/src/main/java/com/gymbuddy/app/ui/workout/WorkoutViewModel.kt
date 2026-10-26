@@ -2,6 +2,7 @@ package com.gymbuddy.app.ui.workout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gymbuddy.app.data.template.TemplateRepository
 import com.gymbuddy.app.data.workout.WorkoutExerciseWithSets
 import com.gymbuddy.app.data.workout.WorkoutRepository
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
@@ -25,6 +26,7 @@ data class ActiveWorkoutState(val workout: WorkoutWithExercises?)
 class WorkoutViewModel @Inject constructor(
     private val repository: WorkoutRepository,
     private val restTimer: RestTimerController,
+    private val templates: TemplateRepository,
 ) : ViewModel() {
 
     val restTimerState: StateFlow<RestTimerState?> = restTimer.state
@@ -88,14 +90,22 @@ class WorkoutViewModel @Inject constructor(
 
     fun renameWorkout(workoutId: String, name: String) = launch { repository.renameWorkout(workoutId, name) }
 
-    /** Finishing with no ticked sets discards the workout instead of saving an empty one. */
-    fun finishWorkout(workout: WorkoutWithExercises) = launch {
+    /**
+     * Finishing with no ticked sets discards the workout instead of saving an empty one.
+     * With [saveToTemplate], a workout started from a template updates it; any other workout becomes a new template.
+     */
+    fun finishWorkout(workout: WorkoutWithExercises, saveToTemplate: Boolean) = launch {
         restTimer.skip()
+        val id = workout.workout.id
         val anyCompleted = workout.exercises.any { e -> e.sets.any { it.completed } }
-        if (anyCompleted) {
-            repository.finishWorkout(workout.workout.id)
-        } else {
-            repository.discardWorkout(workout.workout.id)
+        if (!anyCompleted) {
+            repository.discardWorkout(id)
+            return@launch
+        }
+        repository.finishWorkout(id)
+        if (saveToTemplate) {
+            val templateId = workout.workout.templateId
+            if (templateId != null) templates.updateFromWorkout(templateId, id) else templates.createFromWorkout(id)
         }
     }
 

@@ -20,6 +20,18 @@ struct ActiveWorkoutView: View {
         workout.liveExercises.contains { $0.liveSets.contains(where: \.completed) }
     }
 
+    private func finish(saveToTemplate: Bool) {
+        RestTimer.shared.skip()
+        let saveable = anyCompleted
+        WorkoutService.finish(workout, in: context)
+        guard saveToTemplate, saveable else { return }
+        if let templateId = workout.templateId, let template = TemplateService.template(id: templateId, in: context) {
+            TemplateService.update(template, from: workout, in: context)
+        } else {
+            TemplateService.createTemplate(from: workout, in: context)
+        }
+    }
+
     var body: some View {
         List {
             Section {
@@ -62,10 +74,14 @@ struct ActiveWorkoutView: View {
                 WorkoutService.addExercises(ids, to: workout, in: context)
             }
         }
-        .alert("Finish workout?", isPresented: $showFinish) {
-            Button("Finish") {
-                RestTimer.shared.skip()
-                WorkoutService.finish(workout, in: context)
+        .confirmationDialog("Finish workout?", isPresented: $showFinish, titleVisibility: .visible) {
+            Button("Finish") { finish(saveToTemplate: false) }
+            if anyCompleted {
+                if workout.templateId == nil {
+                    Button("Finish and save as a new template") { finish(saveToTemplate: true) }
+                } else {
+                    Button("Finish and update the template") { finish(saveToTemplate: true) }
+                }
             }
             Button("Keep going", role: .cancel) {}
         } message: {
