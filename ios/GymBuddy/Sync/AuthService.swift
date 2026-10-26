@@ -35,6 +35,46 @@ final class AuthService {
         return store(response) != nil ? .signedIn : .confirmEmail
     }
 
+    /// Signs in with an ID token from Apple or Google. `nonce` is the raw nonce whose SHA-256 was given to the provider.
+    /// Supabase creates the account on first sign-in.
+    func signInWithIdToken(provider: String, idToken: String, nonce: String?) async throws {
+        var body = ["provider": provider, "id_token": idToken]
+        if let nonce { body["nonce"] = nonce }
+        let response = try await post("/auth/v1/token?grant_type=id_token", body)
+        guard store(response) != nil else { throw SupabaseError(message: "No session returned") }
+    }
+
+    /// Where Supabase's hosted sign-in page sends the user back; must be listed in the project's redirect URLs.
+    static let oauthCallbackScheme = "gymbuddy"
+
+    /// Supabase's hosted sign-in page for `provider`, which redirects to `gymbuddy://auth-callback`.
+    func oauthURL(provider: String) -> URL? {
+        var components = URLComponents(string: SupabaseConfig.current.url + "/auth/v1/authorize")
+        components?.queryItems = [
+            URLQueryItem(name: "provider", value: provider),
+            URLQueryItem(name: "redirect_to", value: "\(Self.oauthCallbackScheme)://auth-callback"),
+        ]
+        return components?.url
+    }
+
+    /// Finishes the hosted sign-in: the callback carries the tokens in its fragment, and the user comes from /user.
+    func completeOAuth(callback: URL) async throws {
+        var fields: [String: String] = [:]
+        for pair in (callback.fragment ?? "").split(separator: "&") {
+            let parts = pair.split(separator: "=", maxSplits: 1).map { String($0).removingPercentEncoding ?? String($0) }
+            if parts.count == 2 { fields[parts[0]] = parts[1] }
+        }
+        if let message = fields["error_description"] ?? fields["error"] { throw SupabaseError(message: message) }
+        guard let access = fields["access_token"], let refresh = fields["refresh_token"] else {
+            throw SupabaseError(message: "No session returned")
+        }
+        let data = try await SupabaseHTTP.request("GET", "/auth/v1/user", accessToken: access)
+        let user = (try? JSONSerialization.jsonObject(with: data) as? [String: Any]) ?? [:]
+        var response: [String: Any] = ["access_token": access, "refresh_token": refresh, "user": user]
+        if let expiresIn = fields["expires_in"].flatMap(Double.init) { response["expires_in"] = NSNumber(value: expiresIn) }
+        guard store(response) != nil else { throw SupabaseError(message: "No session returned") }
+    }
+
     /// A valid access token, refreshed when it is about to expire; nil when signed out.
     func accessToken() async throws -> String? {
         guard let current = session else { return nil }

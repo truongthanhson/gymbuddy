@@ -30,6 +30,13 @@ enum class SignUpResult { SIGNED_IN, CONFIRM_EMAIL }
 private data class Credentials(val email: String, val password: String)
 
 @Serializable
+private data class IdTokenRequest(
+    val provider: String,
+    @SerialName("id_token") val idToken: String,
+    val nonce: String? = null,
+)
+
+@Serializable
 private data class RefreshRequest(@SerialName("refresh_token") val refreshToken: String)
 
 @Serializable
@@ -64,6 +71,15 @@ class AuthRepository @Inject constructor(
     suspend fun signUp(email: String, password: String): SignUpResult {
         val response = post("/auth/v1/signup", json.encodeToString(Credentials(email.trim(), password)))
         return if (store(response) != null) SignUpResult.SIGNED_IN else SignUpResult.CONFIRM_EMAIL
+    }
+
+    /**
+     * Signs in with an ID token from Google or Apple. [nonce] is the raw nonce whose SHA-256 was given to the provider.
+     * Supabase creates the account on first sign-in.
+     */
+    suspend fun signInWithIdToken(provider: String, idToken: String, nonce: String?) {
+        val response = post("/auth/v1/token?grant_type=id_token", json.encodeToString(IdTokenRequest(provider, idToken, nonce)))
+        store(response) ?: throw SupabaseException("No session returned")
     }
 
     /** A valid access token, refreshed when it is about to expire; null when signed out or the session is gone. */

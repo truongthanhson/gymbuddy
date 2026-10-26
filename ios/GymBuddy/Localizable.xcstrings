@@ -529,6 +529,16 @@
         }
       }
     },
+    "Continue with Google": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiếp tục với Google"
+          }
+        }
+      }
+    },
     "Core": {
       "localizations": {
         "vi": {
@@ -1402,6 +1412,16 @@
         }
       }
     },
+    "Or use your email:": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoặc dùng email:"
+          }
+        }
+      }
+    },
     "Other": {
       "localizations": {
         "vi": {
@@ -1778,6 +1798,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Đăng nhập"
+          }
+        }
+      }
+    },
+    "Sign in with Apple failed": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đăng nhập bằng Apple không thành công"
           }
         }
       }

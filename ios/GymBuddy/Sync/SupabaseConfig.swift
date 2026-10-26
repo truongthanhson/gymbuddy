@@ -6,18 +6,32 @@ import Foundation
 struct SupabaseConfig: Sendable {
     let url: String
     let anonKey: String
+    /// Google sign-in is on when the project has a Google client; iOS signs in through Supabase's hosted page.
+    var googleSignIn = false
+    /// Sign in with Apple, once the Apple provider is enabled in Supabase.
+    var appleSignIn = false
 
     var isConfigured: Bool { !url.isEmpty && !anonKey.isEmpty }
 
     static let current: SupabaseConfig = {
-        struct File: Decodable { var url = ""; var anonKey = "" }
+        struct File: Decodable {
+            var url = ""
+            var anonKey = ""
+            var googleWebClientId: String?
+            var appleSignIn: Bool?
+        }
         guard let fileURL = Bundle.main.url(forResource: "supabase", withExtension: "json"),
               let data = try? Data(contentsOf: fileURL),
               let file = try? JSONDecoder().decode(File.self, from: data)
         else { return SupabaseConfig(url: "", anonKey: "") }
         var url = file.url
         while url.hasSuffix("/") { url.removeLast() }
-        return SupabaseConfig(url: url, anonKey: file.anonKey)
+        return SupabaseConfig(
+            url: url,
+            anonKey: file.anonKey,
+            googleSignIn: !(file.googleWebClientId ?? "").isEmpty,
+            appleSignIn: file.appleSignIn ?? false
+        )
     }()
 }
 

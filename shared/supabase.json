@@ -1,4 +1,6 @@
 {
   "url": "",
-  "anonKey": ""
+  "anonKey": "",
+  "googleWebClientId": "",
+  "appleSignIn": false
 }

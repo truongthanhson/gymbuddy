@@ -268,4 +268,6 @@
     <string name="theme_system">Theo máy</string>
     <string name="theme_light">Sáng</string>
     <string name="theme_dark">Tối</string>
+    <string name="continue_with_google">Tiếp tục với Google</string>
+    <string name="or_use_email">Hoặc dùng email:</string>
 </resources>

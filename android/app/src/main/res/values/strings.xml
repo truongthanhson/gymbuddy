@@ -275,4 +275,6 @@
     <string name="theme_system">System</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="or_use_email">Or use your email:</string>
 </resources>

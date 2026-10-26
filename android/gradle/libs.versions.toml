@@ -18,6 +18,8 @@ glance = "1.1.1"
 playServicesWearable = "18.2.0"
 wearCompose = "1.4.0"
 billing = "7.1.1"
+credentials = "1.3.0"
+googleId = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -47,6 +49,9 @@ kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-cor
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearCompose" }
 wear-compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearCompose" }
 play-billing = { module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+androidx-credentials-play-services = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
+google-id = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleId" }
 health-connect = { module = "androidx.health.connect:connect-client", version.ref = "healthConnect" }
 
 [plugins]
