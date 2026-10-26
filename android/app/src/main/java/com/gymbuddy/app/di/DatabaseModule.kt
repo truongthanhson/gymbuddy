@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.gymbuddy.app.data.GymBuddyDatabase
 import com.gymbuddy.app.data.exercise.ExerciseDao
+import com.gymbuddy.app.data.workout.WorkoutDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +26,7 @@ object DatabaseModule {
 
     @Provides
     fun provideExerciseDao(db: GymBuddyDatabase): ExerciseDao = db.exerciseDao()
+
+    @Provides
+    fun provideWorkoutDao(db: GymBuddyDatabase): WorkoutDao = db.workoutDao()
 }
