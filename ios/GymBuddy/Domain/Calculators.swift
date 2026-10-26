@@ -44,3 +44,23 @@ func plateLoad(target: Double, bar: Double, plates: [Double]) -> PlateLoad {
 func repMaxWeight(oneRepMax: Double, reps: Int) -> Double {
     reps <= 1 ? oneRepMax : oneRepMax / (1 + Double(reps) / 30)
 }
+
+struct WarmupSet: Equatable, Sendable {
+    var weight: Double
+    var reps: Int
+}
+
+/// Percent of the working weight and reps of each warm-up step; nil is the empty bar.
+private let warmupSteps: [(percent: Double?, reps: Int)] = [(nil, 10), (0.4, 5), (0.6, 3), (0.8, 2)]
+
+/// Warm-up sets before `working`, each rounded down to what `plates` can load on `bar`.
+/// Steps that are not heavier than the one before, or not lighter than `working`, are left out.
+func warmupSets(working: Double, bar: Double, plates: [Double]) -> [WarmupSet] {
+    var sets: [WarmupSet] = []
+    for step in warmupSteps {
+        let weight = step.percent.map { plateLoad(target: working * $0, bar: bar, plates: plates).loaded } ?? bar
+        let heavier = sets.last.map { weight > $0.weight + 1e-9 } ?? true
+        if heavier && weight < working - 1e-9 { sets.append(WarmupSet(weight: weight, reps: step.reps)) }
+    }
+    return sets
+}

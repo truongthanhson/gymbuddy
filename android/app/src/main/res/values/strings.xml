@@ -207,4 +207,9 @@
     <string name="add_note">Add note</string>
     <string name="note_placeholder">Note</string>
     <string name="workout_note_placeholder">Workout note</string>
+    <string name="warmup_calculator">Warm-up calculator</string>
+    <string name="warmup_calculator_hint">Warm-up sets to do before your working weight</string>
+    <string name="working_weight">Working weight</string>
+    <string name="no_warmup_needed">No warm-up sets needed for this weight.</string>
+    <string name="add_warmup_sets">Add warm-up sets</string>
 </resources>

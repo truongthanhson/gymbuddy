@@ -38,6 +38,7 @@ import com.gymbuddy.app.ui.settings.SettingsScreen
 import com.gymbuddy.app.ui.templates.TemplateEditorScreen
 import com.gymbuddy.app.ui.tools.OneRepMaxCalculatorScreen
 import com.gymbuddy.app.ui.tools.PlateCalculatorScreen
+import com.gymbuddy.app.ui.tools.WarmupCalculatorScreen
 import com.gymbuddy.app.ui.workout.WorkoutTab
 import com.gymbuddy.app.ui.workout.WorkoutViewModel
 import kotlinx.serialization.Serializable
@@ -52,6 +53,7 @@ import kotlinx.serialization.Serializable
 @Serializable data class ExerciseDetailRoute(val exerciseId: String)
 @Serializable object PlateCalculatorRoute
 @Serializable object OneRepMaxCalculatorRoute
+@Serializable object WarmupCalculatorRoute
 @Serializable data class MeasurementDetailRoute(val kind: String)
 
 /** Picker → template editor: the picked exercise ids, set on the editor's back stack entry. */
@@ -124,10 +126,12 @@ fun GymBuddyNavHost() {
                 SettingsScreen(
                     onOpenPlateCalculator = { navController.navigate(PlateCalculatorRoute) },
                     onOpenOneRepMaxCalculator = { navController.navigate(OneRepMaxCalculatorRoute) },
+                    onOpenWarmupCalculator = { navController.navigate(WarmupCalculatorRoute) },
                 )
             }
             composable<PlateCalculatorRoute> { PlateCalculatorScreen(onBack = { navController.popBackStack() }) }
             composable<OneRepMaxCalculatorRoute> { OneRepMaxCalculatorScreen(onBack = { navController.popBackStack() }) }
+            composable<WarmupCalculatorRoute> { WarmupCalculatorScreen(onBack = { navController.popBackStack() }) }
             composable<ExercisePickerRoute> { entry ->
                 val workoutId = entry.toRoute<ExercisePickerRoute>().workoutId
                 // Scope the view model to the Workout tab so the insert survives popping this screen.

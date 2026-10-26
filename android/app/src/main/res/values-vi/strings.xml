@@ -202,4 +202,9 @@
     <string name="add_note">Thêm ghi chú</string>
     <string name="note_placeholder">Ghi chú</string>
     <string name="workout_note_placeholder">Ghi chú buổi tập</string>
+    <string name="warmup_calculator">Tính set khởi động</string>
+    <string name="warmup_calculator_hint">Các set khởi động trước mức tạ chính</string>
+    <string name="working_weight">Mức tạ chính</string>
+    <string name="no_warmup_needed">Mức tạ này không cần set khởi động.</string>
+    <string name="add_warmup_sets">Thêm set khởi động</string>
 </resources>

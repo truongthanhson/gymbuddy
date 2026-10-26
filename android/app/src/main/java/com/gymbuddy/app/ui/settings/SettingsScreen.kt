@@ -50,6 +50,7 @@ import com.gymbuddy.app.ui.common.restLabel
 fun SettingsScreen(
     onOpenPlateCalculator: () -> Unit,
     onOpenOneRepMaxCalculator: () -> Unit,
+    onOpenWarmupCalculator: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -126,6 +127,11 @@ fun SettingsScreen(
             modifier = Modifier.clickable(onClick = onOpenOneRepMaxCalculator),
             headlineContent = { Text(stringResource(R.string.one_rep_max_calculator)) },
             supportingContent = { Text(stringResource(R.string.one_rep_max_calculator_hint)) },
+        )
+        ListItem(
+            modifier = Modifier.clickable(onClick = onOpenWarmupCalculator),
+            headlineContent = { Text(stringResource(R.string.warmup_calculator)) },
+            supportingContent = { Text(stringResource(R.string.warmup_calculator_hint)) },
         )
         HorizontalDivider()
 

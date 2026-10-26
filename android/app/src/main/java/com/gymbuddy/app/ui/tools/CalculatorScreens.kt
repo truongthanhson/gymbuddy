@@ -39,6 +39,7 @@ import com.gymbuddy.app.domain.estimatedOneRepMax
 import com.gymbuddy.app.domain.formatWeight
 import com.gymbuddy.app.domain.plateLoad
 import com.gymbuddy.app.domain.repMaxWeight
+import com.gymbuddy.app.domain.warmupSets
 import com.gymbuddy.app.ui.common.LocalAppSettings
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -120,6 +121,45 @@ fun PlateCalculatorScreen(onBack: () -> Unit) {
                         color = MaterialTheme.colorScheme.error,
                     )
                 }
+            }
+        }
+    }
+}
+
+/** Warm-up sets to do before a working weight, like Strong's warm-up calculator. */
+@Composable
+fun WarmupCalculatorScreen(onBack: () -> Unit) {
+    val unit = LocalAppSettings.current.weightUnit
+    var working by rememberSaveable { mutableStateOf("") }
+    var bar by rememberSaveable(unit) { mutableStateOf(formatWeight(unit.defaultBar)) }
+
+    ToolScaffold(R.string.warmup_calculator, onBack) {
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            NumberField(R.string.working_weight, working, decimal = true, suffix = unit.symbol, modifier = Modifier.weight(1f)) { working = it }
+            NumberField(R.string.bar_weight, bar, decimal = true, suffix = unit.symbol, modifier = Modifier.weight(1f)) { bar = it }
+        }
+        val workingValue = parseNumber(working) ?: return@ToolScaffold
+        val sets = warmupSets(workingValue, parseNumber(bar) ?: 0.0, unit.defaultPlates)
+        if (sets.isEmpty()) {
+            Text(stringResource(R.string.no_warmup_needed))
+            return@ToolScaffold
+        }
+        Column {
+            sets.forEach { set ->
+                ListItem(
+                    headlineContent = { Text("${formatWeight(set.weight)} ${unit.symbol} × ${set.reps}", style = MaterialTheme.typography.titleMedium) },
+                    supportingContent = {
+                        val perSide = plateLoad(set.weight, parseNumber(bar) ?: 0.0, unit.defaultPlates).perSide
+                        Text(
+                            if (perSide.isEmpty()) {
+                                stringResource(R.string.no_plates_needed)
+                            } else {
+                                perSide.joinToString(" + ") { formatWeight(it) }
+                            },
+                        )
+                    },
+                )
+                HorizontalDivider()
             }
         }
     }

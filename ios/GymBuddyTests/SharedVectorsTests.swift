@@ -125,10 +125,19 @@ final class SharedVectorsTests: XCTestCase {
                 let oneRepMax: Double
                 let rows: [Row]
             }
+            struct Warmup: Decodable {
+                struct Case: Decodable { let name: String; let working: Double; let bar: Double; let plates: [Double]; let sets: [[Double]] }
+                let cases: [Case]
+            }
             let plates: [Plates]
             let repMax: RepMax
+            let warmup: Warmup
         }
         let file = try vectors("calculators", as: File.self)
+        for c in file.warmup.cases {
+            let expected = c.sets.map { WarmupSet(weight: $0[0], reps: Int($0[1])) }
+            XCTAssertEqual(warmupSets(working: c.working, bar: c.bar, plates: c.plates), expected, c.name)
+        }
         for c in file.plates {
             let load = plateLoad(target: c.target, bar: c.bar, plates: c.plates)
             XCTAssertEqual(load.perSide, c.perSide, c.name)

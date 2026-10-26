@@ -114,3 +114,55 @@ struct OneRepMaxCalculatorView: View {
         }
     }
 }
+
+/// Warm-up sets to do before a working weight, like Strong's warm-up calculator.
+struct WarmupCalculatorView: View {
+    @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
+    @State private var working: Double?
+    @State private var bar: Double?
+
+    var body: some View {
+        Form {
+            Section {
+                weightField("Working weight", value: $working)
+                weightField("Bar", value: $bar)
+            }
+            if let working {
+                let sets = warmupSets(working: working, bar: bar ?? 0, plates: weightUnit.defaultPlates)
+                Section {
+                    if sets.isEmpty {
+                        Text("No warm-up sets needed for this weight.")
+                    }
+                    ForEach(Array(sets.enumerated()), id: \.offset) { _, set in
+                        let perSide = plateLoad(target: set.weight, bar: bar ?? 0, plates: weightUnit.defaultPlates).perSide
+                        VStack(alignment: .leading) {
+                            Text(verbatim: "\(formatWeight(set.weight)) \(weightUnit.symbol) × \(set.reps)").font(.headline)
+                            if perSide.isEmpty {
+                                Text("Just the bar").font(.caption).foregroundStyle(.secondary)
+                            } else {
+                                Text(verbatim: perSide.map(formatWeight).joined(separator: " + "))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .navigationTitle("Warm-up calculator")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear { if bar == nil { bar = weightUnit.defaultBar } }
+        .onChange(of: weightUnit) { _, unit in bar = unit.defaultBar }
+    }
+
+    private func weightField(_ label: LocalizedStringKey, value: Binding<Double?>) -> some View {
+        LabeledContent(label) {
+            HStack {
+                TextField(label, value: value, format: .number)
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                Text(verbatim: weightUnit.symbol).foregroundStyle(.secondary)
+            }
+        }
+    }
+}
