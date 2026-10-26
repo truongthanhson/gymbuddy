@@ -9,6 +9,9 @@ enum BuddyKey {
     static let experience = "buddy.experience"
     static let limitations = "buddy.limitations"
     static let reminders = "buddy.reminders"
+    /// Start of the training cycle as seconds since 1970; 0 without one.
+    static let cycleStart = "buddy.cycleStart"
+    static let shareHealth = "buddy.shareHealth"
 }
 
 /// How Buddy talks.
@@ -35,6 +38,8 @@ struct BuddySettings: Sendable {
     var daysPerWeek: Int
     var experience: Experience
     var limitations: String
+    var cycleStart: Date?
+    var shareHealth: Bool
 
     static var current: BuddySettings {
         let defaults = UserDefaults.standard
@@ -45,7 +50,9 @@ struct BuddySettings: Sendable {
             goal: TrainingGoal(rawValue: defaults.string(forKey: BuddyKey.goal) ?? "") ?? .general,
             daysPerWeek: days == 0 ? defaultWorkoutsPerWeek : min(max(days, 1), 7),
             experience: Experience(rawValue: defaults.string(forKey: BuddyKey.experience) ?? "") ?? .intermediate,
-            limitations: defaults.string(forKey: BuddyKey.limitations) ?? ""
+            limitations: defaults.string(forKey: BuddyKey.limitations) ?? "",
+            cycleStart: cycleStartDate(defaults.double(forKey: BuddyKey.cycleStart)),
+            shareHealth: defaults.bool(forKey: BuddyKey.shareHealth)
         )
     }
 
@@ -57,3 +64,6 @@ struct BuddySettings: Sendable {
         return out
     }
 }
+
+/// The stored cycle start (seconds since 1970, 0 for none) as a date.
+func cycleStartDate(_ seconds: Double) -> Date? { seconds > 0 ? Date(timeIntervalSince1970: seconds) : nil }

@@ -51,6 +51,16 @@
         }
       }
     },
+    "4-week cycles from today: three build weeks, then a lighter deload week. Buddy's targets follow it.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chu kỳ 4 tuần tính từ hôm nay: ba tuần tăng tiến, rồi một tuần giảm tải nhẹ hơn. Mục tiêu của Buddy đi theo chu kỳ."
+          }
+        }
+      }
+    },
     "A nudge when you fall behind your weekly goal, and your weekly report on Monday mornings (Pro).": {
       "localizations": {
         "vi": {
@@ -141,6 +151,16 @@
         }
       }
     },
+    "Buddy AI also reads the last 7 days of sleep and steps from Apple Health.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy AI đọc thêm giấc ngủ và số bước 7 ngày gần nhất từ Apple Health."
+          }
+        }
+      }
+    },
     "Buddy AI needs the GymBuddy server, which isn't set up in this build yet. Buddy's tips on the Workout tab work without it.": {
       "localizations": {
         "vi": {
@@ -187,6 +207,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Buddy không phải bác sĩ hay chuyên gia vật lý trị liệu. Nếu thấy đau, hãy dừng lại và hỏi chuyên gia."
+          }
+        }
+      }
+    },
+    "Buddy is putting your routine together…": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy đang soạn lịch tập cho bạn…"
           }
         }
       }
@@ -251,12 +281,52 @@
         }
       }
     },
+    "Cycle: deload week": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chu kỳ: tuần giảm tải"
+          }
+        }
+      }
+    },
+    "Cycle: week %lld of 4": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chu kỳ: tuần %lld/4"
+          }
+        }
+      }
+    },
     "Delete chat history": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Xoá lịch sử trò chuyện"
+          }
+        }
+      }
+    },
+    "Design a routine": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thiết kế lịch tập"
+          }
+        }
+      }
+    },
+    "Design it": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thiết kế"
           }
         }
       }
@@ -277,6 +347,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kinh nghiệm"
+          }
+        }
+      }
+    },
+    "For example: 4 days a week, upper/lower, about an hour, no barbell squats": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ví dụ: 4 buổi mỗi tuần, chia trên/dưới, khoảng 1 tiếng, không squat tạ đòn"
           }
         }
       }
@@ -371,6 +451,16 @@
         }
       }
     },
+    "It's the deload week of your cycle. Every target is lighter this week, so you come back stronger next week.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đây là tuần giảm tải của chu kỳ. Mọi mục tiêu tuần này nhẹ hơn để tuần sau bạn trở lại khoẻ hơn."
+          }
+        }
+      }
+    },
     "Log your first workout and Buddy will start suggesting weights, rest days and deloads.": {
       "localizations": {
         "vi": {
@@ -441,12 +531,42 @@
         }
       }
     },
+    "Save as templates": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lưu thành mẫu"
+          }
+        }
+      }
+    },
+    "Saved. You'll find it as a folder of templates on the Workout tab.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã lưu. Bạn sẽ thấy một thư mục mẫu ở tab Tập luyện."
+          }
+        }
+      }
+    },
     "Send": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Gửi"
+          }
+        }
+      }
+    },
+    "Share sleep and steps": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chia sẻ giấc ngủ và số bước"
           }
         }
       }
@@ -501,12 +621,32 @@
         }
       }
     },
+    "Tell Buddy what you want. It uses your goal profile, history and recovery, and only exercises from your library.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nói với Buddy bạn muốn gì. Buddy dùng hồ sơ mục tiêu, lịch sử, mức hồi phục và chỉ các bài trong thư viện của bạn."
+          }
+        }
+      }
+    },
     "The weekly report is written by Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary.": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Báo cáo tuần do Buddy AI viết. Hãy bật nó trước: mở Buddy, đăng nhập và đồng ý gửi bản tóm tắt tập luyện."
+          }
+        }
+      }
+    },
+    "This needs Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tính năng này cần Buddy AI. Hãy bật nó trước: mở Buddy, đăng nhập và đồng ý gửi bản tóm tắt tập luyện."
           }
         }
       }
@@ -551,12 +691,32 @@
         }
       }
     },
+    "Training cycle": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chu kỳ tập"
+          }
+        }
+      }
+    },
     "Try again": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Thử lại"
+          }
+        }
+      }
+    },
+    "Try another": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thử phương án khác"
           }
         }
       }
@@ -597,6 +757,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vì sao tôi tiến bộ chậm lại?"
+          }
+        }
+      }
+    },
+    "With Pro, Buddy AI designs a routine around your goal, schedule and history, using exercises from your library. You check it before it becomes templates.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Với Pro, Buddy AI thiết kế lịch tập theo mục tiêu, thời gian và lịch sử của bạn, dùng các bài trong thư viện. Bạn xem lại trước khi lưu thành mẫu."
           }
         }
       }

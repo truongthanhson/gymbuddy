@@ -84,6 +84,7 @@ class CoachContext(
             is CoachInsight.VolumeSpike -> { put("type", "volume_spike"); put("bodyPart", i.bodyPart.key); put("setsThisWeek", i.sets) }
             is CoachInsight.Neglected -> { put("type", "neglected"); put("bodyPart", i.bodyPart.key); put("days", i.days) }
             is CoachInsight.Streak -> { put("type", "streak"); put("weeks", i.weeks) }
+            CoachInsight.CycleDeload -> put("type", "cycle_deload")
         }
     }
 
@@ -101,6 +102,7 @@ class CoachContext(
         val recentIds = history.filter { it.workout.startedAt >= nowMillis - 28 * DAY }
             .flatMap { w -> w.exercises.map { it.workoutExercise.exerciseId } }.toSet()
         putJsonObject("engine") {
+            snapshot.cycleWeek?.let { put("cycleWeek", it) }
             put("insights", JsonArray(snapshot.insights.map(::insight)))
             putJsonArray("recovery") {
                 snapshot.recovery.forEach { r ->
@@ -131,7 +133,7 @@ class CoachContext(
             if (w.workout.startedAt < from || w.workout.startedAt >= to) continue
             for (e in w.exercises) {
                 val n = e.sets.count { it.completed && it.setType != SetType.WARMUP }
-                if (n > 0) counts.merge(e.exercise?.bodyPart ?: "other", n, Int::plus)
+                if (n > 0) counts.merge(e.exercise?.bodyPart ?: "other", n) { a, b -> a + b }
             }
         }
         counts.forEach { (part, n) -> put(part, n) }

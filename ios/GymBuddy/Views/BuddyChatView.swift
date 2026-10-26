@@ -59,6 +59,13 @@ struct BuddyChatView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    BuddyRoutineView()
+                } label: {
+                    Label { Text(verbatim: buddy("Design a routine")) } icon: { Image(systemName: "calendar.badge.plus") }
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     showSettings = true
                 } label: {
@@ -253,6 +260,8 @@ struct BuddySettingsView: View {
     @AppStorage(BuddyKey.experience) private var experience: Experience = .intermediate
     @AppStorage(BuddyKey.limitations) private var limitations = ""
     @AppStorage(BuddyKey.reminders) private var reminders = false
+    @AppStorage(BuddyKey.cycleStart) private var cycleStart = 0.0
+    @AppStorage(BuddyKey.shareHealth) private var shareHealth = false
     @Environment(\.modelContext) private var modelContext
     @State private var confirmClear = false
 
@@ -274,6 +283,31 @@ struct BuddySettingsView: View {
                     } label: { Text(verbatim: buddy("Experience")) }
                     TextField(buddy("Injuries or movements to avoid"), text: $limitations, axis: .vertical)
                         .lineLimit(1...4)
+                }
+                Section {
+                    Toggle(isOn: Binding(
+                        get: { cycleStart > 0 },
+                        set: { cycleStart = $0 ? Calendar.current.startOfDay(for: .now).timeIntervalSince1970 : 0 }
+                    )) {
+                        Text(verbatim: buddy("Training cycle"))
+                    }
+                } footer: {
+                    Text(verbatim: buddy("4-week cycles from today: three build weeks, then a lighter deload week. Buddy's targets follow it."))
+                }
+                if HealthService.isAvailable {
+                    Section {
+                        Toggle(isOn: Binding(get: { shareHealth }, set: { on in
+                            guard on else {
+                                shareHealth = false
+                                return
+                            }
+                            Task { shareHealth = await HealthService.requestBuddyReadAuthorization() }
+                        })) {
+                            Text(verbatim: buddy("Share sleep and steps"))
+                        }
+                    } footer: {
+                        Text(verbatim: buddy("Buddy AI also reads the last 7 days of sleep and steps from Apple Health."))
+                    }
                 }
                 Section {
                     Toggle(isOn: Binding(get: { reminders }, set: { on in

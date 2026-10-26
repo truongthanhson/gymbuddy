@@ -11,6 +11,8 @@ import com.gymbuddy.app.domain.CoachSet
 import com.gymbuddy.app.domain.Recovery
 import com.gymbuddy.app.domain.SetTarget
 import com.gymbuddy.app.domain.coachInsights
+import com.gymbuddy.app.domain.cycleTarget
+import com.gymbuddy.app.domain.cycleWeek
 import com.gymbuddy.app.domain.nextTarget
 import com.gymbuddy.app.domain.recovery
 import javax.inject.Inject
@@ -31,6 +33,8 @@ data class CoachSnapshot(
     /** Exercise names (English, Vietnamese) per exercise id, for the cards. */
     val names: Map<String, Pair<String, String?>> = emptyMap(),
     val workoutCount: Int = 0,
+    /** Week 1–4 of the training cycle, or null without one. */
+    val cycleWeek: Int? = null,
 )
 
 /** Weekly goal until the person sets one in Buddy's goal profile. */
@@ -41,12 +45,16 @@ class CoachRepository @Inject constructor(private val workouts: WorkoutDao, priv
 
     /** The weekly goal comes from Buddy's goal profile. */
     fun observe(): Flow<CoachSnapshot> =
-        combine(workouts.observeHistory(), prefs.settings.map { it.daysPerWeek }.distinctUntilChanged()) { history, goal ->
-            snapshot(history, goal, System.currentTimeMillis())
+        combine(
+            workouts.observeHistory(),
+            prefs.settings.map { it.daysPerWeek to it.cycleStart }.distinctUntilChanged(),
+        ) { history, (goal, cycleStart) ->
+            snapshot(history, goal, System.currentTimeMillis(), cycleStart)
         }.flowOn(Dispatchers.Default)
 
     companion object {
-        fun snapshot(history: List<WorkoutWithExercises>, goalPerWeek: Int, nowMillis: Long): CoachSnapshot {
+        fun snapshot(history: List<WorkoutWithExercises>, goalPerWeek: Int, nowMillis: Long, cycleStart: Long? = null): CoachSnapshot {
+            val week = cycleWeek(cycleStart, nowMillis)
             val exercises = mutableMapOf<String, MutableList<CoachSession>>()
             val info = mutableMapOf<String, Triple<String, String, Pair<String, String?>>>()
             val partSets = mutableListOf<BodyPartSet>()
@@ -68,11 +76,14 @@ class CoachRepository @Inject constructor(private val workouts: WorkoutDao, priv
                 CoachExercise(id, bodyPart, category, sessions)
             }
             return CoachSnapshot(
-                insights = coachInsights(coachExercises, partSets, history.map { it.workout.startedAt }, goalPerWeek, nowMillis),
+                insights = coachInsights(coachExercises, partSets, history.map { it.workout.startedAt }, goalPerWeek, nowMillis, week),
                 recovery = recovery(partSets, nowMillis),
-                targets = coachExercises.mapNotNull { e -> nextTarget(e.sessions, e.bodyPart, e.category)?.let { e.exerciseId to it } }.toMap(),
+                targets = coachExercises.mapNotNull { e ->
+                    cycleTarget(nextTarget(e.sessions, e.bodyPart, e.category), week, e.bodyPart, e.category)?.let { e.exerciseId to it }
+                }.toMap(),
                 names = info.mapValues { it.value.third },
                 workoutCount = history.size,
+                cycleWeek = week,
             )
         }
     }

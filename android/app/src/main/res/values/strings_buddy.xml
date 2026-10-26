@@ -74,4 +74,22 @@
     <string name="buddy_weekly_loading">Buddy is looking back at last week…</string>
     <string name="buddy_weekly_range">%1$s – %2$s</string>
     <string name="buddy_weekly_discuss">Talk it over with Buddy</string>
+    <string name="buddy_cycle">Training cycle</string>
+    <string name="buddy_cycle_hint">4-week cycles from today: three build weeks, then a lighter deload week. Buddy\'s targets follow it.</string>
+    <string name="buddy_cycle_week">Cycle: week %1$d of 4</string>
+    <string name="buddy_cycle_deload_week">Cycle: deload week</string>
+    <string name="buddy_cycle_deload">It\'s the deload week of your cycle. Every target is about 10% lighter, so you come back stronger next week.</string>
+    <string name="buddy_share_health">Share sleep and steps</string>
+    <string name="buddy_share_health_hint">Buddy AI also reads the last 7 days of sleep and steps from Health Connect.</string>
+    <string name="buddy_routine">Design a routine</string>
+    <string name="buddy_routine_locked">With Pro, Buddy AI designs a routine around your goal, schedule and history, using exercises from your library. You check it before it becomes templates.</string>
+    <string name="buddy_routine_intro">Tell Buddy what you want. It uses your goal profile, history and recovery, and only exercises from your library.</string>
+    <string name="buddy_routine_hint">For example: 4 days a week, upper/lower, about an hour, no barbell squats</string>
+    <string name="buddy_routine_design">Design it</string>
+    <string name="buddy_routine_designing">Buddy is putting your routine together…</string>
+    <string name="buddy_routine_line">%1$d × %2$s · %3$s</string>
+    <string name="buddy_routine_save">Save as templates</string>
+    <string name="buddy_routine_again">Try another</string>
+    <string name="buddy_routine_saved">Saved. You\'ll find it as a folder of templates on the Workout tab.</string>
+    <string name="buddy_needs_ai">This needs Buddy AI. Turn it on first: open Buddy, sign in and agree to send your training summary.</string>
 </resources>

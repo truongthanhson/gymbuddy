@@ -25,6 +25,7 @@ data class DraftExercise(
     val exerciseId: String,
     val restSeconds: Int? = null,
     val supersetGroup: Int? = null,
+    val note: String? = null,
     val sets: List<DraftSet> = listOf(DraftSet()),
 )
 
@@ -58,6 +59,7 @@ class TemplateRepository @Inject constructor(private val db: GymBuddyDatabase) {
                     exerciseId = e.templateExercise.exerciseId,
                     restSeconds = e.templateExercise.restSeconds,
                     supersetGroup = e.templateExercise.supersetGroup,
+                    note = e.templateExercise.note,
                     sets = e.sets.map { DraftSet(it.id, it.targetWeightKg, it.targetReps) },
                 )
             },
@@ -96,6 +98,7 @@ class TemplateRepository @Inject constructor(private val db: GymBuddyDatabase) {
                         sortOrder = index,
                         restSeconds = e.restSeconds,
                         supersetGroup = e.supersetGroup,
+                        note = e.note,
                         createdAt = createdAtById[e.id] ?: now,
                         updatedAt = now,
                     )
@@ -139,9 +142,12 @@ class TemplateRepository @Inject constructor(private val db: GymBuddyDatabase) {
         )
     }
 
-    suspend fun createFolder(name: String) = db.withTransaction {
+    /** Returns the new folder's id. */
+    suspend fun createFolder(name: String): String = db.withTransaction {
         val now = clock()
-        dao.upsertFolder(FolderEntity(newId(), name, dao.maxFolderOrder() + 1, now, now))
+        val id = newId()
+        dao.upsertFolder(FolderEntity(id, name, dao.maxFolderOrder() + 1, now, now))
+        id
     }
 
     suspend fun renameFolder(folderId: String, name: String) = db.withTransaction {

@@ -9,6 +9,7 @@ import com.gymbuddy.app.data.coach.ChatEvent
 import com.gymbuddy.app.data.coach.CoachError
 import com.gymbuddy.app.data.coach.CoachException
 import com.gymbuddy.app.data.coach.CoachPlan
+import com.gymbuddy.app.data.health.HealthConnectManager
 import com.gymbuddy.app.data.pro.ProRepository
 import com.gymbuddy.app.data.sync.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,6 +46,8 @@ class BuddyChatViewModel @Inject constructor(
     private val prefs: BuddyPrefs,
     auth: AuthRepository,
     pro: ProRepository,
+    /** For sharing sleep and steps with Buddy from its settings. */
+    val health: HealthConnectManager,
 ) : ViewModel() {
 
     private val chat = MutableStateFlow(ChatState())

@@ -5,13 +5,21 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.ExerciseSessionRecord
+import androidx.health.connect.client.records.SleepSessionRecord
+import androidx.health.connect.client.records.StepsRecord
+import androidx.health.connect.client.request.AggregateGroupByPeriodRequest
+import androidx.health.connect.client.request.ReadRecordsRequest
+import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.records.WeightRecord
 import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.Mass
 import com.gymbuddy.app.data.GymBuddyDatabase
 import com.gymbuddy.app.data.settings.SettingsRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
+import java.time.Period
 import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,6 +27,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+
+/** One day of the health data Buddy may read. */
+data class DayHealth(val date: LocalDate, val sleepHours: Double?, val steps: Long?)
 
 /**
  * Writes finished workouts and body weight to Health Connect when the user turned it on in settings.
@@ -42,6 +53,43 @@ class HealthConnectManager @Inject constructor(
         get() = HealthConnectClient.getSdkStatus(context) == HealthConnectClient.SDK_AVAILABLE
 
     fun permissionContract() = PermissionController.createRequestPermissionResultContract()
+
+    /** What Buddy may read when the person shares sleep and steps with it. */
+    val buddyReadPermissions = setOf(
+        HealthPermission.getReadPermission(SleepSessionRecord::class),
+        HealthPermission.getReadPermission(StepsRecord::class),
+    )
+
+    suspend fun hasBuddyReadPermissions(): Boolean =
+        isAvailable && client.permissionController.getGrantedPermissions().containsAll(buddyReadPermissions)
+
+    /** Sleep (hours, by the day the sleep ended) and steps for each of the last [days] days, oldest first. */
+    suspend fun recentSleepAndSteps(days: Int = 7, zone: ZoneId = ZoneId.systemDefault()): List<DayHealth> {
+        val today = LocalDate.now(zone)
+        val first = today.minusDays(days - 1L)
+        val start = first.atStartOfDay()
+        val end = today.plusDays(1).atStartOfDay()
+        val steps = client.aggregateGroupByPeriod(
+            AggregateGroupByPeriodRequest(
+                metrics = setOf(StepsRecord.COUNT_TOTAL),
+                timeRangeFilter = TimeRangeFilter.between(start, end),
+                timeRangeSlicer = Period.ofDays(1),
+            ),
+        ).associate { it.startTime.toLocalDate() to (it.result[StepsRecord.COUNT_TOTAL] ?: 0L) }
+        val sleep = mutableMapOf<LocalDate, Long>()
+        val sessions = client.readRecords(
+            ReadRecordsRequest(SleepSessionRecord::class, TimeRangeFilter.between(start.minusDays(1).atZone(zone).toInstant(), end.atZone(zone).toInstant())),
+        ).records
+        for (r in sessions) {
+            val day = r.endTime.atZone(zone).toLocalDate()
+            if (day < first || day > today) continue
+            sleep.merge(day, Duration.between(r.startTime, r.endTime).toMinutes()) { a, b -> a + b }
+        }
+        return (0 until days).map { i ->
+            val day = first.plusDays(i.toLong())
+            DayHealth(day, sleep[day]?.let { it / 60.0 }, steps[day])
+        }
+    }
 
     private val client by lazy { HealthConnectClient.getOrCreate(context) }
 
