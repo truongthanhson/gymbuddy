@@ -78,7 +78,8 @@ struct ExerciseDetailView: View {
             switch tab {
             case .about: aboutTab
             case .history: historyTab(history)
-            case .charts: chartsTab(progress.points)
+            case .charts:
+                if ProStore.shared.isPro { chartsTab(progress.points) } else { ProLockedView(feature: .exerciseCharts) }
             case .records: recordsTab(progress.records)
             }
         }

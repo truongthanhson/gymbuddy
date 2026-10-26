@@ -22,6 +22,7 @@ struct GymBuddyApp: App {
         SyncService.shared.context = container.mainContext
         WatchBridge.shared.activate(context: container.mainContext)
         UNUserNotificationCenter.current().delegate = notificationDelegate
+        ProStore.shared.start()
     }
 
     var body: some Scene {

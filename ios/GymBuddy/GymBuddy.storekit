@@ -1,0 +1,91 @@
+{
+  "identifier" : "6C1F2B7A-5E2D-4C6B-9C1E-0A6F3D2B9E11",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "29.99",
+      "familyShareable" : false,
+      "internalID" : "6740000003",
+      "localizations" : [
+        {
+          "description" : "GymBuddy Pro forever",
+          "displayName" : "GymBuddy Pro Lifetime",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "gymbuddy_pro_lifetime",
+      "referenceName" : "GymBuddy Pro Lifetime",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21500001",
+      "localizations" : [
+
+      ],
+      "name" : "GymBuddy Pro",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "2.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6740000001",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "GymBuddy Pro, billed monthly",
+              "displayName" : "GymBuddy Pro Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "gymbuddy_pro_monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "GymBuddy Pro Monthly",
+          "subscriptionGroupID" : "21500001",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "14.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6740000002",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "GymBuddy Pro, billed yearly",
+              "displayName" : "GymBuddy Pro Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "gymbuddy_pro_yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "GymBuddy Pro Yearly",
+          "subscriptionGroupID" : "21500001",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

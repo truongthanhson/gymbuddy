@@ -21,6 +21,22 @@ struct ProfileView: View {
                     }
                     .padding(.vertical, 4)
                 }
+                Section {
+                    NavigationLink {
+                        PaywallView()
+                    } label: {
+                        Label {
+                            VStack(alignment: .leading) {
+                                Text(verbatim: "GymBuddy Pro")
+                                Text(ProStore.shared.isPro ? "Active" : "Unlimited routines, charts and all measurements")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        } icon: {
+                            Image(systemName: "crown.fill").foregroundStyle(.tint)
+                        }
+                    }
+                }
                 Section("Workouts per week") {
                     chart.frame(height: 180)
                 }
