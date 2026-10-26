@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.gymbuddy.app.data.exercise.ExerciseDao
+import com.gymbuddy.app.data.sync.SyncDao
 import com.gymbuddy.app.data.exercise.ExerciseEntity
 import com.gymbuddy.app.data.template.FolderEntity
 import com.gymbuddy.app.data.template.TemplateDao
@@ -34,4 +35,5 @@ abstract class GymBuddyDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
     abstract fun workoutDao(): WorkoutDao
     abstract fun templateDao(): TemplateDao
+    abstract fun syncDao(): SyncDao
 }

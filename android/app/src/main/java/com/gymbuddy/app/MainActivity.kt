@@ -8,6 +8,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.data.settings.SettingsRepository
+import com.gymbuddy.app.data.sync.SyncManager
 import com.gymbuddy.app.ui.GymBuddyNavHost
 import com.gymbuddy.app.ui.common.LocalAppSettings
 import com.gymbuddy.app.ui.theme.GymBuddyTheme
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject lateinit var settingsRepository: SettingsRepository
+    @Inject lateinit var syncManager: SyncManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,5 +32,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        syncManager.requestSync()
     }
 }

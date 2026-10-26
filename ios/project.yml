@@ -20,6 +20,9 @@ targets:
       # Built-in exercise library shared with the Android app.
       - path: ../shared/exercises.json
         buildPhase: resources
+      # Supabase project URL and anon key; empty means offline only.
+      - path: ../shared/supabase.json
+        buildPhase: resources
     info:
       path: GymBuddy/Info.plist
       properties:

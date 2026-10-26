@@ -1,0 +1,43 @@
+{
+  "description": "Sync timestamps. 'parse': Postgres timestamptz text as PostgREST returns it, to epoch milliseconds (sub-millisecond digits are dropped). 'format': what clients send, always UTC with milliseconds.",
+  "parse": [
+    {
+      "text": "2026-10-26T05:55:16.123+00:00",
+      "epochMillis": 1792994116123
+    },
+    {
+      "text": "2026-10-26T05:55:16+00:00",
+      "epochMillis": 1792994116000
+    },
+    {
+      "text": "2026-10-26T05:55:16.123456+00:00",
+      "epochMillis": 1792994116123
+    },
+    {
+      "text": "2026-10-26T12:55:16.5+07:00",
+      "epochMillis": 1792994116500
+    },
+    {
+      "text": "2026-10-26T05:55:16.1Z",
+      "epochMillis": 1792994116100
+    },
+    {
+      "text": "2026-01-02T03:04:05.006789-03:30",
+      "epochMillis": 1767335645006
+    }
+  ],
+  "format": [
+    {
+      "epochMillis": 1792994116123,
+      "text": "2026-10-26T05:55:16.123Z"
+    },
+    {
+      "epochMillis": 1792994116000,
+      "text": "2026-10-26T05:55:16.000Z"
+    },
+    {
+      "epochMillis": 1767335645006,
+      "text": "2026-01-02T06:34:05.006Z"
+    }
+  ]
+}

@@ -46,4 +46,20 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(unit.format(kg), c.formatted)
         }
     }
+
+    func testSyncTimestampsMatchSharedVectors() throws {
+        struct File: Decodable {
+            struct Case: Decodable { let text: String; let epochMillis: Int64 }
+            let parse: [Case]
+            let format: [Case]
+        }
+        let file = try vectors("timestamps", as: File.self)
+        for c in file.parse {
+            let date = try XCTUnwrap(Timestamp.parse(c.text), c.text)
+            XCTAssertEqual(Int64((date.timeIntervalSince1970 * 1000).rounded()), c.epochMillis, c.text)
+        }
+        for c in file.format {
+            XCTAssertEqual(Timestamp.format(Date(timeIntervalSince1970: Double(c.epochMillis) / 1000)), c.text)
+        }
+    }
 }
