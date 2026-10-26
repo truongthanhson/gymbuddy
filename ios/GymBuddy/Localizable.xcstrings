@@ -131,6 +131,16 @@
         }
       }
     },
+    "Already on this device, skipped: %lld": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ qua vì đã có trên máy: %lld"
+          }
+        }
+      }
+    },
     "Arms": {
       "localizations": {
         "vi": {
@@ -351,6 +361,16 @@
         }
       }
     },
+    "Close": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đóng"
+          }
+        }
+      }
+    },
     "Core": {
       "localizations": {
         "vi": {
@@ -387,6 +407,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tự tạo"
+          }
+        }
+      }
+    },
+    "Data": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dữ liệu"
           }
         }
       }
@@ -541,6 +571,26 @@
         }
       }
     },
+    "Export workouts (CSV)": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xuất buổi tập (CSV)"
+          }
+        }
+      }
+    },
+    "Exports use the same columns as Strong, and imports accept GymBuddy and Strong CSV exports.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File xuất dùng cùng các cột với Strong. Có thể nhập file CSV xuất từ GymBuddy hoặc Strong."
+          }
+        }
+      }
+    },
     "Finish": {
       "localizations": {
         "vi": {
@@ -650,6 +700,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lịch sử"
+          }
+        }
+      }
+    },
+    "Import workouts (CSV)": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhập buổi tập (CSV)"
           }
         }
       }
@@ -1374,6 +1434,26 @@
         }
       }
     },
+    "The file could not be read or written.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không đọc hoặc ghi được file."
+          }
+        }
+      }
+    },
+    "This file is not a workout CSV export.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File này không phải file CSV buổi tập."
+          }
+        }
+      }
+    },
     "Time for your next set.": {
       "localizations": {
         "vi": {
@@ -1470,6 +1550,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tên buổi tập"
+          }
+        }
+      }
+    },
+    "Workouts exported: %lld": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số buổi tập đã xuất: %lld"
+          }
+        }
+      }
+    },
+    "Workouts imported: %lld": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số buổi tập đã nhập: %lld"
           }
         }
       }

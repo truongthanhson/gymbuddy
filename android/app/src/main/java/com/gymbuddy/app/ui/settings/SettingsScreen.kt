@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.StringRes
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -51,6 +54,13 @@ fun SettingsScreen(
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var restDialogOpen by remember { mutableStateOf(false) }
+    val message by viewModel.message.collectAsStateWithLifecycle()
+    val exportLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri ->
+        uri?.let(viewModel::exportCsv)
+    }
+    val importLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        uri?.let(viewModel::importCsv)
+    }
     val version = remember {
         runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }.getOrNull() ?: ""
     }
@@ -115,10 +125,46 @@ fun SettingsScreen(
         )
         HorizontalDivider()
 
+        SectionTitle(R.string.settings_data)
+        ListItem(
+            modifier = Modifier.clickable { exportLauncher.launch("gymbuddy-workouts.csv") },
+            headlineContent = { Text(stringResource(R.string.export_csv)) },
+            supportingContent = { Text(stringResource(R.string.export_csv_hint)) },
+        )
+        ListItem(
+            // Some providers report CSV files as text/plain or a generic type.
+            modifier = Modifier.clickable { importLauncher.launch(arrayOf("text/*", "application/csv", "application/octet-stream")) },
+            headlineContent = { Text(stringResource(R.string.import_csv)) },
+            supportingContent = { Text(stringResource(R.string.import_csv_hint)) },
+        )
+        HorizontalDivider()
+
         SectionTitle(R.string.settings_about)
         ListItem(
             headlineContent = { Text(stringResource(R.string.app_name)) },
             supportingContent = { Text(stringResource(R.string.settings_version, version)) },
+        )
+    }
+
+    message?.let { current ->
+        AlertDialog(
+            onDismissRequest = viewModel::messageShown,
+            text = {
+                Text(
+                    when (current) {
+                        is CsvMessage.Exported -> pluralStringResource(R.plurals.csv_exported, current.workouts, current.workouts)
+                        is CsvMessage.Imported -> buildString {
+                            append(pluralStringResource(R.plurals.csv_imported, current.imported, current.imported))
+                            if (current.skipped > 0) {
+                                append(' ').append(pluralStringResource(R.plurals.csv_skipped, current.skipped, current.skipped))
+                            }
+                        }
+                        CsvMessage.NotACsvExport -> stringResource(R.string.csv_not_an_export)
+                        CsvMessage.Failed -> stringResource(R.string.csv_failed)
+                    },
+                )
+            },
+            confirmButton = { TextButton(onClick = viewModel::messageShown) { Text(stringResource(R.string.close)) } },
         )
     }
 

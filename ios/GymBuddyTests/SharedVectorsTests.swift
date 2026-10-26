@@ -140,4 +140,77 @@ final class SharedVectorsTests: XCTestCase {
                            accuracy: 0.01, "\(row.reps) reps")
         }
     }
+
+    func testCsvMatchesSharedVectors() throws {
+        struct VSet: Decodable {
+            let setType: String; let weightKg: Double?; let reps: Int?; let distanceM: Double?; let seconds: Int?; let rpe: Double?
+        }
+        struct VExercise: Decodable { let name: String; let note: String?; let sets: [VSet] }
+        struct VWorkout: Decodable { let date: String; let name: String; let durationSec: Int?; let note: String?; let exercises: [VExercise] }
+        struct File: Decodable {
+            struct Fields: Decodable { let fields: [String]; let text: String }
+            struct Durations: Decodable {
+                struct Format: Decodable { let seconds: Int; let text: String }
+                struct Parse: Decodable { let text: String; let seconds: Int? }
+                let format: [Format]
+                let parse: [Parse]
+            }
+            struct Import: Decodable { let name: String; let defaultUnit: String; let text: String; let workouts: [VWorkout] }
+            struct Export: Decodable { let name: String; let unit: String; let workouts: [VWorkout]; let text: String }
+            let fields: [Fields]
+            let durations: Durations
+            let `import`: [Import]
+            let export: [Export]
+        }
+        func model(_ workouts: [VWorkout]) -> [CsvWorkout] {
+            workouts.map { w in
+                CsvWorkout(date: w.date, name: w.name, durationSec: w.durationSec, note: w.note, exercises: w.exercises.map { e in
+                    CsvExercise(name: e.name, note: e.note, sets: e.sets.map {
+                        CsvSet(setType: $0.setType, weightKg: $0.weightKg, reps: $0.reps, distanceM: $0.distanceM, seconds: $0.seconds, rpe: $0.rpe)
+                    })
+                })
+            }
+        }
+        /// Weights are compared with a tolerance; everything else exactly.
+        func assertSame(_ expected: [CsvWorkout], _ actual: [CsvWorkout], _ label: String) {
+            func withoutWeights(_ list: [CsvWorkout]) -> [CsvWorkout] {
+                list.map { w in
+                    var w = w
+                    w.exercises = w.exercises.map { e in
+                        var e = e
+                        e.sets = e.sets.map { s in var s = s; s.weightKg = nil; return s }
+                        return e
+                    }
+                    return w
+                }
+            }
+            XCTAssertEqual(withoutWeights(expected), withoutWeights(actual), label)
+            let e = expected.flatMap { $0.exercises.flatMap { $0.sets.map(\.weightKg) } }
+            let a = actual.flatMap { $0.exercises.flatMap { $0.sets.map(\.weightKg) } }
+            XCTAssertEqual(e.count, a.count, label)
+            for (x, y) in zip(e, a) {
+                if let x { XCTAssertEqual(x, y ?? .nan, accuracy: 0.01, label) } else { XCTAssertNil(y, label) }
+            }
+        }
+
+        let file = try vectors("csv", as: File.self)
+        for c in file.fields {
+            XCTAssertEqual(csvLine(c.fields), c.text)
+            XCTAssertEqual(parseCsv(c.text), [c.fields])
+        }
+        for c in file.durations.format { XCTAssertEqual(formatCsvDuration(c.seconds), c.text) }
+        for c in file.durations.parse { XCTAssertEqual(parseCsvDuration(c.text), c.seconds, c.text) }
+        for c in file.import {
+            let unit = try XCTUnwrap(WeightUnit(rawValue: c.defaultUnit))
+            let actual = try XCTUnwrap(importCsv(c.text, defaultUnit: unit), c.name)
+            assertSame(model(c.workouts), actual, c.name)
+        }
+        for c in file.export {
+            let unit = try XCTUnwrap(WeightUnit(rawValue: c.unit))
+            let text = exportCsv(model(c.workouts), unit: unit)
+            XCTAssertEqual(text, c.text, c.name)
+            assertSame(model(c.workouts), try XCTUnwrap(importCsv(text, defaultUnit: .kg)), c.name)
+        }
+        XCTAssertNil(importCsv("a,b\n1,2\n", defaultUnit: .kg))
+    }
 }
