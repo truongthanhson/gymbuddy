@@ -1050,14 +1050,14 @@
    ],
    "expected": [
     {
-     "type": "neglected",
-     "bodyPart": "back",
-     "value": 20
-    },
-    {
      "type": "volume_spike",
      "bodyPart": "legs",
      "value": 12
+    },
+    {
+     "type": "neglected",
+     "bodyPart": "back",
+     "value": 20
     }
    ]
   },
