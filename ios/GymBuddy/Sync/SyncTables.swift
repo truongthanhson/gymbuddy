@@ -148,6 +148,7 @@ enum SyncTables {
                 return [
                     "id": key(e.id), "template_id": key(parent.id), "exercise_id": e.exerciseId,
                     "sort_order": e.sortOrder, "rest_seconds": orNull(e.restSeconds), "note": orNull(e.note),
+                    "superset_group": orNull(e.supersetGroup),
                     "created_at": ts(e.createdAt), "updated_at": ts(e.updatedAt), "deleted_at": tsOrNull(e.deletedAt),
                 ]
             }
@@ -167,6 +168,7 @@ enum SyncTables {
                 item.exerciseId = row.string("exercise_id") ?? ""
                 item.sortOrder = row.int("sort_order") ?? 0
                 item.restSeconds = row.int("rest_seconds")
+                item.supersetGroup = row.int("superset_group")
                 item.note = row.string("note")
                 item.createdAt = row.date("created_at") ?? .now
                 item.updatedAt = row.date("updated_at") ?? .now
@@ -255,6 +257,7 @@ enum SyncTables {
                 return [
                     "id": key(e.id), "workout_id": key(parent.id), "exercise_id": e.exerciseId,
                     "sort_order": e.sortOrder, "rest_seconds": orNull(e.restSeconds), "note": orNull(e.note),
+                    "superset_group": orNull(e.supersetGroup),
                     "created_at": ts(e.createdAt), "updated_at": ts(e.updatedAt), "deleted_at": tsOrNull(e.deletedAt),
                 ]
             }
@@ -274,6 +277,7 @@ enum SyncTables {
                 item.exerciseId = row.string("exercise_id") ?? ""
                 item.sortOrder = row.int("sort_order") ?? 0
                 item.restSeconds = row.int("rest_seconds")
+                item.supersetGroup = row.int("superset_group")
                 item.note = row.string("note")
                 item.createdAt = row.date("created_at") ?? .now
                 item.updatedAt = row.date("updated_at") ?? .now

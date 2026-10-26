@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -67,6 +70,7 @@ import com.gymbuddy.app.domain.distanceUnit
 import com.gymbuddy.app.domain.formatDuration
 import com.gymbuddy.app.domain.parseDuration
 import com.gymbuddy.app.domain.setFields
+import com.gymbuddy.app.domain.startsRest
 import com.gymbuddy.app.domain.RPE_OPTIONS
 import com.gymbuddy.app.domain.formatRpe
 import com.gymbuddy.app.domain.formatElapsed
@@ -85,6 +89,7 @@ fun ActiveWorkoutScreen(
     workout: WorkoutWithExercises,
     viewModel: WorkoutViewModel,
     onAddExercises: () -> Unit,
+    onReplaceExercise: (workoutExerciseId: String) -> Unit,
 ) {
     var showFinish by remember { mutableStateOf(false) }
     var showCancel by remember { mutableStateOf(false) }
@@ -117,10 +122,15 @@ fun ActiveWorkoutScreen(
                     onNoteChange = { viewModel.setWorkoutNote(workout.workout.id, it) },
                 )
             }
-            items(workout.exercises, key = { it.workoutExercise.id }) { item ->
+            val groups = workout.exercises.map { it.workoutExercise.supersetGroup }
+            itemsIndexed(workout.exercises, key = { _, it -> it.workoutExercise.id }) { index, item ->
                 ExerciseCard(
                     item = item,
                     title = item.exercise.displayName(vietnamese),
+                    index = index,
+                    groups = groups,
+                    workoutId = workout.workout.id,
+                    onReplace = { onReplaceExercise(item.workoutExercise.id) },
                     viewModel = viewModel,
                 )
             }
@@ -245,8 +255,14 @@ private fun ElapsedText(startedAt: Long) {
 private fun ExerciseCard(
     item: WorkoutExerciseWithSets,
     title: String,
+    index: Int,
+    groups: List<Int?>,
+    workoutId: String,
+    onReplace: () -> Unit,
     viewModel: WorkoutViewModel,
 ) {
+    val group = groups[index]
+    val isLast = index == groups.lastIndex
     val exerciseId = item.workoutExercise.exerciseId
     val previousFlow = remember(exerciseId) { viewModel.previousSets(exerciseId) }
     val previous by previousFlow.collectAsStateWithLifecycle(emptyList())
@@ -260,7 +276,25 @@ private fun ExerciseCard(
         settings.defaultRestSeconds,
     )
 
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+    Row(Modifier.height(IntrinsicSize.Min)) {
+    if (group != null) {
+        // Exercises of one superset share a coloured bar, like Strong.
+        Box(
+            Modifier
+                .width(4.dp)
+                .fillMaxHeight()
+                .background(supersetColor(group), RoundedCornerShape(2.dp)),
+        )
+        Spacer(Modifier.width(8.dp))
+    }
+    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        if (group != null) {
+            Text(
+                stringResource(R.string.superset),
+                style = MaterialTheme.typography.labelSmall,
+                color = supersetColor(group),
+            )
+        }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 title,
@@ -299,6 +333,49 @@ private fun ExerciseCard(
                             },
                         )
                     }
+                    if (index > 0) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.move_up)) },
+                            onClick = {
+                                menuOpen = false
+                                viewModel.moveExercise(workoutId, item.workoutExercise.id, -1)
+                            },
+                        )
+                    }
+                    if (!isLast) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.move_down)) },
+                            onClick = {
+                                menuOpen = false
+                                viewModel.moveExercise(workoutId, item.workoutExercise.id, 1)
+                            },
+                        )
+                    }
+                    if (!isLast && (group == null || groups[index + 1] != group)) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.superset_with_next)) },
+                            onClick = {
+                                menuOpen = false
+                                viewModel.supersetWithNext(workoutId, index)
+                            },
+                        )
+                    }
+                    if (group != null) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.remove_from_superset)) },
+                            onClick = {
+                                menuOpen = false
+                                viewModel.removeFromSuperset(workoutId, index)
+                            },
+                        )
+                    }
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.replace_exercise)) },
+                        onClick = {
+                            menuOpen = false
+                            onReplace()
+                        },
+                    )
                     DropdownMenuItem(
                         text = { Text(stringResource(R.string.remove_exercise)) },
                         onClick = {
@@ -324,15 +401,15 @@ private fun ExerciseCard(
         val fields = setFields(category)
         SetHeader(settings.weightUnit, fields, assisted = category == ExerciseCategory.ASSISTED_BODYWEIGHT.key)
         val labels = setLabels(item.sets.map { it.setType.name.lowercase() })
-        item.sets.forEachIndexed { index, set ->
+        item.sets.forEachIndexed { setIndex, set ->
             // Keyed so a swiped-away row doesn't hand its state to the next one.
             key(set.id) {
-                val previousSet = previous.getOrNull(index)
+                val previousSet = previous.getOrNull(setIndex)
                 SetRow(
-                    label = labels[index],
+                    label = labels[setIndex],
                     set = set,
                     previous = previousSet,
-                    onToggle = { viewModel.toggleSet(item, set, previousSet, title) },
+                    onToggle = { viewModel.toggleSet(item, set, previousSet, title, startsRest(groups, index)) },
                     unit = settings.weightUnit,
                     fields = fields,
                     viewModel = viewModel,
@@ -342,6 +419,7 @@ private fun ExerciseCard(
         TextButton(onClick = { viewModel.addSet(item.workoutExercise.id) }, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.add_set))
         }
+    }
     }
 
     if (restDialogOpen) {
@@ -373,6 +451,14 @@ private fun ExerciseCard(
         )
     }
 }
+
+@Composable
+private fun supersetColor(group: Int) = listOf(
+    MaterialTheme.colorScheme.tertiary,
+    MaterialTheme.colorScheme.secondary,
+    MaterialTheme.colorScheme.primary,
+    MaterialTheme.colorScheme.error,
+)[Math.floorMod(group, 4)]
 
 private val SetColumn = 40.dp
 private val ValueColumn = 72.dp

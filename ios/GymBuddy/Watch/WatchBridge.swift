@@ -70,6 +70,10 @@ final class WatchBridge: NSObject {
             exerciseDefault: exercise?.defaultRestSeconds,
             appDefault: appDefault
         )
+        // In a superset only the last exercise starts the rest timer.
+        let items = item.workout?.liveExercises ?? []
+        let position = items.firstIndex { $0.id == item.id } ?? 0
+        guard startsRest(groups: items.map(\.supersetGroup), index: position) else { return }
         RestTimer.shared.start(seconds: seconds, exerciseName: exercise?.displayName ?? exerciseId)
     }
 }

@@ -48,7 +48,8 @@ import kotlinx.serialization.Serializable
 @Serializable object ExercisesRoute
 @Serializable object SettingsRoute
 @Serializable object MeasurementsRoute
-@Serializable data class ExercisePickerRoute(val workoutId: String? = null)
+/** With [replaceWorkoutExerciseId] the picker picks one exercise to put in that one's place. */
+@Serializable data class ExercisePickerRoute(val workoutId: String? = null, val replaceWorkoutExerciseId: String? = null)
 @Serializable data class TemplateEditorRoute(val templateId: String? = null)
 @Serializable data class ExerciseDetailRoute(val exerciseId: String)
 @Serializable object PlateCalculatorRoute
@@ -103,6 +104,9 @@ fun GymBuddyNavHost() {
             composable<WorkoutRoute> {
                 WorkoutTab(
                     onAddExercises = { navController.navigate(ExercisePickerRoute(it)) },
+                    onReplaceExercise = { workoutId, workoutExerciseId ->
+                        navController.navigate(ExercisePickerRoute(workoutId, replaceWorkoutExerciseId = workoutExerciseId))
+                    },
                     onEditTemplate = { navController.navigate(TemplateEditorRoute(it)) },
                 )
             }
@@ -133,13 +137,18 @@ fun GymBuddyNavHost() {
             composable<OneRepMaxCalculatorRoute> { OneRepMaxCalculatorScreen(onBack = { navController.popBackStack() }) }
             composable<WarmupCalculatorRoute> { WarmupCalculatorScreen(onBack = { navController.popBackStack() }) }
             composable<ExercisePickerRoute> { entry ->
-                val workoutId = entry.toRoute<ExercisePickerRoute>().workoutId
+                val route = entry.toRoute<ExercisePickerRoute>()
+                val workoutId = route.workoutId
+                val replaceId = route.replaceWorkoutExerciseId
                 // Scope the view model to the Workout tab so the insert survives popping this screen.
                 val workoutEntry = remember(entry) { navController.getBackStackEntry<WorkoutRoute>() }
                 val workoutViewModel: WorkoutViewModel = hiltViewModel(workoutEntry)
                 ExercisePickerScreen(
+                    single = replaceId != null,
                     onDone = { ids ->
-                        if (workoutId != null) {
+                        if (replaceId != null) {
+                            ids.firstOrNull()?.let { workoutViewModel.replaceExercise(replaceId, it) }
+                        } else if (workoutId != null) {
                             workoutViewModel.addExercises(workoutId, ids)
                         } else {
                             navController.previousBackStackEntry?.savedStateHandle?.set(PICKED_EXERCISES, ArrayList(ids))

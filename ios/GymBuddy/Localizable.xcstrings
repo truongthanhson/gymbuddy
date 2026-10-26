@@ -904,12 +904,32 @@
         }
       }
     },
+    "Move down": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chuyển xuống"
+          }
+        }
+      }
+    },
     "Move to folder": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Chuyển thư mục"
+          }
+        }
+      }
+    },
+    "Move up": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chuyển lên"
           }
         }
       }
@@ -1244,12 +1264,32 @@
         }
       }
     },
+    "Remove from superset": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ khỏi superset"
+          }
+        }
+      }
+    },
     "Rename folder": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Đổi tên thư mục"
+          }
+        }
+      }
+    },
+    "Replace exercise": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thay bài tập"
           }
         }
       }
@@ -1450,6 +1490,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bắt đầu tập"
+          }
+        }
+      }
+    },
+    "Superset": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Superset"
+          }
+        }
+      }
+    },
+    "Superset with next exercise": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Superset với bài tiếp theo"
           }
         }
       }

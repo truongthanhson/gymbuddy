@@ -277,4 +277,24 @@ final class SharedVectorsTests: XCTestCase {
         XCTAssertEqual(WeightUnit.lb.distanceUnit, .mi)
         XCTAssertEqual(WeightUnit.kg.distanceUnit, .km)
     }
+
+    func testSupersetsMatchSharedVectors() throws {
+        struct File: Decodable {
+            struct Rest: Decodable { let groups: [Int?]; let results: [Bool] }
+            struct Edit: Decodable { let note: String; let groups: [Int?]; let index: Int; let result: [Int?] }
+            let startsRest: [Rest]
+            let supersetWithNext: [Edit]
+            let removeFromSuperset: [Edit]
+        }
+        let file = try vectors("supersets", as: File.self)
+        for c in file.startsRest {
+            XCTAssertEqual(c.groups.indices.map { startsRest(groups: c.groups, index: $0) }, c.results)
+        }
+        for c in file.supersetWithNext {
+            XCTAssertEqual(supersetWithNext(groups: c.groups, index: c.index), c.result, c.note)
+        }
+        for c in file.removeFromSuperset {
+            XCTAssertEqual(removeFromSuperset(groups: c.groups, index: c.index), c.result, c.note)
+        }
+    }
 }

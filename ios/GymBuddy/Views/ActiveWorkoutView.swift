@@ -11,6 +11,7 @@ struct ActiveWorkoutView: View {
     @State private var showCancel = false
     @State private var showRename = false
     @State private var newName = ""
+    @State private var replacing: WorkoutExercise?
 
     private var namesById: [String: Exercise] {
         Dictionary(exercises.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
@@ -51,8 +52,17 @@ struct ActiveWorkoutView: View {
                     WorkoutService.setNote($0, for: workout, in: context)
                 }
             }
-            ForEach(workout.liveExercises) { item in
-                ExerciseSection(item: item, exercise: namesById[item.exerciseId])
+            let items = workout.liveExercises
+            let groups = items.map(\.supersetGroup)
+            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                ExerciseSection(
+                    item: item,
+                    exercise: namesById[item.exerciseId],
+                    workout: workout,
+                    index: index,
+                    groups: groups,
+                    onReplace: { replacing = item }
+                )
             }
             Section {
                 Button("Add exercises") { showPicker = true }
@@ -82,6 +92,11 @@ struct ActiveWorkoutView: View {
         .sheet(isPresented: $showPicker) {
             ExercisePickerView { ids in
                 WorkoutService.addExercises(ids, to: workout, in: context)
+            }
+        }
+        .sheet(item: $replacing) { item in
+            ExercisePickerView(single: true) { ids in
+                if let id = ids.first { WorkoutService.replace(item, with: id, in: context) }
             }
         }
         .confirmationDialog("Finish workout?", isPresented: $showFinish, titleVisibility: .visible) {
@@ -125,7 +140,14 @@ private struct ExerciseSection: View {
     @AppStorage(SettingsKey.defaultRestSeconds) private var appDefaultRest = defaultRestSeconds
     let item: WorkoutExercise
     let exercise: Exercise?
+    let workout: Workout
+    let index: Int
+    let groups: [Int?]
+    let onReplace: () -> Void
     @State private var noteOpen = false
+
+    private var group: Int? { groups[index] }
+    private var isLast: Bool { index == groups.count - 1 }
 
     private var title: String { exercise?.displayName ?? item.exerciseId }
 
@@ -166,13 +188,16 @@ private struct ExerciseSection: View {
             let category = exercise?.category ?? ""
             let fields = setFields(category: category)
             SetHeader(unit: weightUnit, fields: fields, assisted: category == ExerciseCategory.assistedBodyweight.rawValue)
-            ForEach(Array(sets.enumerated()), id: \.element.id) { index, set in
-                let previousSet = previous.indices.contains(index) ? previous[index] : nil
-                SetRow(label: labels[index], set: set, previous: previousSet, unit: weightUnit, fields: fields) {
+            ForEach(Array(sets.enumerated()), id: \.element.id) { setIndex, set in
+                let previousSet = previous.indices.contains(setIndex) ? previous[setIndex] : nil
+                SetRow(label: labels[setIndex], set: set, previous: previousSet, unit: weightUnit, fields: fields) {
                     let wasCompleted = set.completed
                     WorkoutService.toggle(set, previous: previousSet, in: context)
                     if !wasCompleted {
-                        RestTimer.shared.start(seconds: restSeconds, exerciseName: title)
+                        // In a superset only the last exercise starts the rest timer.
+                        if startsRest(groups: groups, index: index) {
+                            RestTimer.shared.start(seconds: restSeconds, exerciseName: title)
+                        }
                     }
                 }
                     .swipeActions(edge: .trailing) {
@@ -184,10 +209,21 @@ private struct ExerciseSection: View {
             Button("Add set") { WorkoutService.addSet(to: item, in: context) }
         } header: {
             HStack {
-                Text(verbatim: title)
-                    .font(.headline)
-                    .foregroundStyle(Color.accentColor)
-                    .textCase(nil)
+                if let group {
+                    // Exercises of one superset share a coloured bar, like Strong.
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(supersetColor(group))
+                        .frame(width: 4, height: 28)
+                }
+                VStack(alignment: .leading, spacing: 0) {
+                    if let group {
+                        Text("Superset").font(.caption2).foregroundStyle(supersetColor(group)).textCase(nil)
+                    }
+                    Text(verbatim: title)
+                        .font(.headline)
+                        .foregroundStyle(Color.accentColor)
+                        .textCase(nil)
+                }
                 Spacer()
                 Menu {
                     Menu {
@@ -219,6 +255,37 @@ private struct ExerciseSection: View {
                             Label("Add note", systemImage: "note.text")
                         }
                     }
+                    if index > 0 {
+                        Button {
+                            WorkoutService.move(item, by: -1, in: workout, context: context)
+                        } label: {
+                            Label("Move up", systemImage: "arrow.up")
+                        }
+                    }
+                    if !isLast {
+                        Button {
+                            WorkoutService.move(item, by: 1, in: workout, context: context)
+                        } label: {
+                            Label("Move down", systemImage: "arrow.down")
+                        }
+                    }
+                    if !isLast && (group == nil || groups[index + 1] != group) {
+                        Button {
+                            WorkoutService.updateSupersets(in: workout, context: context) { supersetWithNext(groups: $0, index: index) }
+                        } label: {
+                            Label("Superset with next exercise", systemImage: "link")
+                        }
+                    }
+                    if group != nil {
+                        Button {
+                            WorkoutService.updateSupersets(in: workout, context: context) { removeFromSuperset(groups: $0, index: index) }
+                        } label: {
+                            Label("Remove from superset", systemImage: "link.badge.plus")
+                        }
+                    }
+                    Button(action: onReplace) {
+                        Label("Replace exercise", systemImage: "arrow.triangle.2.circlepath")
+                    }
                     Button("Remove exercise", role: .destructive) {
                         WorkoutService.remove(item, in: context)
                     }
@@ -228,6 +295,10 @@ private struct ExerciseSection: View {
             }
         }
     }
+}
+
+private func supersetColor(_ group: Int) -> Color {
+    [Color.orange, .purple, .teal, .pink][((group % 4) + 4) % 4]
 }
 
 private enum Column {

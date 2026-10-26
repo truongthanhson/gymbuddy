@@ -43,6 +43,8 @@ data class WorkoutExerciseEntity(
     val createdAt: Long,
     val updatedAt: Long,
     val deletedAt: Long? = null,
+    /** Neighbouring exercises with the same number form a superset. */
+    val supersetGroup: Int? = null,
 )
 
 enum class SetType { WARMUP, NORMAL, DROP, FAILURE }

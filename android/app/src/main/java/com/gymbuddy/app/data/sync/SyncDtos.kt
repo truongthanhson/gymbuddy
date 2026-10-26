@@ -102,14 +102,15 @@ data class TemplateExerciseRow(
     @SerialName("created_at") val createdAt: String,
     @SerialName("updated_at") override val updatedAt: String,
     @SerialName("deleted_at") val deletedAt: String? = null,
+    @SerialName("superset_group") val supersetGroup: Int? = null,
 ) : SyncedRow
 
 fun TemplateExerciseEntity.toRow() = TemplateExerciseRow(
-    id, templateId, exerciseId, sortOrder, restSeconds, note, createdAt.ts(), updatedAt.ts(), deletedAt.ts(),
+    id, templateId, exerciseId, sortOrder, restSeconds, note, createdAt.ts(), updatedAt.ts(), deletedAt.ts(), supersetGroup,
 )
 
 fun TemplateExerciseRow.toEntity() = TemplateExerciseEntity(
-    id, templateId, exerciseId, sortOrder, restSeconds, note, createdAt.ms(), updatedAt.ms(), deletedAt.ms(),
+    id, templateId, exerciseId, sortOrder, restSeconds, note, createdAt.ms(), updatedAt.ms(), deletedAt.ms(), supersetGroup,
 )
 
 @Serializable
@@ -170,14 +171,15 @@ data class WorkoutExerciseRow(
     @SerialName("created_at") val createdAt: String,
     @SerialName("updated_at") override val updatedAt: String,
     @SerialName("deleted_at") val deletedAt: String? = null,
+    @SerialName("superset_group") val supersetGroup: Int? = null,
 ) : SyncedRow
 
 fun WorkoutExerciseEntity.toRow() = WorkoutExerciseRow(
-    id, workoutId, exerciseId, sortOrder, restSeconds, note, createdAt.ts(), updatedAt.ts(), deletedAt.ts(),
+    id, workoutId, exerciseId, sortOrder, restSeconds, note, createdAt.ts(), updatedAt.ts(), deletedAt.ts(), supersetGroup,
 )
 
 fun WorkoutExerciseRow.toEntity() = WorkoutExerciseEntity(
-    id, workoutId, exerciseId, sortOrder, restSeconds, note, createdAt.ms(), updatedAt.ms(), deletedAt.ms(),
+    id, workoutId, exerciseId, sortOrder, restSeconds, note, createdAt.ms(), updatedAt.ms(), deletedAt.ms(), supersetGroup,
 )
 
 @Serializable

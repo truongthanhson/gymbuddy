@@ -30,7 +30,7 @@ import com.gymbuddy.app.data.workout.WorkoutSetEntity
         TemplateSetEntity::class,
         MeasurementEntity::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)

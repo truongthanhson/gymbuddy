@@ -212,4 +212,10 @@
     <string name="working_weight">Working weight</string>
     <string name="no_warmup_needed">No warm-up sets needed for this weight.</string>
     <string name="add_warmup_sets">Add warm-up sets</string>
+    <string name="superset">Superset</string>
+    <string name="superset_with_next">Superset with next exercise</string>
+    <string name="remove_from_superset">Remove from superset</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="replace_exercise">Replace exercise</string>
 </resources>

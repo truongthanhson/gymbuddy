@@ -24,6 +24,7 @@ data class DraftExercise(
     val id: String = newId(),
     val exerciseId: String,
     val restSeconds: Int? = null,
+    val supersetGroup: Int? = null,
     val sets: List<DraftSet> = listOf(DraftSet()),
 )
 
@@ -56,6 +57,7 @@ class TemplateRepository @Inject constructor(private val db: GymBuddyDatabase) {
                     id = e.templateExercise.id,
                     exerciseId = e.templateExercise.exerciseId,
                     restSeconds = e.templateExercise.restSeconds,
+                    supersetGroup = e.templateExercise.supersetGroup,
                     sets = e.sets.map { DraftSet(it.id, it.targetWeightKg, it.targetReps) },
                 )
             },
@@ -93,6 +95,7 @@ class TemplateRepository @Inject constructor(private val db: GymBuddyDatabase) {
                         exerciseId = e.exerciseId,
                         sortOrder = index,
                         restSeconds = e.restSeconds,
+                        supersetGroup = e.supersetGroup,
                         createdAt = createdAtById[e.id] ?: now,
                         updatedAt = now,
                     )
@@ -179,6 +182,7 @@ class TemplateRepository @Inject constructor(private val db: GymBuddyDatabase) {
                     exerciseId = e.templateExercise.exerciseId,
                     sortOrder = index,
                     restSeconds = e.templateExercise.restSeconds,
+                    supersetGroup = e.templateExercise.supersetGroup,
                     createdAt = now,
                     updatedAt = now,
                 ),
@@ -219,6 +223,7 @@ class TemplateRepository @Inject constructor(private val db: GymBuddyDatabase) {
                         id = previous?.id ?: newId(),
                         exerciseId = e.workoutExercise.exerciseId,
                         restSeconds = e.workoutExercise.restSeconds,
+                        supersetGroup = e.workoutExercise.supersetGroup,
                         sets = done.mapIndexed { i, s ->
                             DraftSet(previous?.sets?.getOrNull(i)?.id ?: newId(), s.weightKg, s.reps)
                         },
@@ -238,6 +243,7 @@ class TemplateRepository @Inject constructor(private val db: GymBuddyDatabase) {
                     DraftExercise(
                         exerciseId = e.workoutExercise.exerciseId,
                         restSeconds = e.workoutExercise.restSeconds,
+                        supersetGroup = e.workoutExercise.supersetGroup,
                         sets = e.sets.filter { it.completed }.ifEmpty { e.sets }.map { DraftSet(targetWeightKg = it.weightKg, targetReps = it.reps) },
                     )
                 },

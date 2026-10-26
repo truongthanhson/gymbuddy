@@ -54,6 +54,8 @@ final class TemplateExercise {
     var sortOrder: Int
     var restSeconds: Int?
     var note: String?
+    /// Neighbouring exercises with the same number form a superset.
+    var supersetGroup: Int?
     var createdAt: Date
     var updatedAt: Date
     var deletedAt: Date?

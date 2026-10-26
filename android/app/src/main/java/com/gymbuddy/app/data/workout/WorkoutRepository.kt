@@ -104,6 +104,39 @@ class WorkoutRepository @Inject constructor(private val db: GymBuddyDatabase) {
         dao.upsertWorkoutExercise(item.copy(deletedAt = now, updatedAt = now))
     }
 
+    /** Moves an exercise [delta] places up (negative) or down in the workout. */
+    suspend fun moveExercise(workoutId: String, workoutExerciseId: String, delta: Int) = db.withTransaction {
+        val items = dao.getWorkoutWithExercises(workoutId)?.exercises?.map { it.workoutExercise } ?: return@withTransaction
+        val from = items.indexOfFirst { it.id == workoutExerciseId }
+        val to = from + delta
+        if (from < 0 || to !in items.indices) return@withTransaction
+        val reordered = items.toMutableList().apply { add(to, removeAt(from)) }
+        val now = clock()
+        dao.upsertWorkoutExercises(
+            reordered.mapIndexedNotNull { index, item ->
+                if (item.sortOrder == index) null else item.copy(sortOrder = index, updatedAt = now)
+            },
+        )
+    }
+
+    /** Swaps the exercise but keeps its sets, like Strong's "Replace exercise". */
+    suspend fun replaceExercise(workoutExerciseId: String, exerciseId: String) = db.withTransaction {
+        val item = dao.getWorkoutExercise(workoutExerciseId) ?: return@withTransaction
+        dao.upsertWorkoutExercise(item.copy(exerciseId = exerciseId, updatedAt = clock()))
+    }
+
+    /** Rewrites the superset groups of the workout's exercises, given in exercise order. */
+    suspend fun updateSupersets(workoutId: String, transform: (List<Int?>) -> List<Int?>) = db.withTransaction {
+        val items = dao.getWorkoutWithExercises(workoutId)?.exercises?.map { it.workoutExercise } ?: return@withTransaction
+        val groups = transform(items.map { it.supersetGroup })
+        val now = clock()
+        dao.upsertWorkoutExercises(
+            items.zip(groups).mapNotNull { (item, group) ->
+                if (item.supersetGroup == group) null else item.copy(supersetGroup = group, updatedAt = now)
+            },
+        )
+    }
+
     /** Rest time after each set of this exercise in this workout; 0 turns the timer off. */
     suspend fun setRestSeconds(workoutExerciseId: String, seconds: Int) = db.withTransaction {
         val item = dao.getWorkoutExercise(workoutExerciseId) ?: return@withTransaction

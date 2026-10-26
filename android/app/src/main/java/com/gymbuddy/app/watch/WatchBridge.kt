@@ -9,6 +9,7 @@ import com.gymbuddy.app.data.workout.WorkoutRepository
 import com.gymbuddy.app.data.workout.filledFrom
 import com.gymbuddy.app.data.workout.isEmpty
 import com.gymbuddy.app.domain.resolveRestSeconds
+import com.gymbuddy.app.domain.startsRest
 import com.gymbuddy.app.timer.RestTimerController
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.watchlink.WatchAction
@@ -91,6 +92,10 @@ class WatchBridge @Inject constructor(
             exercise?.defaultRestSeconds,
             settings.settings.value.defaultRestSeconds,
         )
+        // In a superset only the last exercise starts the rest timer.
+        val items = workoutDao.getWorkoutWithExercises(item.workoutId)?.exercises.orEmpty()
+        val position = items.indexOfFirst { it.workoutExercise.id == item.id }
+        if (!startsRest(items.map { it.workoutExercise.supersetGroup }, position)) return
         withContext(Dispatchers.Main) { restTimer.start(seconds, exercise.displayName(vietnamese)) }
     }
 
