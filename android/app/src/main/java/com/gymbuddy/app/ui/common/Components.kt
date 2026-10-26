@@ -113,36 +113,6 @@ fun GymCard(
     }
 }
 
-/** A number with a caption, for summaries and the profile. */
-@Composable
-fun StatTile(value: String, label: String, modifier: Modifier = Modifier, icon: ImageVector? = null, tint: Color = MaterialTheme.colorScheme.primary) {
-    Column(
-        modifier
-            .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(horizontal = Spacing.md, vertical = Spacing.md),
-        verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
-    ) {
-        if (icon != null) Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(18.dp))
-        Text(value, style = MaterialTheme.typography.titleLarge, maxLines = 1)
-        Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
-    }
-}
-
-/** A rounded label, e.g. a body part or "PR". */
-@Composable
-fun Pill(text: String, color: Color, modifier: Modifier = Modifier) {
-    Text(
-        text,
-        style = MaterialTheme.typography.labelSmall,
-        color = color,
-        modifier = modifier
-            .clip(CircleShape)
-            .background(color.copy(alpha = 0.14f))
-            .padding(horizontal = Spacing.sm, vertical = Spacing.xxs),
-    )
-}
-
 /** Icon, title and hint for a screen with nothing in it yet. */
 @Composable
 fun EmptyState(icon: ImageVector, title: String, message: String, modifier: Modifier = Modifier, action: @Composable () -> Unit = {}) {
@@ -177,26 +147,4 @@ fun BodyPart.color(): Color {
         BodyPart.CARDIO -> MaterialTheme.colorScheme.error
         BodyPart.OLYMPIC, BodyPart.FULL_BODY, BodyPart.OTHER -> MaterialTheme.colorScheme.onSurfaceVariant
     }
-}
-
-/** A tinted circle with the exercise's first letter, colored by body part. */
-@Composable
-fun ExerciseAvatar(name: String, bodyPart: BodyPart, modifier: Modifier = Modifier, size: Dp = 40.dp) {
-    val color = bodyPart.color()
-    Box(
-        modifier.size(size).clip(CircleShape).background(color.copy(alpha = 0.15f)),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            name.trim().take(1).uppercase(),
-            style = MaterialTheme.typography.titleMedium,
-            color = color,
-        )
-    }
-}
-
-/** Label for [BodyPart] as a colored pill. */
-@Composable
-fun BodyPartPill(bodyPart: BodyPart, modifier: Modifier = Modifier) {
-    Pill(stringResource(bodyPart.label), bodyPart.color(), modifier)
 }

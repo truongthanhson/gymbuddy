@@ -22,9 +22,23 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("boolean", "PRO_SWITCH", "true")
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            buildConfigField("boolean", "PRO_SWITCH", "false")
+        }
+        // For trying the app on a phone: not debuggable, so Compose runs at release speed
+        // (debug builds scroll noticeably worse), but signed with the debug key so it installs
+        // over a debug build without losing data. Keeps the "Pro without purchase" switch.
+        create("staging") {
+            initWith(getByName("debug"))
+            isDebuggable = false
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            buildConfigField("boolean", "PRO_SWITCH", "true")
         }
     }
 
@@ -63,6 +77,8 @@ ksp {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    // Installs the baseline profiles Compose ships with, so lists scroll smoothly from the first launch.
+    implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.activity.compose)
     implementation(libs.health.connect)
     implementation(libs.play.billing)

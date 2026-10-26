@@ -29,22 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
-import com.gymbuddy.app.data.workout.WorkoutSetEntity
-import com.gymbuddy.app.data.workout.WorkoutWithExercises
-import com.gymbuddy.app.domain.SetValues
-import com.gymbuddy.app.domain.bestSetIndex
 import com.gymbuddy.app.domain.formatElapsed
-import com.gymbuddy.app.domain.volumeKg
 import com.gymbuddy.app.ui.common.EmptyState
 import com.gymbuddy.app.ui.common.GymCard
 import com.gymbuddy.app.ui.common.LocalAppSettings
 import com.gymbuddy.app.ui.common.ScreenHeader
-import com.gymbuddy.app.ui.common.StatTile
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
 import com.gymbuddy.app.ui.theme.Spacing
-import java.text.DateFormat
-import java.util.Date
 
 @Composable
 fun HistoryScreen(
@@ -52,7 +44,7 @@ fun HistoryScreen(
     onOpenCalendar: () -> Unit,
     viewModel: HistoryViewModel = hiltViewModel(),
 ) {
-    val workouts by viewModel.workouts.collectAsStateWithLifecycle()
+    val workouts by viewModel.cards.collectAsStateWithLifecycle()
     val list = workouts
     Column(Modifier.fillMaxSize()) {
         ScreenHeader(
@@ -78,50 +70,42 @@ fun HistoryScreen(
                 contentPadding = PaddingValues(start = Spacing.lg, end = Spacing.lg, top = Spacing.sm, bottom = Spacing.xl),
                 verticalArrangement = Arrangement.spacedBy(Spacing.md),
             ) {
-                items(list, key = { it.workout.id }) { WorkoutCard(it, onClick = { onOpenWorkout(it.workout.id) }) }
+                items(list, key = { it.id }) { WorkoutCard(it, onClick = { onOpenWorkout(it.id) }) }
             }
         }
     }
 }
 
-private fun WorkoutSetEntity.values() = SetValues(weightKg, reps, completed)
-
 @Composable
-private fun WorkoutCard(item: WorkoutWithExercises, onClick: () -> Unit) {
+private fun WorkoutCard(card: HistoryCard, onClick: () -> Unit) {
     val vietnamese = useVietnameseNames()
     val unit = LocalAppSettings.current.weightUnit
-    val workout = item.workout
-    val allSets = item.exercises.flatMap { it.sets }.map { it.values() }
-    val duration = ((workout.endedAt ?: workout.startedAt) - workout.startedAt) / 1_000
-    val date = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(Date(workout.startedAt))
+    val muted = MaterialTheme.colorScheme.onSurfaceVariant
 
     GymCard(onClick = onClick) {
-        Text(workout.name, style = MaterialTheme.typography.titleMedium)
-        Text(date, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Row(Modifier.padding(vertical = Spacing.sm), horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
-            StatTile(formatElapsed(duration), stringResource(R.string.duration), Modifier.weight(1f))
-            StatTile(unit.format(volumeKg(allSets)), stringResource(R.string.volume), Modifier.weight(1f))
-            StatTile(allSets.size.toString(), stringResource(R.string.stat_sets), Modifier.weight(1f))
-        }
-        item.exercises.forEach { exercise ->
-            val sets = exercise.sets.map { it.values() }
-            val best = bestSetIndex(sets)?.let { sets[it] }
+        Text(card.name, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(
+            "${card.date} · ${formatElapsed(card.durationSeconds)} · ${unit.format(card.volumeKg)}",
+            style = MaterialTheme.typography.bodySmall,
+            color = muted,
+            modifier = Modifier.padding(bottom = Spacing.xs),
+        )
+        card.lines.forEach { line ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    "${sets.size} × ${exercise.exercise.displayName(vietnamese)}",
+                    "${line.sets} × ${line.exercise.displayName(vietnamese)}",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.weight(1f),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                if (best != null) {
-                    Text(
-                        "${unit.format(best.weightKg ?: 0.0)} × ${best.reps}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                if (line.bestReps != null) {
+                    Text("${unit.format(line.bestWeightKg ?: 0.0)} × ${line.bestReps}", style = MaterialTheme.typography.bodyMedium, color = muted)
                 }
             }
+        }
+        if (card.moreExercises > 0) {
+            Text(stringResource(R.string.more_exercises, card.moreExercises), style = MaterialTheme.typography.bodySmall, color = muted)
         }
     }
 }

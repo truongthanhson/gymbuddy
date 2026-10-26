@@ -47,58 +47,6 @@ extension View {
     }
 }
 
-/// A number with a caption, for summaries and the profile.
-struct StatTile: View {
-    let value: String
-    let label: LocalizedStringKey
-    var systemImage: String?
-    var tint: Color = Palette.primary
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.xxs) {
-            if let systemImage {
-                Image(systemName: systemImage).font(.footnote.weight(.semibold)).foregroundStyle(tint)
-            }
-            Text(value).font(.stat(.title3)).lineLimit(1).minimumScaleFactor(0.7)
-            Text(label).font(.caption).foregroundStyle(Palette.secondaryText).lineLimit(1)
-        }
-        .padding(Spacing.md)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Palette.raised, in: RoundedRectangle(cornerRadius: Radius.medium, style: .continuous))
-    }
-}
-
-/// A rounded label, e.g. a body part or "PR".
-struct Pill: View {
-    let text: Text
-    let color: Color
-
-    var body: some View {
-        text
-            .font(.caption2.weight(.semibold))
-            .foregroundStyle(color)
-            .padding(.horizontal, Spacing.sm)
-            .padding(.vertical, Spacing.xxs)
-            .background(color.opacity(0.14), in: Capsule())
-    }
-}
-
-/// A tinted circle with the exercise's first letter, colored by body part.
-struct ExerciseAvatar: View {
-    let name: String
-    let bodyPart: BodyPart
-    var size: CGFloat = 40
-
-    var body: some View {
-        let color = Palette.color(for: bodyPart)
-        Text(String(name.trimmingCharacters(in: .whitespaces).prefix(1)).uppercased())
-            .font(.system(size: size * 0.42, weight: .bold, design: .rounded))
-            .foregroundStyle(color)
-            .frame(width: size, height: size)
-            .background(color.opacity(0.15), in: Circle())
-    }
-}
-
 /// The main call to action: a full-width filled button in the accent color.
 struct PrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {

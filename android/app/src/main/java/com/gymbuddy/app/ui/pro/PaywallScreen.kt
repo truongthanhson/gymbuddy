@@ -142,7 +142,7 @@ fun PaywallScreen(onBack: () -> Unit, viewModel: PaywallViewModel = hiltViewMode
                 }
                 TextButton(onClick = viewModel::restore) { Text(stringResource(R.string.pro_restore)) }
             }
-            if (BuildConfig.DEBUG) {
+            if (BuildConfig.PRO_SWITCH) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(stringResource(R.string.pro_debug_override), modifier = Modifier.weight(1f))
                     Switch(checked = debugOverride, onCheckedChange = viewModel::setDebugOverride)
