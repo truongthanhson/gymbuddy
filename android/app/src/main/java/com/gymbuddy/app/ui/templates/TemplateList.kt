@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CreateNewFolder
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -35,7 +34,11 @@ import androidx.compose.ui.unit.dp
 import com.gymbuddy.app.R
 import com.gymbuddy.app.data.template.FolderEntity
 import com.gymbuddy.app.data.template.TemplateWithExercises
+import com.gymbuddy.app.domain.BodyPart
+import com.gymbuddy.app.ui.common.ExerciseAvatar
+import com.gymbuddy.app.ui.common.GymCard
 import com.gymbuddy.app.ui.common.displayName
+import com.gymbuddy.app.ui.theme.Spacing
 import java.text.DateFormat
 import java.util.Date
 
@@ -59,8 +62,8 @@ fun LazyListScope.templateItems(
     actions: TemplateActions,
 ) {
     item {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(stringResource(R.string.templates), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+        Row(Modifier.padding(top = Spacing.md), verticalAlignment = Alignment.CenterVertically) {
+            Text(stringResource(R.string.templates), style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
             NameDialogButton(
                 title = stringResource(R.string.new_folder),
                 label = stringResource(R.string.folder_name),
@@ -74,11 +77,13 @@ fun LazyListScope.templateItems(
     val loose = state.templates.filter { it.template.folderId == null || it.template.folderId !in knownFolders }
     if (state.templates.isEmpty()) {
         item {
-            Text(
-                stringResource(R.string.no_templates),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            GymCard {
+                Text(
+                    stringResource(R.string.no_templates),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
     }
     if (loose.isNotEmpty()) {
@@ -143,17 +148,23 @@ private fun TemplateCard(
     var preview by remember { mutableStateOf(false) }
     val copySuffix = stringResource(R.string.copy_suffix)
 
-    Card(
-        Modifier
-            .fillMaxWidth()
-            .clickable { preview = true },
-    ) {
-        Row(Modifier.padding(start = 16.dp, top = 8.dp, bottom = 12.dp), verticalAlignment = Alignment.Top) {
-            Column(Modifier.weight(1f).padding(top = 4.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+    GymCard(onClick = { preview = true }, contentPadding = 0.dp) {
+        Row(Modifier.padding(start = Spacing.lg, top = Spacing.md, bottom = Spacing.md), verticalAlignment = Alignment.Top) {
+            val first = item.exercises.firstOrNull()?.exercise
+            ExerciseAvatar(
+                item.template.name,
+                first?.let { BodyPart.fromKey(it.bodyPart) } ?: BodyPart.OTHER,
+                modifier = Modifier.padding(top = Spacing.xxs),
+            )
+            Column(
+                Modifier.weight(1f).padding(start = Spacing.md, top = Spacing.xxs),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+            ) {
                 Text(item.template.name, style = MaterialTheme.typography.titleMedium)
                 Text(
                     item.exercises.joinToString { it.exercise.displayName(vietnamese) },
                     style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -161,8 +172,8 @@ private fun TemplateCard(
                     item.template.lastUsedAt?.let {
                         stringResource(R.string.last_used, DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(it)))
                     } ?: stringResource(R.string.never_used),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary,
                 )
             }
             Box {

@@ -278,4 +278,10 @@
     <string name="import_file_title">Nhập buổi tập?</string>
     <string name="import_file_text">GymBuddy sẽ thêm các buổi tập trong file này (ví dụ file xuất từ Strong) vào lịch sử. Buổi tập đã có sẽ được bỏ qua.</string>
     <string name="import_file_confirm">Nhập</string>
+    <string name="stat_sets">Hiệp</string>
+    <string name="no_history_title">Chưa có buổi tập</string>
+    <string name="no_history_hint">Hoàn thành một buổi tập để thấy nó ở đây.</string>
+    <plurals name="workout_count">
+        <item quantity="other">%1$d buổi tập</item>
+    </plurals>
 </resources>

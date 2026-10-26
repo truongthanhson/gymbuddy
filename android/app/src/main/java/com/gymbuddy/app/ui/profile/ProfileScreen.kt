@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.WorkspacePremium
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,18 +38,19 @@ import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.domain.BodyPartSet
 import com.gymbuddy.app.domain.formatWeight
 import com.gymbuddy.app.domain.setsPerBodyPart
+import com.gymbuddy.app.domain.startOfWeekMillis
+import com.gymbuddy.app.domain.workoutsPerWeek
+import com.gymbuddy.app.ui.common.Card
 import com.gymbuddy.app.ui.common.LineChart
 import com.gymbuddy.app.ui.common.LocalAppSettings
 import com.gymbuddy.app.ui.common.LocalIsPro
-import com.gymbuddy.app.domain.startOfWeekMillis
-import com.gymbuddy.app.domain.workoutsPerWeek
 import com.gymbuddy.app.ui.history.HistoryViewModel
 import com.gymbuddy.app.ui.settings.AccountViewModel
 import java.text.DateFormat
 import java.time.Instant
-import java.util.Date
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 private const val CHART_WEEKS = 8
 
@@ -90,7 +90,7 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(stringResource(R.string.tab_profile), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.weight(1f))
+            Text(stringResource(R.string.tab_profile), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.weight(1f))
             IconButton(onClick = onOpenSettings) {
                 Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.tab_settings))
             }

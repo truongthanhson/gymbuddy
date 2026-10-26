@@ -18,7 +18,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -47,24 +46,25 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
-import com.gymbuddy.app.domain.ProFeature
-import com.gymbuddy.app.ui.common.LocalIsPro
-import com.gymbuddy.app.ui.pro.ProLocked
 import com.gymbuddy.app.data.exercise.ExerciseEntity
 import com.gymbuddy.app.data.exercise.Instructions
 import com.gymbuddy.app.domain.BodyPart
 import com.gymbuddy.app.domain.ExerciseCategory
+import com.gymbuddy.app.domain.ProFeature
 import com.gymbuddy.app.domain.Record
 import com.gymbuddy.app.domain.SessionPoint
 import com.gymbuddy.app.domain.WeightUnit
 import com.gymbuddy.app.domain.bestSetIndex
 import com.gymbuddy.app.domain.estimatedOneRepMax
 import com.gymbuddy.app.domain.formatWeight
+import com.gymbuddy.app.ui.common.Card
 import com.gymbuddy.app.ui.common.LineChart
 import com.gymbuddy.app.ui.common.LocalAppSettings
+import com.gymbuddy.app.ui.common.LocalIsPro
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
 import com.gymbuddy.app.ui.exercises.ExerciseEditorDialog
+import com.gymbuddy.app.ui.pro.ProLocked
 import java.text.DateFormat
 import java.util.Date
 
