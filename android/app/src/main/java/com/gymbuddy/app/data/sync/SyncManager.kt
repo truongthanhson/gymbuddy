@@ -34,7 +34,7 @@ data class SyncStatus(
 )
 
 /**
- * Two-way sync with Supabase, last write wins on updatedAt (see supabase/migrations/*_sync.sql).
+ * Two-way sync with Supabase, last write wins on updatedAt (see the sync migration in supabase/migrations).
  * Push: every row changed since the last push, parents before children.
  * Pull: every row the server changed since the last pull (by its own clock), applied when newer than the local row.
  */
