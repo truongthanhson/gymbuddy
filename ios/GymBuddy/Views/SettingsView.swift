@@ -48,6 +48,7 @@ struct SettingsView: View {
                 NavigationLink("Plate calculator") { PlateCalculatorView() }
                 NavigationLink("1RM calculator") { OneRepMaxCalculatorView() }
                 NavigationLink("Warm-up calculator") { WarmupCalculatorView() }
+                NavigationLink("Bar and plates") { BarAndPlatesView() }
             }
             dataSection
             Section("About") {

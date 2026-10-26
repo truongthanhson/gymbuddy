@@ -51,6 +51,7 @@ fun SettingsScreen(
     onOpenPlateCalculator: () -> Unit,
     onOpenOneRepMaxCalculator: () -> Unit,
     onOpenWarmupCalculator: () -> Unit,
+    onOpenBarAndPlates: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -132,6 +133,11 @@ fun SettingsScreen(
             modifier = Modifier.clickable(onClick = onOpenWarmupCalculator),
             headlineContent = { Text(stringResource(R.string.warmup_calculator)) },
             supportingContent = { Text(stringResource(R.string.warmup_calculator_hint)) },
+        )
+        ListItem(
+            modifier = Modifier.clickable(onClick = onOpenBarAndPlates),
+            headlineContent = { Text(stringResource(R.string.bar_and_plates)) },
+            supportingContent = { Text(stringResource(R.string.bar_and_plates_hint)) },
         )
         HorizontalDivider()
 

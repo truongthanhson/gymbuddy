@@ -40,6 +40,10 @@ class SettingsViewModel @Inject constructor(
 
     fun setWeightUnit(unit: WeightUnit) = repository.setWeightUnit(unit)
 
+    fun setBar(unit: WeightUnit, weight: Double) = repository.setBar(unit, weight)
+
+    fun setPlates(unit: WeightUnit, plates: List<Double>) = repository.setPlates(unit, plates)
+
     fun setDefaultRestSeconds(seconds: Int) = repository.setDefaultRestSeconds(seconds)
 
     /** Turning it on needs the Health Connect permissions; [granted] is what the permission screen returned. */

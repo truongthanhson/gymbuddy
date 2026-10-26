@@ -280,7 +280,7 @@ private struct ExerciseSection: View {
     /// Strong-style warm-up sets before the heaviest normal set.
     private func addWarmupSets() {
         guard let working = item.liveSets.filter({ $0.setType == .normal }).compactMap(\.weightKg).max() else { return }
-        let sets = warmupSets(working: weightUnit.display(working), bar: weightUnit.defaultBar, plates: weightUnit.defaultPlates)
+        let sets = warmupSets(working: weightUnit.display(working), bar: weightUnit.bar(), plates: weightUnit.plates())
         WorkoutService.insertWarmupSets(sets.map { (weightUnit.toKg($0.weight), $0.reps) }, into: item, in: context)
     }
 

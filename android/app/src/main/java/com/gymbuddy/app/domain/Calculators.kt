@@ -15,6 +15,13 @@ val WeightUnit.defaultBar: Double
         WeightUnit.LB -> 45.0
     }
 
+/** Plates that can be turned on in "Bar and plates", heaviest first; matches iOS. */
+val WeightUnit.plateOptions: List<Double>
+    get() = when (this) {
+        WeightUnit.KG -> listOf(50.0, 25.0, 20.0, 15.0, 10.0, 5.0, 2.5, 2.0, 1.25, 1.0, 0.5, 0.25)
+        WeightUnit.LB -> listOf(55.0, 45.0, 35.0, 25.0, 15.0, 10.0, 5.0, 2.5, 1.25)
+    }
+
 /** [perSide] is heaviest first; [remainder] is what the plates could not make (negative below the bar). */
 data class PlateLoad(val perSide: List<Double>, val loaded: Double, val remainder: Double)
 

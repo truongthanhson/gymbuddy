@@ -238,4 +238,7 @@
     <string name="personal_record">Personal record</string>
     <string name="tab_profile">Profile</string>
     <string name="workouts_per_week">Workouts per week</string>
+    <string name="bar_and_plates">Bar and plates</string>
+    <string name="bar_and_plates_hint">Your bar weight and the plates you have, for the calculators and warm-up sets</string>
+    <string name="available_plates">Available plates</string>
 </resources>

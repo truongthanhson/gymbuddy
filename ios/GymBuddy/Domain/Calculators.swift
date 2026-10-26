@@ -15,6 +15,39 @@ extension WeightUnit {
         case .lb: 45
         }
     }
+
+    /// Plates that can be turned on in "Bar and plates", heaviest first; matches Android.
+    var plateOptions: [Double] {
+        switch self {
+        case .kg: [50, 25, 20, 15, 10, 5, 2.5, 2, 1.25, 1, 0.5, 0.25]
+        case .lb: [55, 45, 35, 25, 15, 10, 5, 2.5, 1.25]
+        }
+    }
+
+    /// UserDefaults keys for the user's bar and plates in this unit.
+    var barKey: String { "bar.\(rawValue)" }
+    var platesKey: String { "plates.\(rawValue)" }
+
+    /// The user's bar weight in this unit, or the default.
+    func bar(in defaults: UserDefaults = .standard) -> Double {
+        defaults.object(forKey: barKey) as? Double ?? defaultBar
+    }
+
+    /// The plates the user has in this unit, heaviest first, or the defaults.
+    func plates(in defaults: UserDefaults = .standard) -> [Double] {
+        guard let saved = defaults.string(forKey: platesKey) else { return defaultPlates }
+        let plates = saved.split(separator: ",").compactMap { Double($0) }
+        return plates.isEmpty ? defaultPlates : plates
+    }
+
+    func setBar(_ weight: Double, in defaults: UserDefaults = .standard) {
+        defaults.set(max(weight, 0), forKey: barKey)
+    }
+
+    func setPlates(_ plates: [Double], in defaults: UserDefaults = .standard) {
+        let sorted = Array(Set(plates)).sorted(by: >)
+        defaults.set(sorted.map { String($0) }.joined(separator: ","), forKey: platesKey)
+    }
 }
 
 /// `perSide` is heaviest first; `remainder` is what the plates could not make (negative below the bar).

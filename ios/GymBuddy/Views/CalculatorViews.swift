@@ -13,13 +13,13 @@ struct PlateCalculatorView: View {
                 weightField("Bar", value: $bar)
             }
             if let target {
-                result(plateLoad(target: target, bar: bar ?? 0, plates: weightUnit.defaultPlates))
+                result(plateLoad(target: target, bar: bar ?? 0, plates: weightUnit.plates()))
             }
         }
         .navigationTitle("Plate calculator")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { if bar == nil { bar = weightUnit.defaultBar } }
-        .onChange(of: weightUnit) { _, unit in bar = unit.defaultBar }
+        .onAppear { if bar == nil { bar = weightUnit.bar() } }
+        .onChange(of: weightUnit) { _, unit in bar = unit.bar() }
     }
 
     private func weightField(_ label: LocalizedStringKey, value: Binding<Double?>) -> some View {
@@ -128,13 +128,13 @@ struct WarmupCalculatorView: View {
                 weightField("Bar", value: $bar)
             }
             if let working {
-                let sets = warmupSets(working: working, bar: bar ?? 0, plates: weightUnit.defaultPlates)
+                let sets = warmupSets(working: working, bar: bar ?? 0, plates: weightUnit.plates())
                 Section {
                     if sets.isEmpty {
                         Text("No warm-up sets needed for this weight.")
                     }
                     ForEach(Array(sets.enumerated()), id: \.offset) { _, set in
-                        let perSide = plateLoad(target: set.weight, bar: bar ?? 0, plates: weightUnit.defaultPlates).perSide
+                        let perSide = plateLoad(target: set.weight, bar: bar ?? 0, plates: weightUnit.plates()).perSide
                         VStack(alignment: .leading) {
                             Text(verbatim: "\(formatWeight(set.weight)) \(weightUnit.symbol) × \(set.reps)").font(.headline)
                             if perSide.isEmpty {
@@ -151,8 +151,8 @@ struct WarmupCalculatorView: View {
         }
         .navigationTitle("Warm-up calculator")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { if bar == nil { bar = weightUnit.defaultBar } }
-        .onChange(of: weightUnit) { _, unit in bar = unit.defaultBar }
+        .onAppear { if bar == nil { bar = weightUnit.bar() } }
+        .onChange(of: weightUnit) { _, unit in bar = unit.bar() }
     }
 
     private func weightField(_ label: LocalizedStringKey, value: Binding<Double?>) -> some View {
@@ -164,5 +164,66 @@ struct WarmupCalculatorView: View {
                 Text(verbatim: weightUnit.symbol).foregroundStyle(.secondary)
             }
         }
+    }
+}
+
+/// The bar and the plates the user has, used by the plate and warm-up calculators and "Add warm-up sets".
+struct BarAndPlatesView: View {
+    @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
+    @State private var bar: Double?
+    @State private var plates: [Double] = []
+
+    var body: some View {
+        Form {
+            Section {
+                LabeledContent("Bar") {
+                    HStack {
+                        TextField("Bar", value: $bar, format: .number)
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                        Text(verbatim: weightUnit.symbol).foregroundStyle(.secondary)
+                    }
+                }
+            }
+            Section("Available plates") {
+                ForEach(weightUnit.plateOptions, id: \.self) { plate in
+                    let on = plates.contains(plate)
+                    Button {
+                        toggle(plate)
+                    } label: {
+                        HStack {
+                            Text(verbatim: "\(formatWeight(plate)) \(weightUnit.symbol)")
+                            Spacer()
+                            if on { Image(systemName: "checkmark").foregroundStyle(.tint) }
+                        }
+                    }
+                    .foregroundStyle(.primary)
+                    // Keep at least one plate so the calculators have something to load.
+                    .disabled(on && plates.count == 1)
+                }
+            }
+        }
+        .navigationTitle("Bar and plates")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear(perform: load)
+        .onChange(of: weightUnit) { load() }
+        .onChange(of: bar) { _, weight in
+            if let weight { weightUnit.setBar(weight) }
+        }
+    }
+
+    private func load() {
+        bar = weightUnit.bar()
+        plates = weightUnit.plates()
+    }
+
+    private func toggle(_ plate: Double) {
+        if let index = plates.firstIndex(of: plate) {
+            plates.remove(at: index)
+        } else {
+            plates.append(plate)
+        }
+        weightUnit.setPlates(plates)
+        plates = weightUnit.plates()
     }
 }
