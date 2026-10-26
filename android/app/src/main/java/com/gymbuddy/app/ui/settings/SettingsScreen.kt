@@ -24,6 +24,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -60,6 +61,9 @@ fun SettingsScreen(
     }
     val importLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         uri?.let(viewModel::importCsv)
+    }
+    val healthPermissionLauncher = rememberLauncherForActivityResult(viewModel.health.permissionContract()) { granted ->
+        viewModel.onHealthPermissionResult(granted)
     }
     val version = remember {
         runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }.getOrNull() ?: ""
@@ -126,6 +130,24 @@ fun SettingsScreen(
         HorizontalDivider()
 
         SectionTitle(R.string.settings_data)
+        if (viewModel.health.isAvailable) {
+            ListItem(
+                headlineContent = { Text(stringResource(R.string.health_connect)) },
+                supportingContent = { Text(stringResource(R.string.health_connect_hint)) },
+                trailingContent = {
+                    Switch(
+                        checked = settings.healthEnabled,
+                        onCheckedChange = { on ->
+                            if (on) {
+                                viewModel.turnOnHealthIfAllowed { healthPermissionLauncher.launch(viewModel.health.permissions) }
+                            } else {
+                                viewModel.turnOffHealth()
+                            }
+                        },
+                    )
+                },
+            )
+        }
         ListItem(
             modifier = Modifier.clickable { exportLauncher.launch("gymbuddy-workouts.csv") },
             headlineContent = { Text(stringResource(R.string.export_csv)) },

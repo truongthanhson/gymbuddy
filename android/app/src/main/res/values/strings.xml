@@ -183,4 +183,7 @@
         <item quantity="one">%1$d was already on this device and was skipped.</item>
         <item quantity="other">%1$d were already on this device and were skipped.</item>
     </plurals>
+    <string name="health_connect">Health Connect</string>
+    <string name="health_connect_hint">Save finished workouts and body weight to Health Connect</string>
+    <string name="health_rationale">GymBuddy only writes to Health Connect: each finished workout as a strength training session, and each body weight you log. It does not read your health data. You can turn this off in GymBuddy settings or in Health Connect at any time.</string>
 </resources>

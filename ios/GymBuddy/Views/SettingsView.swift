@@ -5,6 +5,7 @@ struct SettingsView: View {
     @AppStorage(SettingsKey.defaultRestSeconds) private var restSeconds = defaultRestSeconds
     @Environment(\.openURL) private var openURL
     @Environment(\.modelContext) private var context
+    @AppStorage(SettingsKey.healthEnabled) private var healthEnabled = false
     @State private var exportDocument: CsvDocument?
     @State private var exporting = false
     @State private var importing = false
@@ -61,6 +62,14 @@ struct SettingsView: View {
 
     private var dataSection: some View {
         Section {
+            if HealthService.isAvailable {
+                Toggle("Apple Health", isOn: $healthEnabled)
+                    // Turning it on asks for write access first and turns back off if it is refused.
+                    .onChange(of: healthEnabled) { _, on in
+                        guard on else { return }
+                        Task { healthEnabled = await HealthService.requestAuthorization() }
+                    }
+            }
             Button("Export workouts (CSV)", action: export)
                 .fileExporter(
                     isPresented: $exporting,
@@ -81,7 +90,7 @@ struct SettingsView: View {
         } header: {
             Text("Data")
         } footer: {
-            Text("Exports use the same columns as Strong, and imports accept GymBuddy and Strong CSV exports.")
+            Text("Apple Health gets each finished workout and body weight. Exports use the same columns as Strong, and imports accept GymBuddy and Strong CSV exports.")
         }
     }
 

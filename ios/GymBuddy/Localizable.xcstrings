@@ -141,6 +141,26 @@
         }
       }
     },
+    "Apple Health": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Health"
+          }
+        }
+      }
+    },
+    "Apple Health gets each finished workout and body weight. Exports use the same columns as Strong, and imports accept GymBuddy and Strong CSV exports.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Health nhận mỗi buổi tập đã xong và cân nặng. File xuất dùng cùng các cột với Strong. Có thể nhập file CSV xuất từ GymBuddy hoặc Strong."
+          }
+        }
+      }
+    },
     "Arms": {
       "localizations": {
         "vi": {
@@ -577,16 +597,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Xuất buổi tập (CSV)"
-          }
-        }
-      }
-    },
-    "Exports use the same columns as Strong, and imports accept GymBuddy and Strong CSV exports.": {
-      "localizations": {
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "File xuất dùng cùng các cột với Strong. Có thể nhập file CSV xuất từ GymBuddy hoặc Strong."
           }
         }
       }

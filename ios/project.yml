@@ -30,6 +30,12 @@ targets:
         CFBundleLocalizations: [en, vi]
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSHealthUpdateUsageDescription: GymBuddy saves your finished workouts and body weight to Apple Health.
+        NSHealthShareUsageDescription: GymBuddy does not read your health data; iOS asks for this text with write access.
+    entitlements:
+      path: GymBuddy/GymBuddy.entitlements
+      properties:
+        com.apple.developer.healthkit: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gymbuddy.app

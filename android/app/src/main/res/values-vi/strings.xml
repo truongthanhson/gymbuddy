@@ -179,4 +179,7 @@
     <plurals name="csv_skipped">
         <item quantity="other">Bỏ qua %1$d buổi đã có sẵn trên máy.</item>
     </plurals>
+    <string name="health_connect">Health Connect</string>
+    <string name="health_connect_hint">Lưu buổi tập đã xong và cân nặng vào Health Connect</string>
+    <string name="health_rationale">GymBuddy chỉ ghi vào Health Connect: mỗi buổi tập đã xong được lưu thành một buổi tập sức mạnh, và mỗi lần bạn ghi cân nặng. Ứng dụng không đọc dữ liệu sức khỏe của bạn. Bạn có thể tắt bất cứ lúc nào trong Cài đặt của GymBuddy hoặc trong Health Connect.</string>
 </resources>

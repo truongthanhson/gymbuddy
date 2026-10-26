@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.updateAndGet
 data class AppSettings(
     val weightUnit: WeightUnit = WeightUnit.KG,
     val defaultRestSeconds: Int = DEFAULT_REST_SECONDS,
+    /** Write finished workouts and body weight to Health Connect. */
+    val healthEnabled: Boolean = false,
 )
 
 /** Preferences kept on this device. */
@@ -29,21 +31,26 @@ class SettingsRepository @Inject constructor(@ApplicationContext context: Contex
 
     fun setDefaultRestSeconds(seconds: Int) = update { it.copy(defaultRestSeconds = seconds.coerceAtLeast(0)) }
 
+    fun setHealthEnabled(enabled: Boolean) = update { it.copy(healthEnabled = enabled) }
+
     private fun update(transform: (AppSettings) -> AppSettings) {
         val next = state.updateAndGet(transform)
         prefs.edit()
             .putString(KEY_WEIGHT_UNIT, next.weightUnit.name)
             .putInt(KEY_DEFAULT_REST, next.defaultRestSeconds)
+            .putBoolean(KEY_HEALTH, next.healthEnabled)
             .apply()
     }
 
     private fun read() = AppSettings(
         weightUnit = WeightUnit.entries.firstOrNull { it.name == prefs.getString(KEY_WEIGHT_UNIT, null) } ?: WeightUnit.KG,
         defaultRestSeconds = prefs.getInt(KEY_DEFAULT_REST, DEFAULT_REST_SECONDS),
+        healthEnabled = prefs.getBoolean(KEY_HEALTH, false),
     )
 
     private companion object {
         const val KEY_WEIGHT_UNIT = "weight_unit"
         const val KEY_DEFAULT_REST = "default_rest_seconds"
+        const val KEY_HEALTH = "health_enabled"
     }
 }
