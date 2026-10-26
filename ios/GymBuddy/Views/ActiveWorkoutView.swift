@@ -277,6 +277,9 @@ private struct ExerciseSection: View {
     let groups: [Int?]
     let onReplace: () -> Void
     @State private var noteOpen = false
+    // Looked up once per exercise, not on every redraw: typing a weight redraws the section.
+    @State private var previous: [WorkoutSet] = []
+    @State private var recordSets: [SetValues] = []
 
     private var group: Int? { groups[index] }
     private var isLast: Bool { index == groups.count - 1 }
@@ -306,11 +309,9 @@ private struct ExerciseSection: View {
     }
 
     var body: some View {
-        // In an edited workout, "Previous" is the session before that one.
-        let previous = WorkoutService.previousSets(for: item.exerciseId, before: workout.startedAt, in: context)
         // Warm-up sets never count as records.
         let records = liveRecords(
-            previous: WorkoutService.historySets(for: item.exerciseId, before: workout.startedAt, in: context),
+            previous: recordSets,
             current: item.liveSets.map {
                 SetValues(weightKg: $0.weightKg, reps: $0.reps, completed: $0.completed && $0.setType != .warmup)
             }
@@ -436,6 +437,11 @@ private struct ExerciseSection: View {
                     Image(systemName: "ellipsis.circle")
                 }
             }
+        }
+        .task(id: "\(item.exerciseId)|\(workout.startedAt.timeIntervalSince1970)") {
+            // In an edited workout, "Previous" is the session before that one.
+            previous = WorkoutService.previousSets(for: item.exerciseId, before: workout.startedAt, in: context)
+            recordSets = recordHolders(WorkoutService.historySets(for: item.exerciseId, before: workout.startedAt, in: context))
         }
     }
 }

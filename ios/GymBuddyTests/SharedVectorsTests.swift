@@ -325,6 +325,11 @@ final class SharedVectorsTests: XCTestCase {
         for c in try vectors("live_records", as: File.self).cases {
             let expected = c.badges.map { Set($0.compactMap(RecordKind.init(rawValue:))) }
             XCTAssertEqual(liveRecords(previous: values(c.previous), current: values(c.current)), expected, c.name)
+            XCTAssertEqual(
+                liveRecords(previous: recordHolders(values(c.previous)), current: values(c.current)),
+                expected,
+                "\(c.name) (record holders only)"
+            )
         }
     }
 
