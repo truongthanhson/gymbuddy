@@ -39,6 +39,7 @@ final class RestTimer {
 
     private func apply(_ next: RestTimerState?) {
         state = next
+        WatchBridge.shared.publish()
         finishTask?.cancel()
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: [Self.notificationId])
@@ -58,6 +59,7 @@ final class RestTimer {
             try? await Task.sleep(for: .seconds(interval))
             guard !Task.isCancelled, let self, self.state == next else { return }
             self.state = nil
+            WatchBridge.shared.publish()
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         }
     }

@@ -1,0 +1,86 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%lld/%lld sets": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld/%2$lld set"
+          }
+        }
+      }
+    },
+    "All sets done. Finish the workout on your iPhone.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã xong mọi set. Kết thúc buổi tập trên iPhone."
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xong"
+          }
+        }
+      }
+    },
+    "No workout in progress. Start one on your iPhone.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có buổi tập nào. Hãy bắt đầu trên iPhone."
+          }
+        }
+      }
+    },
+    "Open GymBuddy on your iPhone": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở GymBuddy trên iPhone"
+          }
+        }
+      }
+    },
+    "Rest": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nghỉ"
+          }
+        }
+      }
+    },
+    "Set %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set %@"
+          }
+        }
+      }
+    },
+    "Skip rest": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ qua nghỉ"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

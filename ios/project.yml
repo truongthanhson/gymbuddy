@@ -3,6 +3,7 @@ options:
   bundleIdPrefix: com.gymbuddy
   deploymentTarget:
     iOS: "17.0"
+    watchOS: "10.0"
   developmentLanguage: en
 settings:
   base:
@@ -41,6 +42,7 @@ targets:
         com.apple.security.application-groups: [group.com.gymbuddy.app]
     dependencies:
       - target: GymBuddyWidget
+      - target: GymBuddyWatch
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gymbuddy.app
@@ -70,6 +72,25 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.gymbuddy.app.widget
         GENERATE_INFOPLIST_FILE: NO
         TARGETED_DEVICE_FAMILY: "1"
+  GymBuddyWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - path: GymBuddyWatch
+      # Phone ↔ watch protocol, shared with the iPhone app.
+      - path: Shared/WatchLink.swift
+    info:
+      path: GymBuddyWatch/Info.plist
+      properties:
+        CFBundleDisplayName: GymBuddy
+        CFBundleLocalizations: [en, vi]
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.gymbuddy.app
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.gymbuddy.app.watchkitapp
+        GENERATE_INFOPLIST_FILE: NO
+        TARGETED_DEVICE_FAMILY: "4"
   GymBuddyTests:
     type: bundle.unit-test
     platform: iOS
