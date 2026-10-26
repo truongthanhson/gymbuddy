@@ -72,6 +72,8 @@ class SyncManager @Inject constructor(
             dao::versionsOfWorkoutExercises, { it.toEntity() }, dao::upsertWorkoutExercises),
         Table("workout_sets", WorkoutSetRow.serializer(), dao::changedWorkoutSets, { it.toRow() },
             dao::versionsOfWorkoutSets, { it.toEntity() }, dao::upsertWorkoutSets),
+        Table("measurements", MeasurementRow.serializer(), dao::changedMeasurements, { it.toRow() },
+            dao::versionsOfMeasurements, { it.toEntity() }, dao::upsertMeasurements),
     )
 
     /** Starts a sync in the background when signed in; does nothing if one is already running. */
@@ -107,6 +109,7 @@ class SyncManager @Inject constructor(
             dao.deleteTemplates()
             dao.deleteFolders()
             dao.deleteCustomExercises()
+            dao.deleteMeasurements()
         }
         prefs.edit().clear().apply()
         state.value = SyncStatus()

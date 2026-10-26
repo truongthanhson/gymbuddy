@@ -9,6 +9,8 @@ struct RootView: View {
                 .tabItem { Label("Workout", systemImage: "plus") }
             ExercisesView()
                 .tabItem { Label("Exercises", systemImage: "dumbbell") }
+            MeasurementsView()
+                .tabItem { Label("Measure", systemImage: "ruler") }
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gearshape") }
         }

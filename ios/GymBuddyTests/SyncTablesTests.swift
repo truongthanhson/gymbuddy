@@ -10,7 +10,7 @@ final class SyncTablesTests: XCTestCase {
     private func makeContainer() throws -> ModelContainer {
         try ModelContainer(
             for: Exercise.self, Workout.self, WorkoutExercise.self, WorkoutSet.self,
-            TemplateFolder.self, WorkoutTemplate.self, TemplateExercise.self, TemplateSet.self,
+            TemplateFolder.self, WorkoutTemplate.self, TemplateExercise.self, TemplateSet.self, BodyMeasurement.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
     }
@@ -83,5 +83,23 @@ final class SyncTablesTests: XCTestCase {
         XCTAssertEqual(pulled.id, exercise.id)
         XCTAssertEqual(pulled.name, "Landmine Press")
         XCTAssertTrue(pulled.isCustom)
+    }
+
+    func testMeasurementRoundTrip() throws {
+        let sourceContainer = try makeContainer()
+        let source = sourceContainer.mainContext
+        let measurement = BodyMeasurement(kind: MeasurementKind.weight.rawValue, value: 80.5, unit: MeasurementUnit.kg.rawValue)
+        source.insert(measurement)
+        try source.save()
+
+        let targetContainer = try makeContainer()
+        let target = targetContainer.mainContext
+        try copy(from: source, to: target)
+
+        let pulled = try XCTUnwrap(try target.fetch(FetchDescriptor<BodyMeasurement>()).first)
+        XCTAssertEqual(pulled.id, measurement.id)
+        XCTAssertEqual(pulled.kind, "weight")
+        XCTAssertEqual(pulled.value, 80.5, accuracy: 1e-9)
+        XCTAssertEqual(pulled.unit, "kg")
     }
 }

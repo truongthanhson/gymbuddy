@@ -148,4 +148,19 @@
     <string name="loaded_weight">Đã lắp: %1$s</string>
     <string name="plate_remainder">Lệch %1$s so với mục tiêu với bộ đĩa này</string>
     <string name="rep_max_row">%1$d rep</string>
+    <string name="tab_measure">Số đo</string>
+    <string name="add_measurement">Thêm số đo</string>
+    <string name="no_measurements">Chưa có số đo nào. Bấm + để ghi.</string>
+    <string name="measure_weight">Cân nặng</string>
+    <string name="measure_body_fat">Tỷ lệ mỡ</string>
+    <string name="measure_neck">Cổ</string>
+    <string name="measure_chest">Ngực</string>
+    <string name="measure_waist">Eo</string>
+    <string name="measure_hips">Hông</string>
+    <string name="measure_arm_left">Bắp tay trái</string>
+    <string name="measure_arm_right">Bắp tay phải</string>
+    <string name="measure_thigh_left">Đùi trái</string>
+    <string name="measure_thigh_right">Đùi phải</string>
+    <string name="measure_calf_left">Bắp chân trái</string>
+    <string name="measure_calf_right">Bắp chân phải</string>
 </resources>

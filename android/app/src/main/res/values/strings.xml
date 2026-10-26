@@ -149,4 +149,19 @@
     <string name="loaded_weight">Loaded: %1$s</string>
     <string name="plate_remainder">%1$s off the target with these plates</string>
     <string name="rep_max_row">%1$d reps</string>
+    <string name="tab_measure">Measure</string>
+    <string name="add_measurement">Add measurement</string>
+    <string name="no_measurements">No entries yet. Tap + to log one.</string>
+    <string name="measure_weight">Body weight</string>
+    <string name="measure_body_fat">Body fat</string>
+    <string name="measure_neck">Neck</string>
+    <string name="measure_chest">Chest</string>
+    <string name="measure_waist">Waist</string>
+    <string name="measure_hips">Hips</string>
+    <string name="measure_arm_left">Left arm</string>
+    <string name="measure_arm_right">Right arm</string>
+    <string name="measure_thigh_left">Left thigh</string>
+    <string name="measure_thigh_right">Right thigh</string>
+    <string name="measure_calf_left">Left calf</string>
+    <string name="measure_calf_right">Right calf</string>
 </resources>
