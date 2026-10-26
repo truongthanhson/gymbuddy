@@ -54,6 +54,8 @@ data class TemplateExerciseEntity(
     val createdAt: Long,
     val updatedAt: Long,
     val deletedAt: Long? = null,
+    /** Neighbouring exercises with the same number form a superset. */
+    val supersetGroup: Int? = null,
 )
 
 @Entity(

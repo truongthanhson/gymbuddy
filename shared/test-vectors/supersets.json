@@ -1,0 +1,18 @@
+{
+  "description": "Supersets are exercises next to each other that share a group number (workout_exercises.superset_group). The rest timer only starts after a set of the last exercise of a superset. Groups are listed in exercise order; null means not in a superset.",
+  "startsRest": [
+    { "groups": [null, 1, 1, null], "results": [true, false, true, true] },
+    { "groups": [1, 1, 1], "results": [false, false, true] },
+    { "groups": [1, 1, 2, 2], "results": [false, true, false, true] }
+  ],
+  "supersetWithNext": [
+    { "note": "two loose exercises get a new group", "groups": [null, null, 3, 3], "index": 0, "result": [4, 4, 3, 3] },
+    { "note": "the next one joins this one's group", "groups": [1, 1, null], "index": 1, "result": [1, 1, 1] },
+    { "note": "this one joins the next one's group", "groups": [null, 2, 2], "index": 0, "result": [2, 2, 2] },
+    { "note": "the last exercise has no next", "groups": [null, null], "index": 1, "result": [null, null] }
+  ],
+  "removeFromSuperset": [
+    { "note": "the group goes away when one is left", "groups": [1, 1, null], "index": 0, "result": [null, null, null] },
+    { "note": "the others stay together", "groups": [1, 1, 1], "index": 2, "result": [1, 1, null] }
+  ]
+}

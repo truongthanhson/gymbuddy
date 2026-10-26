@@ -28,6 +28,8 @@ import com.gymbuddy.app.R
 @Composable
 fun ExercisePickerScreen(
     onDone: (List<String>) -> Unit,
+    /** Picking one exercise finishes right away, for "Replace exercise". */
+    single: Boolean = false,
     onBack: () -> Unit,
     viewModel: ExercisesViewModel = hiltViewModel(),
 ) {
@@ -38,7 +40,7 @@ fun ExercisePickerScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.add_exercises)) },
+                title = { Text(stringResource(if (single) R.string.replace_exercise else R.string.add_exercises)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.close))
@@ -48,8 +50,10 @@ fun ExercisePickerScreen(
                     IconButton(onClick = { creating = true }) {
                         Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.new_exercise))
                     }
-                    TextButton(onClick = { onDone(selected.toList()) }, enabled = selected.isNotEmpty()) {
-                        Text(stringResource(R.string.add_count, selected.size))
+                    if (!single) {
+                        TextButton(onClick = { onDone(selected.toList()) }, enabled = selected.isNotEmpty()) {
+                            Text(stringResource(R.string.add_count, selected.size))
+                        }
                     }
                 },
             )
@@ -61,7 +65,9 @@ fun ExercisePickerScreen(
             onBodyPartSelected = viewModel::onBodyPartSelected,
             modifier = Modifier.padding(padding),
             isSelected = { it.id in selected },
-            onExerciseClick = { if (!selected.remove(it.id)) selected.add(it.id) },
+            onExerciseClick = {
+                if (single) onDone(listOf(it.id)) else if (!selected.remove(it.id)) selected.add(it.id)
+            },
         )
     }
 
@@ -69,7 +75,7 @@ fun ExercisePickerScreen(
         ExerciseEditorDialog(
             exercise = null,
             onSave = { name, bodyPart, category ->
-                viewModel.createCustom(name, bodyPart, category) { selected.add(it) }
+                viewModel.createCustom(name, bodyPart, category) { if (single) onDone(listOf(it)) else selected.add(it) }
             },
             onDismiss = { creating = false },
         )

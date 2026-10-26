@@ -207,4 +207,10 @@
     <string name="working_weight">Mức tạ chính</string>
     <string name="no_warmup_needed">Mức tạ này không cần set khởi động.</string>
     <string name="add_warmup_sets">Thêm set khởi động</string>
+    <string name="superset">Superset</string>
+    <string name="superset_with_next">Superset với bài tiếp theo</string>
+    <string name="remove_from_superset">Bỏ khỏi superset</string>
+    <string name="move_up">Chuyển lên</string>
+    <string name="move_down">Chuyển xuống</string>
+    <string name="replace_exercise">Thay bài tập</string>
 </resources>

@@ -132,4 +132,22 @@ final class WorkoutServiceTests: XCTestCase {
         XCTAssertEqual(sets.map(\.setType), [.warmup, .warmup, .normal])
         XCTAssertEqual(watchSetLabels(sets.map(\.setTypeRaw)), ["W", "W", "1"])
     }
+
+    func testMoveReplaceAndSuperset() throws {
+        let container = try makeContainer()
+        let context = container.mainContext
+        let workout = WorkoutService.startEmptyWorkout(name: "A", in: context)
+        WorkoutService.addExercises(["a", "b", "c"], to: workout, in: context)
+        let b = try XCTUnwrap(workout.liveExercises.first { $0.exerciseId == "b" })
+
+        WorkoutService.move(b, by: -1, in: workout, context: context)
+        XCTAssertEqual(workout.liveExercises.map(\.exerciseId), ["b", "a", "c"])
+
+        WorkoutService.replace(b, with: "z", in: context)
+        XCTAssertEqual(workout.liveExercises.map(\.exerciseId), ["z", "a", "c"])
+        XCTAssertEqual(b.liveSets.count, 1)
+
+        WorkoutService.updateSupersets(in: workout, context: context) { supersetWithNext(groups: $0, index: 0) }
+        XCTAssertEqual(workout.liveExercises.map(\.supersetGroup), [1, 1, nil])
+    }
 }

@@ -7,6 +7,7 @@ struct TemplateDraft: Equatable {
         var id = UUID()
         var exerciseId: String
         var restSeconds: Int?
+        var supersetGroup: Int?
         var sets: [SetDraft] = [SetDraft()]
     }
 
@@ -44,6 +45,7 @@ enum TemplateService {
                     id: e.id,
                     exerciseId: e.exerciseId,
                     restSeconds: e.restSeconds,
+                    supersetGroup: e.supersetGroup,
                     sets: e.liveSets.map { TemplateDraft.SetDraft(id: $0.id, targetWeightKg: $0.targetWeightKg, targetReps: $0.targetReps) }
                 )
             }
@@ -92,6 +94,7 @@ enum TemplateService {
             item.exerciseId = e.exerciseId
             item.sortOrder = index
             item.restSeconds = e.restSeconds
+            item.supersetGroup = e.supersetGroup
             item.deletedAt = nil
             item.updatedAt = now
 
@@ -177,6 +180,7 @@ enum TemplateService {
         for (index, e) in template.liveExercises.enumerated() {
             let item = WorkoutExercise(exerciseId: e.exerciseId, sortOrder: index, now: now)
             item.restSeconds = e.restSeconds
+            item.supersetGroup = e.supersetGroup
             context.insert(item)
             item.workout = workout
             let sets = e.liveSets
@@ -211,6 +215,7 @@ enum TemplateService {
                 id: previous?.id ?? UUID(),
                 exerciseId: e.exerciseId,
                 restSeconds: e.restSeconds,
+                supersetGroup: e.supersetGroup,
                 sets: done.enumerated().map { i, s in
                     TemplateDraft.SetDraft(
                         id: previous.flatMap { $0.sets.indices.contains(i) ? $0.sets[i].id : nil } ?? UUID(),
@@ -233,6 +238,7 @@ enum TemplateService {
                 return TemplateDraft.ExerciseDraft(
                     exerciseId: e.exerciseId,
                     restSeconds: e.restSeconds,
+                    supersetGroup: e.supersetGroup,
                     sets: (done.isEmpty ? e.liveSets : done).map { TemplateDraft.SetDraft(targetWeightKg: $0.weightKg, targetReps: $0.reps) }
                 )
             }

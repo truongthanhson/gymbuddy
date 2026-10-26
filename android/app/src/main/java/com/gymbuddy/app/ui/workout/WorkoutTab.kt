@@ -35,6 +35,7 @@ import com.gymbuddy.app.ui.templates.templateItems
 @Composable
 fun WorkoutTab(
     onAddExercises: (workoutId: String) -> Unit,
+    onReplaceExercise: (workoutId: String, workoutExerciseId: String) -> Unit,
     onEditTemplate: (templateId: String?) -> Unit,
     viewModel: WorkoutViewModel = hiltViewModel(),
     templatesViewModel: TemplatesViewModel = hiltViewModel(),
@@ -81,6 +82,7 @@ fun WorkoutTab(
             workout = current.workout,
             viewModel = viewModel,
             onAddExercises = { onAddExercises(current.workout.workout.id) },
+            onReplaceExercise = { onReplaceExercise(current.workout.workout.id, it) },
         )
     }
 }

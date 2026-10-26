@@ -111,6 +111,36 @@ enum WorkoutService {
         save(context)
     }
 
+    /// Moves an exercise `delta` places up (negative) or down in the workout.
+    static func move(_ item: WorkoutExercise, by delta: Int, in workout: Workout, context: ModelContext, now: Date = .now) {
+        var items = workout.liveExercises
+        guard let from = items.firstIndex(where: { $0.id == item.id }), items.indices.contains(from + delta) else { return }
+        items.insert(items.remove(at: from), at: from + delta)
+        for (index, e) in items.enumerated() where e.sortOrder != index {
+            e.sortOrder = index
+            e.updatedAt = now
+        }
+        save(context)
+    }
+
+    /// Swaps the exercise but keeps its sets, like Strong's "Replace exercise".
+    static func replace(_ item: WorkoutExercise, with exerciseId: String, in context: ModelContext, now: Date = .now) {
+        item.exerciseId = exerciseId
+        item.updatedAt = now
+        save(context)
+    }
+
+    /// Rewrites the superset groups of the workout's exercises, given in exercise order.
+    static func updateSupersets(in workout: Workout, context: ModelContext, now: Date = .now, _ transform: ([Int?]) -> [Int?]) {
+        let items = workout.liveExercises
+        let groups = transform(items.map(\.supersetGroup))
+        for (item, group) in zip(items, groups) where item.supersetGroup != group {
+            item.supersetGroup = group
+            item.updatedAt = now
+        }
+        save(context)
+    }
+
     static func delete(_ set: WorkoutSet, in context: ModelContext, now: Date = .now) {
         set.deletedAt = now
         set.updatedAt = now

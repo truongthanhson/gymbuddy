@@ -107,10 +107,11 @@ class WorkoutViewModel @Inject constructor(
         set: WorkoutSetEntity,
         previous: WorkoutSetEntity?,
         exerciseName: String,
+        startsRest: Boolean,
     ) = launch {
         if (!set.completed && set.isEmpty() && previous != null) repository.updateSet(set.id) { it.filledFrom(previous) }
         repository.toggleSetCompleted(set.id)
-        if (!set.completed) {
+        if (!set.completed && startsRest) {
             restTimer.start(
                 resolveRestSeconds(
                     item.workoutExercise.restSeconds,
@@ -121,6 +122,18 @@ class WorkoutViewModel @Inject constructor(
             )
         }
     }
+
+    fun moveExercise(workoutId: String, workoutExerciseId: String, delta: Int) =
+        launch { repository.moveExercise(workoutId, workoutExerciseId, delta) }
+
+    fun replaceExercise(workoutExerciseId: String, exerciseId: String) =
+        launch { repository.replaceExercise(workoutExerciseId, exerciseId) }
+
+    fun supersetWithNext(workoutId: String, index: Int) =
+        launch { repository.updateSupersets(workoutId) { com.gymbuddy.app.domain.supersetWithNext(it, index) } }
+
+    fun removeFromSuperset(workoutId: String, index: Int) =
+        launch { repository.updateSupersets(workoutId) { com.gymbuddy.app.domain.removeFromSuperset(it, index) } }
 
     fun setRestSeconds(workoutExerciseId: String, seconds: Int) =
         launch { repository.setRestSeconds(workoutExerciseId, seconds) }
