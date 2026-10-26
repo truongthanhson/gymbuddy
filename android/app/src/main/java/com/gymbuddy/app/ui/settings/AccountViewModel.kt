@@ -1,8 +1,10 @@
 package com.gymbuddy.app.ui.settings
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gymbuddy.app.data.sync.AuthRepository
+import com.gymbuddy.app.data.sync.GoogleSignIn
 import com.gymbuddy.app.data.sync.Session
 import com.gymbuddy.app.data.sync.SignUpResult
 import com.gymbuddy.app.data.sync.SupabaseConfig
@@ -29,9 +31,11 @@ class AccountViewModel @Inject constructor(
     private val config: SupabaseConfig,
     private val auth: AuthRepository,
     private val sync: SyncManager,
+    private val google: GoogleSignIn,
 ) : ViewModel() {
 
     val isConfigured: Boolean get() = config.isConfigured
+    val googleAvailable: Boolean get() = google.isAvailable
     val session: StateFlow<Session?> = auth.session
     val syncStatus: StateFlow<SyncStatus> = sync.status
 
@@ -56,6 +60,9 @@ class AccountViewModel @Inject constructor(
             }
         }
     }
+
+    /** [activityContext] shows Google's account picker; it is not kept. */
+    fun signInWithGoogle(activityContext: Context, onDone: () -> Unit) = submit(onDone) { google.signIn(activityContext) }
 
     fun resetForm() {
         form.value = AuthFormState()

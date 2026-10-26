@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 @Serializable
-private data class ConfigFile(val url: String = "", val anonKey: String = "")
+private data class ConfigFile(val url: String = "", val anonKey: String = "", val googleWebClientId: String = "")
 
 /**
  * The Supabase project, from shared/supabase.json (copied into assets).
@@ -26,6 +26,9 @@ class SupabaseConfig @Inject constructor(@ApplicationContext context: Context) {
 
     val url: String = file.url.trimEnd('/')
     val anonKey: String = file.anonKey
+
+    /** The Google Cloud "Web application" OAuth client that Supabase's Google provider uses; empty hides Google sign-in. */
+    val googleWebClientId: String = file.googleWebClientId
 
     val isConfigured: Boolean get() = url.isNotBlank() && anonKey.isNotBlank()
 }

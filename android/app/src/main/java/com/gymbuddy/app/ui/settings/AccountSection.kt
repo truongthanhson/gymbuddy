@@ -22,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -130,12 +131,25 @@ private fun SignInDialog(viewModel: AccountViewModel, onDismiss: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val canSubmit = !form.busy && email.isNotBlank() && password.length >= MIN_PASSWORD
+    val context = LocalContext.current
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.sign_in)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                if (viewModel.googleAvailable) {
+                    OutlinedButton(
+                        onClick = { viewModel.signInWithGoogle(context, onDismiss) },
+                        enabled = !form.busy,
+                        modifier = Modifier.fillMaxWidth(),
+                    ) { Text(stringResource(R.string.continue_with_google)) }
+                    Text(
+                        stringResource(R.string.or_use_email),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },

@@ -41,6 +41,7 @@ targets:
       path: GymBuddy/GymBuddy.entitlements
       properties:
         com.apple.developer.healthkit: true
+        com.apple.developer.applesignin: [Default]
         com.apple.security.application-groups: [group.com.gymbuddy.app]
     dependencies:
       - target: GymBuddyWidget
