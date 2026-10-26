@@ -1,0 +1,85 @@
+{
+  "description": "volumeKg = sum(weight*reps) over completed sets (missing values count as 0). bestSetIndex = index of the completed set with reps > 0 and the highest Epley e1RM (missing weight = 0); ties go to the earlier set; null when none.",
+  "cases": [
+    {
+      "name": "only completed sets count",
+      "sets": [
+        {
+          "weightKg": 100,
+          "reps": 5,
+          "completed": true
+        },
+        {
+          "weightKg": 100,
+          "reps": 5,
+          "completed": false
+        }
+      ],
+      "volumeKg": 500,
+      "bestSetIndex": 0
+    },
+    {
+      "name": "best by e1RM not by weight",
+      "sets": [
+        {
+          "weightKg": 100,
+          "reps": 1,
+          "completed": true
+        },
+        {
+          "weightKg": 90,
+          "reps": 8,
+          "completed": true
+        }
+      ],
+      "volumeKg": 820,
+      "bestSetIndex": 1
+    },
+    {
+      "name": "ties go to earlier set",
+      "sets": [
+        {
+          "weightKg": 60,
+          "reps": 10,
+          "completed": true
+        },
+        {
+          "weightKg": 60,
+          "reps": 10,
+          "completed": true
+        }
+      ],
+      "volumeKg": 1200,
+      "bestSetIndex": 0
+    },
+    {
+      "name": "missing values",
+      "sets": [
+        {
+          "weightKg": null,
+          "reps": 12,
+          "completed": true
+        },
+        {
+          "weightKg": 20,
+          "reps": null,
+          "completed": true
+        }
+      ],
+      "volumeKg": 0,
+      "bestSetIndex": 0
+    },
+    {
+      "name": "nothing completed",
+      "sets": [
+        {
+          "weightKg": 50,
+          "reps": 5,
+          "completed": false
+        }
+      ],
+      "volumeKg": 0,
+      "bestSetIndex": null
+    }
+  ]
+}

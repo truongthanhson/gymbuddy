@@ -1,5 +1,6 @@
 package com.gymbuddy.app.ui.exercises
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -22,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,16 +31,35 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
 import com.gymbuddy.app.data.exercise.ExerciseEntity
 import com.gymbuddy.app.domain.BodyPart
+import com.gymbuddy.app.ui.common.displayName
+import com.gymbuddy.app.ui.common.useVietnameseNames
 
 @Composable
 fun ExercisesScreen(viewModel: ExercisesViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val useVietnamese = LocalConfiguration.current.locales[0].language == "vi"
+    ExerciseBrowser(
+        state = state,
+        onQueryChange = viewModel::onQueryChange,
+        onBodyPartSelected = viewModel::onBodyPartSelected,
+    )
+}
 
-    Column(Modifier.fillMaxSize()) {
+/** Search field, body-part chips and the exercise list; used by the Exercises tab and the exercise picker. */
+@Composable
+fun ExerciseBrowser(
+    state: ExercisesUiState,
+    onQueryChange: (String) -> Unit,
+    onBodyPartSelected: (BodyPart?) -> Unit,
+    modifier: Modifier = Modifier,
+    isSelected: (ExerciseEntity) -> Boolean = { false },
+    onExerciseClick: ((ExerciseEntity) -> Unit)? = null,
+) {
+    val vietnamese = useVietnameseNames()
+
+    Column(modifier.fillMaxSize()) {
         OutlinedTextField(
             value = state.query,
-            onValueChange = viewModel::onQueryChange,
+            onValueChange = onQueryChange,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
@@ -54,14 +74,14 @@ fun ExercisesScreen(viewModel: ExercisesViewModel = hiltViewModel()) {
             item {
                 FilterChip(
                     selected = state.bodyPart == null,
-                    onClick = { viewModel.onBodyPartSelected(null) },
+                    onClick = { onBodyPartSelected(null) },
                     label = { Text(stringResource(R.string.filter_all)) },
                 )
             }
             items(BodyPart.entries) { part ->
                 FilterChip(
                     selected = state.bodyPart == part,
-                    onClick = { viewModel.onBodyPartSelected(part) },
+                    onClick = { onBodyPartSelected(part) },
                     label = { Text(stringResource(part.label)) },
                 )
             }
@@ -73,20 +93,24 @@ fun ExercisesScreen(viewModel: ExercisesViewModel = hiltViewModel()) {
         } else {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(state.exercises, key = { it.id }) { exercise ->
-                    ExerciseRow(exercise, useVietnamese)
+                    val rowModifier = if (onExerciseClick != null) {
+                        Modifier.clickable { onExerciseClick(exercise) }
+                    } else {
+                        Modifier
+                    }
+                    ListItem(
+                        modifier = rowModifier,
+                        headlineContent = { Text(exercise.displayName(vietnamese)) },
+                        supportingContent = { Text(stringResource(BodyPart.fromKey(exercise.bodyPart).label)) },
+                        trailingContent = if (isSelected(exercise)) {
+                            { Icon(Icons.Filled.Check, contentDescription = null) }
+                        } else {
+                            null
+                        },
+                    )
                     HorizontalDivider()
                 }
             }
         }
     }
-}
-
-@Composable
-private fun ExerciseRow(exercise: ExerciseEntity, useVietnamese: Boolean) {
-    ListItem(
-        headlineContent = {
-            Text(if (useVietnamese) exercise.nameVi ?: exercise.name else exercise.name)
-        },
-        supportingContent = { Text(stringResource(BodyPart.fromKey(exercise.bodyPart).label)) },
-    )
 }

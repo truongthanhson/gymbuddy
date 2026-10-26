@@ -3,9 +3,9 @@ import SwiftUI
 struct RootView: View {
     var body: some View {
         TabView {
-            ComingSoonView(title: "History")
+            HistoryView()
                 .tabItem { Label("History", systemImage: "clock") }
-            ComingSoonView(title: "Workout")
+            WorkoutTabView()
                 .tabItem { Label("Workout", systemImage: "plus") }
             ExercisesView()
                 .tabItem { Label("Exercises", systemImage: "dumbbell") }

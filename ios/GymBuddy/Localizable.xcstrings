@@ -1,12 +1,52 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Add (%lld)": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm (%lld)"
+          }
+        }
+      }
+    },
+    "Add exercises": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm bài tập"
+          }
+        }
+      }
+    },
+    "Add set": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm set"
+          }
+        }
+      }
+    },
     "All": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Tất cả"
+          }
+        }
+      }
+    },
+    "All logged sets in this workout will be lost.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tất cả set đã ghi trong buổi này sẽ bị mất."
           }
         }
       }
@@ -31,6 +71,36 @@
         }
       }
     },
+    "Cancel": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hủy"
+          }
+        }
+      }
+    },
+    "Cancel workout": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hủy buổi tập"
+          }
+        }
+      }
+    },
+    "Cancel workout?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hủy buổi tập?"
+          }
+        }
+      }
+    },
     "Cardio": {
       "localizations": {
         "vi": {
@@ -51,16 +121,6 @@
         }
       }
     },
-    "Coming soon": {
-      "localizations": {
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sắp ra mắt"
-          }
-        }
-      }
-    },
     "Core": {
       "localizations": {
         "vi": {
@@ -71,12 +131,42 @@
         }
       }
     },
+    "Delete set": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa set"
+          }
+        }
+      }
+    },
     "Exercises": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Bài tập"
+          }
+        }
+      }
+    },
+    "Finish": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoàn thành"
+          }
+        }
+      }
+    },
+    "Finish workout?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoàn thành buổi tập?"
           }
         }
       }
@@ -101,6 +191,16 @@
         }
       }
     },
+    "Keep going": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tập tiếp"
+          }
+        }
+      }
+    },
     "Legs": {
       "localizations": {
         "vi": {
@@ -117,6 +217,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Không tìm thấy bài tập"
+          }
+        }
+      }
+    },
+    "No sets are ticked yet, so this workout will be discarded.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có set nào được tick, buổi tập này sẽ bị hủy."
+          }
+        }
+      }
+    },
+    "No workouts yet. Finished workouts show up here.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có buổi tập nào. Buổi tập đã hoàn thành sẽ hiện ở đây."
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
           }
         }
       }
@@ -141,12 +271,72 @@
         }
       }
     },
+    "Previous": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lần trước"
+          }
+        }
+      }
+    },
+    "Quick start": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bắt đầu nhanh"
+          }
+        }
+      }
+    },
+    "Remove exercise": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa bài tập"
+          }
+        }
+      }
+    },
+    "Reps": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reps"
+          }
+        }
+      }
+    },
     "Search exercises": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Tìm bài tập"
+          }
+        }
+      }
+    },
+    "Set": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set"
+          }
+        }
+      }
+    },
+    "Sets that are not ticked will be removed.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Các set chưa tick sẽ bị xóa."
           }
         }
       }
@@ -161,12 +351,42 @@
         }
       }
     },
+    "Start an empty workout": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bắt đầu buổi tập trống"
+          }
+        }
+      }
+    },
     "Workout": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Tập luyện"
+          }
+        }
+      }
+    },
+    "Workout name": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tên buổi tập"
+          }
+        }
+      }
+    },
+    "kg": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "kg"
           }
         }
       }

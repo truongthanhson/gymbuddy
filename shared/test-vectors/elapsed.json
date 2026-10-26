@@ -1,0 +1,25 @@
+{
+  "description": "formatElapsed(seconds)",
+  "cases": [
+    {
+      "seconds": 0,
+      "text": "0:00"
+    },
+    {
+      "seconds": 9,
+      "text": "0:09"
+    },
+    {
+      "seconds": 2527,
+      "text": "42:07"
+    },
+    {
+      "seconds": 3909,
+      "text": "1:05:09"
+    },
+    {
+      "seconds": -5,
+      "text": "0:00"
+    }
+  ]
+}
