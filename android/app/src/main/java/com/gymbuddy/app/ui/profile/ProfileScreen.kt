@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +23,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,7 +44,8 @@ import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.domain.BodyPartSet
 import com.gymbuddy.app.domain.formatWeight
 import com.gymbuddy.app.domain.setsPerBodyPart
-import com.gymbuddy.app.ui.common.LineChart
+import com.gymbuddy.app.ui.charts.AnimatedBarChart
+import com.gymbuddy.app.ui.charts.InteractiveLineChart
 import com.gymbuddy.app.ui.common.LocalAppSettings
 import com.gymbuddy.app.ui.common.LocalIsPro
 import com.gymbuddy.app.domain.startOfWeekMillis
@@ -131,7 +137,9 @@ fun ProfileScreen(
                         Text(stringResource(R.string.no_sets_yet), color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     val most = bodyParts.firstOrNull()?.second ?: 1
-                    bodyParts.forEach { (part, sets) -> BodyPartBar(stringResource(part.label), sets, sets.toFloat() / most) }
+                    bodyParts.forEachIndexed { index, (part, sets) ->
+                        BodyPartBar(stringResource(part.label), sets, sets.toFloat() / most, index)
+                    }
                 }
             }
             Card(Modifier.fillMaxWidth()) {
@@ -142,11 +150,12 @@ fun ProfileScreen(
                     } else {
                         val unit = LocalAppSettings.current.weightUnit
                         val dates = remember { DateFormat.getDateInstance(DateFormat.SHORT) }
-                        LineChart(
+                        InteractiveLineChart(
                             points = bodyWeights.map { it.measuredAt to unit.display(it.value) },
                             formatValue = { "${formatWeight(it)} ${unit.symbol}" },
                             formatTime = { dates.format(Date(it)) },
-                            modifier = Modifier.fillMaxWidth().height(160.dp),
+                            modifier = Modifier.fillMaxWidth(),
+                            chartHeight = 160.dp,
                         )
                     }
                 }
@@ -166,17 +175,32 @@ private const val DAY_MILLIS = 24L * 60 * 60 * 1000
 private const val WEEK_MILLIS = 7 * DAY_MILLIS
 private const val MUSCLE_DAYS = 30
 
+/** One muscle group's bar; the bars grow in one after another, [index] sets the delay. */
 @Composable
-private fun BodyPartBar(label: String, sets: Int, fraction: Float) {
+private fun BodyPartBar(label: String, sets: Int, fraction: Float, index: Int) {
+    var started by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { started = true }
+    val shown by animateFloatAsState(
+        if (started) fraction.coerceIn(0.02f, 1f) else 0f,
+        tween(durationMillis = 700, delayMillis = index * 60, easing = FastOutSlowInEasing),
+        label = "bar",
+    )
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(label, modifier = Modifier.width(96.dp), style = MaterialTheme.typography.bodyMedium, maxLines = 1)
-        Box(Modifier.weight(1f).height(12.dp)) {
-            Box(
-                Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(fraction.coerceIn(0.02f, 1f))
-                    .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp)),
-            )
+        Box(
+            Modifier
+                .weight(1f)
+                .height(12.dp)
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(6.dp)),
+        ) {
+            if (shown > 0f) {
+                Box(
+                    Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(shown)
+                        .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(6.dp)),
+                )
+            }
         }
         Text(sets.toString(), style = MaterialTheme.typography.labelLarge)
     }
@@ -184,34 +208,21 @@ private fun BodyPartBar(label: String, sets: Int, fraction: Float) {
 
 @Composable
 private fun WeekBars(counts: List<Int>, firstWeekStart: Long, zone: ZoneId) {
-    val max = (counts.maxOrNull() ?: 0).coerceAtLeast(1)
     val format = remember { DateTimeFormatter.ofPattern("d/M") }
-    Row(Modifier.fillMaxWidth().height(160.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        counts.forEachIndexed { index, count ->
-            Column(
-                Modifier.weight(1f).fillMaxHeight(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom,
-            ) {
-                val fraction = (count.toFloat() / max).coerceIn(0.02f, 1f)
-                // Only weighted children share the free height, so a spacer takes what the bar doesn't.
-                Spacer(Modifier.weight((1f - fraction).coerceAtLeast(0.001f)))
-                Text(count.toString(), style = MaterialTheme.typography.labelSmall)
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(fraction)
-                        .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)),
-                )
-                // Approximate across DST changes; only the label uses it.
-                val weekStart = Instant.ofEpochMilli(firstWeekStart + index * WEEK_MILLIS).atZone(zone).toLocalDate()
-                Text(
-                    weekStart.format(format),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                )
-            }
-        }
+    // Approximate across DST changes; only the labels use it.
+    val labels = counts.indices.map { index ->
+        Instant.ofEpochMilli(firstWeekStart + index * WEEK_MILLIS).atZone(zone).toLocalDate().format(format)
     }
+    val tooltips = counts.mapIndexed { index, count ->
+        stringResource(R.string.chart_week_tooltip, pluralStringResource(R.plurals.workouts_count, count, count), labels[index])
+    }
+    val average = stringResource(R.string.chart_average, "%s")
+    AnimatedBarChart(
+        values = counts,
+        labels = labels,
+        tooltip = { tooltips[it] },
+        averageLabel = { average.format("%.1f".format(it)) },
+        description = tooltips.joinToString(", "),
+        chartHeight = 180.dp,
+    )
 }

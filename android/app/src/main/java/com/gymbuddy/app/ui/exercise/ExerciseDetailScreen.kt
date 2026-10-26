@@ -60,7 +60,7 @@ import com.gymbuddy.app.domain.WeightUnit
 import com.gymbuddy.app.domain.bestSetIndex
 import com.gymbuddy.app.domain.estimatedOneRepMax
 import com.gymbuddy.app.domain.formatWeight
-import com.gymbuddy.app.ui.common.LineChart
+import com.gymbuddy.app.ui.charts.InteractiveLineChart
 import com.gymbuddy.app.ui.common.LocalAppSettings
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
@@ -238,10 +238,12 @@ private fun ChartsTab(points: List<SessionPoint>) {
                 FilterChip(selected = metric == m, onClick = { metric = m }, label = { Text(stringResource(m.label)) })
             }
         }
-        LineChart(
+        InteractiveLineChart(
             points = points.map { it.startedAt to unit.display(metric.value(it)) },
             formatValue = { "${formatWeight(it)} ${unit.symbol}" },
             formatTime = ::formatDate,
+            chartHeight = 240.dp,
+            higherIsBetter = true,
         )
     }
 }

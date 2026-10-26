@@ -59,6 +59,16 @@
         }
       }
     },
+    "1M": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 tháng"
+          }
+        }
+      }
+    },
     "1RM": {
       "localizations": {
         "vi": {
@@ -85,6 +95,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tính 1RM"
+          }
+        }
+      }
+    },
+    "1Y": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 năm"
+          }
+        }
+      }
+    },
+    "3M": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 tháng"
+          }
+        }
+      }
+    },
+    "6M": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "6 tháng"
           }
         }
       }
@@ -265,6 +305,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bánh tạ có sẵn"
+          }
+        }
+      }
+    },
+    "Avg %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TB %@"
           }
         }
       }
@@ -1632,6 +1682,16 @@
         }
       }
     },
+    "Range": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khoảng thời gian"
+          }
+        }
+      }
+    },
     "Records": {
       "localizations": {
         "vi": {
@@ -2378,6 +2438,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Buổi tập vẫn được lưu trong tài khoản và sẽ bị xóa khỏi máy này."
+          }
+        }
+      }
+    },
+    "since %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "từ %@"
+          }
+        }
+      }
+    },
+    "week of %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tuần %@"
           }
         }
       }
