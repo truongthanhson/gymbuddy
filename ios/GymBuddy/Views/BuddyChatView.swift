@@ -252,6 +252,8 @@ struct BuddySettingsView: View {
     @AppStorage(BuddyKey.daysPerWeek) private var daysPerWeek = defaultWorkoutsPerWeek
     @AppStorage(BuddyKey.experience) private var experience: Experience = .intermediate
     @AppStorage(BuddyKey.limitations) private var limitations = ""
+    @AppStorage(BuddyKey.reminders) private var reminders = false
+    @Environment(\.modelContext) private var modelContext
     @State private var confirmClear = false
 
     var body: some View {
@@ -273,6 +275,23 @@ struct BuddySettingsView: View {
                     TextField(buddy("Injuries or movements to avoid"), text: $limitations, axis: .vertical)
                         .lineLimit(1...4)
                 }
+                Section {
+                    Toggle(isOn: Binding(get: { reminders }, set: { on in
+                        if !on {
+                            reminders = false
+                            BuddyReminders.reschedule(in: modelContext)
+                            return
+                        }
+                        Task {
+                            reminders = await BuddyReminders.requestAuthorization()
+                            BuddyReminders.reschedule(in: modelContext)
+                        }
+                    })) {
+                        Text(verbatim: buddy("Reminders"))
+                    }
+                } footer: {
+                    Text(verbatim: buddy("A nudge when you fall behind your weekly goal, and your weekly report on Monday mornings (Pro)."))
+                }
                 if consent {
                     Section {
                         Button(role: .destructive) { confirmClear = true } label: { Text(verbatim: buddy("Delete chat history")) }
@@ -283,6 +302,7 @@ struct BuddySettingsView: View {
                     }
                 }
             }
+            .onChange(of: daysPerWeek) { BuddyReminders.reschedule(in: modelContext) }
             .navigationTitle(Text(verbatim: buddy("Buddy settings")))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
