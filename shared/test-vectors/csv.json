@@ -1,0 +1,251 @@
+{
+  "description": "CSV export/import in Strong's column layout. Weights are kg in the model; the CSV holds them in a unit (the 'Weight Unit' column, a unit in the Weight header like 'Weight (lbs)', or the default unit). Set Order is W/D/F for warm-up/drop/failure sets, else the number of the normal set. Zero weight, reps, distance or seconds import as empty. Durations export as '1h 5m' or '45m'. Compare weights with tolerance 0.01.",
+  "fields": [
+    {
+      "fields": [
+        "a",
+        "b,c",
+        "d\"e",
+        "f\ng",
+        ""
+      ],
+      "text": "a,\"b,c\",\"d\"\"e\",\"f\ng\","
+    }
+  ],
+  "durations": {
+    "format": [
+      {
+        "seconds": 3900,
+        "text": "1h 5m"
+      },
+      {
+        "seconds": 2700,
+        "text": "45m"
+      },
+      {
+        "seconds": 3600,
+        "text": "1h 0m"
+      },
+      {
+        "seconds": 20,
+        "text": "0m"
+      }
+    ],
+    "parse": [
+      {
+        "text": "1h 5m",
+        "seconds": 3900
+      },
+      {
+        "text": "45m",
+        "seconds": 2700
+      },
+      {
+        "text": "1h",
+        "seconds": 3600
+      },
+      {
+        "text": "1h 5m 30s",
+        "seconds": 3930
+      },
+      {
+        "text": "90",
+        "seconds": 90
+      },
+      {
+        "text": "",
+        "seconds": null
+      },
+      {
+        "text": "soon",
+        "seconds": null
+      }
+    ]
+  },
+  "import": [
+    {
+      "name": "strong export, default kg",
+      "defaultUnit": "kg",
+      "text": "Date,Workout Name,Duration,Exercise Name,Set Order,Weight,Reps,Distance,Seconds,Notes,Workout Notes,RPE\r\n2026-10-01 18:30:00,\"Push, heavy\",1h 5m,Bench Press (Barbell),W,40,10,0,0,,Felt good,\r\n2026-10-01 18:30:00,\"Push, heavy\",1h 5m,Bench Press (Barbell),1,100,5,0,0,Pause reps,,8\r\n2026-10-01 18:30:00,\"Push, heavy\",1h 5m,Plank,1,0,0,0,60,,,\r\n2026-10-03 07:00:00,Legs,45m,Squat (Barbell),1,225,5,0,0,,,\r\n",
+      "workouts": [
+        {
+          "date": "2026-10-01 18:30:00",
+          "name": "Push, heavy",
+          "durationSec": 3900,
+          "note": "Felt good",
+          "exercises": [
+            {
+              "name": "Bench Press (Barbell)",
+              "note": "Pause reps",
+              "sets": [
+                {
+                  "setType": "warmup",
+                  "weightKg": 40,
+                  "reps": 10,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                },
+                {
+                  "setType": "normal",
+                  "weightKg": 100,
+                  "reps": 5,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": 8
+                }
+              ]
+            },
+            {
+              "name": "Plank",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "normal",
+                  "weightKg": null,
+                  "reps": null,
+                  "distanceM": null,
+                  "seconds": 60,
+                  "rpe": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "2026-10-03 07:00:00",
+          "name": "Legs",
+          "durationSec": 2700,
+          "note": null,
+          "exercises": [
+            {
+              "name": "Squat (Barbell)",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "normal",
+                  "weightKg": 225,
+                  "reps": 5,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unit in the weight header",
+      "defaultUnit": "kg",
+      "text": "﻿Date,Workout Name,Duration,Exercise Name,Set Order,Weight (lbs),Reps\n2026-10-05 09:00:00,Legs,1h,Squat (Barbell),1,225,5\n",
+      "workouts": [
+        {
+          "date": "2026-10-05 09:00:00",
+          "name": "Legs",
+          "durationSec": 3600,
+          "note": null,
+          "exercises": [
+            {
+              "name": "Squat (Barbell)",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "normal",
+                  "weightKg": 102.0582,
+                  "reps": 5,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "export": [
+    {
+      "name": "kg",
+      "unit": "kg",
+      "workouts": [
+        {
+          "date": "2026-10-01 18:30:00",
+          "name": "Push, heavy",
+          "durationSec": 3900,
+          "note": "Felt good",
+          "exercises": [
+            {
+              "name": "Bench Press (Barbell)",
+              "note": "Pause reps",
+              "sets": [
+                {
+                  "setType": "warmup",
+                  "weightKg": 40,
+                  "reps": 10,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                },
+                {
+                  "setType": "normal",
+                  "weightKg": 100,
+                  "reps": 5,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": 8
+                }
+              ]
+            },
+            {
+              "name": "Plank",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "normal",
+                  "weightKg": null,
+                  "reps": null,
+                  "distanceM": null,
+                  "seconds": 60,
+                  "rpe": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "text": "Date,Workout Name,Duration,Exercise Name,Set Order,Weight,Reps,Distance,Seconds,Notes,Workout Notes,RPE,Weight Unit\n2026-10-01 18:30:00,\"Push, heavy\",1h 5m,Bench Press (Barbell),W,40,10,,,Pause reps,Felt good,,kg\n2026-10-01 18:30:00,\"Push, heavy\",1h 5m,Bench Press (Barbell),1,100,5,,,Pause reps,Felt good,8,kg\n2026-10-01 18:30:00,\"Push, heavy\",1h 5m,Plank,1,,,,60,,Felt good,,kg\n"
+    },
+    {
+      "name": "lb",
+      "unit": "lb",
+      "workouts": [
+        {
+          "date": "2026-10-03 07:00:00",
+          "name": "Legs",
+          "durationSec": 2700,
+          "note": null,
+          "exercises": [
+            {
+              "name": "Squat (Barbell)",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "normal",
+                  "weightKg": 225,
+                  "reps": 5,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "text": "Date,Workout Name,Duration,Exercise Name,Set Order,Weight,Reps,Distance,Seconds,Notes,Workout Notes,RPE,Weight Unit\n2026-10-03 07:00:00,Legs,45m,Squat (Barbell),1,496.04,5,,,,,,lb\n"
+    }
+  ]
+}

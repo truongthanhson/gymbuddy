@@ -164,4 +164,23 @@
     <string name="measure_thigh_right">Right thigh</string>
     <string name="measure_calf_left">Left calf</string>
     <string name="measure_calf_right">Right calf</string>
+    <string name="settings_data">Data</string>
+    <string name="export_csv">Export workouts (CSV)</string>
+    <string name="export_csv_hint">Every finished workout, in the same columns as Strong</string>
+    <string name="import_csv">Import workouts (CSV)</string>
+    <string name="import_csv_hint">From a GymBuddy or Strong CSV export</string>
+    <string name="csv_not_an_export">This file is not a workout CSV export.</string>
+    <string name="csv_failed">The file could not be read or written.</string>
+    <plurals name="csv_exported">
+        <item quantity="one">Exported %1$d workout.</item>
+        <item quantity="other">Exported %1$d workouts.</item>
+    </plurals>
+    <plurals name="csv_imported">
+        <item quantity="one">Imported %1$d workout.</item>
+        <item quantity="other">Imported %1$d workouts.</item>
+    </plurals>
+    <plurals name="csv_skipped">
+        <item quantity="one">%1$d was already on this device and was skipped.</item>
+        <item quantity="other">%1$d were already on this device and were skipped.</item>
+    </plurals>
 </resources>

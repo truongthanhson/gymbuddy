@@ -29,6 +29,13 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts WHERE endedAt IS NOT NULL AND deletedAt IS NULL ORDER BY startedAt DESC")
     fun observeHistory(): Flow<List<WorkoutWithExercises>>
 
+    @Transaction
+    @Query("SELECT * FROM workouts WHERE endedAt IS NOT NULL AND deletedAt IS NULL ORDER BY startedAt")
+    suspend fun getFinished(): List<WorkoutWithExercises>
+
+    @Query("SELECT COUNT(*) FROM workouts WHERE startedAt = :startedAt AND name = :name AND deletedAt IS NULL")
+    suspend fun countMatching(startedAt: Long, name: String): Int
+
     @Query("SELECT * FROM workouts WHERE id = :id")
     suspend fun getWorkout(id: String): WorkoutEntity?
 

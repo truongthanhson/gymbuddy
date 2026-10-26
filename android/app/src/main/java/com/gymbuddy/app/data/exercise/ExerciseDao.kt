@@ -28,6 +28,9 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercises WHERE id = :id")
     fun observeById(id: String): Flow<ExerciseEntity?>
 
+    @Query("SELECT * FROM exercises WHERE deletedAt IS NULL")
+    suspend fun getAllLive(): List<ExerciseEntity>
+
     @Upsert
     suspend fun upsert(exercise: ExerciseEntity)
 
