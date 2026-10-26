@@ -3,6 +3,7 @@ package com.gymbuddy.app.ui.exercises
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -13,7 +14,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +33,7 @@ fun ExercisePickerScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val selected = remember { mutableStateListOf<String>() }
+    var creating by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -41,6 +45,9 @@ fun ExercisePickerScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = { creating = true }) {
+                        Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.new_exercise))
+                    }
                     TextButton(onClick = { onDone(selected.toList()) }, enabled = selected.isNotEmpty()) {
                         Text(stringResource(R.string.add_count, selected.size))
                     }
@@ -55,6 +62,16 @@ fun ExercisePickerScreen(
             modifier = Modifier.padding(padding),
             isSelected = { it.id in selected },
             onExerciseClick = { if (!selected.remove(it.id)) selected.add(it.id) },
+        )
+    }
+
+    if (creating) {
+        ExerciseEditorDialog(
+            exercise = null,
+            onSave = { name, bodyPart, category ->
+                viewModel.createCustom(name, bodyPart, category) { selected.add(it) }
+            },
+            onDismiss = { creating = false },
         )
     }
 }

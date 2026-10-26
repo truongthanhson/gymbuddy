@@ -5,6 +5,7 @@ import SwiftUI
 struct ExercisePickerView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selected: [String] = []
+    @State private var creating = false
     let onDone: ([String]) -> Void
 
     var body: some View {
@@ -22,6 +23,11 @@ struct ExercisePickerView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
                 }
+                ToolbarItem(placement: .primaryAction) {
+                    Button { creating = true } label: {
+                        Label("New exercise", systemImage: "plus")
+                    }
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Add (\(selected.count))") {
                         onDone(selected)
@@ -29,6 +35,9 @@ struct ExercisePickerView: View {
                     }
                     .disabled(selected.isEmpty)
                 }
+            }
+            .sheet(isPresented: $creating) {
+                ExerciseEditorView(exercise: nil) { selected.append($0) }
             }
         }
     }

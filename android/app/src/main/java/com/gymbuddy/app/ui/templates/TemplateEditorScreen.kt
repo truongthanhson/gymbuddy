@@ -50,6 +50,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
 import com.gymbuddy.app.data.template.DraftExercise
 import com.gymbuddy.app.domain.formatWeight
+import com.gymbuddy.app.ui.common.LocalAppSettings
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
 
@@ -160,6 +161,7 @@ fun TemplateEditorScreen(
 @Composable
 private fun DraftExerciseCard(exercise: DraftExercise, title: String, viewModel: TemplateEditorViewModel) {
     var menuOpen by remember { mutableStateOf(false) }
+    val unit = LocalAppSettings.current.weightUnit
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(title, modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
@@ -175,7 +177,7 @@ private fun DraftExerciseCard(exercise: DraftExercise, title: String, viewModel:
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.col_set), Modifier.width(40.dp), textAlign = TextAlign.Center, style = MaterialTheme.typography.labelMedium)
-            Text(stringResource(R.string.col_kg), Modifier.weight(1f), textAlign = TextAlign.Center, style = MaterialTheme.typography.labelMedium)
+            Text(unit.symbol, Modifier.weight(1f), textAlign = TextAlign.Center, style = MaterialTheme.typography.labelMedium)
             Text(stringResource(R.string.col_reps), Modifier.weight(1f), textAlign = TextAlign.Center, style = MaterialTheme.typography.labelMedium)
             Box(Modifier.width(48.dp))
         }
@@ -184,10 +186,10 @@ private fun DraftExerciseCard(exercise: DraftExercise, title: String, viewModel:
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text("${index + 1}", Modifier.width(32.dp), textAlign = TextAlign.Center)
                     DraftNumberField(
-                        initial = set.targetWeightKg?.let(::formatWeight) ?: "",
+                        initial = set.targetWeightKg?.let { formatWeight(unit.display(it)) } ?: "",
                         decimal = true,
                         modifier = Modifier.weight(1f),
-                        onValue = { viewModel.setWeight(exercise.id, set.id, it.replace(',', '.').toDoubleOrNull()) },
+                        onValue = { viewModel.setWeight(exercise.id, set.id, it.replace(',', '.').toDoubleOrNull()?.let(unit::toKg)) },
                     )
                     DraftNumberField(
                         initial = set.targetReps?.toString() ?: "",

@@ -40,4 +40,16 @@ class OneRepMaxTest {
             assertEquals(kg, WeightUnit.LB.toKg(lb), 0.01)
         }
     }
+
+    @Test
+    fun typedWeightsSurviveTheKgRoundTrip() {
+        vectors("units.json")["roundTrip"]!!.jsonObject["cases"]!!.jsonArray.forEach { case ->
+            val c = case.jsonObject
+            val unit = WeightUnit.valueOf(c["unit"]!!.jsonPrimitive.content.uppercase())
+            val typed = c["typed"]!!.jsonPrimitive.double
+            val kg = unit.toKg(typed)
+            assertEquals("$typed $unit", typed, unit.display(kg), 1e-9)
+            assertEquals(c["formatted"]!!.jsonPrimitive.content, unit.format(kg))
+        }
+    }
 }

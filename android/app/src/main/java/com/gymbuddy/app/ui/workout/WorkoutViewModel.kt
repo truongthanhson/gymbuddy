@@ -2,6 +2,7 @@ package com.gymbuddy.app.ui.workout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gymbuddy.app.data.settings.SettingsRepository
 import com.gymbuddy.app.data.template.TemplateRepository
 import com.gymbuddy.app.data.workout.WorkoutExerciseWithSets
 import com.gymbuddy.app.data.workout.WorkoutRepository
@@ -27,6 +28,7 @@ class WorkoutViewModel @Inject constructor(
     private val repository: WorkoutRepository,
     private val restTimer: RestTimerController,
     private val templates: TemplateRepository,
+    private val settings: SettingsRepository,
 ) : ViewModel() {
 
     val restTimerState: StateFlow<RestTimerState?> = restTimer.state
@@ -69,7 +71,11 @@ class WorkoutViewModel @Inject constructor(
         repository.toggleSetCompleted(set.id)
         if (!set.completed) {
             restTimer.start(
-                resolveRestSeconds(item.workoutExercise.restSeconds, item.exercise?.defaultRestSeconds),
+                resolveRestSeconds(
+                    item.workoutExercise.restSeconds,
+                    item.exercise?.defaultRestSeconds,
+                    settings.settings.value.defaultRestSeconds,
+                ),
                 exerciseName,
             )
         }

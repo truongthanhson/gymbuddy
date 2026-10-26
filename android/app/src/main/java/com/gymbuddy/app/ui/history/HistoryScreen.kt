@@ -30,7 +30,7 @@ import com.gymbuddy.app.data.workout.WorkoutWithExercises
 import com.gymbuddy.app.domain.SetValues
 import com.gymbuddy.app.domain.bestSetIndex
 import com.gymbuddy.app.domain.formatElapsed
-import com.gymbuddy.app.domain.formatWeight
+import com.gymbuddy.app.ui.common.LocalAppSettings
 import com.gymbuddy.app.domain.volumeKg
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
@@ -62,6 +62,7 @@ private fun WorkoutSetEntity.values() = SetValues(weightKg, reps, completed)
 @Composable
 private fun WorkoutCard(item: WorkoutWithExercises) {
     val vietnamese = useVietnameseNames()
+    val unit = LocalAppSettings.current.weightUnit
     val workout = item.workout
     val allSets = item.exercises.flatMap { it.sets }.map { it.values() }
     val duration = ((workout.endedAt ?: workout.startedAt) - workout.startedAt) / 1_000
@@ -72,7 +73,7 @@ private fun WorkoutCard(item: WorkoutWithExercises) {
             Text(workout.name, style = MaterialTheme.typography.titleMedium)
             Text(date, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(
-                stringResource(R.string.workout_summary, formatElapsed(duration), formatWeight(volumeKg(allSets))),
+                stringResource(R.string.workout_summary, formatElapsed(duration), unit.format(volumeKg(allSets))),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -87,7 +88,7 @@ private fun WorkoutCard(item: WorkoutWithExercises) {
                         overflow = TextOverflow.Ellipsis,
                     )
                     if (best != null) {
-                        Text("${formatWeight(best.weightKg ?: 0.0)} kg × ${best.reps}")
+                        Text("${unit.format(best.weightKg ?: 0.0)} × ${best.reps}")
                     }
                 }
             }

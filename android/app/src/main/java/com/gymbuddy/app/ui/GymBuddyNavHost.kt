@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -29,6 +30,7 @@ import com.gymbuddy.app.R
 import com.gymbuddy.app.ui.exercises.ExercisesScreen
 import com.gymbuddy.app.ui.exercises.ExercisePickerScreen
 import com.gymbuddy.app.ui.history.HistoryScreen
+import com.gymbuddy.app.ui.settings.SettingsScreen
 import com.gymbuddy.app.ui.templates.TemplateEditorScreen
 import com.gymbuddy.app.ui.workout.WorkoutTab
 import com.gymbuddy.app.ui.workout.WorkoutViewModel
@@ -37,6 +39,7 @@ import kotlinx.serialization.Serializable
 @Serializable object HistoryRoute
 @Serializable object WorkoutRoute
 @Serializable object ExercisesRoute
+@Serializable object SettingsRoute
 @Serializable data class ExercisePickerRoute(val workoutId: String? = null)
 @Serializable data class TemplateEditorRoute(val templateId: String? = null)
 
@@ -47,6 +50,7 @@ private enum class Tab(val route: Any, @StringRes val label: Int, val icon: Imag
     History(HistoryRoute, R.string.tab_history, Icons.Filled.History),
     Workout(WorkoutRoute, R.string.tab_workout, Icons.Filled.Add),
     Exercises(ExercisesRoute, R.string.tab_exercises, Icons.Filled.FitnessCenter),
+    Settings(SettingsRoute, R.string.tab_settings, Icons.Filled.Settings),
 }
 
 @Composable
@@ -99,6 +103,7 @@ fun GymBuddyNavHost() {
                 )
             }
             composable<ExercisesRoute> { ExercisesScreen() }
+            composable<SettingsRoute> { SettingsScreen() }
             composable<ExercisePickerRoute> { entry ->
                 val workoutId = entry.toRoute<ExercisePickerRoute>().workoutId
                 // Scope the view model to the Workout tab so the insert survives popping this screen.

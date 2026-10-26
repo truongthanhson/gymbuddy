@@ -22,6 +22,12 @@ interface ExerciseDao {
     @Query("SELECT COUNT(*) FROM exercises WHERE isCustom = 0")
     suspend fun countBuiltIn(): Int
 
+    @Query("SELECT * FROM exercises WHERE id = :id")
+    suspend fun get(id: String): ExerciseEntity?
+
+    @Upsert
+    suspend fun upsert(exercise: ExerciseEntity)
+
     @Upsert
     suspend fun upsertAll(exercises: List<ExerciseEntity>)
 }

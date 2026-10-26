@@ -2,10 +2,25 @@ import SwiftData
 import SwiftUI
 
 struct ExercisesView: View {
+    @State private var creating = false
+    @State private var editing: Exercise?
+
     var body: some View {
         NavigationStack {
-            ExerciseBrowser()
-                .navigationTitle("Exercises")
+            // Built-in exercises have no detail screen yet; custom ones open the editor.
+            ExerciseBrowser(onTap: { exercise in
+                if exercise.isCustom { editing = exercise }
+            })
+            .navigationTitle("Exercises")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button { creating = true } label: {
+                        Label("New exercise", systemImage: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $creating) { ExerciseEditorView(exercise: nil) }
+            .sheet(item: $editing) { ExerciseEditorView(exercise: $0) }
         }
     }
 }
@@ -69,9 +84,15 @@ struct ExerciseBrowser: View {
         let content = HStack {
             VStack(alignment: .leading) {
                 Text(verbatim: exercise.displayName)
-                Text(BodyPart(key: exercise.bodyPart).label)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                Group {
+                    if exercise.isCustom {
+                        Text(BodyPart(key: exercise.bodyPart).label) + Text(verbatim: " · ") + Text("Custom")
+                    } else {
+                        Text(BodyPart(key: exercise.bodyPart).label)
+                    }
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
             }
             Spacer()
             if isSelected(exercise) {
