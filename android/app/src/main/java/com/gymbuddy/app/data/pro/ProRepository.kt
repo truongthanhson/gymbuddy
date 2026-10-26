@@ -50,6 +50,7 @@ class ProRepository @Inject constructor(@ApplicationContext context: Context) : 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private val purchased = MutableStateFlow(prefs.getBoolean(KEY_PURCHASED, false))
     private val debugPro = MutableStateFlow(BuildConfig.PRO_SWITCH && prefs.getBoolean(KEY_DEBUG, false))
+    private val subscribed = MutableStateFlow(prefs.getBoolean(KEY_SUBSCRIBED, false))
     private val offersState = MutableStateFlow<List<ProOffer>>(emptyList())
 
     val isPro: StateFlow<Boolean> = combine(purchased, debugPro) { bought, debug -> bought || debug }
@@ -57,6 +58,10 @@ class ProRepository @Inject constructor(@ApplicationContext context: Context) : 
 
     /** Empty until Play answers, or when the products don't exist in Play Console yet. */
     val offers: StateFlow<List<ProOffer>> = offersState.asStateFlow()
+
+    /** Lifetime Pro without a subscription gets a smaller Buddy AI allowance (supabase/functions/coach). */
+    val isLifetimeOnly: StateFlow<Boolean> = combine(purchased, subscribed, debugPro) { bought, sub, debug -> bought && !sub && !debug }
+        .stateIn(scope, SharingStarted.Eagerly, purchased.value && !subscribed.value && !debugPro.value)
 
     /** Debug builds can turn Pro on without a purchase, to try the locked screens. */
     val debugOverride: StateFlow<Boolean> = debugPro.asStateFlow()
@@ -151,6 +156,9 @@ class ProRepository @Inject constructor(@ApplicationContext context: Context) : 
             )
             if (result.responseCode != BillingClient.BillingResponseCode.OK) Log.w("ProRepository", "Acknowledge failed: ${result.debugMessage}")
         }
+        val sub = owned.any { p -> p.products.any { it in ProProducts.subscriptions } }
+        prefs.edit().putBoolean(KEY_SUBSCRIBED, sub).apply()
+        subscribed.value = sub
         return owned.isNotEmpty()
     }
 
@@ -162,5 +170,6 @@ class ProRepository @Inject constructor(@ApplicationContext context: Context) : 
     private companion object {
         const val KEY_PURCHASED = "purchased"
         const val KEY_DEBUG = "debug_override"
+        const val KEY_SUBSCRIBED = "subscribed"
     }
 }

@@ -17,6 +17,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
@@ -31,16 +33,17 @@ data class CoachSnapshot(
     val workoutCount: Int = 0,
 )
 
-/** Default weekly goal until the goal profile lets people pick one. */
+/** Weekly goal until the person sets one in Buddy's goal profile. */
 const val DEFAULT_WORKOUTS_PER_WEEK = 3
 
 @Singleton
-class CoachRepository @Inject constructor(private val workouts: WorkoutDao) {
+class CoachRepository @Inject constructor(private val workouts: WorkoutDao, private val prefs: BuddyPrefs) {
 
-    fun observe(goalPerWeek: Int = DEFAULT_WORKOUTS_PER_WEEK): Flow<CoachSnapshot> =
-        workouts.observeHistory()
-            .map { snapshot(it, goalPerWeek, System.currentTimeMillis()) }
-            .flowOn(Dispatchers.Default)
+    /** The weekly goal comes from Buddy's goal profile. */
+    fun observe(): Flow<CoachSnapshot> =
+        combine(workouts.observeHistory(), prefs.settings.map { it.daysPerWeek }.distinctUntilChanged()) { history, goal ->
+            snapshot(history, goal, System.currentTimeMillis())
+        }.flowOn(Dispatchers.Default)
 
     companion object {
         fun snapshot(history: List<WorkoutWithExercises>, goalPerWeek: Int, nowMillis: Long): CoachSnapshot {

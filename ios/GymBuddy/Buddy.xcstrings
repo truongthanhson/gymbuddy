@@ -1,0 +1,196 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@ (%lldh)": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ (%2$lld giờ)"
+          }
+        }
+      }
+    },
+    "%@ has stalled. Try a deload this week: %@ × %lld.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ đang chững lại. Tuần này thử giảm tải: %2$@ × %3$lld."
+          }
+        }
+      }
+    },
+    "%@: %@ × %lld": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ × %3$lld"
+          }
+        }
+      }
+    },
+    "%lld more tips": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm %lld gợi ý"
+          }
+        }
+      }
+    },
+    "%lld weeks in a row on target. Keep it up!": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld tuần liên tiếp đạt mục tiêu. Giữ vững nhé!"
+          }
+        }
+      }
+    },
+    "Buddy": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy"
+          }
+        }
+      }
+    },
+    "Buddy: %@ × %lld": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy: %1$@ × %2$lld"
+          }
+        }
+      }
+    },
+    "It's been %lld days since your last workout. A lighter session today gets you back into rhythm.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã %lld ngày bạn chưa tập. Một buổi nhẹ hôm nay sẽ giúp bạn lấy lại nhịp."
+          }
+        }
+      }
+    },
+    "Log your first workout and Buddy will start suggesting weights, rest days and deloads.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ghi buổi tập đầu tiên, Buddy sẽ bắt đầu gợi ý mức tạ, ngày nghỉ và lúc cần giảm tải."
+          }
+        }
+      }
+    },
+    "Next time": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lần tới"
+          }
+        }
+      }
+    },
+    "Ready: %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sẵn sàng: %@"
+          }
+        }
+      }
+    },
+    "Recovering: %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang hồi phục: %@"
+          }
+        }
+      }
+    },
+    "Show less": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thu gọn"
+          }
+        }
+      }
+    },
+    "This week %@ got %lld sets, much more than last week. Watch out for overload.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuần này %1$@ đã %2$lld set, nhiều hơn hẳn tuần trước. Cẩn thận quá tải."
+          }
+        }
+      }
+    },
+    "You haven't trained %@ for %lld days.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bạn chưa tập %1$@ %2$lld ngày rồi."
+          }
+        }
+      }
+    },
+    "You're on track. Keep logging and Buddy will tell you when something needs attention.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bạn đang đi đúng hướng. Cứ tiếp tục ghi, Buddy sẽ báo khi có điều cần chú ý."
+          }
+        }
+      }
+    },
+    "add weight": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tăng tạ"
+          }
+        }
+      }
+    },
+    "deload": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "giảm tải"
+          }
+        }
+      }
+    },
+    "one more rep": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "thêm 1 rep"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

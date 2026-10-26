@@ -63,6 +63,7 @@ private struct StartWorkoutView: View {
 
     var body: some View {
         List {
+            BuddyTodaySection()
             Section {
                 Button {
                     RestTimer.requestAuthorization()
