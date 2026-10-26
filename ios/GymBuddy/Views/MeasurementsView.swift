@@ -30,6 +30,7 @@ struct MeasurementsView: View {
                     row(kind, latest: latest[kind.rawValue])
                 }
             }
+            .appBackground()
             .navigationTitle("Measure")
         }
     }
@@ -74,7 +75,7 @@ struct MeasurementDetailView: View {
     var body: some View {
         List {
             if entries.count >= 2 {
-                Section { chart.frame(height: 220) }
+                Section { chart.padding(.vertical, 8) }
             }
             ForEach(entries) { entry in
                 HStack {
@@ -116,13 +117,10 @@ struct MeasurementDetailView: View {
     private var chart: some View {
         let unit = weightUnit
         let kind = kind
-        return Chart(entries) { entry in
-            let value = kind.display(entry.value, unit)
-            LineMark(x: .value("Date", entry.measuredAt), y: .value("Value", value))
-            PointMark(x: .value("Date", entry.measuredAt), y: .value("Value", value))
-        }
-        .chartYScale(domain: .automatic(includesZero: false))
-        .chartYAxisLabel(kind.symbol(unit))
+        return InteractiveLineChart(
+            points: entries.reversed().map { ChartPoint(date: $0.measuredAt, value: kind.display($0.value, unit)) },
+            formatValue: { "\(formatWeight($0)) \(kind.symbol(unit))" }
+        )
     }
 
     private func save() {
