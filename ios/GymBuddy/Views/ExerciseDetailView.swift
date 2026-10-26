@@ -180,12 +180,11 @@ struct ExerciseDetailView: View {
             empty("Finish this exercise in at least two workouts to see a chart.")
         } else {
             VStack(alignment: .leading, spacing: 16) {
-                Picker("", selection: $metric) {
+                Picker("", selection: $metric.animation(.smooth)) {
                     ForEach(ChartMetric.allCases) { Text($0.label).tag($0) }
                 }
                 .pickerStyle(.segmented)
                 progressChart(points)
-                    .frame(height: 240)
                 Spacer()
             }
             .padding()
@@ -195,12 +194,12 @@ struct ExerciseDetailView: View {
     private func progressChart(_ points: [SessionPoint]) -> some View {
         let unit = weightUnit
         let metric = metric
-        return Chart(points, id: \.startedAt) { point in
-            let value = unit.display(metric.value(point))
-            LineMark(x: .value("Date", point.startedAt), y: .value("Value", value))
-            PointMark(x: .value("Date", point.startedAt), y: .value("Value", value))
-        }
-        .chartYAxisLabel(unit.symbol)
+        return InteractiveLineChart(
+            points: points.map { ChartPoint(date: $0.startedAt, value: unit.display(metric.value($0))) },
+            formatValue: { "\(formatWeight($0)) \(unit.symbol)" },
+            higherIsBetter: true,
+            height: 240
+        )
     }
 
     @ViewBuilder
