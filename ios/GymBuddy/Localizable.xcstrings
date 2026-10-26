@@ -1,0 +1,176 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "All": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tất cả"
+          }
+        }
+      }
+    },
+    "Arms": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tay"
+          }
+        }
+      }
+    },
+    "Back": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lưng"
+          }
+        }
+      }
+    },
+    "Cardio": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cardio"
+          }
+        }
+      }
+    },
+    "Chest": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngực"
+          }
+        }
+      }
+    },
+    "Coming soon": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sắp ra mắt"
+          }
+        }
+      }
+    },
+    "Core": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bụng"
+          }
+        }
+      }
+    },
+    "Exercises": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bài tập"
+          }
+        }
+      }
+    },
+    "Full body": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toàn thân"
+          }
+        }
+      }
+    },
+    "History": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lịch sử"
+          }
+        }
+      }
+    },
+    "Legs": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chân"
+          }
+        }
+      }
+    },
+    "No exercises found": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không tìm thấy bài tập"
+          }
+        }
+      }
+    },
+    "Olympic": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cử tạ Olympic"
+          }
+        }
+      }
+    },
+    "Other": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khác"
+          }
+        }
+      }
+    },
+    "Search exercises": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tìm bài tập"
+          }
+        }
+      }
+    },
+    "Shoulders": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vai"
+          }
+        }
+      }
+    },
+    "Workout": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tập luyện"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

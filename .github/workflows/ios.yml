@@ -1,0 +1,30 @@
+name: iOS
+
+on:
+  push:
+    branches: [main]
+    paths: ["ios/**", "shared/**", ".github/workflows/ios.yml"]
+  pull_request:
+    paths: ["ios/**", "shared/**", ".github/workflows/ios.yml"]
+
+jobs:
+  test:
+    runs-on: macos-15
+    defaults:
+      run:
+        working-directory: ios
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen generate
+      - name: Build and test
+        run: |
+          DEVICE_ID=$(xcrun simctl list devices available -j \
+            | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next(x['udid'] for k in sorted(d, reverse=True) if 'iOS' in k for x in d[k] if x['name'].startswith('iPhone')))")
+          xcodebuild test \
+            -project GymBuddy.xcodeproj \
+            -scheme GymBuddy \
+            -destination "id=$DEVICE_ID" \
+            CODE_SIGNING_ALLOWED=NO

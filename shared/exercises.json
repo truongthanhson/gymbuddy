@@ -1,0 +1,854 @@
+{
+  "version": 1,
+  "exercises": [
+    {
+      "id": "bench_press_barbell",
+      "name": "Bench Press (Barbell)",
+      "nameVi": "Đẩy ngực ngang (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "incline_bench_press_barbell",
+      "name": "Incline Bench Press (Barbell)",
+      "nameVi": "Đẩy ngực dốc lên (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "upper_chest",
+      "secondaryMuscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "decline_bench_press_barbell",
+      "name": "Decline Bench Press (Barbell)",
+      "nameVi": "Đẩy ngực dốc xuống (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "lower_chest",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "bench_press_dumbbell",
+      "name": "Bench Press (Dumbbell)",
+      "nameVi": "Đẩy ngực ngang (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "incline_bench_press_dumbbell",
+      "name": "Incline Bench Press (Dumbbell)",
+      "nameVi": "Đẩy ngực dốc lên (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "upper_chest",
+      "secondaryMuscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "chest_fly_dumbbell",
+      "name": "Chest Fly (Dumbbell)",
+      "nameVi": "Ép ngực (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "cable_crossover",
+      "name": "Cable Crossover",
+      "nameVi": "Ép ngực cáp",
+      "category": "cable",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "chest_press_machine",
+      "name": "Chest Press (Machine)",
+      "nameVi": "Đẩy ngực (máy)",
+      "category": "machine",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "pec_deck",
+      "name": "Pec Deck (Machine)",
+      "nameVi": "Ép ngực (máy)",
+      "category": "machine",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "push_up",
+      "name": "Push Up",
+      "nameVi": "Hít đất",
+      "category": "reps_only",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "defaultRestSeconds": 60
+    },
+    {
+      "id": "chest_dip",
+      "name": "Chest Dip",
+      "nameVi": "Nhún xà kép (ngực)",
+      "category": "weighted_bodyweight",
+      "bodyPart": "chest",
+      "primaryMuscle": "lower_chest",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "deadlift_barbell",
+      "name": "Deadlift (Barbell)",
+      "nameVi": "Deadlift (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "back",
+      "primaryMuscle": "lower_back",
+      "secondaryMuscles": [
+        "glutes",
+        "hamstrings",
+        "traps"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "romanian_deadlift_barbell",
+      "name": "Romanian Deadlift (Barbell)",
+      "nameVi": "Romanian deadlift (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "hamstrings",
+      "secondaryMuscles": [
+        "glutes",
+        "lower_back"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "bent_over_row_barbell",
+      "name": "Bent Over Row (Barbell)",
+      "nameVi": "Kéo tạ cúi người (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "back",
+      "primaryMuscle": "upper_back",
+      "secondaryMuscles": [
+        "lats",
+        "biceps"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "bent_over_row_dumbbell",
+      "name": "Bent Over One Arm Row (Dumbbell)",
+      "nameVi": "Kéo tạ đơn một tay",
+      "category": "dumbbell",
+      "bodyPart": "back",
+      "primaryMuscle": "upper_back",
+      "secondaryMuscles": [
+        "lats",
+        "biceps"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "pull_up",
+      "name": "Pull Up",
+      "nameVi": "Kéo xà đơn",
+      "category": "weighted_bodyweight",
+      "bodyPart": "back",
+      "primaryMuscle": "lats",
+      "secondaryMuscles": [
+        "biceps"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "assisted_pull_up",
+      "name": "Pull Up (Assisted)",
+      "nameVi": "Kéo xà (có hỗ trợ)",
+      "category": "assisted_bodyweight",
+      "bodyPart": "back",
+      "primaryMuscle": "lats",
+      "secondaryMuscles": [
+        "biceps"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "chin_up",
+      "name": "Chin Up",
+      "nameVi": "Kéo xà tay ngửa",
+      "category": "weighted_bodyweight",
+      "bodyPart": "back",
+      "primaryMuscle": "lats",
+      "secondaryMuscles": [
+        "biceps"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "lat_pulldown_cable",
+      "name": "Lat Pulldown (Cable)",
+      "nameVi": "Kéo xô (cáp)",
+      "category": "cable",
+      "bodyPart": "back",
+      "primaryMuscle": "lats",
+      "secondaryMuscles": [
+        "biceps"
+      ],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "seated_row_cable",
+      "name": "Seated Row (Cable)",
+      "nameVi": "Kéo cáp ngồi",
+      "category": "cable",
+      "bodyPart": "back",
+      "primaryMuscle": "upper_back",
+      "secondaryMuscles": [
+        "lats",
+        "biceps"
+      ],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "t_bar_row",
+      "name": "T Bar Row",
+      "nameVi": "Kéo T-bar",
+      "category": "barbell",
+      "bodyPart": "back",
+      "primaryMuscle": "upper_back",
+      "secondaryMuscles": [
+        "lats"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "face_pull_cable",
+      "name": "Face Pull (Cable)",
+      "nameVi": "Face pull (cáp)",
+      "category": "cable",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "rear_delts",
+      "secondaryMuscles": [
+        "upper_back"
+      ],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "back_extension",
+      "name": "Back Extension",
+      "nameVi": "Ưỡn lưng",
+      "category": "weighted_bodyweight",
+      "bodyPart": "back",
+      "primaryMuscle": "lower_back",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "shrug_barbell",
+      "name": "Shrug (Barbell)",
+      "nameVi": "Nhún vai (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "back",
+      "primaryMuscle": "traps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "shrug_dumbbell",
+      "name": "Shrug (Dumbbell)",
+      "nameVi": "Nhún vai (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "back",
+      "primaryMuscle": "traps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "squat_barbell",
+      "name": "Squat (Barbell)",
+      "nameVi": "Squat (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes",
+        "hamstrings"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "front_squat_barbell",
+      "name": "Front Squat (Barbell)",
+      "nameVi": "Front squat (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "goblet_squat",
+      "name": "Goblet Squat (Dumbbell)",
+      "nameVi": "Goblet squat (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "leg_press",
+      "name": "Leg Press",
+      "nameVi": "Đạp đùi (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "hack_squat",
+      "name": "Hack Squat (Machine)",
+      "nameVi": "Hack squat (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "lunge_dumbbell",
+      "name": "Lunge (Dumbbell)",
+      "nameVi": "Chùng chân (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "bulgarian_split_squat",
+      "name": "Bulgarian Split Squat",
+      "nameVi": "Bulgarian split squat",
+      "category": "dumbbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "leg_extension",
+      "name": "Leg Extension (Machine)",
+      "nameVi": "Đá đùi (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "lying_leg_curl",
+      "name": "Lying Leg Curl (Machine)",
+      "nameVi": "Móc đùi nằm (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "hamstrings",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "seated_leg_curl",
+      "name": "Seated Leg Curl (Machine)",
+      "nameVi": "Móc đùi ngồi (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "hamstrings",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "hip_thrust_barbell",
+      "name": "Hip Thrust (Barbell)",
+      "nameVi": "Hip thrust (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "glutes",
+      "secondaryMuscles": [
+        "hamstrings"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "standing_calf_raise",
+      "name": "Standing Calf Raise (Machine)",
+      "nameVi": "Nhón bắp chân đứng (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "calves",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "seated_calf_raise",
+      "name": "Seated Calf Raise (Machine)",
+      "nameVi": "Nhón bắp chân ngồi (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "calves",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "hip_abductor",
+      "name": "Hip Abductor (Machine)",
+      "nameVi": "Dạng hông (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "abductors",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "hip_adductor",
+      "name": "Hip Adductor (Machine)",
+      "nameVi": "Khép hông (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "adductors",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "overhead_press_barbell",
+      "name": "Overhead Press (Barbell)",
+      "nameVi": "Đẩy vai đứng (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "shoulder_press_dumbbell",
+      "name": "Seated Overhead Press (Dumbbell)",
+      "nameVi": "Đẩy vai ngồi (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "arnold_press",
+      "name": "Arnold Press (Dumbbell)",
+      "nameVi": "Arnold press (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [
+        "side_delts"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "lateral_raise_dumbbell",
+      "name": "Lateral Raise (Dumbbell)",
+      "nameVi": "Nâng vai ngang (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "side_delts",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "lateral_raise_cable",
+      "name": "Lateral Raise (Cable)",
+      "nameVi": "Nâng vai ngang (cáp)",
+      "category": "cable",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "side_delts",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "front_raise_dumbbell",
+      "name": "Front Raise (Dumbbell)",
+      "nameVi": "Nâng vai trước (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "reverse_fly_dumbbell",
+      "name": "Reverse Fly (Dumbbell)",
+      "nameVi": "Bay ngược (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "rear_delts",
+      "secondaryMuscles": [
+        "upper_back"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "upright_row_barbell",
+      "name": "Upright Row (Barbell)",
+      "nameVi": "Kéo cằm (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "side_delts",
+      "secondaryMuscles": [
+        "traps"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "bicep_curl_barbell",
+      "name": "Bicep Curl (Barbell)",
+      "nameVi": "Cuốn tay trước (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "bicep_curl_dumbbell",
+      "name": "Bicep Curl (Dumbbell)",
+      "nameVi": "Cuốn tay trước (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "hammer_curl_dumbbell",
+      "name": "Hammer Curl (Dumbbell)",
+      "nameVi": "Cuốn búa (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [
+        "forearms"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "preacher_curl_ez",
+      "name": "Preacher Curl (EZ Bar)",
+      "nameVi": "Cuốn tay ghế dốc (thanh EZ)",
+      "category": "barbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "bicep_curl_cable",
+      "name": "Bicep Curl (Cable)",
+      "nameVi": "Cuốn tay trước (cáp)",
+      "category": "cable",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "triceps_pushdown_cable",
+      "name": "Triceps Pushdown (Cable)",
+      "nameVi": "Đè tay sau (cáp)",
+      "category": "cable",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "triceps_extension_overhead",
+      "name": "Overhead Triceps Extension (Dumbbell)",
+      "nameVi": "Duỗi tay sau qua đầu (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "skullcrusher_barbell",
+      "name": "Skullcrusher (Barbell)",
+      "nameVi": "Skullcrusher (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "close_grip_bench_press",
+      "name": "Bench Press - Close Grip (Barbell)",
+      "nameVi": "Đẩy ngực tay hẹp (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [
+        "chest"
+      ],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "triceps_dip",
+      "name": "Triceps Dip",
+      "nameVi": "Nhún xà kép (tay sau)",
+      "category": "weighted_bodyweight",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [
+        "chest"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "wrist_curl_barbell",
+      "name": "Wrist Curl (Barbell)",
+      "nameVi": "Cuốn cổ tay (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "forearms",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "crunch",
+      "name": "Crunch",
+      "nameVi": "Gập bụng",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60
+    },
+    {
+      "id": "cable_crunch",
+      "name": "Cable Crunch",
+      "nameVi": "Gập bụng cáp",
+      "category": "cable",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90
+    },
+    {
+      "id": "hanging_leg_raise",
+      "name": "Hanging Leg Raise",
+      "nameVi": "Treo người nâng chân",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [
+        "hip_flexors"
+      ],
+      "defaultRestSeconds": 60
+    },
+    {
+      "id": "plank",
+      "name": "Plank",
+      "nameVi": "Plank",
+      "category": "duration",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60
+    },
+    {
+      "id": "russian_twist",
+      "name": "Russian Twist",
+      "nameVi": "Xoay người kiểu Nga",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "obliques",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60
+    },
+    {
+      "id": "ab_wheel",
+      "name": "Ab Wheel",
+      "nameVi": "Lăn bánh xe bụng",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60
+    },
+    {
+      "id": "power_clean",
+      "name": "Power Clean",
+      "nameVi": "Power clean",
+      "category": "barbell",
+      "bodyPart": "olympic",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "clean_and_jerk",
+      "name": "Clean and Jerk (Barbell)",
+      "nameVi": "Cử đẩy (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "olympic",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "snatch_barbell",
+      "name": "Snatch (Barbell)",
+      "nameVi": "Cử giật (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "olympic",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180
+    },
+    {
+      "id": "kettlebell_swing",
+      "name": "Kettlebell Swing",
+      "nameVi": "Vung tạ ấm",
+      "category": "dumbbell",
+      "bodyPart": "full_body",
+      "primaryMuscle": "glutes",
+      "secondaryMuscles": [
+        "hamstrings",
+        "lower_back"
+      ],
+      "defaultRestSeconds": 120
+    },
+    {
+      "id": "burpee",
+      "name": "Burpee",
+      "nameVi": "Burpee",
+      "category": "reps_only",
+      "bodyPart": "full_body",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60
+    },
+    {
+      "id": "running",
+      "name": "Running",
+      "nameVi": "Chạy bộ",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0
+    },
+    {
+      "id": "cycling",
+      "name": "Cycling",
+      "nameVi": "Đạp xe",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0
+    },
+    {
+      "id": "rowing_machine",
+      "name": "Rowing (Machine)",
+      "nameVi": "Chèo thuyền (máy)",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0
+    },
+    {
+      "id": "elliptical",
+      "name": "Elliptical Trainer",
+      "nameVi": "Máy tập toàn thân (elliptical)",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0
+    },
+    {
+      "id": "jump_rope",
+      "name": "Jump Rope",
+      "nameVi": "Nhảy dây",
+      "category": "duration",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60
+    },
+    {
+      "id": "stair_climber",
+      "name": "Stair Climber",
+      "nameVi": "Leo cầu thang (máy)",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0
+    }
+  ]
+}

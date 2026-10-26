@@ -1,0 +1,31 @@
+{
+  "kgPerLb": 0.45359237,
+  "lbPerKg": 2.20462262185,
+  "description": "Display conversions; compare with tolerance 0.01.",
+  "cases": [
+    {
+      "kg": 0,
+      "lb": 0.0
+    },
+    {
+      "kg": 1,
+      "lb": 2.2
+    },
+    {
+      "kg": 20,
+      "lb": 44.09
+    },
+    {
+      "kg": 60,
+      "lb": 132.28
+    },
+    {
+      "kg": 100,
+      "lb": 220.46
+    },
+    {
+      "kg": 142.5,
+      "lb": 314.16
+    }
+  ]
+}

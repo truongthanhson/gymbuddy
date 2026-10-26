@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GymBuddy</string>
+    <string name="tab_workout">Workout</string>
+    <string name="tab_history">History</string>
+    <string name="tab_exercises">Exercises</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="search_exercises">Search exercises</string>
+    <string name="filter_all">All</string>
+    <string name="no_exercises">No exercises found</string>
+    <string name="body_part_chest">Chest</string>
+    <string name="body_part_back">Back</string>
+    <string name="body_part_legs">Legs</string>
+    <string name="body_part_shoulders">Shoulders</string>
+    <string name="body_part_arms">Arms</string>
+    <string name="body_part_core">Core</string>
+    <string name="body_part_olympic">Olympic</string>
+    <string name="body_part_full_body">Full body</string>
+    <string name="body_part_cardio">Cardio</string>
+    <string name="body_part_other">Other</string>
+</resources>
