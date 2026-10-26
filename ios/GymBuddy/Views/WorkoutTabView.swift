@@ -28,11 +28,21 @@ struct TemplateEditorTarget: Identifiable {
 }
 
 private struct StartWorkoutView: View {
+    // Built outside the @Query attribute: inline sort arrays time out the Swift type checker.
+    nonisolated static var templatesDescriptor: FetchDescriptor<WorkoutTemplate> {
+        let notDeleted = #Predicate<WorkoutTemplate> { $0.deletedAt == nil }
+        let sort: [SortDescriptor<WorkoutTemplate>] = [SortDescriptor(\.sortOrder), SortDescriptor(\.name)]
+        return FetchDescriptor(predicate: notDeleted, sortBy: sort)
+    }
+    nonisolated static var foldersDescriptor: FetchDescriptor<TemplateFolder> {
+        let notDeleted = #Predicate<TemplateFolder> { $0.deletedAt == nil }
+        let sort: [SortDescriptor<TemplateFolder>] = [SortDescriptor(\.sortOrder), SortDescriptor(\.name)]
+        return FetchDescriptor(predicate: notDeleted, sortBy: sort)
+    }
+
     @Environment(\.modelContext) private var context
-    @Query(filter: #Predicate<WorkoutTemplate> { $0.deletedAt == nil }, sort: [SortDescriptor(\WorkoutTemplate.sortOrder), SortDescriptor(\WorkoutTemplate.name)])
-    private var templates: [WorkoutTemplate]
-    @Query(filter: #Predicate<TemplateFolder> { $0.deletedAt == nil }, sort: [SortDescriptor(\TemplateFolder.sortOrder), SortDescriptor(\TemplateFolder.name)])
-    private var folders: [TemplateFolder]
+    @Query(StartWorkoutView.templatesDescriptor) private var templates: [WorkoutTemplate]
+    @Query(StartWorkoutView.foldersDescriptor) private var folders: [TemplateFolder]
     @Query private var exercises: [Exercise]
 
     @State private var editing: TemplateEditorTarget?
