@@ -62,12 +62,10 @@ private struct WorkoutCard: View {
             Text(workout.startedAt, format: .dateTime.day().month().year().hour().minute())
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            HStack(spacing: Spacing.sm) {
-                StatTile(value: formatElapsed(duration), label: "Duration")
-                StatTile(value: weightUnit.format(volumeKg(allSets)), label: "Volume")
-                StatTile(value: "\(allSets.count)", label: "Sets")
-            }
-            .padding(.vertical, Spacing.xs)
+            Text(verbatim: "\(formatElapsed(duration)) · \(weightUnit.format(volumeKg(allSets)))")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.bottom, Spacing.xs)
             ForEach(items) { item in
                 let sets = item.liveSets.map(\.values)
                 HStack {

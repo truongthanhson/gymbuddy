@@ -49,7 +49,7 @@ class ProRepository @Inject constructor(@ApplicationContext context: Context) : 
     private val prefs = context.getSharedPreferences("pro", Context.MODE_PRIVATE)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private val purchased = MutableStateFlow(prefs.getBoolean(KEY_PURCHASED, false))
-    private val debugPro = MutableStateFlow(BuildConfig.DEBUG && prefs.getBoolean(KEY_DEBUG, false))
+    private val debugPro = MutableStateFlow(BuildConfig.PRO_SWITCH && prefs.getBoolean(KEY_DEBUG, false))
     private val subscribed = MutableStateFlow(prefs.getBoolean(KEY_SUBSCRIBED, false))
     private val offersState = MutableStateFlow<List<ProOffer>>(emptyList())
 
@@ -87,7 +87,7 @@ class ProRepository @Inject constructor(@ApplicationContext context: Context) : 
     }
 
     fun setDebugOverride(enabled: Boolean) {
-        if (!BuildConfig.DEBUG) return
+        if (!BuildConfig.PRO_SWITCH) return
         prefs.edit().putBoolean(KEY_DEBUG, enabled).apply()
         debugPro.value = enabled
     }

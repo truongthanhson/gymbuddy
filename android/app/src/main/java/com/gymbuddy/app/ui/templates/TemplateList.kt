@@ -34,8 +34,6 @@ import androidx.compose.ui.unit.dp
 import com.gymbuddy.app.R
 import com.gymbuddy.app.data.template.FolderEntity
 import com.gymbuddy.app.data.template.TemplateWithExercises
-import com.gymbuddy.app.domain.BodyPart
-import com.gymbuddy.app.ui.common.ExerciseAvatar
 import com.gymbuddy.app.ui.common.GymCard
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.theme.Spacing
@@ -150,14 +148,8 @@ private fun TemplateCard(
 
     GymCard(onClick = { preview = true }, contentPadding = 0.dp) {
         Row(Modifier.padding(start = Spacing.lg, top = Spacing.md, bottom = Spacing.md), verticalAlignment = Alignment.Top) {
-            val first = item.exercises.firstOrNull()?.exercise
-            ExerciseAvatar(
-                item.template.name,
-                first?.let { BodyPart.fromKey(it.bodyPart) } ?: BodyPart.OTHER,
-                modifier = Modifier.padding(top = Spacing.xxs),
-            )
             Column(
-                Modifier.weight(1f).padding(start = Spacing.md, top = Spacing.xxs),
+                Modifier.weight(1f).padding(top = Spacing.xxs),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 Text(item.template.name, style = MaterialTheme.typography.titleMedium)
@@ -173,7 +165,7 @@ private fun TemplateCard(
                         stringResource(R.string.last_used, DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(it)))
                     } ?: stringResource(R.string.never_used),
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             Box {

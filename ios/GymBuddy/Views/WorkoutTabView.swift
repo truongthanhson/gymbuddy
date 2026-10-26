@@ -140,7 +140,6 @@ private struct StartWorkoutView: View {
             template: template,
             folders: folders,
             summary: template.liveExercises.map { namesById[$0.exerciseId]?.displayName ?? $0.exerciseId }.joined(separator: ", "),
-            bodyPart: template.liveExercises.first.flatMap { namesById[$0.exerciseId] }.map { BodyPart(key: $0.bodyPart) } ?? .other,
             canDuplicate: canAddTemplate(existing: templates.count, isPro: ProStore.shared.isPro),
             onEdit: { editing = TemplateEditorTarget(templateId: template.id) },
             onLocked: { paywall = true }
@@ -153,8 +152,6 @@ private struct TemplateRow: View {
     let template: WorkoutTemplate
     let folders: [TemplateFolder]
     let summary: String
-    /// Colors the avatar: the body part of the template's first exercise.
-    var bodyPart: BodyPart = .other
     let canDuplicate: Bool
     let onEdit: () -> Void
     let onLocked: () -> Void
@@ -164,8 +161,6 @@ private struct TemplateRow: View {
 
     var body: some View {
         Button { confirmStart = true } label: {
-            HStack(alignment: .top, spacing: Spacing.md) {
-            ExerciseAvatar(name: template.name, bodyPart: bodyPart)
             VStack(alignment: .leading, spacing: 2) {
                 Text(verbatim: template.name).font(.headline)
                 Text(verbatim: summary)
@@ -174,14 +169,13 @@ private struct TemplateRow: View {
                     .lineLimit(2)
                 if let lastUsed = template.lastUsedAt {
                     Text("Last used \(lastUsed.formatted(date: .abbreviated, time: .omitted))")
-                        .font(.caption2.weight(.medium))
-                        .foregroundStyle(Palette.primary)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
                 } else {
                     Text("Never used").font(.caption2).foregroundStyle(.secondary)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            }
             .padding(.vertical, Spacing.xs)
             .contentShape(Rectangle())
         }

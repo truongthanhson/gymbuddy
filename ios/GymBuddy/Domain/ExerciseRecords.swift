@@ -68,26 +68,41 @@ enum RecordKind: String, CaseIterable, Sendable {
 /// Personal-record badges for each of `current`, the sets of the workout being logged, against `previous`:
 /// the exercise's sets from earlier workouts. Must match shared/test-vectors/live_records.json (and Android).
 func liveRecords(previous: [SetValues], current: [SetValues]) -> [Set<RecordKind>] {
-    func counts(_ set: SetValues) -> Bool { set.completed && (set.reps ?? 0) > 0 }
-    func value(_ set: SetValues, _ kind: RecordKind) -> Double {
-        let weight = set.weightKg ?? 0
-        let reps = set.reps ?? 0
-        switch kind {
-        case .oneRepMax: return estimatedOneRepMax(weightKg: weight, reps: reps)
-        case .weight: return weight
-        case .volume: return weight * Double(reps)
-        case .reps: return Double(reps)
-        }
-    }
-    let history = previous.filter(counts)
+    let history = previous.filter(countsForRecords)
     guard !history.isEmpty else { return current.map { _ in [] } }
     var best = Dictionary(uniqueKeysWithValues: RecordKind.allCases.map { kind in
-        (kind, history.map { value($0, kind) }.max() ?? 0)
+        (kind, history.map { recordValue($0, kind) }.max() ?? 0)
     })
     return current.map { set in
-        guard counts(set) else { return [] }
-        let beaten = Set(RecordKind.allCases.filter { value(set, $0) > best[$0]! })
-        for kind in beaten { best[kind] = value(set, kind) }
+        guard countsForRecords(set) else { return [] }
+        let beaten = Set(RecordKind.allCases.filter { recordValue(set, $0) > best[$0]! })
+        for kind in beaten { best[kind] = recordValue(set, kind) }
         return beaten
+    }
+}
+
+/// The few sets of `previous` that hold a record, one per `RecordKind` at most. `liveRecords` gives the same
+/// badges against these as against the whole history, so a view can keep just these around.
+func recordHolders(_ previous: [SetValues]) -> [SetValues] {
+    let history = previous.filter(countsForRecords)
+    guard !history.isEmpty else { return [] }
+    var indices: [Int] = []
+    for kind in RecordKind.allCases {
+        let best = history.indices.max { recordValue(history[$0], kind) < recordValue(history[$1], kind) }!
+        if !indices.contains(best) { indices.append(best) }
+    }
+    return indices.map { history[$0] }
+}
+
+private func countsForRecords(_ set: SetValues) -> Bool { set.completed && (set.reps ?? 0) > 0 }
+
+private func recordValue(_ set: SetValues, _ kind: RecordKind) -> Double {
+    let weight = set.weightKg ?? 0
+    let reps = set.reps ?? 0
+    switch kind {
+    case .oneRepMax: return estimatedOneRepMax(weightKg: weight, reps: reps)
+    case .weight: return weight
+    case .volume: return weight * Double(reps)
+    case .reps: return Double(reps)
     }
 }

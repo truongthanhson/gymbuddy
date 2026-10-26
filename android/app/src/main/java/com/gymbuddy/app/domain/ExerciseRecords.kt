@@ -56,24 +56,36 @@ enum class RecordKind { ONE_REP_MAX, WEIGHT, VOLUME, REPS }
  * the exercise's sets from earlier workouts. Must match shared/test-vectors/live_records.json (and iOS).
  */
 fun liveRecords(previous: List<SetValues>, current: List<SetValues>): List<Set<RecordKind>> {
-    fun SetValues.counts() = completed && (reps ?: 0) > 0
-    fun SetValues.value(kind: RecordKind): Double {
-        val weight = weightKg ?: 0.0
-        val reps = reps ?: 0
-        return when (kind) {
-            RecordKind.ONE_REP_MAX -> estimatedOneRepMax(weight, reps)
-            RecordKind.WEIGHT -> weight
-            RecordKind.VOLUME -> weight * reps
-            RecordKind.REPS -> reps.toDouble()
+    val history = previous.filter { it.countsForRecords() }
+    if (history.isEmpty()) return current.map { emptySet() }
+    val best = RecordKind.entries.associateWith { kind -> history.maxOf { it.recordValue(kind) } }.toMutableMap()
+    return current.map { set ->
+        if (!set.countsForRecords()) return@map emptySet()
+        RecordKind.entries.filter { kind -> set.recordValue(kind) > best.getValue(kind) }.toSet().also { beaten ->
+            beaten.forEach { best[it] = set.recordValue(it) }
         }
     }
-    val history = previous.filter { it.counts() }
-    if (history.isEmpty()) return current.map { emptySet() }
-    val best = RecordKind.entries.associateWith { kind -> history.maxOf { it.value(kind) } }.toMutableMap()
-    return current.map { set ->
-        if (!set.counts()) return@map emptySet()
-        RecordKind.entries.filter { kind -> set.value(kind) > best.getValue(kind) }.toSet().also { beaten ->
-            beaten.forEach { best[it] = set.value(it) }
-        }
+}
+
+/**
+ * The few sets of [previous] that hold a record, one per [RecordKind] at most. [liveRecords] gives the same
+ * badges against these as against the whole history, so a screen can keep just these around.
+ */
+fun recordHolders(previous: List<SetValues>): List<SetValues> {
+    val history = previous.filter { it.countsForRecords() }
+    if (history.isEmpty()) return emptyList()
+    return RecordKind.entries.map { kind -> history.maxBy { it.recordValue(kind) } }.distinct()
+}
+
+private fun SetValues.countsForRecords() = completed && (reps ?: 0) > 0
+
+private fun SetValues.recordValue(kind: RecordKind): Double {
+    val weight = weightKg ?: 0.0
+    val reps = reps ?: 0
+    return when (kind) {
+        RecordKind.ONE_REP_MAX -> estimatedOneRepMax(weight, reps)
+        RecordKind.WEIGHT -> weight
+        RecordKind.VOLUME -> weight * reps
+        RecordKind.REPS -> reps.toDouble()
     }
 }

@@ -292,6 +292,7 @@
     <plurals name="workout_count">
         <item quantity="other">%1$d buổi tập</item>
     </plurals>
+    <string name="more_exercises">+%1$d bài khác</string>
     <string name="training_since">Tập từ %1$s</string>
     <string name="stat_workouts">Buổi tập</string>
     <string name="hours_short">%1$d giờ</string>

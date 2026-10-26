@@ -80,7 +80,6 @@ struct ExerciseBrowser: View {
     @ViewBuilder
     private func row(_ exercise: Exercise) -> some View {
         let content = HStack(spacing: Spacing.md) {
-            ExerciseAvatar(name: exercise.displayName, bodyPart: BodyPart(key: exercise.bodyPart))
             VStack(alignment: .leading) {
                 Text(verbatim: exercise.displayName).font(.body.weight(.medium))
                 Group {

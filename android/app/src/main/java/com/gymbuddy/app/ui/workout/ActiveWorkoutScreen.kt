@@ -143,7 +143,7 @@ fun ActiveWorkoutScreen(
                 )
             }
             val groups = workout.exercises.map { it.workoutExercise.supersetGroup }
-            itemsIndexed(workout.exercises, key = { _, it -> it.workoutExercise.id }) { index, item ->
+            itemsIndexed(workout.exercises, key = { _, it -> it.workoutExercise.id }, contentType = { _, _ -> "exercise" }) { index, item ->
                 ExerciseCard(
                     item = item,
                     title = item.exercise.displayName(vietnamese),
@@ -292,14 +292,13 @@ private fun ExerciseCard(
     val exerciseId = item.workoutExercise.exerciseId
     // In an edited workout, "Previous" is the session before that one.
     val previousFlow = remember(exerciseId, startedAt) { viewModel.previousSets(exerciseId, before = startedAt) }
-    val previous by previousFlow.collectAsStateWithLifecycle(emptyList())
+    val previous by previousFlow.collectAsStateWithLifecycle()
     val historyFlow = remember(exerciseId, startedAt) { viewModel.historySets(exerciseId, before = startedAt) }
-    val history by historyFlow.collectAsStateWithLifecycle(emptyList())
+    val history by historyFlow.collectAsStateWithLifecycle()
     // Warm-up sets never count as records.
-    val records = liveRecords(
-        history,
-        item.sets.map { SetValues(it.weightKg, it.reps, it.completed && it.setType != SetType.WARMUP) },
-    )
+    val records = remember(history, item.sets) {
+        liveRecords(history, item.sets.map { SetValues(it.weightKg, it.reps, it.completed && it.setType != SetType.WARMUP) })
+    }
     var menuOpen by remember { mutableStateOf(false) }
     var restDialogOpen by remember { mutableStateOf(false) }
     var noteOpen by remember { mutableStateOf(false) }

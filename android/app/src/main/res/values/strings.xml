@@ -300,6 +300,7 @@
         <item quantity="one">%1$d workout</item>
         <item quantity="other">%1$d workouts</item>
     </plurals>
+    <string name="more_exercises">+%1$d more</string>
     <string name="training_since">Training since %1$s</string>
     <string name="stat_workouts">Workouts</string>
     <string name="hours_short">%1$d h</string>

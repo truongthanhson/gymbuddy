@@ -39,6 +39,8 @@ class LiveRecordsTest {
             val expected = c["badges"]!!.jsonArray.map { set -> set.jsonArray.map { kinds.getValue(it.jsonPrimitive.content) }.toSet() }
             val result = liveRecords(sets(c["previous"]!!.jsonArray), sets(c["current"]!!.jsonArray))
             assertEquals(c["name"]!!.jsonPrimitive.content, expected, result)
+            val fromHolders = liveRecords(recordHolders(sets(c["previous"]!!.jsonArray)), sets(c["current"]!!.jsonArray))
+            assertEquals("${c["name"]!!.jsonPrimitive.content} (record holders only)", expected, fromHolders)
         }
     }
 }

@@ -40,7 +40,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
 import com.gymbuddy.app.data.exercise.ExerciseEntity
 import com.gymbuddy.app.domain.BodyPart
-import com.gymbuddy.app.ui.common.ExerciseAvatar
 import com.gymbuddy.app.ui.common.ScreenHeader
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
@@ -141,7 +140,6 @@ fun ExerciseBrowser(
                     val name = exercise.displayName(vietnamese)
                     ListItem(
                         modifier = rowModifier,
-                        leadingContent = { ExerciseAvatar(name, BodyPart.fromKey(exercise.bodyPart)) },
                         headlineContent = { Text(name, style = MaterialTheme.typography.titleSmall) },
                         supportingContent = {
                             val bodyPart = stringResource(BodyPart.fromKey(exercise.bodyPart).label)
