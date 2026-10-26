@@ -25,6 +25,9 @@ struct ActiveWorkoutView: View {
         let saveable = anyCompleted
         WorkoutService.finish(workout, in: context)
         defer { SyncService.shared.requestSync() }
+        if saveable, let endedAt = workout.endedAt {
+            HealthService.saveWorkout(id: workout.id, name: workout.name, start: workout.startedAt, end: endedAt)
+        }
         guard saveToTemplate, saveable else { return }
         if let templateId = workout.templateId, let template = TemplateService.template(id: templateId, in: context) {
             TemplateService.update(template, from: workout, in: context)

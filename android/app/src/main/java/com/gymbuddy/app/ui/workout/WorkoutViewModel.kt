@@ -2,6 +2,7 @@ package com.gymbuddy.app.ui.workout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gymbuddy.app.data.health.HealthConnectManager
 import com.gymbuddy.app.data.settings.SettingsRepository
 import com.gymbuddy.app.data.sync.SyncManager
 import com.gymbuddy.app.data.template.TemplateRepository
@@ -31,6 +32,7 @@ class WorkoutViewModel @Inject constructor(
     private val templates: TemplateRepository,
     private val settings: SettingsRepository,
     private val sync: SyncManager,
+    private val health: HealthConnectManager,
 ) : ViewModel() {
 
     val restTimerState: StateFlow<RestTimerState?> = restTimer.state
@@ -116,6 +118,7 @@ class WorkoutViewModel @Inject constructor(
             if (templateId != null) templates.updateFromWorkout(templateId, id) else templates.createFromWorkout(id)
         }
         sync.requestSync()
+        health.onWorkoutFinished(id)
     }
 
     fun discardWorkout(workoutId: String) = launch {

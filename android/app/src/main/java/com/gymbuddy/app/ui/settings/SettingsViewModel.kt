@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gymbuddy.app.data.csv.CsvFormatException
 import com.gymbuddy.app.data.csv.CsvRepository
+import com.gymbuddy.app.data.health.HealthConnectManager
 import com.gymbuddy.app.data.settings.AppSettings
 import com.gymbuddy.app.data.settings.SettingsRepository
 import com.gymbuddy.app.data.sync.SyncManager
@@ -29,6 +30,7 @@ class SettingsViewModel @Inject constructor(
     private val repository: SettingsRepository,
     private val csv: CsvRepository,
     private val sync: SyncManager,
+    val health: HealthConnectManager,
 ) : ViewModel() {
 
     val settings: StateFlow<AppSettings> = repository.settings
@@ -39,6 +41,20 @@ class SettingsViewModel @Inject constructor(
     fun setWeightUnit(unit: WeightUnit) = repository.setWeightUnit(unit)
 
     fun setDefaultRestSeconds(seconds: Int) = repository.setDefaultRestSeconds(seconds)
+
+    /** Turning it on needs the Health Connect permissions; [granted] is what the permission screen returned. */
+    fun onHealthPermissionResult(granted: Set<String>) {
+        repository.setHealthEnabled(granted.containsAll(health.permissions))
+    }
+
+    fun turnOffHealth() = repository.setHealthEnabled(false)
+
+    /** Turns it on right away when the permissions were already granted, otherwise calls [onNeedsPermission]. */
+    fun turnOnHealthIfAllowed(onNeedsPermission: () -> Unit) {
+        viewModelScope.launch {
+            if (health.hasPermissions()) repository.setHealthEnabled(true) else onNeedsPermission()
+        }
+    }
 
     fun exportCsv(uri: Uri) {
         viewModelScope.launch {

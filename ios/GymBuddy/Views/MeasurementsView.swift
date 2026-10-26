@@ -123,8 +123,12 @@ struct MeasurementDetailView: View {
 
     private func save() {
         guard let typed, typed > 0 else { return }
-        context.insert(BodyMeasurement(kind: kind.rawValue, value: kind.toStored(typed, weightUnit), unit: kind.unit.rawValue))
+        let measurement = BodyMeasurement(kind: kind.rawValue, value: kind.toStored(typed, weightUnit), unit: kind.unit.rawValue)
+        context.insert(measurement)
         try? context.save()
+        if kind == .weight {
+            HealthService.saveBodyWeight(id: measurement.id, kg: measurement.value, at: measurement.measuredAt)
+        }
         SyncService.shared.requestSync()
     }
 

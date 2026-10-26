@@ -4,6 +4,7 @@ import SwiftUI
 enum SettingsKey {
     static let weightUnit = "weightUnit"
     static let defaultRestSeconds = "defaultRestSeconds"
+    static let healthEnabled = "healthEnabled"
 }
 
 extension Binding where Value == Double? {
