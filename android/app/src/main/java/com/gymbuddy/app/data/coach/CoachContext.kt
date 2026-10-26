@@ -124,6 +124,33 @@ class CoachContext(
         extra()
     }
 
+    /** Working sets per body part of the workouts started in [from, to). */
+    private fun setsByBodyPart(from: Long, to: Long): JsonObject = buildJsonObject {
+        val counts = sortedMapOf<String, Int>()
+        for (w in history) {
+            if (w.workout.startedAt < from || w.workout.startedAt >= to) continue
+            for (e in w.exercises) {
+                val n = e.sets.count { it.completed && it.setType != SetType.WARMUP }
+                if (n > 0) counts.merge(e.exercise?.bodyPart ?: "other", n, Int::plus)
+            }
+        }
+        counts.forEach { (part, n) -> put(part, n) }
+    }
+
+    /** The week a weekly report covers, [from, to), with the week before for comparison. */
+    fun week(from: Long, to: Long): JsonObject = buildJsonObject {
+        put("from", date(from))
+        put("to", date(to - 1))
+        val inWeek = history.filter { it.workout.startedAt in from until to }.sortedBy { it.workout.startedAt }
+        put("workouts", JsonArray(inWeek.map(::workout)))
+        put("setsByBodyPart", setsByBodyPart(from, to))
+        putJsonObject("weekBefore") {
+            val span = to - from
+            put("workoutCount", history.count { it.workout.startedAt in (from - span) until from })
+            put("setsByBodyPart", setsByBodyPart(from - span, from))
+        }
+    }
+
     /** Best estimated 1RM per exercise for the 15 exercises done most often. */
     private fun records(): JsonArray {
         data class Best(var sessions: Int = 0, var e1rm: Double = 0.0, var set: String = "", var date: String = "")

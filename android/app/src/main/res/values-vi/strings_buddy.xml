@@ -60,4 +60,17 @@
     <string name="buddy_turn_off_ai">Tắt Buddy AI</string>
     <string name="buddy_note_title">Nhận xét của Buddy</string>
     <string name="buddy_note_loading">Buddy đang xem buổi tập của bạn…</string>
+    <string name="buddy_channel">Buddy</string>
+    <string name="buddy_reminders">Nhắc nhở</string>
+    <string name="buddy_reminders_hint">Nhắc khi bạn tập chậm hơn mục tiêu tuần, và báo cáo tuần vào sáng thứ Hai (Pro).</string>
+    <string name="buddy_remind_title">Đến giờ tập chưa?</string>
+    <string name="buddy_remind_text">Mục tiêu của bạn là %1$d buổi mỗi tuần. Một buổi ngắn hôm nay cũng giúp bạn giữ nhịp.</string>
+    <string name="buddy_weekly_ready_title">Báo cáo tuần đã sẵn sàng</string>
+    <string name="buddy_weekly_ready_text">Buddy đã xem lại tuần trước. Mở GymBuddy để đọc.</string>
+    <string name="buddy_weekly_report">Báo cáo tuần</string>
+    <string name="buddy_weekly_locked">Với Pro, Buddy AI viết báo cáo cho bạn mỗi tuần: số buổi so với mục tiêu, khối lượng theo nhóm cơ, kỷ lục và một trọng tâm rõ ràng cho tuần tới.</string>
+    <string name="buddy_weekly_needs_ai">Báo cáo tuần do Buddy AI viết. Hãy bật nó trước: mở Buddy, đăng nhập và đồng ý gửi bản tóm tắt tập luyện.</string>
+    <string name="buddy_weekly_loading">Buddy đang xem lại tuần trước…</string>
+    <string name="buddy_weekly_range">%1$s – %2$s</string>
+    <string name="buddy_weekly_discuss">Trao đổi với Buddy</string>
 </resources>
