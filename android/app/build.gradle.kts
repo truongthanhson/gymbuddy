@@ -38,6 +38,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     // The built-in exercise library lives in the repo-level shared/ folder so both apps use the same data.
@@ -64,6 +65,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.health.connect)
+    implementation(libs.play.billing)
     implementation(libs.glance.appwidget)
     implementation(libs.glance.material3)
     implementation(project(":watchlink"))

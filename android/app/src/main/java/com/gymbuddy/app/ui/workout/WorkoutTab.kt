@@ -27,6 +27,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
 import com.gymbuddy.app.ui.common.useVietnameseNames
+import com.gymbuddy.app.domain.canAddTemplate
+import com.gymbuddy.app.ui.common.LocalIsPro
 import com.gymbuddy.app.ui.templates.TemplateActions
 import com.gymbuddy.app.ui.templates.TemplatesUiState
 import com.gymbuddy.app.ui.templates.TemplatesViewModel
@@ -37,6 +39,7 @@ fun WorkoutTab(
     onAddExercises: (workoutId: String) -> Unit,
     onReplaceExercise: (workoutId: String, workoutExerciseId: String) -> Unit,
     onEditTemplate: (templateId: String?) -> Unit,
+    onOpenPaywall: () -> Unit,
     viewModel: WorkoutViewModel = hiltViewModel(),
     templatesViewModel: TemplatesViewModel = hiltViewModel(),
 ) {
@@ -56,6 +59,8 @@ fun WorkoutTab(
                 }
             }
             val templates by templatesViewModel.state.collectAsStateWithLifecycle()
+            // Free users keep a few routines, like Strong; Pro removes the limit.
+            val canAdd = canAddTemplate(templates.templates.size, LocalIsPro.current)
             StartWorkoutScreen(
                 templates = templates,
                 onStartEmpty = {
@@ -68,8 +73,8 @@ fun WorkoutTab(
                         templatesViewModel.startWorkout(it.template.id) {}
                     },
                     onEdit = { onEditTemplate(it) },
-                    onNew = { onEditTemplate(null) },
-                    onDuplicate = templatesViewModel::duplicate,
+                    onNew = { if (canAdd) onEditTemplate(null) else onOpenPaywall() },
+                    onDuplicate = { id, suffix -> if (canAdd) templatesViewModel.duplicate(id, suffix) else onOpenPaywall() },
                     onDelete = templatesViewModel::delete,
                     onMove = templatesViewModel::move,
                     onCreateFolder = templatesViewModel::createFolder,

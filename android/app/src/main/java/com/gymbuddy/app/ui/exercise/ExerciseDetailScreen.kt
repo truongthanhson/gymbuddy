@@ -47,6 +47,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
+import com.gymbuddy.app.domain.ProFeature
+import com.gymbuddy.app.ui.common.LocalIsPro
+import com.gymbuddy.app.ui.pro.ProLocked
 import com.gymbuddy.app.data.exercise.ExerciseEntity
 import com.gymbuddy.app.data.exercise.Instructions
 import com.gymbuddy.app.domain.BodyPart
@@ -81,7 +84,7 @@ private enum class ChartMetric(@StringRes val label: Int, val value: (SessionPoi
 /** History, charts and personal records of one exercise, like Strong's exercise page. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExerciseDetailScreen(onBack: () -> Unit, viewModel: ExerciseDetailViewModel = hiltViewModel()) {
+fun ExerciseDetailScreen(onBack: () -> Unit, onOpenPaywall: () -> Unit, viewModel: ExerciseDetailViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val instructions by viewModel.instructions.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -120,7 +123,7 @@ fun ExerciseDetailScreen(onBack: () -> Unit, viewModel: ExerciseDetailViewModel 
             when (DetailTab.entries[tab]) {
                 DetailTab.About -> AboutTab(exercise, instructions)
                 DetailTab.History -> HistoryTab(state.history)
-                DetailTab.Charts -> ChartsTab(state.points)
+                DetailTab.Charts -> if (LocalIsPro.current) ChartsTab(state.points) else ProLocked(ProFeature.EXERCISE_CHARTS, onOpenPaywall)
                 DetailTab.Records -> RecordsTab(state)
             }
         }

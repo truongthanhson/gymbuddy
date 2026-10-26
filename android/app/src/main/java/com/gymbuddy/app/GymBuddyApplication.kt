@@ -2,6 +2,7 @@ package com.gymbuddy.app
 
 import android.app.Application
 import com.gymbuddy.app.data.exercise.ExerciseSeeder
+import com.gymbuddy.app.data.pro.ProRepository
 import com.gymbuddy.app.timer.RestTimerNotifier
 import com.gymbuddy.app.watch.WatchBridge
 import dagger.hilt.android.HiltAndroidApp
@@ -17,6 +18,7 @@ class GymBuddyApplication : Application() {
     @Inject lateinit var exerciseSeeder: ExerciseSeeder
     @Inject lateinit var restTimerNotifier: RestTimerNotifier
     @Inject lateinit var watchBridge: WatchBridge
+    @Inject lateinit var proRepository: ProRepository
 
     private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -25,5 +27,6 @@ class GymBuddyApplication : Application() {
         restTimerNotifier.createChannels()
         appScope.launch { exerciseSeeder.seedIfNeeded() }
         watchBridge.start(appScope)
+        proRepository.start()
     }
 }

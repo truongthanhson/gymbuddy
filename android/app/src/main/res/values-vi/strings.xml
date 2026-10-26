@@ -238,4 +238,20 @@
     <string name="about_exercise">Giới thiệu</string>
     <string name="instructions">Hướng dẫn</string>
     <string name="no_instructions">Bài tập này chưa có hướng dẫn.</string>
+    <string name="pro_title">GymBuddy Pro</string>
+    <string name="pro_pitch">Tận dụng tối đa mỗi buổi tập</string>
+    <string name="pro_active">Bạn đang dùng GymBuddy Pro. Cảm ơn bạn đã ủng hộ!</string>
+    <string name="pro_active_short">Đang hoạt động</string>
+    <string name="pro_upgrade_hint">Không giới hạn routine, biểu đồ và mọi số đo</string>
+    <string name="pro_feature_templates">Không giới hạn routine (miễn phí: %1$d)</string>
+    <string name="pro_feature_charts">Biểu đồ cho mọi bài tập</string>
+    <string name="pro_feature_measurements">Tỷ lệ mỡ và số đo các bộ phận cơ thể</string>
+    <string name="pro_unavailable">Pro sẽ sớm có thể mua.</string>
+    <string name="pro_plan_price">%1$s · %2$s</string>
+    <string name="pro_monthly">Hằng tháng</string>
+    <string name="pro_yearly">Hằng năm</string>
+    <string name="pro_lifetime">Trọn đời</string>
+    <string name="pro_restore">Khôi phục giao dịch</string>
+    <string name="pro_unlock">Mở khóa với Pro</string>
+    <string name="pro_debug_override">Pro không cần mua (bản debug)</string>
 </resources>
