@@ -11,6 +11,16 @@
         }
       }
     },
+    "1RM %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1RM %@"
+          }
+        }
+      }
+    },
     "About": {
       "localizations": {
         "vi": {
@@ -141,6 +151,26 @@
         }
       }
     },
+    "Best set volume": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khối lượng set tốt nhất"
+          }
+        }
+      }
+    },
+    "Best workout volume": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khối lượng buổi tập tốt nhất"
+          }
+        }
+      }
+    },
     "Body part": {
       "localizations": {
         "vi": {
@@ -217,6 +247,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nếu đăng xuất bây giờ, các thay đổi chưa đồng bộ sẽ bị mất. (%@)"
+          }
+        }
+      }
+    },
+    "Charts": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Biểu đồ"
           }
         }
       }
@@ -411,6 +451,16 @@
         }
       }
     },
+    "Estimated 1RM": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1RM ước tính"
+          }
+        }
+      }
+    },
     "Exercises": {
       "localizations": {
         "vi": {
@@ -447,6 +497,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hoàn thành và cập nhật mẫu"
+          }
+        }
+      }
+    },
+    "Finish this exercise in at least two workouts to see a chart.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoàn thành bài tập này trong ít nhất hai buổi để xem biểu đồ."
           }
         }
       }
@@ -574,6 +634,26 @@
         }
       }
     },
+    "Max reps": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số rep nhiều nhất"
+          }
+        }
+      }
+    },
+    "Max weight": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mức tạ cao nhất"
+          }
+        }
+      }
+    },
     "Move to folder": {
       "localizations": {
         "vi": {
@@ -640,6 +720,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mẫu mới"
+          }
+        }
+      }
+    },
+    "No completed sets for this exercise yet.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có set nào hoàn thành cho bài tập này."
           }
         }
       }
@@ -790,6 +880,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bắt đầu nhanh"
+          }
+        }
+      }
+    },
+    "Records": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kỷ lục"
           }
         }
       }
@@ -1070,6 +1170,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Đơn vị"
+          }
+        }
+      }
+    },
+    "Volume": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khối lượng"
           }
         }
       }

@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.gymbuddy.app.R
+import com.gymbuddy.app.ui.exercise.ExerciseDetailScreen
 import com.gymbuddy.app.ui.exercises.ExercisesScreen
 import com.gymbuddy.app.ui.exercises.ExercisePickerScreen
 import com.gymbuddy.app.ui.history.HistoryScreen
@@ -42,6 +43,7 @@ import kotlinx.serialization.Serializable
 @Serializable object SettingsRoute
 @Serializable data class ExercisePickerRoute(val workoutId: String? = null)
 @Serializable data class TemplateEditorRoute(val templateId: String? = null)
+@Serializable data class ExerciseDetailRoute(val exerciseId: String)
 
 /** Picker → template editor: the picked exercise ids, set on the editor's back stack entry. */
 private const val PICKED_EXERCISES = "picked_exercises"
@@ -102,7 +104,8 @@ fun GymBuddyNavHost() {
                     onClose = { navController.popBackStack() },
                 )
             }
-            composable<ExercisesRoute> { ExercisesScreen() }
+            composable<ExercisesRoute> { ExercisesScreen(onOpenExercise = { navController.navigate(ExerciseDetailRoute(it)) }) }
+            composable<ExerciseDetailRoute> { ExerciseDetailScreen(onBack = { navController.popBackStack() }) }
             composable<SettingsRoute> { SettingsScreen() }
             composable<ExercisePickerRoute> { entry ->
                 val workoutId = entry.toRoute<ExercisePickerRoute>().workoutId

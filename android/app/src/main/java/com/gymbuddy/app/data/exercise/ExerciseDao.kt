@@ -25,6 +25,9 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercises WHERE id = :id")
     suspend fun get(id: String): ExerciseEntity?
 
+    @Query("SELECT * FROM exercises WHERE id = :id")
+    fun observeById(id: String): Flow<ExerciseEntity?>
+
     @Upsert
     suspend fun upsert(exercise: ExerciseEntity)
 
