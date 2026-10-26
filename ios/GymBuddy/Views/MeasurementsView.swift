@@ -21,7 +21,11 @@ struct MeasurementsView: View {
         NavigationStack {
             List(MeasurementKind.allCases) { kind in
                 NavigationLink {
-                    MeasurementDetailView(kind: kind)
+                    if measurementNeedsPro(kind) && !ProStore.shared.isPro {
+                        PaywallView()
+                    } else {
+                        MeasurementDetailView(kind: kind)
+                    }
                 } label: {
                     row(kind, latest: latest[kind.rawValue])
                 }

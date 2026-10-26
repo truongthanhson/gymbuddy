@@ -18,6 +18,8 @@ targets:
     platform: iOS
     sources:
       - path: GymBuddy
+        excludes:
+          - "*.storekit"
       # Code shared with the widget extension.
       - path: Shared
       # Built-in exercise library shared with the Android app.
@@ -51,6 +53,8 @@ targets:
     scheme:
       testTargets:
         - GymBuddyTests
+      # Local products for the simulator until App Store Connect has them.
+      storeKitConfiguration: GymBuddy/GymBuddy.storekit
   GymBuddyWidget:
     type: app-extension
     platform: iOS

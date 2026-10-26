@@ -46,6 +46,7 @@ private struct StartWorkoutView: View {
     @Query private var exercises: [Exercise]
 
     @State private var editing: TemplateEditorTarget?
+    @State private var paywall = false
     @State private var newFolder = false
     @State private var folderName = ""
 
@@ -89,7 +90,14 @@ private struct StartWorkoutView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
-                    Button("New template", systemImage: "doc.badge.plus") { editing = TemplateEditorTarget(templateId: nil) }
+                    Button("New template", systemImage: "doc.badge.plus") {
+                        // Free users keep a few routines, like Strong; Pro removes the limit.
+                        if canAddTemplate(existing: templates.count, isPro: ProStore.shared.isPro) {
+                            editing = TemplateEditorTarget(templateId: nil)
+                        } else {
+                            paywall = true
+                        }
+                    }
                     Button("New folder", systemImage: "folder.badge.plus") {
                         folderName = ""
                         newFolder = true
@@ -101,6 +109,9 @@ private struct StartWorkoutView: View {
         }
         .sheet(item: $editing) { target in
             TemplateEditorView(templateId: target.templateId)
+        }
+        .sheet(isPresented: $paywall) {
+            NavigationStack { PaywallView() }
         }
         .alert("New folder", isPresented: $newFolder) {
             TextField("Folder name", text: $folderName)
@@ -117,7 +128,9 @@ private struct StartWorkoutView: View {
             template: template,
             folders: folders,
             summary: template.liveExercises.map { namesById[$0.exerciseId]?.displayName ?? $0.exerciseId }.joined(separator: ", "),
-            onEdit: { editing = TemplateEditorTarget(templateId: template.id) }
+            canDuplicate: canAddTemplate(existing: templates.count, isPro: ProStore.shared.isPro),
+            onEdit: { editing = TemplateEditorTarget(templateId: template.id) },
+            onLocked: { paywall = true }
         )
     }
 }
@@ -127,7 +140,9 @@ private struct TemplateRow: View {
     let template: WorkoutTemplate
     let folders: [TemplateFolder]
     let summary: String
+    let canDuplicate: Bool
     let onEdit: () -> Void
+    let onLocked: () -> Void
 
     @State private var confirmStart = false
     @State private var confirmDelete = false
@@ -155,7 +170,11 @@ private struct TemplateRow: View {
         .contextMenu {
             Button("Edit", systemImage: "pencil", action: onEdit)
             Button("Duplicate", systemImage: "plus.square.on.square") {
-                TemplateService.duplicate(template, copySuffix: String(localized: "(copy)"), in: context)
+                if canDuplicate {
+                    TemplateService.duplicate(template, copySuffix: String(localized: "(copy)"), in: context)
+                } else {
+                    onLocked()
+                }
             }
             Menu("Move to folder") {
                 Button("No folder") { TemplateService.move(template, to: nil, in: context) }
