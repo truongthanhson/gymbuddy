@@ -264,6 +264,11 @@
     <plurals name="sets_of_exercise">
         <item quantity="other">%1$d × %2$s</item>
     </plurals>
+    <string name="sets_per_muscle_group">Số set theo nhóm cơ, %1$d ngày qua</string>
+    <string name="no_sets_yet">Chưa có set nào hoàn thành.</string>
+    <string name="not_enough_weights">Ghi cân nặng ít nhất hai lần trong mục Đo để xem biểu đồ.</string>
+    <string name="pro_dashboard_locked">Biểu đồ nhóm cơ và cân nặng có trong GymBuddy Pro</string>
+    <string name="pro_feature_dashboard">Nhóm cơ và cân nặng trên trang hồ sơ</string>
     <string name="settings_theme">Giao diện</string>
     <string name="theme_system">Theo máy</string>
     <string name="theme_light">Sáng</string>

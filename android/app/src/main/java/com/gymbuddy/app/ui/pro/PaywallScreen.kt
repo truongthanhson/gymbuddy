@@ -59,6 +59,7 @@ val ProFeature.label: Int
         ProFeature.UNLIMITED_TEMPLATES -> R.string.pro_feature_templates
         ProFeature.EXERCISE_CHARTS -> R.string.pro_feature_charts
         ProFeature.BODY_MEASUREMENTS -> R.string.pro_feature_measurements
+        ProFeature.PROFILE_DASHBOARD -> R.string.pro_feature_dashboard
     }
 
 private tailrec fun Context.findActivity(): Activity? = when (this) {

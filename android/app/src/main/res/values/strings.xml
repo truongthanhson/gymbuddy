@@ -271,6 +271,11 @@
         <item quantity="one">%1$d × %2$s</item>
         <item quantity="other">%1$d × %2$s</item>
     </plurals>
+    <string name="sets_per_muscle_group">Sets per muscle group, last %1$d days</string>
+    <string name="no_sets_yet">No finished sets yet.</string>
+    <string name="not_enough_weights">Log your body weight at least twice in Measure to see a chart.</string>
+    <string name="pro_dashboard_locked">Muscle groups and body weight charts come with GymBuddy Pro</string>
+    <string name="pro_feature_dashboard">Muscle groups and body weight on your profile</string>
     <string name="settings_theme">Theme</string>
     <string name="theme_system">System</string>
     <string name="theme_light">Light</string>

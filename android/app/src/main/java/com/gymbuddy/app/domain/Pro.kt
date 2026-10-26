@@ -4,7 +4,7 @@ package com.gymbuddy.app.domain
 const val FREE_TEMPLATE_LIMIT = 3
 
 /** What GymBuddy Pro unlocks. Everything else, including logging, history and sync, stays free. */
-enum class ProFeature { UNLIMITED_TEMPLATES, EXERCISE_CHARTS, BODY_MEASUREMENTS }
+enum class ProFeature { UNLIMITED_TEMPLATES, EXERCISE_CHARTS, BODY_MEASUREMENTS, PROFILE_DASHBOARD }
 
 fun canAddTemplate(existing: Int, isPro: Boolean): Boolean = isPro || existing < FREE_TEMPLATE_LIMIT
 

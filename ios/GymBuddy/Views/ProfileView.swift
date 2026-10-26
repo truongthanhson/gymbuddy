@@ -5,9 +5,14 @@ import SwiftUI
 /// Strong's Profile tab: who you are, how many workouts you have done, and workouts per week. Settings are behind the gear.
 struct ProfileView: View {
     private static let chartWeeks = 8
+    private static let muscleDays = 30
 
     @Query(filter: #Predicate<Workout> { $0.endedAt != nil && $0.deletedAt == nil })
     private var workouts: [Workout]
+    @Query private var exercises: [Exercise]
+    @Query(filter: #Predicate<BodyMeasurement> { $0.kind == "weight" && $0.deletedAt == nil }, sort: \BodyMeasurement.measuredAt)
+    private var bodyWeights: [BodyMeasurement]
+    @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
 
     var body: some View {
         NavigationStack {
@@ -40,6 +45,18 @@ struct ProfileView: View {
                 Section("Workouts per week") {
                     chart.frame(height: 180)
                 }
+                if ProStore.shared.isPro {
+                    Section("Sets per muscle group, last \(Self.muscleDays) days") { muscleGroups }
+                    Section("Body weight") { bodyWeightChart }
+                } else {
+                    Section {
+                        NavigationLink {
+                            PaywallView()
+                        } label: {
+                            Label("Muscle groups and body weight charts come with GymBuddy Pro", systemImage: "lock.fill")
+                        }
+                    }
+                }
             }
             .navigationTitle("Profile")
             .toolbar {
@@ -49,6 +66,43 @@ struct ProfileView: View {
                     Label("Settings", systemImage: "gearshape")
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    private var muscleGroups: some View {
+        let parts = Dictionary(exercises.map { ($0.id, $0.bodyPart) }, uniquingKeysWith: { first, _ in first })
+        let sets = workouts.flatMap { workout in
+            workout.liveExercises.flatMap { exercise in
+                exercise.liveSets.filter(\.completed).map {
+                    BodyPartSet(bodyPart: parts[exercise.exerciseId] ?? "", startedAt: workout.startedAt, warmup: $0.setType == .warmup)
+                }
+            }
+        }
+        let since = Calendar.current.date(byAdding: .day, value: -Self.muscleDays, to: .now) ?? .now
+        let counts = setsPerBodyPart(sets, since: since)
+        if counts.isEmpty {
+            Text("No finished sets yet.").foregroundStyle(.secondary)
+        } else {
+            Chart(counts) { count in
+                BarMark(x: .value("Sets", count.sets), y: .value("Muscle group", String(localized: count.bodyPart.label)))
+                    .annotation(position: .trailing) { Text(verbatim: String(count.sets)).font(.caption) }
+            }
+            .frame(height: CGFloat(counts.count) * 28 + 20)
+        }
+    }
+
+    @ViewBuilder
+    private var bodyWeightChart: some View {
+        if bodyWeights.count < 2 {
+            Text("Log your body weight at least twice in Measure to see a chart.").foregroundStyle(.secondary)
+        } else {
+            Chart(bodyWeights) { entry in
+                LineMark(x: .value("Date", entry.measuredAt), y: .value("Weight", weightUnit.display(entry.value)))
+                PointMark(x: .value("Date", entry.measuredAt), y: .value("Weight", weightUnit.display(entry.value)))
+            }
+            .chartYScale(domain: .automatic(includesZero: false))
+            .frame(height: 180)
         }
     }
 
