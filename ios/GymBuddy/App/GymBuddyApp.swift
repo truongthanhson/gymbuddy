@@ -7,7 +7,7 @@ struct GymBuddyApp: App {
 
     init() {
         do {
-            container = try ModelContainer(for: Exercise.self)
+            container = try ModelContainer(for: Exercise.self, Workout.self, WorkoutExercise.self, WorkoutSet.self)
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }

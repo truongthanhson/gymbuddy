@@ -18,7 +18,10 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): GymBuddyDatabase =
-        Room.databaseBuilder(context, GymBuddyDatabase::class.java, "gymbuddy.db").build()
+        Room.databaseBuilder(context, GymBuddyDatabase::class.java, "gymbuddy.db")
+            // Pre-release: no user data to keep yet. Replace with real migrations before the first release.
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     fun provideExerciseDao(db: GymBuddyDatabase): ExerciseDao = db.exerciseDao()
