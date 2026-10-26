@@ -12,7 +12,7 @@ enum ProFeature: CaseIterable, Sendable {
         case .unlimitedTemplates: "Unlimited routines (free: \(freeTemplateLimit))"
         case .exerciseCharts: "Charts of every exercise"
         case .bodyMeasurements: "Body fat and body part measurements"
-        case .profileDashboard: "Muscle groups and body weight on your profile"
+        case .profileDashboard: "Advanced stats on your profile"
         }
     }
 }

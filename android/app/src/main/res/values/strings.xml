@@ -271,11 +271,10 @@
         <item quantity="one">%1$d × %2$s</item>
         <item quantity="other">%1$d × %2$s</item>
     </plurals>
-    <string name="sets_per_muscle_group">Sets per muscle group, last %1$d days</string>
     <string name="no_sets_yet">No finished sets yet.</string>
     <string name="not_enough_weights">Log your body weight at least twice in Measure to see a chart.</string>
-    <string name="pro_dashboard_locked">Muscle groups and body weight charts come with GymBuddy Pro</string>
-    <string name="pro_feature_dashboard">Muscle groups and body weight on your profile</string>
+    <string name="pro_dashboard_locked">Volume, records, top exercises, muscle groups and more stats come with GymBuddy Pro</string>
+    <string name="pro_feature_dashboard">Advanced stats on your profile</string>
     <string name="settings_theme">Theme</string>
     <string name="theme_system">System</string>
     <string name="theme_light">Light</string>
@@ -301,4 +300,36 @@
         <item quantity="one">%1$d workout</item>
         <item quantity="other">%1$d workouts</item>
     </plurals>
+    <string name="training_since">Training since %1$s</string>
+    <string name="stat_workouts">Workouts</string>
+    <string name="hours_short">%1$d h</string>
+    <string name="stat_total_time">Total time</string>
+    <string name="stat_total_volume">Total volume</string>
+    <string name="stat_total_sets">Sets done</string>
+    <string name="consistency">Consistency</string>
+    <plurals name="weeks_count">
+        <item quantity="one">%d week</item>
+        <item quantity="other">%d weeks</item>
+    </plurals>
+    <string name="streak_current">Current streak</string>
+    <string name="streak_best">Longest streak</string>
+    <string name="heatmap_caption">Last %1$d weeks, one square per day</string>
+    <string name="volume_per_week">Volume per week</string>
+    <string name="sets_per_muscle_group_title">Sets per muscle group</string>
+    <string name="days_short">%1$d days</string>
+    <string name="personal_records">Personal records</string>
+    <string name="no_records_yet">Beat your best estimated 1RM on an exercise to set a record.</string>
+    <plurals name="records_total">
+        <item quantity="one">%d estimated 1RM record in total</item>
+        <item quantity="other">%d estimated 1RM records in total</item>
+    </plurals>
+    <string name="estimated_one_rep_max_short">1RM ≈ %1$s</string>
+    <string name="top_exercises">Most trained exercises</string>
+    <string name="vs_previous_months">%1$s vs. 3 months before</string>
+    <string name="training_habits">Training habits</string>
+    <string name="average_duration">Average workout</string>
+    <string name="minutes_short">%1$d min</string>
+    <string name="favorite_day">Favorite day</string>
+    <string name="average_rest_days">Rest between workouts (90 days)</string>
+    <string name="days_decimal">%1$s days</string>
 </resources>
