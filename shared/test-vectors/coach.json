@@ -1965,5 +1965,49 @@
    "category": "barbell",
    "expected": null
   }
+ ],
+ "reminder": [
+  {
+   "description": "3 a week: after 3 days",
+   "daysPerWeek": 3,
+   "lastWorkout": 1800000000000,
+   "expected": 1800259200000
+  },
+  {
+   "description": "4 a week: after 2 days",
+   "daysPerWeek": 4,
+   "lastWorkout": 1800000000000,
+   "expected": 1800172800000
+  },
+  {
+   "description": "2 a week: after 4 days",
+   "daysPerWeek": 2,
+   "lastWorkout": 1800000000000,
+   "expected": 1800345600000
+  },
+  {
+   "description": "once a week: after 8 days",
+   "daysPerWeek": 1,
+   "lastWorkout": 1800000000000,
+   "expected": 1800691200000
+  },
+  {
+   "description": "every day: still 2 days",
+   "daysPerWeek": 7,
+   "lastWorkout": 1800000000000,
+   "expected": 1800172800000
+  },
+  {
+   "description": "5 a week",
+   "daysPerWeek": 5,
+   "lastWorkout": 1799913600000,
+   "expected": 1800086400000
+  },
+  {
+   "description": "no workout yet: no reminder",
+   "daysPerWeek": 3,
+   "lastWorkout": null,
+   "expected": null
+  }
  ]
 }
