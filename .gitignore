@@ -4,7 +4,7 @@
 # Android
 android/.gradle/
 android/build/
-android/app/build/
+android/*/build/
 android/local.properties
 *.apk
 *.aab

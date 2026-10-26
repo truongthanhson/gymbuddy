@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GymBuddy</string>
+    <string name="waiting_for_phone">Open GymBuddy on your phone</string>
+    <string name="no_workout">No workout in progress. Start one on your phone.</string>
+    <string name="rest">Rest %1$s</string>
+    <string name="skip_rest">Skip</string>
+    <string name="set_label">Set %1$s</string>
+    <string name="complete_set">Done</string>
+    <string name="all_sets_done">All sets done. Finish the workout on your phone.</string>
+    <string name="sets_progress">%1$d/%2$d sets</string>
+</resources>

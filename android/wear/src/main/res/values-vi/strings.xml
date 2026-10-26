@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="waiting_for_phone">Mở GymBuddy trên điện thoại</string>
+    <string name="no_workout">Chưa có buổi tập nào. Hãy bắt đầu trên điện thoại.</string>
+    <string name="rest">Nghỉ %1$s</string>
+    <string name="skip_rest">Bỏ qua</string>
+    <string name="set_label">Set %1$s</string>
+    <string name="complete_set">Xong</string>
+    <string name="all_sets_done">Đã xong mọi set. Kết thúc buổi tập trên điện thoại.</string>
+    <string name="sets_progress">%1$d/%2$d set</string>
+</resources>

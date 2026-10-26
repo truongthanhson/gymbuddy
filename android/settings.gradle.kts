@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "GymBuddy"
-include(":app")
+include(":app", ":wear", ":watchlink")

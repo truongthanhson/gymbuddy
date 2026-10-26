@@ -1,0 +1,62 @@
+{
+  "labels": [
+    { "types": ["warmup", "normal", "normal", "drop", "failure", "normal"], "labels": ["W", "1", "2", "D", "F", "3"] },
+    { "types": [], "labels": [] }
+  ],
+  "nextSet": [
+    {
+      "note": "first set that is not done, across exercises",
+      "state": {
+        "workout": {
+          "name": "Push day",
+          "startedAt": 1761465600000,
+          "restEndsAt": 1761465690000,
+          "exercises": [
+            {
+              "name": "Bench Press",
+              "sets": [
+                { "id": "s1", "label": "W", "weight": "40", "reps": "10", "unit": "kg", "done": true },
+                { "id": "s2", "label": "1", "weight": "60", "reps": "8", "unit": "kg", "done": true }
+              ]
+            },
+            {
+              "name": "Overhead Press",
+              "sets": [
+                { "id": "s3", "label": "1", "weight": "", "reps": "", "unit": "kg", "done": false, "hintWeight": "40", "hintReps": "6" },
+                { "id": "s4", "label": "2", "weight": "40", "reps": "6", "unit": "kg", "done": false }
+              ]
+            }
+          ]
+        }
+      },
+      "exercise": 1,
+      "setId": "s3"
+    },
+    {
+      "note": "every set done",
+      "state": {
+        "workout": {
+          "name": "Legs",
+          "startedAt": 1761465600000,
+          "restEndsAt": null,
+          "exercises": [
+            { "name": "Squat", "sets": [{ "id": "a", "label": "1", "weight": "100", "reps": "5", "unit": "kg", "done": true }] },
+            { "name": "Lunge", "sets": [] }
+          ]
+        }
+      },
+      "exercise": null,
+      "setId": null
+    },
+    {
+      "note": "no workout in progress",
+      "state": { "workout": null },
+      "exercise": null,
+      "setId": null
+    }
+  ],
+  "actions": [
+    { "json": "{\"action\":\"completeSet\",\"setId\":\"s2\"}", "action": "completeSet", "setId": "s2" },
+    { "json": "{\"action\":\"skipRest\"}", "action": "skipRest", "setId": null }
+  ]
+}

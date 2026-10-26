@@ -27,4 +27,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: gymbuddy-debug-apk
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: |
+            android/app/build/outputs/apk/debug/*.apk
+            android/wear/build/outputs/apk/debug/*.apk
