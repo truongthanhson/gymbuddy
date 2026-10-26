@@ -34,6 +34,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.gymbuddy.app.ui.common.color
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -138,7 +140,7 @@ fun ProfileScreen(
                     }
                     val most = bodyParts.firstOrNull()?.second ?: 1
                     bodyParts.forEachIndexed { index, (part, sets) ->
-                        BodyPartBar(stringResource(part.label), sets, sets.toFloat() / most, index)
+                        BodyPartBar(stringResource(part.label), sets, sets.toFloat() / most, index, part.color())
                     }
                 }
             }
@@ -177,7 +179,7 @@ private const val MUSCLE_DAYS = 30
 
 /** One muscle group's bar; the bars grow in one after another, [index] sets the delay. */
 @Composable
-private fun BodyPartBar(label: String, sets: Int, fraction: Float, index: Int) {
+private fun BodyPartBar(label: String, sets: Int, fraction: Float, index: Int, color: Color) {
     var started by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { started = true }
     val shown by animateFloatAsState(
@@ -191,14 +193,14 @@ private fun BodyPartBar(label: String, sets: Int, fraction: Float, index: Int) {
             Modifier
                 .weight(1f)
                 .height(12.dp)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(6.dp)),
+                .background(color.copy(alpha = 0.15f), RoundedCornerShape(6.dp)),
         ) {
             if (shown > 0f) {
                 Box(
                     Modifier
                         .fillMaxHeight()
                         .fillMaxWidth(shown)
-                        .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(6.dp)),
+                        .background(color, RoundedCornerShape(6.dp)),
                 )
             }
         }

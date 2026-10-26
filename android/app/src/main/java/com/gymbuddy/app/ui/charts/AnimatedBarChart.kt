@@ -32,6 +32,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.gymbuddy.app.ui.theme.GymBuddyTheme
 
 /** Share of the grow animation each bar takes; the bars start one after another across the rest. */
 private const val BAR_SHARE = 0.6f
@@ -52,10 +53,11 @@ fun AnimatedBarChart(
 ) {
     if (values.isEmpty()) return
     val colors = MaterialTheme.colorScheme
+    val chartColors = GymBuddyTheme.colors
     val haptics = LocalHapticFeedback.current
     val measurer = rememberTextMeasurer()
     val tabular = TextStyle(fontFeatureSettings = "tnum")
-    val labelStyle = MaterialTheme.typography.labelSmall.merge(tabular).copy(color = colors.onSurfaceVariant)
+    val labelStyle = MaterialTheme.typography.labelSmall.merge(tabular).copy(color = chartColors.chartLabel)
     val countStyle = MaterialTheme.typography.labelMedium.merge(tabular).copy(color = colors.onSurface)
     val tooltipStyle = MaterialTheme.typography.labelMedium.merge(tabular).copy(color = colors.inverseOnSurface)
 
@@ -102,7 +104,7 @@ fun AnimatedBarChart(
         val share = if (values.size > 1) BAR_SHARE else 1f
         val step = if (values.size > 1) (1f - share) / (values.size - 1) else 0f
 
-        drawLine(colors.outlineVariant, Offset(0f, bottom), Offset(size.width, bottom), strokeWidth = 1.dp.toPx())
+        drawLine(chartColors.chartGrid, Offset(0f, bottom), Offset(size.width, bottom), strokeWidth = 1.dp.toPx())
         values.forEachIndexed { i, value ->
             val local = ((grow.value - i * step) / share).coerceIn(0f, 1f)
             val eased = EaseOutBack.transform(local)

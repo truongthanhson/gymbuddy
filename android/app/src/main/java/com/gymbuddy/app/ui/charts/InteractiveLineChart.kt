@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -30,13 +29,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -58,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import com.gymbuddy.app.R
 import com.gymbuddy.app.domain.ChartRange
 import com.gymbuddy.app.domain.nearestIndex
+import com.gymbuddy.app.ui.theme.GymBuddyTheme
 import kotlin.math.abs
 
 @StringRes
@@ -93,10 +91,11 @@ fun InteractiveLineChart(
     var selected by remember(shown) { mutableStateOf<Int?>(null) }
 
     val colors = MaterialTheme.colorScheme
+    val chartColors = GymBuddyTheme.colors
     val line = colors.primary
     val haptics = LocalHapticFeedback.current
     val measurer = rememberTextMeasurer()
-    val labelStyle = MaterialTheme.typography.labelSmall.copy(color = colors.onSurfaceVariant)
+    val labelStyle = MaterialTheme.typography.labelSmall.copy(color = chartColors.chartLabel)
     val tooltipStyle = MaterialTheme.typography.labelMedium.copy(color = colors.inverseOnSurface)
     val tabular = TextStyle(fontFeatureSettings = "tnum")
 
@@ -154,7 +153,7 @@ fun InteractiveLineChart(
             )
             val deltaColor = when {
                 higherIsBetter == null || delta == 0.0 -> colors.onSurfaceVariant
-                (delta > 0) == higherIsBetter -> successColor(colors.surface)
+                (delta > 0) == higherIsBetter -> chartColors.success
                 else -> colors.error
             }
             Text(
@@ -195,7 +194,7 @@ fun InteractiveLineChart(
                     onCancel = { selected = beforeDown },
                 ),
         ) {
-            val grid = colors.outlineVariant
+            val grid = chartColors.chartGrid
             val dash = PathEffect.dashPathEffect(floatArrayOf(4.dp.toPx(), 4.dp.toPx()))
             // Gridlines at the smallest, middle and largest value, labelled at the left edge.
             for (value in listOf(dataMax, (dataMin + dataMax) / 2, dataMin).distinct()) {
@@ -274,6 +273,3 @@ fun InteractiveLineChart(
         }
     }
 }
-
-/** Green for a change in the good direction, brighter on a dark surface. Swap for the theme's success colour once it has one. */
-private fun successColor(surface: Color): Color = if (surface.luminance() < 0.5f) Color(0xFF3DD68C) else Color(0xFF1E9E5A)

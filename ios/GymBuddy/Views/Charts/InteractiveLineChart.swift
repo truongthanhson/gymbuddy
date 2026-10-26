@@ -60,7 +60,7 @@ struct InteractiveLineChart: View {
         let deltaColor: Color = switch higherIsBetter {
         case nil: .secondary
         case _ where delta == 0: .secondary
-        case let better?: (delta > 0) == better ? .green : .red
+        case let better?: (delta > 0) == better ? Palette.success : .red
         }
         return VStack(alignment: .leading, spacing: 2) {
             Text(verbatim: formatValue(point.value))

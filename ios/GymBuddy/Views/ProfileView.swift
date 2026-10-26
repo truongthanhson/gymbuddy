@@ -96,7 +96,7 @@ struct ProfileView: View {
                 let name = String(localized: count.bodyPart.label)
                 BarMark(x: .value("Sets", grown ? count.sets : 0), y: .value("Muscle group", name))
                     .cornerRadius(6)
-                    .foregroundStyle(Color.accentColor.opacity(selectedPart == nil || selectedPart == name ? 1 : 0.35))
+                    .foregroundStyle(Palette.color(for: count.bodyPart).opacity(selectedPart == nil || selectedPart == name ? 1 : 0.35))
                     .annotation(position: .trailing) {
                         Text(verbatim: String(count.sets))
                             .font(.caption.bold())
