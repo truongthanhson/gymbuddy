@@ -1,0 +1,36 @@
+{
+  "description": "Finished workouts per week for the Profile chart, oldest week first; the last entry is the week containing now. Weeks start on Monday 00:00 in the given time zone (UTC here). Workouts before the first week or after the current one are left out. Times are epoch millis.",
+  "cases": [
+    {
+      "name": "four weeks",
+      "now": 1793181600000,
+      "weeks": 4,
+      "startedAts": [
+        1792972800000,
+        1792972740000,
+        1792483200000,
+        1791180000000,
+        1791115200000,
+        1793577600000
+      ],
+      "counts": [
+        1,
+        0,
+        2,
+        1
+      ],
+      "note": "2026-10-26T00:00:00 | 2026-10-25T23:59:00 | 2026-10-20T08:00:00 | 2026-10-05T06:00:00 | 2026-10-04T12:00:00 | 2026-11-02T00:00:00"
+    },
+    {
+      "name": "no workouts",
+      "now": 1793181600000,
+      "weeks": 3,
+      "startedAts": [],
+      "counts": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

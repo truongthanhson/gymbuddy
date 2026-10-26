@@ -327,4 +327,22 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(liveRecords(previous: values(c.previous), current: values(c.current)), expected, c.name)
         }
     }
+
+    func testWorkoutsPerWeekMatchesSharedVectors() throws {
+        struct File: Decodable {
+            struct Case: Decodable { let name: String; let now: Double; let weeks: Int; let startedAts: [Double]; let counts: [Int] }
+            let cases: [Case]
+        }
+        var utc = Calendar(identifier: .gregorian)
+        utc.timeZone = TimeZone(identifier: "UTC")!
+        for c in try vectors("workouts_per_week", as: File.self).cases {
+            let result = workoutsPerWeek(
+                c.startedAts.map { Date(timeIntervalSince1970: $0 / 1000) },
+                now: Date(timeIntervalSince1970: c.now / 1000),
+                weeks: c.weeks,
+                calendar: utc
+            )
+            XCTAssertEqual(result, c.counts, c.name)
+        }
+    }
 }

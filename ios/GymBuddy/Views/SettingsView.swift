@@ -17,47 +17,46 @@ struct SettingsView: View {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
     }
 
+    /// Pushed from the Profile tab, which owns the navigation stack.
     var body: some View {
-        NavigationStack {
-            Form {
-                AccountSection()
-                Section("Units") {
-                    Picker("Weight", selection: $weightUnit) {
-                        ForEach(WeightUnit.allCases) { unit in
-                            Text(verbatim: unit.symbol).tag(unit)
-                        }
+        Form {
+            AccountSection()
+            Section("Units") {
+                Picker("Weight", selection: $weightUnit) {
+                    ForEach(WeightUnit.allCases) { unit in
+                        Text(verbatim: unit.symbol).tag(unit)
                     }
-                    .pickerStyle(.segmented)
                 }
-                Section {
-                    Picker("Default rest timer", selection: $restSeconds) {
-                        ForEach(restTimeOptions, id: \.self) { option in
-                            Text(verbatim: restLabel(option)).tag(option)
-                        }
-                    }
-                    // iOS keeps a per-app language in the app's page of the Settings app.
-                    Button("Language") {
-                        if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
-                    }
-                } header: {
-                    Text("General")
-                } footer: {
-                    Text("The default rest timer is used when an exercise has no rest time of its own. The app language is chosen in the Settings app.")
-                }
-                Section("Tools") {
-                    NavigationLink("Plate calculator") { PlateCalculatorView() }
-                    NavigationLink("1RM calculator") { OneRepMaxCalculatorView() }
-                    NavigationLink("Warm-up calculator") { WarmupCalculatorView() }
-                }
-                dataSection
-                Section("About") {
-                    LabeledContent("GymBuddy", value: version)
-                }
+                .pickerStyle(.segmented)
             }
-            .navigationTitle("Settings")
-            .alert(csvMessage, isPresented: $showingCsvMessage) {
-                Button("Close", role: .cancel) {}
+            Section {
+                Picker("Default rest timer", selection: $restSeconds) {
+                    ForEach(restTimeOptions, id: \.self) { option in
+                        Text(verbatim: restLabel(option)).tag(option)
+                    }
+                }
+                // iOS keeps a per-app language in the app's page of the Settings app.
+                Button("Language") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+                }
+            } header: {
+                Text("General")
+            } footer: {
+                Text("The default rest timer is used when an exercise has no rest time of its own. The app language is chosen in the Settings app.")
             }
+            Section("Tools") {
+                NavigationLink("Plate calculator") { PlateCalculatorView() }
+                NavigationLink("1RM calculator") { OneRepMaxCalculatorView() }
+                NavigationLink("Warm-up calculator") { WarmupCalculatorView() }
+            }
+            dataSection
+            Section("About") {
+                LabeledContent("GymBuddy", value: version)
+            }
+        }
+        .navigationTitle("Settings")
+        .alert(csvMessage, isPresented: $showingCsvMessage) {
+            Button("Close", role: .cancel) {}
         }
     }
 

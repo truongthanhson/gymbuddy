@@ -236,4 +236,6 @@
     <string name="pr_volume">Volume</string>
     <string name="pr_reps">Reps</string>
     <string name="personal_record">Personal record</string>
+    <string name="tab_profile">Profile</string>
+    <string name="workouts_per_week">Workouts per week</string>
 </resources>
