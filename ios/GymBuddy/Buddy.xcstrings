@@ -51,6 +51,76 @@
         }
       }
     },
+    "Advanced": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nâng cao"
+          }
+        }
+      }
+    },
+    "Am I training too much or too little?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tôi đang tập quá nhiều hay quá ít?"
+          }
+        }
+      }
+    },
+    "Ask Buddy": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hỏi Buddy"
+          }
+        }
+      }
+    },
+    "Ask about your training…": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hỏi về việc tập luyện…"
+          }
+        }
+      }
+    },
+    "Balanced": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cân bằng"
+          }
+        }
+      }
+    },
+    "Before you start": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trước khi bắt đầu"
+          }
+        }
+      }
+    },
+    "Beginner": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mới bắt đầu"
+          }
+        }
+      }
+    },
     "Buddy": {
       "localizations": {
         "vi": {
@@ -61,12 +131,202 @@
         }
       }
     },
+    "Buddy AI needs the GymBuddy server, which isn't set up in this build yet. Buddy's tips on the Workout tab work without it.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy AI cần máy chủ GymBuddy, bản này chưa được cài đặt. Các gợi ý của Buddy ở tab Tập luyện vẫn hoạt động mà không cần nó."
+          }
+        }
+      }
+    },
+    "Buddy can't help with that one. Try asking about your training.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy không giúp được câu này. Hãy thử hỏi về việc tập luyện."
+          }
+        }
+      }
+    },
+    "Buddy couldn't answer just now. Try again in a moment.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy chưa trả lời được. Thử lại sau giây lát."
+          }
+        }
+      }
+    },
+    "Buddy is not a doctor or physiotherapist. If something hurts, stop and ask a professional.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy không phải bác sĩ hay chuyên gia vật lý trị liệu. Nếu thấy đau, hãy dừng lại và hỏi chuyên gia."
+          }
+        }
+      }
+    },
+    "Buddy is reading your workout…": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buddy đang xem buổi tập của bạn…"
+          }
+        }
+      }
+    },
+    "Buddy settings": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cài đặt Buddy"
+          }
+        }
+      }
+    },
+    "Buddy's note": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhận xét của Buddy"
+          }
+        }
+      }
+    },
     "Buddy: %@ × %lld": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Buddy: %1$@ × %2$lld"
+          }
+        }
+      }
+    },
+    "Build muscle": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tăng cơ"
+          }
+        }
+      }
+    },
+    "Delete chat history": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xoá lịch sử trò chuyện"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xong"
+          }
+        }
+      }
+    },
+    "Experience": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kinh nghiệm"
+          }
+        }
+      }
+    },
+    "Free plan: 5 messages a month. Pro chats without limits.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gói miễn phí: 5 tin nhắn mỗi tháng. Pro trò chuyện không giới hạn."
+          }
+        }
+      }
+    },
+    "Gentle": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhẹ nhàng"
+          }
+        }
+      }
+    },
+    "Get Pro": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nâng cấp Pro"
+          }
+        }
+      }
+    },
+    "Get stronger": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khoẻ hơn"
+          }
+        }
+      }
+    },
+    "Goal": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mục tiêu"
+          }
+        }
+      }
+    },
+    "I agree, turn on Buddy AI": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tôi đồng ý, bật Buddy AI"
+          }
+        }
+      }
+    },
+    "Injuries or movements to avoid": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chấn thương hoặc động tác cần tránh"
+          }
+        }
+      }
+    },
+    "Intermediate": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trung bình"
           }
         }
       }
@@ -91,12 +351,32 @@
         }
       }
     },
+    "Lose fat": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giảm mỡ"
+          }
+        }
+      }
+    },
     "Next time": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Lần tới"
+          }
+        }
+      }
+    },
+    "No connection. Buddy's tips still work offline.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không có kết nối. Các gợi ý của Buddy vẫn hoạt động ngoại tuyến."
           }
         }
       }
@@ -121,6 +401,16 @@
         }
       }
     },
+    "Send": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gửi"
+          }
+        }
+      }
+    },
     "Show less": {
       "localizations": {
         "vi": {
@@ -131,12 +421,112 @@
         }
       }
     },
+    "Sign in to your GymBuddy account to chat with Buddy. Your account keeps the conversation and your monthly allowance.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đăng nhập tài khoản GymBuddy để trò chuyện với Buddy. Tài khoản lưu cuộc trò chuyện và hạn mức hằng tháng của bạn."
+          }
+        }
+      }
+    },
+    "Stay fit": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giữ dáng"
+          }
+        }
+      }
+    },
+    "Strict": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nghiêm khắc"
+          }
+        }
+      }
+    },
     "This week %@ got %lld sets, much more than last week. Watch out for overload.": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Tuần này %1$@ đã %2$lld set, nhiều hơn hẳn tuần trước. Cẩn thận quá tải."
+          }
+        }
+      }
+    },
+    "To answer, Buddy AI sends a summary of your training to GymBuddy's server and to Anthropic's Claude: your last 8 weeks of workouts, records, body weight and goal profile. Never your email, name, photos or location. Chats are saved to your account so Buddy remembers them; you can delete them at any time.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Để trả lời, Buddy AI gửi bản tóm tắt quá trình tập của bạn tới máy chủ GymBuddy và Claude của Anthropic: các buổi tập trong 8 tuần gần nhất, kỷ lục, cân nặng và hồ sơ mục tiêu. Không bao giờ gửi email, tên, ảnh hay vị trí của bạn. Cuộc trò chuyện được lưu vào tài khoản để Buddy nhớ; bạn có thể xoá bất cứ lúc nào."
+          }
+        }
+      }
+    },
+    "Tone": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giọng điệu"
+          }
+        }
+      }
+    },
+    "Try again": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thử lại"
+          }
+        }
+      }
+    },
+    "Turn off Buddy AI": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tắt Buddy AI"
+          }
+        }
+      }
+    },
+    "What should I train this week?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuần này tôi nên tập gì?"
+          }
+        }
+      }
+    },
+    "Why has my progress slowed down?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vì sao tôi tiến bộ chậm lại?"
+          }
+        }
+      }
+    },
+    "Workouts per week: %lld": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số buổi mỗi tuần: %lld"
           }
         }
       }
@@ -157,6 +547,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bạn đang đi đúng hướng. Cứ tiếp tục ghi, Buddy sẽ báo khi có điều cần chú ý."
+          }
+        }
+      }
+    },
+    "You've used this month's Buddy AI messages.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bạn đã dùng hết tin nhắn Buddy AI của tháng này."
+          }
+        }
+      }
+    },
+    "Your session expired. Sign in again in Settings.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phiên đăng nhập đã hết hạn. Hãy đăng nhập lại trong Cài đặt."
           }
         }
       }
