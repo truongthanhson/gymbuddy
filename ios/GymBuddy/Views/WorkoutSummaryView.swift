@@ -11,6 +11,8 @@ struct WorkoutSummary: Identifiable {
     let number: Int
     let records: Int
     let exercises: [ShareExercise]
+    /// For Buddy's targets for next time.
+    let exerciseIds: [String]
 
     @MainActor
     static func make(for workout: Workout, names: [String: Exercise], in context: ModelContext) -> WorkoutSummary {
@@ -31,7 +33,8 @@ struct WorkoutSummary: Identifiable {
             volume: volumeKg(completed.map { SetValues(weightKg: $0.weightKg, reps: $0.reps, completed: true) }),
             number: (try? context.fetchCount(finished)) ?? 0,
             records: records,
-            exercises: shareExercises(of: workout, names: names)
+            exercises: shareExercises(of: workout, names: names),
+            exerciseIds: workout.liveExercises.map(\.exerciseId)
         )
     }
 
@@ -100,6 +103,7 @@ struct WorkoutSummaryView: View {
                         Text(verbatim: "\(exercise.sets.count) × \(exercise.name)")
                     }
                 }
+                BuddyNextTimeSection(exerciseIds: summary.exerciseIds)
             }
             .navigationTitle("Summary")
             .navigationBarTitleDisplayMode(.inline)
