@@ -219,12 +219,12 @@
         }
       }
     },
-    "Apple Health gets each finished workout and body weight. Exports use the same columns as Strong, and imports accept GymBuddy and Strong CSV exports.": {
+    "Apple Health gets each finished workout and body weight. Exports use the same columns as Strong, and imports accept GymBuddy and Strong CSV exports. In Strong, use Settings > Export Strong Data and share the file to GymBuddy.": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apple Health nhận mỗi buổi tập đã xong và cân nặng. File xuất dùng cùng các cột với Strong. Có thể nhập file CSV xuất từ GymBuddy hoặc Strong."
+            "value": "Apple Health nhận mỗi buổi tập đã xong và cân nặng. File xuất dùng cùng các cột với Strong. Có thể nhập file CSV xuất từ GymBuddy hoặc Strong. Trong Strong, vào Cài đặt > Export Strong Data rồi chia sẻ file sang GymBuddy."
           }
         }
       }
@@ -932,6 +932,16 @@
     "GymBuddy": {
       "shouldTranslate": false
     },
+    "GymBuddy will add the workouts in this file, such as a Strong export, to your history. Workouts already here are skipped.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GymBuddy sẽ thêm các buổi tập trong file này (ví dụ file xuất từ Strong) vào lịch sử. Buổi tập đã có sẽ được bỏ qua."
+          }
+        }
+      }
+    },
     "Hips": {
       "localizations": {
         "vi": {
@@ -952,12 +962,32 @@
         }
       }
     },
+    "Import": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhập"
+          }
+        }
+      }
+    },
     "Import workouts (CSV)": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Nhập buổi tập (CSV)"
+          }
+        }
+      }
+    },
+    "Import workouts?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhập buổi tập?"
           }
         }
       }

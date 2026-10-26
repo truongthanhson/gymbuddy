@@ -44,6 +44,26 @@ enum CsvService {
         return (exportCsv(rows, unit: unit), rows.count)
     }
 
+    /// Imports the CSV file at `url` and describes the outcome for the user; syncs when workouts were added.
+    static func importFile(at url: URL, defaultUnit: WeightUnit, in context: ModelContext) -> String {
+        let scoped = url.startAccessingSecurityScopedResource()
+        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+        do {
+            let text = try String(contentsOf: url, encoding: .utf8)
+            guard let imported = try importText(text, defaultUnit: defaultUnit, in: context) else {
+                return String(localized: "This file is not a workout CSV export.")
+            }
+            var message = String(localized: "Workouts imported: \(imported.imported)")
+            if imported.skipped > 0 {
+                message += "\n" + String(localized: "Already on this device, skipped: \(imported.skipped)")
+            }
+            if imported.imported > 0 { SyncService.shared.requestSync() }
+            return message
+        } catch {
+            return String(localized: "The file could not be read or written.")
+        }
+    }
+
     /// Imports workouts; exercises are matched by name, and missing ones are created as custom exercises.
     /// Returns nil when the text is not a workout CSV export.
     static func importText(_ text: String, defaultUnit: WeightUnit, in context: ModelContext) throws -> CsvImportResult? {
