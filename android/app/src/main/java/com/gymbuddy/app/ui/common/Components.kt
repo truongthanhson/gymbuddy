@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -62,7 +63,38 @@ fun SectionHeader(title: String, modifier: Modifier = Modifier, action: @Composa
     }
 }
 
-/** The app's flat card: white on the warm background in light mode, a lifted gray in dark mode. */
+/** Card colors of the app: white on the warm background in light mode, a lifted gray in dark mode. */
+@Composable
+fun gymCardColors(containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow): CardColors =
+    CardDefaults.cardColors(containerColor = containerColor)
+
+/** Material's card with the app's colors and corners; screens import this instead of material3's. */
+@Composable
+fun Card(
+    modifier: Modifier = Modifier,
+    shape: Shape = MaterialTheme.shapes.large,
+    colors: CardColors = gymCardColors(),
+    content: @Composable ColumnScope.() -> Unit,
+) = androidx.compose.material3.Card(modifier = modifier, shape = shape, colors = colors, content = content)
+
+@Composable
+fun Card(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = MaterialTheme.shapes.large,
+    colors: CardColors = gymCardColors(),
+    content: @Composable ColumnScope.() -> Unit,
+) = androidx.compose.material3.Card(
+    onClick = onClick,
+    modifier = modifier,
+    enabled = enabled,
+    shape = shape,
+    colors = colors,
+    content = content,
+)
+
+/** A full-width card with padded content, the building block of most screens. */
 @Composable
 fun GymCard(
     modifier: Modifier = Modifier,
@@ -71,15 +103,13 @@ fun GymCard(
     contentPadding: Dp = Spacing.lg,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    val colors = CardDefaults.cardColors(containerColor = color)
-    val shape = MaterialTheme.shapes.large
     val inner: @Composable ColumnScope.() -> Unit = {
         Column(Modifier.padding(contentPadding), verticalArrangement = Arrangement.spacedBy(Spacing.xs), content = content)
     }
     if (onClick != null) {
-        Card(onClick = onClick, modifier = modifier.fillMaxWidth(), shape = shape, colors = colors, content = inner)
+        Card(onClick = onClick, modifier = modifier.fillMaxWidth(), colors = gymCardColors(color), content = inner)
     } else {
-        Card(modifier = modifier.fillMaxWidth(), shape = shape, colors = colors, content = inner)
+        Card(modifier = modifier.fillMaxWidth(), colors = gymCardColors(color), content = inner)
     }
 }
 

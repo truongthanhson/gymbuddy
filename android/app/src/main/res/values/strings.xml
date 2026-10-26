@@ -285,4 +285,11 @@
     <string name="import_file_title">Import workouts?</string>
     <string name="import_file_text">GymBuddy will add the workouts in this file, such as a Strong export, to your history. Workouts already here are skipped.</string>
     <string name="import_file_confirm">Import</string>
+    <string name="stat_sets">Sets</string>
+    <string name="no_history_title">No workouts yet</string>
+    <string name="no_history_hint">Finish a workout and it shows up here.</string>
+    <plurals name="workout_count">
+        <item quantity="one">%1$d workout</item>
+        <item quantity="other">%1$d workouts</item>
+    </plurals>
 </resources>
