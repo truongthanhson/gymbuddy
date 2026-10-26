@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Buddy, the in-app coach. Kept apart from strings.xml so its work merges cleanly. -->
+<resources>
+    <string name="buddy_name">Buddy</string>
+    <string name="buddy_first_workout">Log your first workout and Buddy will start suggesting weights, rest days and deloads.</string>
+    <string name="buddy_all_good">You\'re on track. Keep logging and Buddy will tell you when something needs attention.</string>
+    <string name="buddy_inactive">It\'s been %1$d days since your last workout. A lighter session today gets you back into rhythm.</string>
+    <string name="buddy_deload">%1$s has stalled. Try a deload this week: %2$s × %3$d.</string>
+    <string name="buddy_volume_spike">This week %1$s got %2$d sets, over 30%% more than last week. Watch out for overload.</string>
+    <string name="buddy_neglected">You haven\'t trained %1$s for %2$d days.</string>
+    <string name="buddy_streak">%1$d weeks in a row on target. Keep it up!</string>
+    <string name="buddy_ready">Ready: %1$s</string>
+    <string name="buddy_recovering">Recovering: %1$s</string>
+    <string name="buddy_hours">%1$s (%2$dh)</string>
+    <string name="buddy_more">%1$d more tips</string>
+    <string name="buddy_less">Show less</string>
+    <string name="buddy_target">Buddy: %1$s × %2$d</string>
+    <string name="buddy_target_increase">add weight</string>
+    <string name="buddy_target_repeat">one more rep</string>
+    <string name="buddy_target_deload">deload</string>
+    <string name="buddy_next_time">Next time</string>
+    <string name="buddy_next_time_line">%1$s: %2$s × %3$d</string>
+</resources>

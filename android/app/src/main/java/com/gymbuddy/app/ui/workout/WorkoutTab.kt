@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
+import com.gymbuddy.app.ui.buddy.BuddyTodayCard
 import com.gymbuddy.app.ui.common.useVietnameseNames
 import com.gymbuddy.app.domain.canAddTemplate
 import com.gymbuddy.app.ui.common.LocalIsPro
@@ -106,6 +107,7 @@ private fun StartWorkoutScreen(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
+        item { BuddyTodayCard() }
         item { Text(stringResource(R.string.quick_start), style = MaterialTheme.typography.titleMedium) }
         item {
             Button(onClick = onStartEmpty, modifier = Modifier.fillMaxWidth()) {

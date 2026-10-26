@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.gymbuddy.app.R
+import com.gymbuddy.app.ui.buddy.BuddyNextTime
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
 import com.gymbuddy.app.domain.ShareExercise
@@ -100,6 +101,8 @@ fun WorkoutSummaryDialog(summary: WorkoutSummary, onDismiss: () -> Unit) {
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
+                HorizontalDivider()
+                BuddyNextTime(summary.workout.exercises.map { it.workoutExercise.exerciseId })
             }
         },
         confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.done)) } },

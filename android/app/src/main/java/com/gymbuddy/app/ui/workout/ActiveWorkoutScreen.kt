@@ -61,6 +61,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
+import com.gymbuddy.app.ui.buddy.BuddyTargetHint
 import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.data.workout.WorkoutExerciseWithSets
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
@@ -426,6 +427,7 @@ private fun ExerciseCard(
                 },
             )
         }
+        if (!editing) BuddyTargetHint(exerciseId)
         val category = item.exercise?.category ?: ""
         val fields = setFields(category)
         SetHeader(settings.weightUnit, fields, assisted = category == ExerciseCategory.ASSISTED_BODYWEIGHT.key)
