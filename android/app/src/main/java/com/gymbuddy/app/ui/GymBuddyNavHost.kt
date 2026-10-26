@@ -29,6 +29,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.gymbuddy.app.R
+import com.gymbuddy.app.domain.measurementNeedsPro
+import com.gymbuddy.app.ui.common.LocalIsPro
 import com.gymbuddy.app.ui.exercise.ExerciseDetailScreen
 import com.gymbuddy.app.ui.exercises.ExercisesScreen
 import com.gymbuddy.app.ui.exercises.ExercisePickerScreen
@@ -37,6 +39,7 @@ import com.gymbuddy.app.ui.history.HistoryScreen
 import com.gymbuddy.app.ui.history.WorkoutEditScreen
 import com.gymbuddy.app.ui.measurements.MeasurementDetailScreen
 import com.gymbuddy.app.ui.measurements.MeasurementsScreen
+import com.gymbuddy.app.ui.pro.PaywallScreen
 import com.gymbuddy.app.ui.profile.ProfileScreen
 import com.gymbuddy.app.ui.settings.SettingsScreen
 import com.gymbuddy.app.ui.templates.TemplateEditorScreen
@@ -65,6 +68,7 @@ import kotlinx.serialization.Serializable
 @Serializable data class MeasurementDetailRoute(val kind: String)
 @Serializable data class WorkoutEditRoute(val workoutId: String)
 @Serializable object CalendarRoute
+@Serializable object PaywallRoute
 
 /** Picker → template editor: the picked exercise ids, set on the editor's back stack entry. */
 private const val PICKED_EXERCISES = "picked_exercises"
@@ -82,6 +86,7 @@ fun GymBuddyNavHost() {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val destination = backStackEntry?.destination
+    val isPro = LocalIsPro.current
 
     Scaffold(
         bottomBar = {
@@ -140,6 +145,7 @@ fun GymBuddyNavHost() {
                         navController.navigate(ExercisePickerRoute(workoutId, replaceWorkoutExerciseId = workoutExerciseId))
                     },
                     onEditTemplate = { navController.navigate(TemplateEditorRoute(it)) },
+                    onOpenPaywall = { navController.navigate(PaywallRoute) },
                 )
             }
             composable<TemplateEditorRoute> { entry ->
@@ -153,12 +159,24 @@ fun GymBuddyNavHost() {
                 )
             }
             composable<ExercisesRoute> { ExercisesScreen(onOpenExercise = { navController.navigate(ExerciseDetailRoute(it)) }) }
-            composable<ExerciseDetailRoute> { ExerciseDetailScreen(onBack = { navController.popBackStack() }) }
+            composable<ExerciseDetailRoute> {
+                ExerciseDetailScreen(onBack = { navController.popBackStack() }, onOpenPaywall = { navController.navigate(PaywallRoute) })
+            }
             composable<MeasurementsRoute> {
-                MeasurementsScreen(onOpenKind = { navController.navigate(MeasurementDetailRoute(it.key)) })
+                MeasurementsScreen(
+                    onOpenKind = {
+                        navController.navigate(if (!isPro && measurementNeedsPro(it)) PaywallRoute else MeasurementDetailRoute(it.key))
+                    },
+                )
             }
             composable<MeasurementDetailRoute> { MeasurementDetailScreen(onBack = { navController.popBackStack() }) }
-            composable<ProfileRoute> { ProfileScreen(onOpenSettings = { navController.navigate(SettingsRoute) }) }
+            composable<ProfileRoute> {
+                ProfileScreen(
+                    onOpenSettings = { navController.navigate(SettingsRoute) },
+                    onOpenPro = { navController.navigate(PaywallRoute) },
+                )
+            }
+            composable<PaywallRoute> { PaywallScreen(onBack = { navController.popBackStack() }) }
             composable<SettingsRoute> {
                 SettingsScreen(
                     onOpenPlateCalculator = { navController.navigate(PlateCalculatorRoute) },

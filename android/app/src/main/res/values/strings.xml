@@ -244,4 +244,20 @@
     <string name="about_exercise">About</string>
     <string name="instructions">Instructions</string>
     <string name="no_instructions">No instructions for this exercise.</string>
+    <string name="pro_title">GymBuddy Pro</string>
+    <string name="pro_pitch">Get more out of every workout</string>
+    <string name="pro_active">You have GymBuddy Pro. Thanks for your support!</string>
+    <string name="pro_active_short">Active</string>
+    <string name="pro_upgrade_hint">Unlimited routines, charts and all measurements</string>
+    <string name="pro_feature_templates">Unlimited routines (free: %1$d)</string>
+    <string name="pro_feature_charts">Charts of every exercise</string>
+    <string name="pro_feature_measurements">Body fat, calories and body part measurements</string>
+    <string name="pro_unavailable">Pro will be available to buy soon.</string>
+    <string name="pro_plan_price">%1$s · %2$s</string>
+    <string name="pro_monthly">Monthly</string>
+    <string name="pro_yearly">Yearly</string>
+    <string name="pro_lifetime">Lifetime</string>
+    <string name="pro_restore">Restore purchases</string>
+    <string name="pro_unlock">Unlock with Pro</string>
+    <string name="pro_debug_override">Pro without purchase (debug builds)</string>
 </resources>

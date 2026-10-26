@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
+import com.gymbuddy.app.ui.common.LocalIsPro
 import com.gymbuddy.app.domain.startOfWeekMillis
 import com.gymbuddy.app.domain.workoutsPerWeek
 import com.gymbuddy.app.ui.history.HistoryViewModel
@@ -46,6 +48,7 @@ private const val CHART_WEEKS = 8
 @Composable
 fun ProfileScreen(
     onOpenSettings: () -> Unit,
+    onOpenPro: () -> Unit,
     historyViewModel: HistoryViewModel = hiltViewModel(),
     accountViewModel: AccountViewModel = hiltViewModel(),
 ) {
@@ -76,6 +79,19 @@ fun ProfileScreen(
                     pluralStringResource(R.plurals.workouts_count, starts.size, starts.size),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
+            }
+        }
+        Card(onClick = onOpenPro, modifier = Modifier.fillMaxWidth()) {
+            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Filled.WorkspacePremium, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                Column(Modifier.padding(start = 12.dp).weight(1f)) {
+                    Text(stringResource(R.string.pro_title), style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        stringResource(if (LocalIsPro.current) R.string.pro_active_short else R.string.pro_upgrade_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
         }
         Card(Modifier.fillMaxWidth()) {
