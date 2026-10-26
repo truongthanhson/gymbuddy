@@ -29,6 +29,10 @@ data class BuddySettings(
     val limitations: String = "",
     /** Training reminders and the Monday weekly report notification. */
     val reminders: Boolean = false,
+    /** Start of the 4-week training cycle (three build weeks, then a deload), or null without one. */
+    val cycleStart: Long? = null,
+    /** Send the last week's sleep and steps from Health Connect along with the training summary. */
+    val shareHealth: Boolean = false,
 ) {
     /** The goal profile as Buddy AI reads it. */
     fun profileJson(): JsonObject = buildJsonObject {
@@ -57,6 +61,8 @@ class BuddyPrefs @Inject constructor(@ApplicationContext context: Context) {
             .putString(KEY_EXPERIENCE, next.experience.key)
             .putString(KEY_LIMITATIONS, next.limitations)
             .putBoolean(KEY_REMINDERS, next.reminders)
+            .putLong(KEY_CYCLE_START, next.cycleStart ?: 0L)
+            .putBoolean(KEY_SHARE_HEALTH, next.shareHealth)
             .apply()
         state.value = next
     }
@@ -69,6 +75,8 @@ class BuddyPrefs @Inject constructor(@ApplicationContext context: Context) {
         experience = Experience.entries.firstOrNull { it.key == prefs.getString(KEY_EXPERIENCE, null) } ?: Experience.INTERMEDIATE,
         limitations = prefs.getString(KEY_LIMITATIONS, "").orEmpty(),
         reminders = prefs.getBoolean(KEY_REMINDERS, false),
+        cycleStart = prefs.getLong(KEY_CYCLE_START, 0L).takeIf { it > 0 },
+        shareHealth = prefs.getBoolean(KEY_SHARE_HEALTH, false),
     )
 
     /** When the last training reminder was shown. */
@@ -89,6 +97,8 @@ class BuddyPrefs @Inject constructor(@ApplicationContext context: Context) {
         const val KEY_EXPERIENCE = "experience"
         const val KEY_LIMITATIONS = "limitations"
         const val KEY_REMINDERS = "reminders"
+        const val KEY_CYCLE_START = "cycle_start"
+        const val KEY_SHARE_HEALTH = "share_health"
         const val KEY_LAST_REMINDER = "last_reminder_at"
         const val KEY_LAST_WEEKLY = "last_weekly_notice"
     }

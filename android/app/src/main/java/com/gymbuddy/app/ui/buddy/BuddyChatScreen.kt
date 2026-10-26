@@ -2,6 +2,8 @@ package com.gymbuddy.app.ui.buddy
 
 import android.Manifest
 import android.os.Build
+import java.time.LocalDate
+import java.time.ZoneId
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -24,6 +26,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.EditCalendar
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
@@ -65,6 +68,7 @@ import com.gymbuddy.app.data.coach.CoachError
 import com.gymbuddy.app.data.coach.CoachPlan
 import com.gymbuddy.app.data.coach.Experience
 import com.gymbuddy.app.data.coach.TrainingGoal
+import com.gymbuddy.app.data.health.HealthConnectManager
 
 @Composable
 fun coachErrorText(error: CoachError): String = stringResource(
@@ -85,6 +89,7 @@ fun BuddyChatScreen(
     onBack: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenPaywall: () -> Unit,
+    onOpenRoutine: () -> Unit = {},
     viewModel: BuddyChatViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -100,6 +105,9 @@ fun BuddyChatScreen(
                     IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null) }
                 },
                 actions = {
+                    IconButton(onClick = onOpenRoutine) {
+                        Icon(Icons.Filled.EditCalendar, contentDescription = stringResource(R.string.buddy_routine))
+                    }
                     IconButton(onClick = { settingsOpen = true }) {
                         Icon(Icons.Filled.Tune, contentDescription = stringResource(R.string.buddy_settings))
                     }
@@ -128,6 +136,7 @@ fun BuddyChatScreen(
                     viewModel.turnOffAi()
                     settingsOpen = false
                 },
+                health = viewModel.health,
             )
         }
     }
@@ -261,6 +270,7 @@ fun BuddySettingsSheet(
     onChange: ((BuddySettings) -> BuddySettings) -> Unit,
     onClearHistory: (() -> Unit)?,
     onTurnOffAi: (() -> Unit)?,
+    health: HealthConnectManager? = null,
 ) {
     var limitations by remember(settings.limitations) { mutableStateOf(settings.limitations) }
     Column(
@@ -308,6 +318,44 @@ fun BuddySettingsSheet(
             modifier = Modifier.fillMaxWidth(),
             maxLines = 3,
         )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.buddy_cycle), style = MaterialTheme.typography.titleSmall)
+                Text(
+                    stringResource(R.string.buddy_cycle_hint),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Switch(
+                checked = settings.cycleStart != null,
+                onCheckedChange = { on ->
+                    val start = if (on) LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli() else null
+                    onChange { it.copy(cycleStart = start) }
+                },
+            )
+        }
+        if (health != null && health.isAvailable) {
+            val healthPermission = rememberLauncherForActivityResult(health.permissionContract()) { granted ->
+                if (granted.containsAll(health.buddyReadPermissions)) onChange { it.copy(shareHealth = true) }
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(stringResource(R.string.buddy_share_health), style = MaterialTheme.typography.titleSmall)
+                    Text(
+                        stringResource(R.string.buddy_share_health_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                Switch(
+                    checked = settings.shareHealth,
+                    onCheckedChange = { on ->
+                        if (on) healthPermission.launch(health.buddyReadPermissions) else onChange { it.copy(shareHealth = false) }
+                    },
+                )
+            }
+        }
         val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (granted) onChange { it.copy(reminders = true) }
         }

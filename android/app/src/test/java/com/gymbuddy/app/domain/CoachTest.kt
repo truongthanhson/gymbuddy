@@ -50,6 +50,7 @@ class CoachTest {
         "volume_spike" -> CoachInsight.VolumeSpike(BodyPart.fromKey(o.str("bodyPart")), o.num("value").int)
         "neglected" -> CoachInsight.Neglected(BodyPart.fromKey(o.str("bodyPart")), o.num("value").long)
         "streak" -> CoachInsight.Streak(o.num("value").int)
+        "cycle_deload" -> CoachInsight.CycleDeload
         else -> error("unknown insight ${o.str("type")}")
     }
 
@@ -96,6 +97,28 @@ class CoachTest {
     }
 
     @Test
+    fun cycleMatchesSharedVectors() {
+        for (c in file.cases("cycle")) {
+            val start = c["cycleStart"]!!.jsonPrimitive.longOrNull
+            assertEquals(c.str("description"), c["expected"]!!.jsonPrimitive.intOrNull, cycleWeek(start, c.num("now").long))
+        }
+        for (c in file.cases("cycleTarget")) {
+            val target = (c["target"] as? JsonObject)?.let { SetTarget(TargetKind.valueOf(it.str("kind").uppercase()), it.num("weightKg").double, it.num("reps").int) }
+            val actual = cycleTarget(target, c.num("week").int, c.str("bodyPart"), c.str("category"))
+            val name = c.str("description")
+            val expected = c["expected"]!!
+            if (expected is JsonNull) {
+                assertNull(name, actual)
+            } else {
+                val e = expected.jsonObject
+                assertEquals(name, TargetKind.valueOf(e.str("kind").uppercase()), actual!!.kind)
+                assertEquals(name, e.num("weightKg").double, actual.weightKg, 0.01)
+                assertEquals(name, e.num("reps").int, actual.reps)
+            }
+        }
+    }
+
+    @Test
     fun reminderMatchesSharedVectors() {
         for (c in file.cases("reminder")) {
             val last = c["lastWorkout"]!!.jsonPrimitive.longOrNull
@@ -116,6 +139,7 @@ class CoachTest {
                 c["workoutStarts"]!!.jsonArray.map { it.jsonPrimitive.long },
                 c.num("goalPerWeek").int,
                 c.num("now").long,
+                c["cycleWeek"]?.jsonPrimitive?.intOrNull,
             )
             assertEquals(c.str("description"), c.cases("expected").map(::insight), actual)
         }

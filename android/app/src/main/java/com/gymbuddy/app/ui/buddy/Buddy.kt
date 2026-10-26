@@ -73,6 +73,7 @@ fun insightText(insight: CoachInsight, snapshot: CoachSnapshot): String {
         is CoachInsight.Neglected ->
             stringResource(R.string.buddy_neglected, stringResource(insight.bodyPart.label).lowercase(), insight.days.toInt())
         is CoachInsight.Streak -> stringResource(R.string.buddy_streak, insight.weeks)
+        CoachInsight.CycleDeload -> stringResource(R.string.buddy_cycle_deload)
     }
 }
 
@@ -97,6 +98,13 @@ fun BuddyTodayCard(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(start = 8.dp),
+                )
+            }
+            current.cycleWeek?.let { week ->
+                Text(
+                    if (week == 4) stringResource(R.string.buddy_cycle_deload_week) else stringResource(R.string.buddy_cycle_week, week),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             when {

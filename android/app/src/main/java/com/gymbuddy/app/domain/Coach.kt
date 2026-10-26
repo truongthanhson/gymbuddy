@@ -111,6 +111,8 @@ sealed interface CoachInsight {
     data class VolumeSpike(val bodyPart: BodyPart, val sets: Int) : CoachInsight
     data class Neglected(val bodyPart: BodyPart, val days: Long) : CoachInsight
     data class Streak(val weeks: Int) : CoachInsight
+    /** The deload week of a training cycle: every target is lighter this week. */
+    data object CycleDeload : CoachInsight
 }
 
 /** Body parts trained much more this week than last ([CoachInsight.VolumeSpike]) or dropped for two weeks ([CoachInsight.Neglected]). */
@@ -151,6 +153,20 @@ fun reminderGapDays(daysPerWeek: Int): Int = maxOf(2, 7 / daysPerWeek.coerceIn(1
 fun reminderDueAt(lastWorkoutMillis: Long?, daysPerWeek: Int): Long? =
     lastWorkoutMillis?.let { it + reminderGapDays(daysPerWeek) * DAY }
 
+/** Week 1–4 of a 4-week training cycle started at [cycleStartMillis]; week 4 is the deload. Null without a cycle. */
+fun cycleWeek(cycleStartMillis: Long?, nowMillis: Long): Int? {
+    if (cycleStartMillis == null || nowMillis < cycleStartMillis) return null
+    return (((nowMillis - cycleStartMillis) / (7 * DAY)) % 4).toInt() + 1
+}
+
+/** The target for [week] of a cycle: in the deload week, 90% of the working weight. */
+fun cycleTarget(target: SetTarget?, week: Int?, bodyPart: String, category: String): SetTarget? {
+    if (target == null || week != 4 || target.kind == TargetKind.DELOAD) return target
+    val step = coachStep(bodyPart, category)
+    val working = if (target.kind == TargetKind.INCREASE) target.weightKg - step else target.weightKg
+    return SetTarget(TargetKind.DELOAD, floorToStep(working * 0.9, step), target.reps)
+}
+
 /** Everything Buddy has to say, most urgent first. */
 fun coachInsights(
     exercises: List<CoachExercise>,
@@ -158,6 +174,7 @@ fun coachInsights(
     workoutStarts: List<Long>,
     goalPerWeek: Int,
     nowMillis: Long,
+    cycleWeek: Int? = null,
 ): List<CoachInsight> {
     val out = mutableListOf<CoachInsight>()
     val starts = workoutStarts.filter { it <= nowMillis }
@@ -165,7 +182,8 @@ fun coachInsights(
         val days = (nowMillis - latest) / DAY
         if (days >= 7) out += CoachInsight.Inactive(days)
     }
-    exercises.mapNotNull { e ->
+    if (cycleWeek == 4) out += CoachInsight.CycleDeload
+    if (cycleWeek != 4) exercises.mapNotNull { e ->
         val target = nextTarget(e.sessions, e.bodyPart, e.category) ?: return@mapNotNull null
         val latest = e.sessions.maxOf { it.startedAt }
         if (target.kind == TargetKind.DELOAD && nowMillis - latest <= 14 * DAY) latest to CoachInsight.Deload(e.exerciseId, target.weightKg, target.reps) else null

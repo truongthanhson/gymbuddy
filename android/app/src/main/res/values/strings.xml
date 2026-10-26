@@ -186,7 +186,7 @@
     </plurals>
     <string name="health_connect">Health Connect</string>
     <string name="health_connect_hint">Save finished workouts and body weight to Health Connect</string>
-    <string name="health_rationale">GymBuddy only writes to Health Connect: each finished workout as a strength training session, and each body weight you log. It does not read your health data. You can turn this off in GymBuddy settings or in Health Connect at any time.</string>
+    <string name="health_rationale">GymBuddy writes each finished workout to Health Connect as a strength training session, and each body weight you log. It reads your sleep and steps only if you turn on \"Share sleep and steps\" in Buddy\'s settings, to send the last 7 days with your training summary to Buddy AI. You can turn either off in GymBuddy or in Health Connect at any time.</string>
     <string name="widget_name">GymBuddy week</string>
     <string name="widget_description">Workouts this week and your latest one</string>
     <string name="widget_this_week">This week</string>

@@ -73,4 +73,21 @@
     <string name="buddy_weekly_loading">Buddy đang xem lại tuần trước…</string>
     <string name="buddy_weekly_range">%1$s – %2$s</string>
     <string name="buddy_weekly_discuss">Trao đổi với Buddy</string>
+    <string name="buddy_cycle">Chu kỳ tập</string>
+    <string name="buddy_cycle_hint">Chu kỳ 4 tuần tính từ hôm nay: ba tuần tăng tiến, rồi một tuần giảm tải nhẹ hơn. Mục tiêu của Buddy đi theo chu kỳ.</string>
+    <string name="buddy_cycle_week">Chu kỳ: tuần %1$d/4</string>
+    <string name="buddy_cycle_deload_week">Chu kỳ: tuần giảm tải</string>
+    <string name="buddy_cycle_deload">Đây là tuần giảm tải của chu kỳ. Mọi mục tiêu nhẹ hơn khoảng 10% để tuần sau bạn trở lại khoẻ hơn.</string>
+    <string name="buddy_share_health">Chia sẻ giấc ngủ và số bước</string>
+    <string name="buddy_share_health_hint">Buddy AI đọc thêm giấc ngủ và số bước 7 ngày gần nhất từ Health Connect.</string>
+    <string name="buddy_routine">Thiết kế lịch tập</string>
+    <string name="buddy_routine_locked">Với Pro, Buddy AI thiết kế lịch tập theo mục tiêu, thời gian và lịch sử của bạn, dùng các bài trong thư viện. Bạn xem lại trước khi lưu thành mẫu.</string>
+    <string name="buddy_routine_intro">Nói với Buddy bạn muốn gì. Buddy dùng hồ sơ mục tiêu, lịch sử, mức hồi phục và chỉ các bài trong thư viện của bạn.</string>
+    <string name="buddy_routine_hint">Ví dụ: 4 buổi mỗi tuần, chia trên/dưới, khoảng 1 tiếng, không squat tạ đòn</string>
+    <string name="buddy_routine_design">Thiết kế</string>
+    <string name="buddy_routine_designing">Buddy đang soạn lịch tập cho bạn…</string>
+    <string name="buddy_routine_line">%1$d × %2$s · %3$s</string>
+    <string name="buddy_routine_save">Lưu thành mẫu</string>
+    <string name="buddy_routine_again">Thử phương án khác</string>
+    <string name="buddy_routine_saved">Đã lưu. Bạn sẽ thấy một thư mục mẫu ở tab Tập luyện.</string>
 </resources>

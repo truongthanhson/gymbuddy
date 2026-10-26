@@ -70,9 +70,21 @@ The list Buddy shows, most urgent first:
 3. `volume_spike` entries, then `neglected` entries, from Volume.
 4. `streak` (value = weeks) when the streak is 2 or more.
 
+In the deload week of a training cycle (`cycleWeek` 4, below), a single `cycle_deload` entry takes the place of the
+`deload` entries.
+
 ## Training reminder (`reminder`)
 
 Buddy nudges the person when they fall behind their weekly goal. With `daysPerWeek` clamped to 1–7, the gap is
 `max(2, 7 / daysPerWeek + 1)` whole days (integer division): 3 a week → 3 days, 4 → 2, 1 → 8. The reminder is due at
 `lastWorkout + gap × D`; with no workout yet there is none. The apps show it at the first 09:00 local time at or after
 that moment, at most once per gap, and only when reminders are on.
+
+## Training cycle (`cycle`, `cycleTarget`)
+
+The person can train in 4-week cycles from a start time `cycleStart`: three build weeks, then a deload week.
+`cycleWeek = floor((now - cycleStart) / 7D) mod 4 + 1`; there is no cycle week before `cycleStart` or without a cycle.
+
+In week 4 every next target becomes a deload, unless the engine already made it one: the working weight (the target's
+weight, minus one step when the target is an `increase`) times 0.9, rounded down to the step; reps stay as targeted.
+In weeks 1–3 the targets are left as they are.
