@@ -7,7 +7,7 @@ struct WorkoutSummary: Identifiable {
     let name: String
     let startedAt: Date
     let durationSec: Int
-    let volumeKg: Double
+    let volume: Double
     let number: Int
     let records: Int
     let exercises: [ShareExercise]
@@ -28,7 +28,7 @@ struct WorkoutSummary: Identifiable {
             name: workout.name,
             startedAt: workout.startedAt,
             durationSec: Int((workout.endedAt ?? workout.startedAt).timeIntervalSince(workout.startedAt)),
-            volumeKg: volumeKg(completed.map { SetValues(weightKg: $0.weightKg, reps: $0.reps, completed: true) }),
+            volume: volumeKg(completed.map { SetValues(weightKg: $0.weightKg, reps: $0.reps, completed: true) }),
             number: (try? context.fetchCount(finished)) ?? 0,
             records: records,
             exercises: shareExercises(of: workout, names: names)
@@ -90,7 +90,7 @@ struct WorkoutSummaryView: View {
                     HStack {
                         stat("Duration", formatElapsed(summary.durationSec))
                         Spacer()
-                        stat("Volume", weightUnit.format(summary.volumeKg))
+                        stat("Volume", weightUnit.format(summary.volume))
                         Spacer()
                         stat("Records", String(summary.records))
                     }
