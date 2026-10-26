@@ -26,6 +26,17 @@ sealed interface CsvMessage {
     data object Failed : CsvMessage
 }
 
+/** Imports [uri] and describes the outcome; [onImported] runs when workouts were added. */
+suspend fun CsvRepository.importMessage(uri: Uri, defaultUnit: WeightUnit, onImported: () -> Unit): CsvMessage = try {
+    val result = import(uri, defaultUnit)
+    if (result.imported > 0) onImported()
+    CsvMessage.Imported(result.imported, result.skipped)
+} catch (e: CsvFormatException) {
+    CsvMessage.NotACsvExport
+} catch (e: Exception) {
+    CsvMessage.Failed
+}
+
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val repository: SettingsRepository,
@@ -72,15 +83,7 @@ class SettingsViewModel @Inject constructor(
 
     fun importCsv(uri: Uri) {
         viewModelScope.launch {
-            csvMessage.value = try {
-                val result = csv.import(uri, settings.value.weightUnit)
-                if (result.imported > 0) sync.requestSync()
-                CsvMessage.Imported(result.imported, result.skipped)
-            } catch (e: CsvFormatException) {
-                CsvMessage.NotACsvExport
-            } catch (e: Exception) {
-                CsvMessage.Failed
-            }
+            csvMessage.value = csv.importMessage(uri, settings.value.weightUnit) { sync.requestSync() }
         }
     }
 

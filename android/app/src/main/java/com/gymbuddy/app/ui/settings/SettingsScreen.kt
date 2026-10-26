@@ -35,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -205,27 +204,7 @@ fun SettingsScreen(
         )
     }
 
-    message?.let { current ->
-        AlertDialog(
-            onDismissRequest = viewModel::messageShown,
-            text = {
-                Text(
-                    when (current) {
-                        is CsvMessage.Exported -> pluralStringResource(R.plurals.csv_exported, current.workouts, current.workouts)
-                        is CsvMessage.Imported -> buildString {
-                            append(pluralStringResource(R.plurals.csv_imported, current.imported, current.imported))
-                            if (current.skipped > 0) {
-                                append(' ').append(pluralStringResource(R.plurals.csv_skipped, current.skipped, current.skipped))
-                            }
-                        }
-                        CsvMessage.NotACsvExport -> stringResource(R.string.csv_not_an_export)
-                        CsvMessage.Failed -> stringResource(R.string.csv_failed)
-                    },
-                )
-            },
-            confirmButton = { TextButton(onClick = viewModel::messageShown) { Text(stringResource(R.string.close)) } },
-        )
-    }
+    message?.let { CsvMessageDialog(it, viewModel::messageShown) }
 
     if (restDialogOpen) {
         AlertDialog(

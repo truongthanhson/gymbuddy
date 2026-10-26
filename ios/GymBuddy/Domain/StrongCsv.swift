@@ -42,7 +42,7 @@ func csvLine(_ fields: [String]) -> String {
 }
 
 /// Rows of a CSV text (RFC 4180, either line ending); blank lines are skipped.
-func parseCsv(_ text: String) -> [[String]] {
+func parseCsv(_ text: String, delimiter: Unicode.Scalar = ",") -> [[String]] {
     // Unicode scalars, so "\r\n" is two characters as on Android.
     let chars = Array(text.unicodeScalars)
     var rows: [[String]] = []
@@ -66,7 +66,7 @@ func parseCsv(_ text: String) -> [[String]] {
             quoted.toggle()
         } else if quoted {
             field.append(c)
-        } else if c == "," {
+        } else if c == delimiter {
             row.append(String(field))
             field = String.UnicodeScalarView()
         } else if c == "\r" && next == "\n" {
@@ -83,6 +83,27 @@ func parseCsv(_ text: String) -> [[String]] {
     return rows
 }
 
+/// Newer Strong exports separate fields with ";": whichever of ";" and "," the header line has more of, outside quotes.
+func csvDelimiter(_ text: String) -> Unicode.Scalar {
+    var quoted = false
+    var commas = 0
+    var semicolons = 0
+    for c in text.unicodeScalars {
+        if c == "\"" {
+            quoted.toggle()
+        } else if quoted {
+            continue
+        } else if c == "\n" || c == "\r" {
+            break
+        } else if c == "," {
+            commas += 1
+        } else if c == ";" {
+            semicolons += 1
+        }
+    }
+    return semicolons > commas ? ";" : ","
+}
+
 /// "1h 5m" or "45m".
 func formatCsvDuration(_ seconds: Int) -> String {
     let hours = seconds / 3600
@@ -90,11 +111,11 @@ func formatCsvDuration(_ seconds: Int) -> String {
     return hours > 0 ? "\(hours)h \(minutes)m" : "\(minutes)m"
 }
 
-/// Reads "1h 5m", "45m", "30s" or a plain number of seconds.
+/// Reads "1h 5m", "45m", "30s" or a plain (possibly decimal) number of seconds.
 func parseCsvDuration(_ text: String) -> Int? {
     let trimmed = text.trimmingCharacters(in: .whitespaces)
     if trimmed.isEmpty { return nil }
-    if let plain = Int(trimmed) { return plain }
+    if let plain = Double(trimmed), plain.isFinite { return Int(plain) }
     var total = 0
     var digits = ""
     var sawPart = false
@@ -152,12 +173,36 @@ private func unitInHeader(_ header: String) -> WeightUnit? {
     return nil
 }
 
+private let setOrders: Set<String> = ["W", "D", "F"]
+
+/// Meters in one unit of a distance header like "Distance (km)"; meters when the header has no unit.
+private func metersPerUnitInHeader(_ header: String) -> Double {
+    let lower = header.lowercased()
+    if lower.contains("km") { return 1000 }
+    if lower.contains("mile") || lower.contains("(mi)") { return 1609.344 }
+    if lower.contains("feet") || lower.contains("(ft)") { return 0.3048 }
+    return 1
+}
+
+/// "yyyy-MM-dd HH:mm:ss" from that, an ISO "T" separator, or a time without seconds.
+private func normalizedCsvDate(_ text: String) -> String {
+    var chars = Array(text)
+    if chars.count > 10, chars[10] == "T" { chars[10] = " " }
+    let date = String(chars)
+    let withoutSeconds = date.range(of: #"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$"#, options: .regularExpression) != nil
+    return withoutSeconds ? date + ":00" : date
+}
+
 /// Workouts from a Strong (or GymBuddy) CSV export, in file order. Weights without a unit are read in `defaultUnit`.
 /// Returns nil when the text has no Date, Workout Name and Exercise Name columns.
 func importCsv(_ text: String, defaultUnit: WeightUnit) -> [CsvWorkout]? {
-    let rows = parseCsv(text)
+    let rows = parseCsv(text, delimiter: csvDelimiter(text))
     guard let header = rows.first?.map({ $0.trimmingCharacters(in: .whitespaces) }) else { return nil }
     func column(_ name: String) -> Int? { header.firstIndex { $0.caseInsensitiveCompare(name) == .orderedSame } }
+    // Newer Strong exports put units in headers, like "Duration (sec)" or "Distance (meters)".
+    func columnWithUnit(_ name: String) -> Int? {
+        column(name) ?? header.firstIndex { $0.lowercased().hasPrefix(name.lowercased() + " (") }
+    }
     guard let dateCol = column("Date"), let nameCol = column("Workout Name"), let exerciseCol = column("Exercise Name") else {
         return nil
     }
@@ -165,9 +210,11 @@ func importCsv(_ text: String, defaultUnit: WeightUnit) -> [CsvWorkout]? {
         $0.lowercased().hasPrefix("weight") && $0.caseInsensitiveCompare("Weight Unit") != .orderedSame
     }
     let headerUnit = weightCol.flatMap { unitInHeader(header[$0]) }
-    let durationCol = column("Duration"), orderCol = column("Set Order"), repsCol = column("Reps")
-    let distanceCol = column("Distance"), secondsCol = column("Seconds"), notesCol = column("Notes")
+    let durationCol = columnWithUnit("Duration"), orderCol = column("Set Order"), repsCol = column("Reps")
+    let distanceCol = columnWithUnit("Distance"), secondsCol = column("Seconds"), notesCol = column("Notes")
     let workoutNotesCol = column("Workout Notes"), rpeCol = column("RPE"), unitCol = column("Weight Unit")
+    let durationInMinutes = durationCol.map { header[$0].lowercased().contains("(min") } ?? false
+    let metersPerDistance = distanceCol.map { metersPerUnitInHeader(header[$0]) } ?? 1
 
     var workouts: [CsvWorkout] = []
     var workoutIndex: [String: Int] = [:]
@@ -180,9 +227,12 @@ func importCsv(_ text: String, defaultUnit: WeightUnit) -> [CsvWorkout]? {
         func positive(_ col: Int?) -> Double? {
             Double(cell(col).replacingOccurrences(of: ",", with: ".")).flatMap { $0 > 0 ? $0 : nil }
         }
-        let date = cell(dateCol)
+        let date = normalizedCsvDate(cell(dateCol))
         let exerciseName = cell(exerciseCol)
         if date.isEmpty || exerciseName.isEmpty { continue }
+        let order = cell(orderCol).uppercased()
+        // Strong also writes rows that are not sets, like "Rest Timer"; sets are numbered or W, D or F.
+        if !order.isEmpty, Int(order) == nil, !setOrders.contains(order) { continue }
         let name = cell(nameCol)
         let key = date + "\u{1F}" + name
         let w: Int
@@ -191,7 +241,9 @@ func importCsv(_ text: String, defaultUnit: WeightUnit) -> [CsvWorkout]? {
         } else {
             w = workouts.count
             workoutIndex[key] = w
-            workouts.append(CsvWorkout(date: date, name: name, durationSec: parseCsvDuration(cell(durationCol)), note: nil, exercises: []))
+            var duration = parseCsvDuration(cell(durationCol))
+            if durationInMinutes, Double(cell(durationCol)) != nil { duration = duration.map { $0 * 60 } }
+            workouts.append(CsvWorkout(date: date, name: name, durationSec: duration, note: nil, exercises: []))
         }
         if workouts[w].note == nil, !cell(workoutNotesCol).isEmpty { workouts[w].note = cell(workoutNotesCol) }
         let e: Int
@@ -204,7 +256,7 @@ func importCsv(_ text: String, defaultUnit: WeightUnit) -> [CsvWorkout]? {
         if workouts[w].exercises[e].note == nil, !cell(notesCol).isEmpty { workouts[w].exercises[e].note = cell(notesCol) }
         let unit = WeightUnit.allCases.first { $0.symbol.caseInsensitiveCompare(cell(unitCol)) == .orderedSame } ?? headerUnit ?? defaultUnit
         let setType: String
-        switch cell(orderCol).uppercased() {
+        switch order {
         case "W": setType = "warmup"
         case "D": setType = "drop"
         case "F": setType = "failure"
@@ -214,7 +266,7 @@ func importCsv(_ text: String, defaultUnit: WeightUnit) -> [CsvWorkout]? {
             setType: setType,
             weightKg: positive(weightCol).map(unit.toKg),
             reps: positive(repsCol).map { Int($0) },
-            distanceM: positive(distanceCol),
+            distanceM: positive(distanceCol).map { $0 * metersPerDistance },
             seconds: positive(secondsCol).map { Int($0) },
             rpe: positive(rpeCol)
         ))

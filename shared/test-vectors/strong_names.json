@@ -1,0 +1,141 @@
+{
+  "description": "How a Strong CSV import names and files exercises. 'aliases': Strong names that GymBuddy's library spells differently (case-insensitive), other names stay as they are. 'categories': the category from the equipment in brackets, or null. 'bodyParts': for exercises not in the library, the body part of a library exercise with the same name before the brackets, else from words in the name, else 'other'.",
+  "aliases": [
+    {
+      "name": "Triceps Pushdown (Cable - Straight Bar)",
+      "library": "Triceps Pushdown (Cable)"
+    },
+    {
+      "name": "triceps pushdown (cable - rope)",
+      "library": "Triceps Pushdown (Rope)"
+    },
+    {
+      "name": "Crunch (Machine)",
+      "library": "Ab Crunch (Machine)"
+    },
+    {
+      "name": "Triceps Extension (Dumbbell)",
+      "library": "Overhead Triceps Extension (Dumbbell)"
+    },
+    {
+      "name": "Bench Press (Barbell)",
+      "library": "Bench Press (Barbell)"
+    },
+    {
+      "name": "Glute Pull String",
+      "library": "Glute Pull String"
+    }
+  ],
+  "categories": [
+    {
+      "name": "Bench Press (Barbell)",
+      "category": "barbell"
+    },
+    {
+      "name": "Bent Over Row (Dumbbell)",
+      "category": "dumbbell"
+    },
+    {
+      "name": "Bicep Curl (Machine)",
+      "category": "machine"
+    },
+    {
+      "name": "Shoulder Press (Plate Loaded)",
+      "category": "machine"
+    },
+    {
+      "name": "Overhead Press (Smith Machine)",
+      "category": "machine"
+    },
+    {
+      "name": "Triceps Pushdown (Cable - Straight Bar)",
+      "category": "cable"
+    },
+    {
+      "name": "Pull Up (Assisted)",
+      "category": "assisted_bodyweight"
+    },
+    {
+      "name": "Dip (Weighted)",
+      "category": "weighted_bodyweight"
+    },
+    {
+      "name": "Lunge (Bodyweight)",
+      "category": "reps_only"
+    },
+    {
+      "name": "Z-bar Curl",
+      "category": null
+    }
+  ],
+  "bodyParts": {
+    "library": [
+      [
+        "Lat Pulldown (Cable)",
+        "back"
+      ],
+      [
+        "Bicep Curl (Barbell)",
+        "arms"
+      ],
+      [
+        "Deadlift (Barbell)",
+        "back"
+      ]
+    ],
+    "cases": [
+      {
+        "name": "Lat Pulldown (Machine)",
+        "bodyPart": "back"
+      },
+      {
+        "name": "bicep curl (machine)",
+        "bodyPart": "arms"
+      },
+      {
+        "name": "Deadlift (Trap Bar)",
+        "bodyPart": "back"
+      },
+      {
+        "name": "Stiff Leg Deadlift (Dumbbell)",
+        "bodyPart": "legs"
+      },
+      {
+        "name": "Iso-Lateral Chest Press (Machine)",
+        "bodyPart": "chest"
+      },
+      {
+        "name": "Iso-Lateral Row (Machine)",
+        "bodyPart": "back"
+      },
+      {
+        "name": "Shoulder Press (Plate Loaded)",
+        "bodyPart": "shoulders"
+      },
+      {
+        "name": "Reverse Fly (Cable)",
+        "bodyPart": "shoulders"
+      },
+      {
+        "name": "Seated Calf Raise (Plate Loaded)",
+        "bodyPart": "legs"
+      },
+      {
+        "name": "Z-bar Curl",
+        "bodyPart": "arms"
+      },
+      {
+        "name": "Hanging Knee Raise",
+        "bodyPart": "core"
+      },
+      {
+        "name": "Glute Pull String",
+        "bodyPart": "legs"
+      },
+      {
+        "name": "Jumping Jacks",
+        "bodyPart": "other"
+      }
+    ]
+  }
+}

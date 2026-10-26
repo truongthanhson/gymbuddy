@@ -397,4 +397,17 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(setsPerBodyPart(sets, since: date(c.since)), expected)
         }
     }
+
+    func testStrongNamesMatchSharedVectors() throws {
+        struct Alias: Decodable { let name: String; let library: String }
+        struct Category: Decodable { let name: String; let category: String? }
+        struct BodyPartCase: Decodable { let name: String; let bodyPart: String }
+        struct BodyParts: Decodable { let library: [[String]]; let cases: [BodyPartCase] }
+        struct File: Decodable { let aliases: [Alias]; let categories: [Category]; let bodyParts: BodyParts }
+        let file = try vectors("strong_names", as: File.self)
+        for c in file.aliases { XCTAssertEqual(libraryName(c.name), c.library, c.name) }
+        for c in file.categories { XCTAssertEqual(categoryFromName(c.name), c.category, c.name) }
+        let library = file.bodyParts.library.map { ($0[0], $0[1]) }
+        for c in file.bodyParts.cases { XCTAssertEqual(guessBodyPart(c.name, library: library), c.bodyPart, c.name) }
+    }
 }

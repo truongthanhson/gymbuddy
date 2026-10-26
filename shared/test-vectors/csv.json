@@ -1,5 +1,5 @@
 {
-  "description": "CSV export/import in Strong's column layout. Weights are kg in the model; the CSV holds them in a unit (the 'Weight Unit' column, a unit in the Weight header like 'Weight (lbs)', or the default unit). Set Order is W/D/F for warm-up/drop/failure sets, else the number of the normal set. Zero weight, reps, distance or seconds import as empty. Durations export as '1h 5m' or '45m'. Compare weights with tolerance 0.01.",
+  "description": "CSV export/import in Strong's column layout. Weights are kg in the model; the CSV holds them in a unit (the 'Weight Unit' column, a unit in the Weight header like 'Weight (lbs)', or the default unit). Set Order is W/D/F for warm-up/drop/failure sets, else the number of the normal set. Zero weight, reps, distance or seconds import as empty. Durations export as '1h 5m' or '45m'. Compare weights with tolerance 0.01. Newer Strong exports may use ';' between fields (and ',' as the decimal mark), units in the Duration and Distance headers ('Duration (sec)', 'Distance (km)'), ISO dates, and rows that are not sets ('Rest Timer'), which are skipped.",
   "fields": [
     {
       "fields": [
@@ -59,6 +59,10 @@
       {
         "text": "soon",
         "seconds": null
+      },
+      {
+        "text": "3900.0",
+        "seconds": 3900
       }
     ]
   },
@@ -155,6 +159,131 @@
                   "setType": "normal",
                   "weightKg": 102.0582,
                   "reps": 5,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "newer strong export, semicolons and units in headers",
+      "defaultUnit": "lb",
+      "text": "\"Workout #\";\"Date\";\"Workout Name\";\"Duration (sec)\";\"Exercise Name\";\"Set Order\";\"Weight (kg)\";\"Reps\";\"RPE\";\"Distance (meters)\";\"Seconds\";\"Notes\";\"Workout Notes\"\n\"1\";\"2026-10-07 18:00:00\";\"Pull; back day\";\"3900\";\"Deadlift (Barbell)\";\"W\";\"60\";\"5\";\"\";\"\";\"\";\"\";\"\"\n\"1\";\"2026-10-07 18:00:00\";\"Pull; back day\";\"3900\";\"Deadlift (Barbell)\";\"1\";\"140,5\";\"5\";\"8,5\";\"\";\"\";\"\";\"\"\n\"1\";\"2026-10-07 18:00:00\";\"Pull; back day\";\"3900\";\"Deadlift (Barbell)\";\"Rest Timer\";\"\";\"\";\"\";\"\";\"180\";\"\";\"\"\n\"1\";\"2026-10-07 18:00:00\";\"Pull; back day\";\"3900\";\"Running\";\"1\";\"\";\"\";\"\";\"5000\";\"1500\";\"\";\"\"\n",
+      "workouts": [
+        {
+          "date": "2026-10-07 18:00:00",
+          "name": "Pull; back day",
+          "durationSec": 3900,
+          "note": null,
+          "exercises": [
+            {
+              "name": "Deadlift (Barbell)",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "warmup",
+                  "weightKg": 60,
+                  "reps": 5,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                },
+                {
+                  "setType": "normal",
+                  "weightKg": 140.5,
+                  "reps": 5,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": 8.5
+                }
+              ]
+            },
+            {
+              "name": "Running",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "normal",
+                  "weightKg": null,
+                  "reps": null,
+                  "distanceM": 5000,
+                  "seconds": 1500,
+                  "rpe": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "distance in km, minutes and an ISO date",
+      "defaultUnit": "kg",
+      "text": "Date,Workout Name,Duration (min),Exercise Name,Set Order,Distance (km),Seconds\n2026-10-08T07:00,Run,30,Running,1,5.2,1800\n",
+      "workouts": [
+        {
+          "date": "2026-10-08 07:00:00",
+          "name": "Run",
+          "durationSec": 1800,
+          "note": null,
+          "exercises": [
+            {
+              "name": "Running",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "normal",
+                  "weightKg": null,
+                  "reps": null,
+                  "distanceM": 5200,
+                  "seconds": 1800,
+                  "rpe": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "strong export with rest timer rows",
+      "defaultUnit": "kg",
+      "text": "Date,Workout Name,Duration,Exercise Name,Set Order,Weight,Reps,Distance,Seconds,Notes,Workout Notes,RPE\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",W,40.0,10.0,0,0.0,\"\",\"\",\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",Rest Timer,0,0.0,0,90.0,,,\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",1,60.0,8.0,0,0.0,,,\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",Rest Timer,0,0.0,0,90.0,,,\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",F,60.0,6.0,0,0.0,,,\n",
+      "workouts": [
+        {
+          "date": "2025-06-26 11:57:00",
+          "name": "Full Body Workout",
+          "durationSec": 2880,
+          "note": null,
+          "exercises": [
+            {
+              "name": "Bench Press (Barbell)",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "warmup",
+                  "weightKg": 40,
+                  "reps": 10,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                },
+                {
+                  "setType": "normal",
+                  "weightKg": 60,
+                  "reps": 8,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                },
+                {
+                  "setType": "failure",
+                  "weightKg": 60,
+                  "reps": 6,
                   "distanceM": null,
                   "seconds": null,
                   "rpe": null

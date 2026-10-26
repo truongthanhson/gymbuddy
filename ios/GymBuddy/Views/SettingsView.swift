@@ -97,7 +97,7 @@ struct SettingsView: View {
         } header: {
             Text("Data")
         } footer: {
-            Text("Apple Health gets each finished workout and body weight. Exports use the same columns as Strong, and imports accept GymBuddy and Strong CSV exports.")
+            Text("Apple Health gets each finished workout and body weight. Exports use the same columns as Strong, and imports accept GymBuddy and Strong CSV exports. In Strong, use Settings > Export Strong Data and share the file to GymBuddy.")
         }
     }
 
@@ -118,23 +118,9 @@ struct SettingsView: View {
     }
 
     private func importFile(_ result: Result<URL, Error>) {
-        do {
-            let url = try result.get()
-            let scoped = url.startAccessingSecurityScopedResource()
-            defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-            let text = try String(contentsOf: url, encoding: .utf8)
-            guard let imported = try CsvService.importText(text, defaultUnit: weightUnit, in: context) else {
-                show(String(localized: "This file is not a workout CSV export."))
-                return
-            }
-            var message = String(localized: "Workouts imported: \(imported.imported)")
-            if imported.skipped > 0 {
-                message += "\n" + String(localized: "Already on this device, skipped: \(imported.skipped)")
-            }
-            show(message)
-            if imported.imported > 0 { SyncService.shared.requestSync() }
-        } catch {
-            show(String(localized: "The file could not be read or written."))
+        switch result {
+        case .success(let url): show(CsvService.importFile(at: url, defaultUnit: weightUnit, in: context))
+        case .failure: show(String(localized: "The file could not be read or written."))
         }
     }
 }

@@ -169,7 +169,7 @@
     <string name="export_csv">Export workouts (CSV)</string>
     <string name="export_csv_hint">Every finished workout, in the same columns as Strong</string>
     <string name="import_csv">Import workouts (CSV)</string>
-    <string name="import_csv_hint">From a GymBuddy or Strong CSV export</string>
+    <string name="import_csv_hint">From a GymBuddy or Strong CSV export. In Strong, use Settings &gt; Export Strong Data and share the file to GymBuddy.</string>
     <string name="csv_not_an_export">This file is not a workout CSV export.</string>
     <string name="csv_failed">The file could not be read or written.</string>
     <plurals name="csv_exported">
@@ -282,4 +282,7 @@
     <string name="theme_dark">Dark</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="or_use_email">Or use your email:</string>
+    <string name="import_file_title">Import workouts?</string>
+    <string name="import_file_text">GymBuddy will add the workouts in this file, such as a Strong export, to your history. Workouts already here are skipped.</string>
+    <string name="import_file_confirm">Import</string>
 </resources>

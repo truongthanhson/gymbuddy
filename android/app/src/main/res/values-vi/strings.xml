@@ -168,7 +168,7 @@
     <string name="export_csv">Xuất buổi tập (CSV)</string>
     <string name="export_csv_hint">Tất cả buổi tập đã hoàn thành, cùng định dạng cột với Strong</string>
     <string name="import_csv">Nhập buổi tập (CSV)</string>
-    <string name="import_csv_hint">Từ file CSV xuất ra bởi GymBuddy hoặc Strong</string>
+    <string name="import_csv_hint">Từ file CSV xuất ra bởi GymBuddy hoặc Strong. Trong Strong, vào Cài đặt &gt; Export Strong Data rồi chia sẻ file sang GymBuddy.</string>
     <string name="csv_not_an_export">File này không phải file CSV buổi tập.</string>
     <string name="csv_failed">Không đọc hoặc ghi được file.</string>
     <plurals name="csv_exported">
@@ -275,4 +275,7 @@
     <string name="theme_dark">Tối</string>
     <string name="continue_with_google">Tiếp tục với Google</string>
     <string name="or_use_email">Hoặc dùng email:</string>
+    <string name="import_file_title">Nhập buổi tập?</string>
+    <string name="import_file_text">GymBuddy sẽ thêm các buổi tập trong file này (ví dụ file xuất từ Strong) vào lịch sử. Buổi tập đã có sẽ được bỏ qua.</string>
+    <string name="import_file_confirm">Nhập</string>
 </resources>
