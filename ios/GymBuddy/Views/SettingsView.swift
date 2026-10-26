@@ -6,6 +6,7 @@ struct SettingsView: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.modelContext) private var context
     @AppStorage(SettingsKey.healthEnabled) private var healthEnabled = false
+    @AppStorage(SettingsKey.theme) private var theme: ThemeMode = .system
     @State private var exportDocument: CsvDocument?
     @State private var exporting = false
     @State private var importing = false
@@ -30,6 +31,11 @@ struct SettingsView: View {
                 .pickerStyle(.segmented)
             }
             Section {
+                Picker("Theme", selection: $theme) {
+                    ForEach(ThemeMode.allCases) { mode in
+                        Text(mode.label).tag(mode)
+                    }
+                }
                 Picker("Default rest timer", selection: $restSeconds) {
                     ForEach(restTimeOptions, id: \.self) { option in
                         Text(verbatim: restLabel(option)).tag(option)

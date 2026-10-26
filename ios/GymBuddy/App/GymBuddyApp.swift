@@ -5,6 +5,7 @@ import UserNotifications
 @main
 struct GymBuddyApp: App {
     @Environment(\.scenePhase) private var scenePhase
+    @AppStorage(SettingsKey.theme) private var theme: ThemeMode = .system
     let container: ModelContainer
     private let notificationDelegate = NotificationDelegate()
 
@@ -28,6 +29,7 @@ struct GymBuddyApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .preferredColorScheme(theme.colorScheme)
         }
         .modelContainer(container)
         .onChange(of: scenePhase, initial: true) { _, phase in

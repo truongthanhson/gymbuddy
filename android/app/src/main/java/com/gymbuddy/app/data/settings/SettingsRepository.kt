@@ -13,6 +13,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.updateAndGet
 
+/** Light or dark colors; [SYSTEM] follows the phone. */
+enum class ThemeMode { SYSTEM, LIGHT, DARK }
+
 data class AppSettings(
     val weightUnit: WeightUnit = WeightUnit.KG,
     val defaultRestSeconds: Int = DEFAULT_REST_SECONDS,
@@ -22,6 +25,7 @@ data class AppSettings(
     val bars: Map<WeightUnit, Double> = emptyMap(),
     /** Plates the user has in each unit (heaviest first), where they changed them. */
     val plates: Map<WeightUnit, List<Double>> = emptyMap(),
+    val theme: ThemeMode = ThemeMode.SYSTEM,
 ) {
     fun barFor(unit: WeightUnit = weightUnit): Double = bars[unit] ?: unit.defaultBar
     fun platesFor(unit: WeightUnit = weightUnit): List<Double> = plates[unit] ?: unit.defaultPlates
@@ -42,6 +46,8 @@ class SettingsRepository @Inject constructor(@ApplicationContext context: Contex
 
     fun setHealthEnabled(enabled: Boolean) = update { it.copy(healthEnabled = enabled) }
 
+    fun setTheme(theme: ThemeMode) = update { it.copy(theme = theme) }
+
     fun setBar(unit: WeightUnit, weight: Double) = update { it.copy(bars = it.bars + (unit to weight.coerceAtLeast(0.0))) }
 
     fun setPlates(unit: WeightUnit, plates: List<Double>) =
@@ -53,6 +59,7 @@ class SettingsRepository @Inject constructor(@ApplicationContext context: Contex
             .putString(KEY_WEIGHT_UNIT, next.weightUnit.name)
             .putInt(KEY_DEFAULT_REST, next.defaultRestSeconds)
             .putBoolean(KEY_HEALTH, next.healthEnabled)
+            .putString(KEY_THEME, next.theme.name)
         next.bars.forEach { (unit, weight) -> editor.putString(KEY_BAR + unit.name, weight.toString()) }
         next.plates.forEach { (unit, plates) -> editor.putString(KEY_PLATES + unit.name, plates.joinToString(",")) }
         editor.apply()
@@ -62,6 +69,7 @@ class SettingsRepository @Inject constructor(@ApplicationContext context: Contex
         weightUnit = WeightUnit.entries.firstOrNull { it.name == prefs.getString(KEY_WEIGHT_UNIT, null) } ?: WeightUnit.KG,
         defaultRestSeconds = prefs.getInt(KEY_DEFAULT_REST, DEFAULT_REST_SECONDS),
         healthEnabled = prefs.getBoolean(KEY_HEALTH, false),
+        theme = ThemeMode.entries.firstOrNull { it.name == prefs.getString(KEY_THEME, null) } ?: ThemeMode.SYSTEM,
         bars = WeightUnit.entries.mapNotNull { unit ->
             prefs.getString(KEY_BAR + unit.name, null)?.toDoubleOrNull()?.let { unit to it }
         }.toMap(),
@@ -76,6 +84,7 @@ class SettingsRepository @Inject constructor(@ApplicationContext context: Contex
         const val KEY_WEIGHT_UNIT = "weight_unit"
         const val KEY_DEFAULT_REST = "default_rest_seconds"
         const val KEY_HEALTH = "health_enabled"
+        const val KEY_THEME = "theme"
         const val KEY_BAR = "bar_"
         const val KEY_PLATES = "plates_"
     }

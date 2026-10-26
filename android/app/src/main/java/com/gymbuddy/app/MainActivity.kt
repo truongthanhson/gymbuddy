@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.data.pro.ProRepository
 import com.gymbuddy.app.data.settings.SettingsRepository
+import com.gymbuddy.app.data.settings.ThemeMode
 import com.gymbuddy.app.data.sync.SyncManager
 import com.gymbuddy.app.ui.GymBuddyNavHost
 import com.gymbuddy.app.ui.common.LocalAppSettings
@@ -33,7 +35,12 @@ class MainActivity : ComponentActivity() {
             val settings by settingsRepository.settings.collectAsStateWithLifecycle()
             val isPro by proRepository.isPro.collectAsStateWithLifecycle()
             CompositionLocalProvider(LocalAppSettings provides settings, LocalIsPro provides isPro) {
-                GymBuddyTheme {
+                val dark = when (settings.theme) {
+                    ThemeMode.SYSTEM -> isSystemInDarkTheme()
+                    ThemeMode.LIGHT -> false
+                    ThemeMode.DARK -> true
+                }
+                GymBuddyTheme(darkTheme = dark) {
                     GymBuddyNavHost()
                 }
             }
