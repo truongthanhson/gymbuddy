@@ -46,11 +46,12 @@ struct BuddyTodaySection: View {
     @Query(filter: #Predicate<Workout> { $0.endedAt != nil && $0.deletedAt == nil }) private var workouts: [Workout]
     @Query private var exercises: [Exercise]
     @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
+    @AppStorage(BuddyKey.daysPerWeek) private var daysPerWeek = defaultWorkoutsPerWeek
     @State private var expanded = false
 
     var body: some View {
         let byId = Dictionary(exercises.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        let snapshot = CoachService.snapshot(workouts: workouts, exercises: byId)
+        let snapshot = CoachService.snapshot(workouts: workouts, exercises: byId, goalPerWeek: min(max(daysPerWeek, 1), 7))
         Section {
             VStack(alignment: .leading, spacing: 8) {
                 BuddyHeader()
@@ -85,6 +86,18 @@ struct BuddyTodaySection: View {
                 }
             }
             .padding(.vertical, 4)
+            NavigationLink {
+                BuddyChatView()
+            } label: {
+                Label { Text(verbatim: buddy("Ask Buddy")) } icon: { Image(systemName: "bubble.left.and.text.bubble.right") }
+            }
+            if snapshot.workoutCount > 0 {
+                NavigationLink {
+                    BuddyReportView()
+                } label: {
+                    Label { Text(verbatim: buddy("Weekly report")) } icon: { Image(systemName: "calendar.badge.checkmark") }
+                }
+            }
         }
     }
 }

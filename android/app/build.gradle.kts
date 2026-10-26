@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services)
     implementation(libs.google.id)
+    implementation(libs.androidx.work.runtime)
     implementation(libs.glance.appwidget)
     implementation(libs.glance.material3)
     implementation(project(":watchlink"))

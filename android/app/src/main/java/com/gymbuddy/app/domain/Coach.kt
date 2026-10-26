@@ -144,6 +144,13 @@ fun streakWeeks(workoutStarts: List<Long>, nowMillis: Long, goalPerWeek: Int): I
     return weeks
 }
 
+/** Whole days without a workout before Buddy reminds the person; see shared/coach-rules.md. */
+fun reminderGapDays(daysPerWeek: Int): Int = maxOf(2, 7 / daysPerWeek.coerceIn(1, 7) + 1)
+
+/** When the training reminder is due, or null before the first workout. */
+fun reminderDueAt(lastWorkoutMillis: Long?, daysPerWeek: Int): Long? =
+    lastWorkoutMillis?.let { it + reminderGapDays(daysPerWeek) * DAY }
+
 /** Everything Buddy has to say, most urgent first. */
 fun coachInsights(
     exercises: List<CoachExercise>,

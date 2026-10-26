@@ -51,6 +51,7 @@ fun WorkoutTab(
     onEditTemplate: (templateId: String?) -> Unit,
     onOpenPaywall: () -> Unit,
     onOpenBuddy: () -> Unit,
+    onOpenBuddyReport: () -> Unit,
     viewModel: WorkoutViewModel = hiltViewModel(),
     templatesViewModel: TemplatesViewModel = hiltViewModel(),
 ) {
@@ -77,6 +78,7 @@ fun WorkoutTab(
             StartWorkoutScreen(
                 templates = templates,
                 onOpenBuddy = onOpenBuddy,
+                onOpenBuddyReport = onOpenBuddyReport,
                 onStartEmpty = {
                     askNotifications()
                     viewModel.startEmptyWorkout(defaultName)
@@ -110,6 +112,7 @@ fun WorkoutTab(
 private fun StartWorkoutScreen(
     templates: TemplatesUiState,
     onOpenBuddy: () -> Unit,
+    onOpenBuddyReport: () -> Unit,
     onStartEmpty: () -> Unit,
     actions: TemplateActions,
 ) {
@@ -126,7 +129,7 @@ private fun StartWorkoutScreen(
                 Text(stringResource(R.string.quick_start), style = MaterialTheme.typography.headlineMedium)
             }
         }
-        item { BuddyTodayCard(onAsk = onOpenBuddy) }
+        item { BuddyTodayCard(onAsk = onOpenBuddy, onReport = onOpenBuddyReport) }
         item {
             Button(
                 onClick = onStartEmpty,

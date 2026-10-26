@@ -1,0 +1,318 @@
+{
+  "description": "Profile tab statistics (android domain/ProfileStats.kt, iOS Domain/ProfileStats.swift). Times are epoch millis, the zone is UTC, weeks start on Monday. Totals: volume counts every completed set (warm-ups too), sets leave warm-ups out. Streaks: weeks in a row with a workout; the current streak still counts when this week has none yet. Heatmap: workouts per day from Monday of the first week. Habits: favorite weekday 1 = Monday, earlier day on a tie; rest days averaged over training days in the last 90 days. Records: newest first, a workout whose best estimated 1RM (completed, non-warm-up, weight > 0) beats every earlier one; the first workout of an exercise is a baseline. Top: exercises in the most workouts with a finished working set, ties by id; best 1RM in the last 90 days and the 90 before. Compare doubles with 0.01 tolerance.",
+  "cases": [
+    {
+      "name": "six workouts",
+      "now": 1793188800000,
+      "heatmapWeeks": 2,
+      "volumeWeeks": 3,
+      "topLimit": 2,
+      "workouts": [
+        {
+          "startedAt": 1780308000000,
+          "endedAt": 1780311600000,
+          "exercises": [
+            {
+              "exerciseId": "bench",
+              "sets": [
+                {
+                  "weightKg": 40,
+                  "reps": 10,
+                  "completed": true,
+                  "warmup": true
+                },
+                {
+                  "weightKg": 80,
+                  "reps": 5,
+                  "completed": true,
+                  "warmup": false
+                },
+                {
+                  "weightKg": 80,
+                  "reps": 5,
+                  "completed": true,
+                  "warmup": false
+                }
+              ]
+            },
+            {
+              "exerciseId": "squat",
+              "sets": [
+                {
+                  "weightKg": 100,
+                  "reps": 5,
+                  "completed": true,
+                  "warmup": false
+                }
+              ]
+            }
+          ],
+          "note": "Mon"
+        },
+        {
+          "startedAt": 1786356000000,
+          "endedAt": 1786361400000,
+          "exercises": [
+            {
+              "exerciseId": "bench",
+              "sets": [
+                {
+                  "weightKg": 85,
+                  "reps": 5,
+                  "completed": true,
+                  "warmup": false
+                },
+                {
+                  "weightKg": 90,
+                  "reps": 1,
+                  "completed": false,
+                  "warmup": false
+                }
+              ]
+            },
+            {
+              "exerciseId": "squat",
+              "sets": [
+                {
+                  "weightKg": 100,
+                  "reps": 5,
+                  "completed": true,
+                  "warmup": false
+                }
+              ]
+            }
+          ],
+          "note": "Mon"
+        },
+        {
+          "startedAt": 1791795600000,
+          "endedAt": 1791799200000,
+          "exercises": [
+            {
+              "exerciseId": "bench",
+              "sets": [
+                {
+                  "weightKg": 82.5,
+                  "reps": 8,
+                  "completed": true,
+                  "warmup": false
+                }
+              ]
+            },
+            {
+              "exerciseId": "pullup",
+              "sets": [
+                {
+                  "weightKg": null,
+                  "reps": 10,
+                  "completed": true,
+                  "warmup": false
+                }
+              ]
+            }
+          ],
+          "note": "Mon"
+        },
+        {
+          "startedAt": 1792605600000,
+          "endedAt": 1792610100000,
+          "exercises": [
+            {
+              "exerciseId": "squat",
+              "sets": [
+                {
+                  "weightKg": 110,
+                  "reps": 3,
+                  "completed": true,
+                  "warmup": false
+                }
+              ]
+            },
+            {
+              "exerciseId": "bench",
+              "sets": [
+                {
+                  "weightKg": 60,
+                  "reps": 5,
+                  "completed": true,
+                  "warmup": true
+                }
+              ]
+            }
+          ],
+          "note": "Wed"
+        },
+        {
+          "startedAt": 1793084400000,
+          "endedAt": 1793088000000,
+          "exercises": [
+            {
+              "exerciseId": "bench",
+              "sets": [
+                {
+                  "weightKg": 80,
+                  "reps": 6,
+                  "completed": true,
+                  "warmup": false
+                }
+              ]
+            },
+            {
+              "exerciseId": "pullup",
+              "sets": [
+                {
+                  "weightKg": 0,
+                  "reps": 8,
+                  "completed": true,
+                  "warmup": false
+                }
+              ]
+            }
+          ],
+          "note": "Tue"
+        },
+        {
+          "startedAt": 1793167200000,
+          "endedAt": 1793169900000,
+          "exercises": [
+            {
+              "exerciseId": "squat",
+              "sets": [
+                {
+                  "weightKg": 120,
+                  "reps": 5,
+                  "completed": false,
+                  "warmup": false
+                }
+              ]
+            }
+          ],
+          "note": "Wed"
+        }
+      ],
+      "expected": {
+        "totals": {
+          "workouts": 6,
+          "durationSeconds": 23400,
+          "volumeKg": 4395.0,
+          "sets": 10
+        },
+        "streaks": {
+          "current": 3,
+          "best": 3
+        },
+        "heatmap": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weeklyVolume": [
+          660.0,
+          630.0,
+          480.0
+        ],
+        "habits": {
+          "averageDurationSeconds": 3900,
+          "favoriteWeekday": 1,
+          "averageRestDays": 18.75
+        },
+        "records": [
+          {
+            "exerciseId": "squat",
+            "startedAt": 1792605600000,
+            "weightKg": 110,
+            "reps": 3,
+            "estimatedOneRepMax": 121.0
+          },
+          {
+            "exerciseId": "bench",
+            "startedAt": 1791795600000,
+            "weightKg": 82.5,
+            "reps": 8,
+            "estimatedOneRepMax": 104.5
+          },
+          {
+            "exerciseId": "bench",
+            "startedAt": 1786356000000,
+            "weightKg": 85,
+            "reps": 5,
+            "estimatedOneRepMax": 99.1667
+          }
+        ],
+        "top": [
+          {
+            "exerciseId": "bench",
+            "workouts": 4,
+            "recentOneRepMax": 104.5,
+            "previousOneRepMax": 93.3333
+          },
+          {
+            "exerciseId": "squat",
+            "workouts": 3,
+            "recentOneRepMax": 121.0,
+            "previousOneRepMax": 116.6667
+          }
+        ]
+      }
+    },
+    {
+      "name": "no workouts",
+      "now": 1793188800000,
+      "heatmapWeeks": 2,
+      "volumeWeeks": 3,
+      "topLimit": 2,
+      "workouts": [],
+      "expected": {
+        "totals": {
+          "workouts": 0,
+          "durationSeconds": 0,
+          "volumeKg": 0,
+          "sets": 0
+        },
+        "streaks": {
+          "current": 0,
+          "best": 0
+        },
+        "heatmap": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "weeklyVolume": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "habits": {
+          "averageDurationSeconds": 0,
+          "favoriteWeekday": null,
+          "averageRestDays": null
+        },
+        "records": [],
+        "top": []
+      }
+    }
+  ]
+}

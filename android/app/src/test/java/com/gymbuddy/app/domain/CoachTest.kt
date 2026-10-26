@@ -14,6 +14,7 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
+import kotlinx.serialization.json.longOrNull
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -91,6 +92,15 @@ class CoachTest {
         for (c in file.cases("streak")) {
             val starts = c["workoutStarts"]!!.jsonArray.map { it.jsonPrimitive.long }
             assertEquals(c.str("description"), c.num("expected").int, streakWeeks(starts, c.num("now").long, c.num("goalPerWeek").int))
+        }
+    }
+
+    @Test
+    fun reminderMatchesSharedVectors() {
+        for (c in file.cases("reminder")) {
+            val last = c["lastWorkout"]!!.jsonPrimitive.longOrNull
+            val expected = c["expected"]!!.jsonPrimitive.longOrNull
+            assertEquals(c.str("description"), expected, reminderDueAt(last, c.num("daysPerWeek").int))
         }
     }
 
