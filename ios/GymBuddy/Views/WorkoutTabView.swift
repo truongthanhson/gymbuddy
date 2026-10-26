@@ -64,11 +64,18 @@ private struct StartWorkoutView: View {
     var body: some View {
         List {
             BuddyTodaySection()
-            Section("Quick start") {
-                Button("Start an empty workout") {
+            Section {
+                Button {
                     RestTimer.requestAuthorization()
                     WorkoutService.startEmptyWorkout(name: String(localized: "Workout"), in: context)
+                } label: {
+                    Label("Start an empty workout", systemImage: "plus")
                 }
+                .buttonStyle(.primary)
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
+            } header: {
+                Text("Quick start")
             }
             if templates.isEmpty {
                 Section("Templates") {
@@ -89,6 +96,8 @@ private struct StartWorkoutView: View {
                 }
             }
         }
+        .listRowSpacing(Spacing.sm)
+        .appBackground()
         .navigationTitle("Workout")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -131,6 +140,7 @@ private struct StartWorkoutView: View {
             template: template,
             folders: folders,
             summary: template.liveExercises.map { namesById[$0.exerciseId]?.displayName ?? $0.exerciseId }.joined(separator: ", "),
+            bodyPart: template.liveExercises.first.flatMap { namesById[$0.exerciseId] }.map { BodyPart(key: $0.bodyPart) } ?? .other,
             canDuplicate: canAddTemplate(existing: templates.count, isPro: ProStore.shared.isPro),
             onEdit: { editing = TemplateEditorTarget(templateId: template.id) },
             onLocked: { paywall = true }
@@ -143,6 +153,8 @@ private struct TemplateRow: View {
     let template: WorkoutTemplate
     let folders: [TemplateFolder]
     let summary: String
+    /// Colors the avatar: the body part of the template's first exercise.
+    var bodyPart: BodyPart = .other
     let canDuplicate: Bool
     let onEdit: () -> Void
     let onLocked: () -> Void
@@ -152,6 +164,8 @@ private struct TemplateRow: View {
 
     var body: some View {
         Button { confirmStart = true } label: {
+            HStack(alignment: .top, spacing: Spacing.md) {
+            ExerciseAvatar(name: template.name, bodyPart: bodyPart)
             VStack(alignment: .leading, spacing: 2) {
                 Text(verbatim: template.name).font(.headline)
                 Text(verbatim: summary)
@@ -160,13 +174,15 @@ private struct TemplateRow: View {
                     .lineLimit(2)
                 if let lastUsed = template.lastUsedAt {
                     Text("Last used \(lastUsed.formatted(date: .abbreviated, time: .omitted))")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .font(.caption2.weight(.medium))
+                        .foregroundStyle(Palette.primary)
                 } else {
                     Text("Never used").font(.caption2).foregroundStyle(.secondary)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(.vertical, Spacing.xs)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)

@@ -12,16 +12,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.Switch
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -35,14 +34,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.gymbuddy.app.R
-import com.gymbuddy.app.domain.plateOptions
-import com.gymbuddy.app.ui.settings.SettingsViewModel
 import com.gymbuddy.app.domain.estimatedOneRepMax
 import com.gymbuddy.app.domain.formatWeight
 import com.gymbuddy.app.domain.plateLoad
+import com.gymbuddy.app.domain.plateOptions
 import com.gymbuddy.app.domain.repMaxWeight
 import com.gymbuddy.app.domain.warmupSets
+import com.gymbuddy.app.ui.common.Card
 import com.gymbuddy.app.ui.common.LocalAppSettings
+import com.gymbuddy.app.ui.settings.SettingsViewModel
 import kotlin.math.abs
 import kotlin.math.roundToInt
 

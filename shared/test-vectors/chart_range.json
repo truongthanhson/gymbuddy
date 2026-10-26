@@ -1,0 +1,213 @@
+{
+  "_comment": "Chart time ranges. Points are given as whole days since the epoch; a range keeps the points no older than its length in days before the newest point (1M = 30, 3M = 91, 6M = 182, 1Y = 365, ALL = everything). A range is offered only when it keeps at least two points and fewer than all of them, so it differs from ALL. nearestIndex picks the point closest in time to a touch, the earlier one on a tie.",
+  "filter": [
+    {
+      "days": [
+        0,
+        100,
+        200,
+        300,
+        380,
+        400
+      ],
+      "range": "1M",
+      "kept": [
+        4,
+        5
+      ]
+    },
+    {
+      "days": [
+        0,
+        100,
+        200,
+        300,
+        380,
+        400
+      ],
+      "range": "3M",
+      "kept": [
+        4,
+        5
+      ]
+    },
+    {
+      "days": [
+        0,
+        100,
+        200,
+        300,
+        380,
+        400
+      ],
+      "range": "6M",
+      "kept": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "days": [
+        0,
+        100,
+        200,
+        300,
+        380,
+        400
+      ],
+      "range": "1Y",
+      "kept": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "days": [
+        0,
+        100,
+        200,
+        300,
+        380,
+        400
+      ],
+      "range": "ALL",
+      "kept": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "days": [
+        370,
+        400
+      ],
+      "range": "1M",
+      "kept": [
+        0,
+        1
+      ]
+    },
+    {
+      "days": [
+        0,
+        400
+      ],
+      "range": "1M",
+      "kept": [
+        1
+      ]
+    }
+  ],
+  "available": [
+    {
+      "days": [
+        0,
+        100,
+        200,
+        300,
+        380,
+        400
+      ],
+      "ranges": [
+        "1M",
+        "3M",
+        "6M",
+        "1Y",
+        "ALL"
+      ]
+    },
+    {
+      "days": [
+        100,
+        200,
+        395,
+        400
+      ],
+      "ranges": [
+        "1M",
+        "3M",
+        "6M",
+        "ALL"
+      ]
+    },
+    {
+      "days": [
+        380,
+        400
+      ],
+      "ranges": [
+        "ALL"
+      ]
+    },
+    {
+      "days": [
+        5
+      ],
+      "ranges": [
+        "ALL"
+      ]
+    }
+  ],
+  "nearestIndex": [
+    {
+      "xs": [
+        0,
+        10,
+        20
+      ],
+      "x": 14,
+      "index": 1
+    },
+    {
+      "xs": [
+        0,
+        10,
+        20
+      ],
+      "x": 15,
+      "index": 1
+    },
+    {
+      "xs": [
+        0,
+        10,
+        20
+      ],
+      "x": 16,
+      "index": 2
+    },
+    {
+      "xs": [
+        0,
+        10,
+        20
+      ],
+      "x": -5,
+      "index": 0
+    },
+    {
+      "xs": [
+        0,
+        10,
+        20
+      ],
+      "x": 99,
+      "index": 2
+    },
+    {
+      "xs": [
+        7
+      ],
+      "x": 0,
+      "index": 0
+    }
+  ]
+}
