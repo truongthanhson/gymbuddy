@@ -58,9 +58,11 @@ enum WorkoutService {
 
     /// Ticking an empty set fills it from the previous session.
     static func toggle(_ set: WorkoutSet, previous: WorkoutSet?, in context: ModelContext, now: Date = .now) {
-        if !set.completed, set.weightKg == nil, set.reps == nil, let previous {
+        if !set.completed, set.weightKg == nil, set.reps == nil, set.durationSec == nil, set.distanceM == nil, let previous {
             set.weightKg = previous.weightKg
             set.reps = previous.reps
+            set.durationSec = previous.durationSec
+            set.distanceM = previous.distanceM
         }
         set.completed.toggle()
         set.completedAt = set.completed ? now : nil

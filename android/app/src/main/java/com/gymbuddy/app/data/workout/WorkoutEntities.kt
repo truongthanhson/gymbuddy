@@ -76,6 +76,13 @@ data class WorkoutSetEntity(
     val deletedAt: Long? = null,
 )
 
+/** Nothing typed in yet. */
+fun WorkoutSetEntity.isEmpty(): Boolean = weightKg == null && reps == null && durationSec == null && distanceM == null
+
+/** Ticking an empty set takes the values of the same set last session, like Strong. */
+fun WorkoutSetEntity.filledFrom(previous: WorkoutSetEntity): WorkoutSetEntity =
+    copy(weightKg = previous.weightKg, reps = previous.reps, durationSec = previous.durationSec, distanceM = previous.distanceM)
+
 data class WorkoutExerciseWithSets(
     @Embedded val workoutExercise: WorkoutExerciseEntity,
     @Relation(parentColumn = "exerciseId", entityColumn = "id")

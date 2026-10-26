@@ -1,0 +1,36 @@
+{
+  "description": "Which values a set of each exercise category logs, and how durations and distances are typed and shown.",
+  "fields": [
+    { "category": "barbell", "fields": ["weight", "reps"] },
+    { "category": "dumbbell", "fields": ["weight", "reps"] },
+    { "category": "machine", "fields": ["weight", "reps"] },
+    { "category": "cable", "fields": ["weight", "reps"] },
+    { "category": "weighted_bodyweight", "fields": ["weight", "reps"] },
+    { "category": "assisted_bodyweight", "fields": ["weight", "reps"] },
+    { "category": "reps_only", "fields": ["reps"] },
+    { "category": "cardio", "fields": ["distance", "duration"] },
+    { "category": "duration", "fields": ["duration"] },
+    { "category": "unknown", "fields": ["weight", "reps"] }
+  ],
+  "parseDuration": [
+    { "text": "90", "seconds": 90 },
+    { "text": "1:30", "seconds": 90 },
+    { "text": "1:05:09", "seconds": 3909 },
+    { "text": " 2:00 ", "seconds": 120 },
+    { "text": "0", "seconds": null },
+    { "text": "", "seconds": null },
+    { "text": "1:75", "seconds": null },
+    { "text": "a:b", "seconds": null }
+  ],
+  "formatDuration": [
+    { "seconds": 45, "text": "0:45" },
+    { "seconds": 90, "text": "1:30" },
+    { "seconds": 3909, "text": "1:05:09" }
+  ],
+  "distance": [
+    { "meters": 5000, "unit": "km", "display": 5.0 },
+    { "meters": 1609.344, "unit": "mi", "display": 1.0 },
+    { "meters": 2500, "unit": "mi", "display": 1.55 },
+    { "meters": 1234, "unit": "km", "display": 1.23 }
+  ]
+}

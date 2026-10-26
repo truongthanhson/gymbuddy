@@ -60,7 +60,13 @@ import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.data.workout.WorkoutExerciseWithSets
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
+import com.gymbuddy.app.domain.ExerciseCategory
 import com.gymbuddy.app.domain.REST_TIME_OPTIONS
+import com.gymbuddy.app.domain.SetField
+import com.gymbuddy.app.domain.distanceUnit
+import com.gymbuddy.app.domain.formatDuration
+import com.gymbuddy.app.domain.parseDuration
+import com.gymbuddy.app.domain.setFields
 import com.gymbuddy.app.domain.RPE_OPTIONS
 import com.gymbuddy.app.domain.formatRpe
 import com.gymbuddy.app.domain.formatElapsed
@@ -302,7 +308,9 @@ private fun ExerciseCard(
                 },
             )
         }
-        SetHeader(settings.weightUnit)
+        val category = item.exercise?.category ?: ""
+        val fields = setFields(category)
+        SetHeader(settings.weightUnit, fields, assisted = category == ExerciseCategory.ASSISTED_BODYWEIGHT.key)
         val labels = setLabels(item.sets.map { it.setType.name.lowercase() })
         item.sets.forEachIndexed { index, set ->
             // Keyed so a swiped-away row doesn't hand its state to the next one.
@@ -314,6 +322,7 @@ private fun ExerciseCard(
                     previous = previousSet,
                     onToggle = { viewModel.toggleSet(item, set, previousSet, title) },
                     unit = settings.weightUnit,
+                    fields = fields,
                     viewModel = viewModel,
                 )
             }
@@ -358,12 +367,20 @@ private val ValueColumn = 72.dp
 private val CheckColumn = 48.dp
 
 @Composable
-private fun SetHeader(unit: WeightUnit) {
+private fun SetHeader(unit: WeightUnit, fields: List<SetField>, assisted: Boolean) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         HeaderText(stringResource(R.string.col_set), Modifier.width(SetColumn))
         HeaderText(stringResource(R.string.col_previous), Modifier.weight(1f))
-        HeaderText(unit.symbol, Modifier.width(ValueColumn))
-        HeaderText(stringResource(R.string.col_reps), Modifier.width(ValueColumn))
+        fields.forEach { field ->
+            val title = when (field) {
+                // Assistance makes the lift lighter, so Strong shows it as a negative weight.
+                SetField.WEIGHT -> if (assisted) "-${unit.symbol}" else unit.symbol
+                SetField.REPS -> stringResource(R.string.col_reps)
+                SetField.DISTANCE -> unit.distanceUnit.symbol
+                SetField.DURATION -> stringResource(R.string.col_time)
+            }
+            HeaderText(title, Modifier.width(ValueColumn))
+        }
         Box(Modifier.width(CheckColumn), contentAlignment = Alignment.Center) {
             Icon(Icons.Filled.Check, contentDescription = null)
         }
@@ -382,6 +399,7 @@ private fun SetRow(
     previous: WorkoutSetEntity?,
     onToggle: () -> Unit,
     unit: WeightUnit,
+    fields: List<SetField>,
     viewModel: WorkoutViewModel,
 ) {
     val dismissState = rememberSwipeToDismissBoxState(
@@ -424,28 +442,48 @@ private fun SetRow(
         ) {
             SetLabel(label, set, viewModel)
             Text(
-                previous?.let { previousLabel(it, unit) } ?: "—",
+                previous?.let { previousLabel(it, unit, fields) } ?: "—",
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodySmall,
             )
-            NumberField(
-                value = set.weightKg?.let(unit::display),
-                format = ::formatWeight,
-                parse = { it.replace(',', '.').toDoubleOrNull() },
-                placeholder = previous?.weightKg?.let { formatWeight(unit.display(it)) },
-                decimal = true,
-                onValueChange = { viewModel.setWeight(set.id, it?.let(unit::toKg)) },
-            )
-            NumberField(
-                value = set.reps,
-                format = { it.toString() },
-                parse = { it.toIntOrNull() },
-                placeholder = previous?.reps?.toString(),
-                decimal = false,
-                onValueChange = { viewModel.setReps(set.id, it) },
-            )
+            fields.forEach { field ->
+                when (field) {
+                    SetField.WEIGHT -> NumberField(
+                        value = set.weightKg?.let(unit::display),
+                        format = ::formatWeight,
+                        parse = ::parseDecimal,
+                        placeholder = previous?.weightKg?.let { formatWeight(unit.display(it)) },
+                        input = InputKind.DECIMAL,
+                        onValueChange = { viewModel.setWeight(set.id, it?.let(unit::toKg)) },
+                    )
+                    SetField.REPS -> NumberField(
+                        value = set.reps,
+                        format = { it.toString() },
+                        parse = { it.toIntOrNull() },
+                        placeholder = previous?.reps?.toString(),
+                        input = InputKind.INTEGER,
+                        onValueChange = { viewModel.setReps(set.id, it) },
+                    )
+                    SetField.DISTANCE -> NumberField(
+                        value = set.distanceM?.let(unit.distanceUnit::display),
+                        format = ::formatWeight,
+                        parse = ::parseDecimal,
+                        placeholder = previous?.distanceM?.let { formatWeight(unit.distanceUnit.display(it)) },
+                        input = InputKind.DECIMAL,
+                        onValueChange = { viewModel.setDistance(set.id, it?.let(unit.distanceUnit::toMeters)) },
+                    )
+                    SetField.DURATION -> NumberField(
+                        value = set.durationSec,
+                        format = ::formatDuration,
+                        parse = ::parseDuration,
+                        placeholder = previous?.durationSec?.let(::formatDuration),
+                        input = InputKind.DURATION,
+                        onValueChange = { viewModel.setDuration(set.id, it) },
+                    )
+                }
+            }
             Box(Modifier.width(CheckColumn), contentAlignment = Alignment.Center) {
                 FilledIconToggleButton(
                     checked = set.completed,
@@ -564,11 +602,26 @@ private fun NoteField(note: String?, placeholder: String, onNoteChange: (String)
     )
 }
 
-private fun previousLabel(set: WorkoutSetEntity, unit: WeightUnit): String = when {
-    set.weightKg != null && set.reps != null -> "${unit.format(set.weightKg)} × ${set.reps}"
-    set.reps != null -> "× ${set.reps}"
-    set.weightKg != null -> unit.format(set.weightKg)
-    else -> "—"
+/** "60 kg × 8", "× 12", "5 km in 25:00" or "1:00", depending on what the exercise logs. */
+private fun previousLabel(set: WorkoutSetEntity, unit: WeightUnit, fields: List<SetField>): String {
+    val parts = fields.mapNotNull { field ->
+        when (field) {
+            SetField.WEIGHT -> set.weightKg?.let(unit::format)
+            SetField.REPS -> set.reps?.let { "× $it" }
+            SetField.DISTANCE -> set.distanceM?.let { "${formatWeight(unit.distanceUnit.display(it))} ${unit.distanceUnit.symbol}" }
+            SetField.DURATION -> set.durationSec?.let(::formatDuration)
+        }
+    }
+    return parts.joinToString(" ").ifEmpty { "—" }
+}
+
+private fun parseDecimal(text: String): Double? = text.replace(',', '.').toDoubleOrNull()
+
+private enum class InputKind(val keyboard: KeyboardType, val allows: (Char) -> Boolean) {
+    DECIMAL(KeyboardType.Decimal, { it.isDigit() || it == '.' || it == ',' }),
+    INTEGER(KeyboardType.Number, Char::isDigit),
+    // Times are typed as 1:30; not every number pad has a colon.
+    DURATION(KeyboardType.Text, { it.isDigit() || it == ':' }),
 }
 
 /** A compact numeric input that keeps the user's text while typing and saves the parsed value. */
@@ -578,7 +631,7 @@ private fun <T : Any> NumberField(
     format: (T) -> String,
     parse: (String) -> T?,
     placeholder: String?,
-    decimal: Boolean,
+    input: InputKind,
     onValueChange: (T?) -> Unit,
 ) {
     var text by remember { mutableStateOf(value?.let(format) ?: "") }
@@ -599,8 +652,8 @@ private fun <T : Any> NumberField(
         }
         BasicTextField(
             value = text,
-            onValueChange = { input ->
-                val allowed = if (decimal) input.filter { it.isDigit() || it == '.' || it == ',' } else input.filter(Char::isDigit)
+            onValueChange = { typed ->
+                val allowed = typed.filter(input.allows)
                 text = allowed
                 onValueChange(parse(allowed))
             },
@@ -611,7 +664,7 @@ private fun <T : Any> NumberField(
             ),
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             keyboardOptions = KeyboardOptions(
-                keyboardType = if (decimal) KeyboardType.Decimal else KeyboardType.Number,
+                keyboardType = input.keyboard,
             ),
             modifier = Modifier.fillMaxWidth(),
         )

@@ -1534,6 +1534,16 @@
         }
       }
     },
+    "Time": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thời gian"
+          }
+        }
+      }
+    },
     "Time for your next set.": {
       "localizations": {
         "vi": {

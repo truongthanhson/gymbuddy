@@ -6,6 +6,8 @@ import com.gymbuddy.app.data.exercise.ExerciseDao
 import com.gymbuddy.app.data.settings.SettingsRepository
 import com.gymbuddy.app.data.workout.WorkoutDao
 import com.gymbuddy.app.data.workout.WorkoutRepository
+import com.gymbuddy.app.data.workout.filledFrom
+import com.gymbuddy.app.data.workout.isEmpty
 import com.gymbuddy.app.domain.resolveRestSeconds
 import com.gymbuddy.app.timer.RestTimerController
 import com.gymbuddy.app.ui.common.displayName
@@ -82,9 +84,7 @@ class WatchBridge @Inject constructor(
         val exercise = exerciseDao.get(item.exerciseId)
         val index = workoutDao.getSets(item.id).indexOfFirst { it.id == setId }
         val previous = workoutDao.observePreviousSets(item.exerciseId).first().getOrNull(index)
-        if (set.weightKg == null && set.reps == null && previous != null) {
-            repository.updateSet(setId) { it.copy(weightKg = previous.weightKg, reps = previous.reps) }
-        }
+        if (set.isEmpty() && previous != null) repository.updateSet(setId) { it.filledFrom(previous) }
         repository.toggleSetCompleted(setId)
         val seconds = resolveRestSeconds(
             item.restSeconds,

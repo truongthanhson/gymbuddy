@@ -32,6 +32,7 @@
     <string name="col_set">Set</string>
     <string name="col_previous">Lần trước</string>
     <string name="col_reps">Reps</string>
+    <string name="col_time">Thời gian</string>
     <string name="add_count">Thêm (%1$d)</string>
     <string name="no_history">Chưa có buổi tập nào. Buổi tập đã hoàn thành sẽ hiện ở đây.</string>
     <string name="workout_summary">%1$s · %2$s</string>
