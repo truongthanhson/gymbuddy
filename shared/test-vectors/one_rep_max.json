@@ -1,0 +1,46 @@
+{
+  "formula": "epley",
+  "description": "e1RM = weight * (1 + reps / 30); reps == 1 returns weight; reps <= 0 returns 0. Compare with tolerance 0.01.",
+  "cases": [
+    {
+      "weightKg": 100,
+      "reps": 1,
+      "expected": 100
+    },
+    {
+      "weightKg": 100,
+      "reps": 5,
+      "expected": 116.67
+    },
+    {
+      "weightKg": 80,
+      "reps": 10,
+      "expected": 106.67
+    },
+    {
+      "weightKg": 60,
+      "reps": 12,
+      "expected": 84.0
+    },
+    {
+      "weightKg": 140,
+      "reps": 3,
+      "expected": 154.0
+    },
+    {
+      "weightKg": 0,
+      "reps": 10,
+      "expected": 0.0
+    },
+    {
+      "weightKg": 102.5,
+      "reps": 8,
+      "expected": 129.83
+    },
+    {
+      "weightKg": 100,
+      "reps": 0,
+      "expected": 0
+    }
+  ]
+}

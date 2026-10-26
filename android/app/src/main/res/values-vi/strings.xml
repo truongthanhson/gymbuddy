@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_workout">Tập luyện</string>
+    <string name="tab_history">Lịch sử</string>
+    <string name="tab_exercises">Bài tập</string>
+    <string name="coming_soon">Sắp ra mắt</string>
+    <string name="search_exercises">Tìm bài tập</string>
+    <string name="filter_all">Tất cả</string>
+    <string name="no_exercises">Không tìm thấy bài tập</string>
+    <string name="body_part_chest">Ngực</string>
+    <string name="body_part_back">Lưng</string>
+    <string name="body_part_legs">Chân</string>
+    <string name="body_part_shoulders">Vai</string>
+    <string name="body_part_arms">Tay</string>
+    <string name="body_part_core">Bụng</string>
+    <string name="body_part_olympic">Cử tạ Olympic</string>
+    <string name="body_part_full_body">Toàn thân</string>
+    <string name="body_part_cardio">Cardio</string>
+    <string name="body_part_other">Khác</string>
+</resources>
