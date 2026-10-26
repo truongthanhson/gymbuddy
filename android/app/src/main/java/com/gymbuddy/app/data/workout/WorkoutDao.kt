@@ -33,6 +33,12 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts WHERE endedAt IS NOT NULL AND deletedAt IS NULL ORDER BY startedAt")
     suspend fun getFinished(): List<WorkoutWithExercises>
 
+    @Query("SELECT COUNT(*) FROM workouts WHERE endedAt IS NOT NULL AND deletedAt IS NULL AND startedAt >= :since")
+    suspend fun countFinishedSince(since: Long): Int
+
+    @Query("SELECT * FROM workouts WHERE endedAt IS NOT NULL AND deletedAt IS NULL ORDER BY startedAt DESC LIMIT 1")
+    suspend fun getLastFinished(): WorkoutEntity?
+
     @Query("SELECT COUNT(*) FROM workouts WHERE startedAt = :startedAt AND name = :name AND deletedAt IS NULL")
     suspend fun countMatching(startedAt: Long, name: String): Int
 

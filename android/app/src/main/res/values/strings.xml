@@ -186,4 +186,13 @@
     <string name="health_connect">Health Connect</string>
     <string name="health_connect_hint">Save finished workouts and body weight to Health Connect</string>
     <string name="health_rationale">GymBuddy only writes to Health Connect: each finished workout as a strength training session, and each body weight you log. It does not read your health data. You can turn this off in GymBuddy settings or in Health Connect at any time.</string>
+    <string name="widget_name">GymBuddy week</string>
+    <string name="widget_description">Workouts this week and your latest one</string>
+    <string name="widget_this_week">This week</string>
+    <string name="widget_last_workout">Last: %1$s, %2$s</string>
+    <string name="widget_no_workouts">No workouts yet</string>
+    <plurals name="widget_workouts">
+        <item quantity="one">workout</item>
+        <item quantity="other">workouts</item>
+    </plurals>
 </resources>

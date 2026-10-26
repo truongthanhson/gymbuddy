@@ -17,6 +17,8 @@ targets:
     platform: iOS
     sources:
       - path: GymBuddy
+      # Code shared with the widget extension.
+      - path: Shared
       # Built-in exercise library shared with the Android app.
       - path: ../shared/exercises.json
         buildPhase: resources
@@ -36,6 +38,9 @@ targets:
       path: GymBuddy/GymBuddy.entitlements
       properties:
         com.apple.developer.healthkit: true
+        com.apple.security.application-groups: [group.com.gymbuddy.app]
+    dependencies:
+      - target: GymBuddyWidget
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gymbuddy.app
@@ -44,6 +49,27 @@ targets:
     scheme:
       testTargets:
         - GymBuddyTests
+  GymBuddyWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: GymBuddyWidget
+      - path: Shared
+    info:
+      path: GymBuddyWidget/Info.plist
+      properties:
+        CFBundleDisplayName: GymBuddy
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: GymBuddyWidget/GymBuddyWidget.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.gymbuddy.app]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.gymbuddy.app.widget
+        GENERATE_INFOPLIST_FILE: NO
+        TARGETED_DEVICE_FAMILY: "1"
   GymBuddyTests:
     type: bundle.unit-test
     platform: iOS

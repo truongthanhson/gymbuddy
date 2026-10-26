@@ -1,0 +1,66 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "GymBuddy week": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GymBuddy tuần này"
+          }
+        }
+      }
+    },
+    "Last: %@, %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gần nhất: %1$@, %2$@"
+          }
+        }
+      }
+    },
+    "No workouts yet": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có buổi tập nào"
+          }
+        }
+      }
+    },
+    "This week": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuần này"
+          }
+        }
+      }
+    },
+    "Workouts this week and your latest one.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số buổi tập tuần này và buổi gần nhất."
+          }
+        }
+      }
+    },
+    "^[%lld workout](inflect: true)": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld buổi tập"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
