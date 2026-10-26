@@ -1,10 +1,16 @@
 import SwiftData
 import SwiftUI
 
+/// The workout being logged. With `editing` it edits a finished workout from history instead:
+/// no timer, rest timer or Finish button, and leaving goes through Save.
 struct ActiveWorkoutView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
     @Query private var exercises: [Exercise]
+    @Query(filter: #Predicate<Workout> { $0.endedAt == nil && $0.deletedAt == nil })
+    private var activeWorkouts: [Workout]
     let workout: Workout
+    var editing = false
 
     @State private var showPicker = false
     @State private var showFinish = false
@@ -12,6 +18,10 @@ struct ActiveWorkoutView: View {
     @State private var showRename = false
     @State private var newName = ""
     @State private var replacing: WorkoutExercise?
+    @State private var showDelete = false
+    @State private var showDuration = false
+    @State private var durationText = ""
+    @State private var templateSaved = false
 
     private var namesById: [String: Exercise] {
         Dictionary(exercises.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
@@ -43,10 +53,17 @@ struct ActiveWorkoutView: View {
     var body: some View {
         List {
             Section {
-                TimelineView(.periodic(from: .now, by: 1)) { timeline in
-                    Text(verbatim: formatElapsed(Int(timeline.date.timeIntervalSince(workout.startedAt))))
-                        .font(.title3.monospacedDigit())
-                        .foregroundStyle(.secondary)
+                if editing {
+                    EditTimes(workout: workout) {
+                        durationText = String(Int((workout.endedAt ?? workout.startedAt).timeIntervalSince(workout.startedAt)) / 60)
+                        showDuration = true
+                    }
+                } else {
+                    TimelineView(.periodic(from: .now, by: 1)) { timeline in
+                        Text(verbatim: formatElapsed(Int(timeline.date.timeIntervalSince(workout.startedAt))))
+                            .font(.title3.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 NoteField(note: workout.note, placeholder: "Workout note") {
                     WorkoutService.setNote($0, for: workout, in: context)
@@ -59,6 +76,7 @@ struct ActiveWorkoutView: View {
                     item: item,
                     exercise: namesById[item.exerciseId],
                     workout: workout,
+                    editing: editing,
                     index: index,
                     groups: groups,
                     onReplace: { replacing = item }
@@ -66,28 +84,72 @@ struct ActiveWorkoutView: View {
             }
             Section {
                 Button("Add exercises") { showPicker = true }
-                Button("Cancel workout", role: .destructive) { showCancel = true }
+                if !editing {
+                    Button("Cancel workout", role: .destructive) { showCancel = true }
+                }
+            } footer: {
+                if editing {
+                    Text("Changes are saved as you go. Sets that are not ticked are removed when you tap Save.")
+                }
             }
         }
         .safeAreaInset(edge: .bottom) {
-            if let state = RestTimer.shared.state {
+            if !editing, let state = RestTimer.shared.state {
                 RestTimerBar(state: state)
             }
         }
         .navigationTitle(workout.name)
+        .navigationBarBackButtonHidden(editing)
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    newName = workout.name
-                    showRename = true
-                } label: {
-                    Image(systemName: "pencil")
+            if editing {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Save") { saveEdits() }
+                        .buttonStyle(.borderedProminent)
+                }
+                ToolbarItem(placement: .topBarTrailing) { editMenu }
+            } else {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        newName = workout.name
+                        showRename = true
+                    } label: {
+                        Image(systemName: "pencil")
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Finish") { showFinish = true }
+                        .buttonStyle(.borderedProminent)
                 }
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Finish") { showFinish = true }
-                    .buttonStyle(.borderedProminent)
+        }
+        .alert("Delete workout?", isPresented: $showDelete) {
+            Button("Delete", role: .destructive) {
+                WorkoutService.discard(workout, in: context)
+                SyncService.shared.requestSync()
+                WidgetSnapshotWriter.update(in: context)
+                dismiss()
             }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This workout will be removed from your history.")
+        }
+        .alert("Duration (minutes)", isPresented: $showDuration) {
+            TextField("Duration (minutes)", text: $durationText)
+                .keyboardType(.numberPad)
+            Button("OK") {
+                if let minutes = Int(durationText), minutes > 0 {
+                    WorkoutService.setTimes(
+                        of: workout,
+                        startedAt: workout.startedAt,
+                        endedAt: workout.startedAt.addingTimeInterval(TimeInterval(minutes * 60)),
+                        in: context
+                    )
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        }
+        .alert("Saved as a template", isPresented: $templateSaved) {
+            Button("OK") {}
         }
         .sheet(isPresented: $showPicker) {
             ExercisePickerView { ids in
@@ -134,6 +196,62 @@ struct ActiveWorkoutView: View {
     }
 }
 
+extension ActiveWorkoutView {
+    private var editMenu: some View {
+        Menu {
+            Button("Rename", systemImage: "pencil") {
+                newName = workout.name
+                showRename = true
+            }
+            Button("Save as a new template", systemImage: "doc.on.doc") {
+                TemplateService.createTemplate(from: workout, in: context)
+                templateSaved = true
+            }
+            if activeWorkouts.isEmpty {
+                Button("Perform again", systemImage: "arrow.clockwise") {
+                    WorkoutService.finishEditing(workout, in: context)
+                    WorkoutService.repeatWorkout(workout, in: context)
+                    dismiss()
+                }
+            }
+            Button("Delete workout", systemImage: "trash", role: .destructive) { showDelete = true }
+        } label: {
+            Image(systemName: "ellipsis.circle")
+        }
+    }
+
+    private func saveEdits() {
+        WorkoutService.finishEditing(workout, in: context)
+        SyncService.shared.requestSync()
+        WidgetSnapshotWriter.update(in: context)
+        dismiss()
+    }
+}
+
+/// Date and duration of a finished workout; the date is edited in place, the duration through `onEditDuration`.
+private struct EditTimes: View {
+    @Environment(\.modelContext) private var context
+    let workout: Workout
+    let onEditDuration: () -> Void
+
+    var body: some View {
+        let duration = (workout.endedAt ?? workout.startedAt).timeIntervalSince(workout.startedAt)
+        DatePicker(
+            "Date",
+            selection: Binding(
+                get: { workout.startedAt },
+                set: { start in
+                    WorkoutService.setTimes(of: workout, startedAt: start, endedAt: start.addingTimeInterval(duration), in: context)
+                }
+            )
+        )
+        Button(action: onEditDuration) {
+            LabeledContent("Duration", value: formatElapsed(Int(duration)))
+        }
+        .foregroundStyle(.primary)
+    }
+}
+
 private struct ExerciseSection: View {
     @Environment(\.modelContext) private var context
     @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
@@ -141,6 +259,7 @@ private struct ExerciseSection: View {
     let item: WorkoutExercise
     let exercise: Exercise?
     let workout: Workout
+    let editing: Bool
     let index: Int
     let groups: [Int?]
     let onReplace: () -> Void
@@ -174,7 +293,8 @@ private struct ExerciseSection: View {
     }
 
     var body: some View {
-        let previous = WorkoutService.previousSets(for: item.exerciseId, in: context)
+        // In an edited workout, "Previous" is the session before that one.
+        let previous = WorkoutService.previousSets(for: item.exerciseId, before: workout.startedAt, in: context)
         let sets = item.liveSets
         let labels = watchSetLabels(sets.map(\.setTypeRaw))
         Section {
@@ -193,7 +313,7 @@ private struct ExerciseSection: View {
                 SetRow(label: labels[setIndex], set: set, previous: previousSet, unit: weightUnit, fields: fields) {
                     let wasCompleted = set.completed
                     WorkoutService.toggle(set, previous: previousSet, in: context)
-                    if !wasCompleted {
+                    if !wasCompleted, !editing {
                         // In a superset only the last exercise starts the rest timer.
                         if startsRest(groups: groups, index: index) {
                             RestTimer.shared.start(seconds: restSeconds, exerciseName: title)

@@ -84,13 +84,19 @@ import com.gymbuddy.app.ui.common.useVietnameseNames
 import com.gymbuddy.watchlink.setLabels
 import kotlinx.coroutines.delay
 
+/**
+ * The workout being logged. With [editHeader] it edits a finished workout from history instead: the header
+ * replaces the timer and Finish button (it gets a callback that opens the rename dialog), and there is no rest timer.
+ */
 @Composable
 fun ActiveWorkoutScreen(
     workout: WorkoutWithExercises,
     viewModel: WorkoutViewModel,
     onAddExercises: () -> Unit,
     onReplaceExercise: (workoutExerciseId: String) -> Unit,
+    editHeader: (@Composable (onRename: () -> Unit) -> Unit)? = null,
 ) {
+    val editing = editHeader != null
     var showFinish by remember { mutableStateOf(false) }
     var showCancel by remember { mutableStateOf(false) }
     var showRename by remember { mutableStateOf(false) }
@@ -105,14 +111,18 @@ fun ActiveWorkoutScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        TextButton(onClick = { showRename = true }, contentPadding = PaddingValues(0.dp)) {
-                            Text(workout.workout.name, style = MaterialTheme.typography.headlineSmall)
+                if (editHeader != null) {
+                    editHeader { showRename = true }
+                } else {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            TextButton(onClick = { showRename = true }, contentPadding = PaddingValues(0.dp)) {
+                                Text(workout.workout.name, style = MaterialTheme.typography.headlineSmall)
+                            }
+                            ElapsedText(startedAt = workout.workout.startedAt)
                         }
-                        ElapsedText(startedAt = workout.workout.startedAt)
+                        Button(onClick = { showFinish = true }) { Text(stringResource(R.string.finish)) }
                     }
-                    Button(onClick = { showFinish = true }) { Text(stringResource(R.string.finish)) }
                 }
             }
             item {
@@ -130,6 +140,8 @@ fun ActiveWorkoutScreen(
                     index = index,
                     groups = groups,
                     workoutId = workout.workout.id,
+                    startedAt = workout.workout.startedAt,
+                    editing = editing,
                     onReplace = { onReplaceExercise(item.workoutExercise.id) },
                     viewModel = viewModel,
                 )
@@ -139,16 +151,18 @@ fun ActiveWorkoutScreen(
                     OutlinedButton(onClick = onAddExercises, modifier = Modifier.fillMaxWidth()) {
                         Text(stringResource(R.string.add_exercises))
                     }
-                    TextButton(
-                        onClick = { showCancel = true },
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Text(stringResource(R.string.cancel_workout), color = MaterialTheme.colorScheme.error)
+                    if (!editing) {
+                        TextButton(
+                            onClick = { showCancel = true },
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Text(stringResource(R.string.cancel_workout), color = MaterialTheme.colorScheme.error)
+                        }
                     }
                 }
             }
         }
-        restTimer?.let { timer ->
+        restTimer?.takeIf { !editing }?.let { timer ->
             RestTimerBar(
                 state = timer,
                 onAdjust = viewModel::adjustRestTimer,
@@ -258,13 +272,16 @@ private fun ExerciseCard(
     index: Int,
     groups: List<Int?>,
     workoutId: String,
+    startedAt: Long,
+    editing: Boolean,
     onReplace: () -> Unit,
     viewModel: WorkoutViewModel,
 ) {
     val group = groups[index]
     val isLast = index == groups.lastIndex
     val exerciseId = item.workoutExercise.exerciseId
-    val previousFlow = remember(exerciseId) { viewModel.previousSets(exerciseId) }
+    // In an edited workout, "Previous" is the session before that one.
+    val previousFlow = remember(exerciseId, startedAt) { viewModel.previousSets(exerciseId, before = startedAt) }
     val previous by previousFlow.collectAsStateWithLifecycle(emptyList())
     var menuOpen by remember { mutableStateOf(false) }
     var restDialogOpen by remember { mutableStateOf(false) }
@@ -409,7 +426,7 @@ private fun ExerciseCard(
                     label = labels[setIndex],
                     set = set,
                     previous = previousSet,
-                    onToggle = { viewModel.toggleSet(item, set, previousSet, title, startsRest(groups, index)) },
+                    onToggle = { viewModel.toggleSet(item, set, previousSet, title, !editing && startsRest(groups, index)) },
                     unit = settings.weightUnit,
                     fields = fields,
                     viewModel = viewModel,

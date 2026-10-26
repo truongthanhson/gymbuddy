@@ -297,4 +297,19 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(removeFromSuperset(groups: c.groups, index: c.index), c.result, c.note)
         }
     }
+
+    func testMonthGridMatchesSharedVectors() throws {
+        struct File: Decodable {
+            struct Case: Decodable {
+                let year: Int; let month: Int; let firstDayOfWeek: Int
+                let leading: Int; let days: Int; let weeks: Int
+            }
+            let monthGrid: [Case]
+        }
+        for c in try vectors("calendar", as: File.self).monthGrid {
+            let grid = monthGrid(year: c.year, month: c.month, firstDayOfWeek: c.firstDayOfWeek)
+            XCTAssertEqual(grid, MonthGrid(leading: c.leading, days: c.days), "\(c.year)-\(c.month)")
+            XCTAssertEqual(grid.weeks, c.weeks, "\(c.year)-\(c.month)")
+        }
+    }
 }

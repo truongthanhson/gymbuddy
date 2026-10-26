@@ -61,7 +61,7 @@ class WatchBridge @Inject constructor(
                     val previous = workout?.exercises.orEmpty()
                         .map { it.workoutExercise.exerciseId }
                         .distinct()
-                        .associateWith { workoutDao.observePreviousSets(it).first() }
+                        .associateWith { workoutDao.observePreviousSets(it, Long.MAX_VALUE).first() }
                     buildWatchState(workout, previous, appSettings.weightUnit, rest?.endsAtMillis, vietnamese)
                 }
                 .distinctUntilChanged()
@@ -84,7 +84,7 @@ class WatchBridge @Inject constructor(
         val item = workoutDao.getWorkoutExercise(set.workoutExerciseId) ?: return
         val exercise = exerciseDao.get(item.exerciseId)
         val index = workoutDao.getSets(item.id).indexOfFirst { it.id == setId }
-        val previous = workoutDao.observePreviousSets(item.exerciseId).first().getOrNull(index)
+        val previous = workoutDao.observePreviousSets(item.exerciseId, Long.MAX_VALUE).first().getOrNull(index)
         if (set.isEmpty() && previous != null) repository.updateSet(setId) { it.filledFrom(previous) }
         repository.toggleSetCompleted(setId)
         val seconds = resolveRestSeconds(

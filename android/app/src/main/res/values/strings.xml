@@ -218,4 +218,17 @@
     <string name="move_up">Move up</string>
     <string name="move_down">Move down</string>
     <string name="replace_exercise">Replace exercise</string>
+    <string name="calendar">Calendar</string>
+    <string name="edit_workout">Edit workout</string>
+    <string name="edit_workout_hint">Changes are saved as you go. Sets that are not ticked are removed when you tap Save.</string>
+    <string name="perform_again">Perform again</string>
+    <string name="delete_workout">Delete workout</string>
+    <string name="delete_workout_message">This workout will be removed from your history.</string>
+    <string name="workout_date">Date</string>
+    <string name="workout_duration_minutes">Duration (minutes)</string>
+    <string name="template_saved">Saved as a template</string>
+    <plurals name="workouts_count">
+        <item quantity="one">%d workout</item>
+        <item quantity="other">%d workouts</item>
+    </plurals>
 </resources>

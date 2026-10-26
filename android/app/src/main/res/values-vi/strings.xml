@@ -213,4 +213,16 @@
     <string name="move_up">Chuyển lên</string>
     <string name="move_down">Chuyển xuống</string>
     <string name="replace_exercise">Thay bài tập</string>
+    <string name="calendar">Lịch</string>
+    <string name="edit_workout">Sửa buổi tập</string>
+    <string name="edit_workout_hint">Thay đổi được lưu ngay. Các set chưa đánh dấu sẽ bị xóa khi bạn bấm Lưu.</string>
+    <string name="perform_again">Tập lại</string>
+    <string name="delete_workout">Xóa buổi tập</string>
+    <string name="delete_workout_message">Buổi tập này sẽ bị xóa khỏi lịch sử.</string>
+    <string name="workout_date">Ngày</string>
+    <string name="workout_duration_minutes">Thời lượng (phút)</string>
+    <string name="template_saved">Đã lưu thành mẫu</string>
+    <plurals name="workouts_count">
+        <item quantity="other">%d buổi tập</item>
+    </plurals>
 </resources>

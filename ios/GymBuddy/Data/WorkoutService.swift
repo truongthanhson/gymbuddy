@@ -160,6 +160,59 @@ enum WorkoutService {
             discard(workout, in: context, now: now)
             return
         }
+        dropUncompletedSets(of: workout, now: now)
+        workout.endedAt = now
+        workout.updatedAt = now
+        save(context)
+    }
+
+    /// Done editing a finished workout: like finishing, sets that are not ticked are dropped.
+    static func finishEditing(_ workout: Workout, in context: ModelContext, now: Date = .now) {
+        dropUncompletedSets(of: workout, now: now)
+        workout.updatedAt = now
+        save(context)
+    }
+
+    static func setTimes(of workout: Workout, startedAt: Date, endedAt: Date, in context: ModelContext, now: Date = .now) {
+        workout.startedAt = startedAt
+        workout.endedAt = endedAt
+        workout.updatedAt = now
+        save(context)
+    }
+
+    /// Starts a new workout with the exercises and sets of `source`, not ticked yet, like Strong's "Perform again".
+    /// Returns nil while another workout is in progress.
+    @discardableResult
+    static func repeatWorkout(_ source: Workout, in context: ModelContext, now: Date = .now) -> Workout? {
+        guard activeWorkout(in: context) == nil else { return nil }
+        let workout = Workout(name: source.name, startedAt: now)
+        workout.templateId = source.templateId
+        context.insert(workout)
+        for (index, e) in source.liveExercises.enumerated() {
+            let item = WorkoutExercise(exerciseId: e.exerciseId, sortOrder: index, now: now)
+            item.restSeconds = e.restSeconds
+            item.supersetGroup = e.supersetGroup
+            context.insert(item)
+            item.workout = workout
+            for (setIndex, s) in e.liveSets.enumerated() {
+                let set = WorkoutSet(
+                    sortOrder: setIndex,
+                    weightKg: s.weightKg,
+                    reps: s.reps,
+                    durationSec: s.durationSec,
+                    distanceM: s.distanceM,
+                    now: now
+                )
+                set.setTypeRaw = s.setTypeRaw
+                context.insert(set)
+                set.workoutExercise = item
+            }
+        }
+        save(context)
+        return workout
+    }
+
+    private static func dropUncompletedSets(of workout: Workout, now: Date) {
         for item in workout.liveExercises {
             let sets = item.liveSets
             for set in sets where !set.completed {
@@ -171,9 +224,6 @@ enum WorkoutService {
                 item.updatedAt = now
             }
         }
-        workout.endedAt = now
-        workout.updatedAt = now
-        save(context)
     }
 
     static func discard(_ workout: Workout, in context: ModelContext, now: Date = .now) {
@@ -195,14 +245,14 @@ enum WorkoutService {
         save(context)
     }
 
-    /// Completed sets of `exerciseId` from the most recent finished workout that included it.
-    static func previousSets(for exerciseId: String, in context: ModelContext) -> [WorkoutSet] {
+    /// Completed sets of `exerciseId` from the most recent finished workout started before `before` that included it.
+    static func previousSets(for exerciseId: String, before: Date = .distantFuture, in context: ModelContext) -> [WorkoutSet] {
         let id = exerciseId
         let descriptor = FetchDescriptor<WorkoutExercise>(
             predicate: #Predicate { $0.exerciseId == id && $0.deletedAt == nil }
         )
         let candidates = ((try? context.fetch(descriptor)) ?? []).filter {
-            $0.workout?.endedAt != nil && $0.workout?.deletedAt == nil
+            $0.workout?.endedAt != nil && $0.workout?.deletedAt == nil && ($0.workout?.startedAt ?? .distantFuture) < before
         }
         let latest = candidates.max { ($0.workout?.startedAt ?? .distantPast) < ($1.workout?.startedAt ?? .distantPast) }
         return latest?.liveSets.filter(\.completed) ?? []

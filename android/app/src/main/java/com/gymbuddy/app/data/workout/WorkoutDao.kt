@@ -46,6 +46,10 @@ interface WorkoutDao {
     suspend fun getWorkout(id: String): WorkoutEntity?
 
     @Transaction
+    @Query("SELECT * FROM workouts WHERE id = :id AND deletedAt IS NULL")
+    fun observeWorkout(id: String): Flow<WorkoutWithExercises?>
+
+    @Transaction
     @Query("SELECT * FROM workouts WHERE id = :id")
     suspend fun getWorkoutWithExercises(id: String): WorkoutWithExercises?
 
@@ -64,7 +68,10 @@ interface WorkoutDao {
     @Query("SELECT * FROM workout_sets WHERE workoutExerciseId = :workoutExerciseId AND deletedAt IS NULL ORDER BY sortOrder")
     suspend fun getSets(workoutExerciseId: String): List<WorkoutSetEntity>
 
-    /** Sets of [exerciseId] from the most recent finished workout that included it, for the "Previous" column. */
+    /**
+     * Sets of [exerciseId] from the most recent finished workout started before [before] that included it,
+     * for the "Previous" column.
+     */
     @Query(
         """
         SELECT s.* FROM workout_sets s
@@ -73,13 +80,13 @@ interface WorkoutDao {
             SELECT we2.id FROM workout_exercises we2
             JOIN workouts w2 ON we2.workoutId = w2.id
             WHERE we2.exerciseId = :exerciseId AND we2.deletedAt IS NULL
-              AND w2.endedAt IS NOT NULL AND w2.deletedAt IS NULL
+              AND w2.endedAt IS NOT NULL AND w2.deletedAt IS NULL AND w2.startedAt < :before
             ORDER BY w2.startedAt DESC LIMIT 1
         )
         ORDER BY s.sortOrder
         """
     )
-    fun observePreviousSets(exerciseId: String): Flow<List<WorkoutSetEntity>>
+    fun observePreviousSets(exerciseId: String, before: Long): Flow<List<WorkoutSetEntity>>
 
     /** Every completed set of an exercise in finished workouts, newest workout first. */
     @Query(

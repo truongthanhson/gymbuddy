@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,7 +32,9 @@ import com.gymbuddy.app.R
 import com.gymbuddy.app.ui.exercise.ExerciseDetailScreen
 import com.gymbuddy.app.ui.exercises.ExercisesScreen
 import com.gymbuddy.app.ui.exercises.ExercisePickerScreen
+import com.gymbuddy.app.ui.history.CalendarScreen
 import com.gymbuddy.app.ui.history.HistoryScreen
+import com.gymbuddy.app.ui.history.WorkoutEditScreen
 import com.gymbuddy.app.ui.measurements.MeasurementDetailScreen
 import com.gymbuddy.app.ui.measurements.MeasurementsScreen
 import com.gymbuddy.app.ui.settings.SettingsScreen
@@ -56,6 +59,8 @@ import kotlinx.serialization.Serializable
 @Serializable object OneRepMaxCalculatorRoute
 @Serializable object WarmupCalculatorRoute
 @Serializable data class MeasurementDetailRoute(val kind: String)
+@Serializable data class WorkoutEditRoute(val workoutId: String)
+@Serializable object CalendarRoute
 
 /** Picker → template editor: the picked exercise ids, set on the editor's back stack entry. */
 private const val PICKED_EXERCISES = "picked_exercises"
@@ -81,13 +86,7 @@ fun GymBuddyNavHost() {
                     NavigationBarItem(
                         // Type-safe routes of argument-less objects use the class's qualified name as the route.
                         selected = destination?.route == tab.route::class.qualifiedName,
-                        onClick = {
-                            navController.navigate(tab.route) {
-                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        onClick = { navController.navigateToTab(tab.route) },
                         icon = { Icon(tab.icon, contentDescription = null) },
                         label = { Text(stringResource(tab.label)) },
                     )
@@ -100,7 +99,36 @@ fun GymBuddyNavHost() {
             startDestination = WorkoutRoute,
             modifier = Modifier.padding(padding),
         ) {
-            composable<HistoryRoute> { HistoryScreen() }
+            composable<HistoryRoute> {
+                HistoryScreen(
+                    onOpenWorkout = { navController.navigate(WorkoutEditRoute(it)) },
+                    onOpenCalendar = { navController.navigate(CalendarRoute) },
+                )
+            }
+            composable<CalendarRoute> {
+                CalendarScreen(
+                    onOpenWorkout = { navController.navigate(WorkoutEditRoute(it)) },
+                    onBack = { navController.popBackStack() },
+                )
+            }
+            composable<WorkoutEditRoute> { entry ->
+                val workoutId = entry.toRoute<WorkoutEditRoute>().workoutId
+                // The Workout tab's view model, so saving and deleting finish after this screen is popped.
+                val workoutEntry = remember(entry) { navController.getBackStackEntry<WorkoutRoute>() }
+                WorkoutEditScreen(
+                    workoutId = workoutId,
+                    onAddExercises = { navController.navigate(ExercisePickerRoute(workoutId)) },
+                    onReplaceExercise = {
+                        navController.navigate(ExercisePickerRoute(workoutId, replaceWorkoutExerciseId = it))
+                    },
+                    onClose = { navController.popBackStack() },
+                    onRepeated = {
+                        navController.popBackStack()
+                        navController.navigateToTab(WorkoutRoute)
+                    },
+                    viewModel = hiltViewModel(workoutEntry),
+                )
+            }
             composable<WorkoutRoute> {
                 WorkoutTab(
                     onAddExercises = { navController.navigate(ExercisePickerRoute(it)) },
@@ -160,4 +188,10 @@ fun GymBuddyNavHost() {
             }
         }
     }
+}
+
+private fun NavController.navigateToTab(route: Any) = navigate(route) {
+    popUpTo(graph.findStartDestination().id) { saveState = true }
+    launchSingleTop = true
+    restoreState = true
 }
