@@ -135,4 +135,17 @@
     <string name="no_exercise_history">Chưa có set nào hoàn thành cho bài tập này.</string>
     <string name="not_enough_for_chart">Hoàn thành bài tập này trong ít nhất hai buổi để xem biểu đồ.</string>
     <string name="one_rep_max_short">1RM %1$s</string>
+    <string name="settings_tools">Công cụ</string>
+    <string name="plate_calculator">Tính đĩa tạ</string>
+    <string name="plate_calculator_hint">Cần lắp những đĩa nào ở mỗi bên thanh đòn</string>
+    <string name="one_rep_max_calculator">Tính 1RM</string>
+    <string name="one_rep_max_calculator_hint">Ước tính mức tạ tối đa 1 rep từ một set bất kỳ</string>
+    <string name="target_weight">Mức tạ mục tiêu</string>
+    <string name="bar_weight">Thanh đòn</string>
+    <string name="weight">Mức tạ</string>
+    <string name="plates_per_side">Đĩa mỗi bên</string>
+    <string name="no_plates_needed">Chỉ thanh đòn</string>
+    <string name="loaded_weight">Đã lắp: %1$s</string>
+    <string name="plate_remainder">Lệch %1$s so với mục tiêu với bộ đĩa này</string>
+    <string name="rep_max_row">%1$d rep</string>
 </resources>

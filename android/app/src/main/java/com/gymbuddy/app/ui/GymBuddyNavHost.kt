@@ -33,6 +33,8 @@ import com.gymbuddy.app.ui.exercises.ExercisePickerScreen
 import com.gymbuddy.app.ui.history.HistoryScreen
 import com.gymbuddy.app.ui.settings.SettingsScreen
 import com.gymbuddy.app.ui.templates.TemplateEditorScreen
+import com.gymbuddy.app.ui.tools.OneRepMaxCalculatorScreen
+import com.gymbuddy.app.ui.tools.PlateCalculatorScreen
 import com.gymbuddy.app.ui.workout.WorkoutTab
 import com.gymbuddy.app.ui.workout.WorkoutViewModel
 import kotlinx.serialization.Serializable
@@ -44,6 +46,8 @@ import kotlinx.serialization.Serializable
 @Serializable data class ExercisePickerRoute(val workoutId: String? = null)
 @Serializable data class TemplateEditorRoute(val templateId: String? = null)
 @Serializable data class ExerciseDetailRoute(val exerciseId: String)
+@Serializable object PlateCalculatorRoute
+@Serializable object OneRepMaxCalculatorRoute
 
 /** Picker → template editor: the picked exercise ids, set on the editor's back stack entry. */
 private const val PICKED_EXERCISES = "picked_exercises"
@@ -106,7 +110,14 @@ fun GymBuddyNavHost() {
             }
             composable<ExercisesRoute> { ExercisesScreen(onOpenExercise = { navController.navigate(ExerciseDetailRoute(it)) }) }
             composable<ExerciseDetailRoute> { ExerciseDetailScreen(onBack = { navController.popBackStack() }) }
-            composable<SettingsRoute> { SettingsScreen() }
+            composable<SettingsRoute> {
+                SettingsScreen(
+                    onOpenPlateCalculator = { navController.navigate(PlateCalculatorRoute) },
+                    onOpenOneRepMaxCalculator = { navController.navigate(OneRepMaxCalculatorRoute) },
+                )
+            }
+            composable<PlateCalculatorRoute> { PlateCalculatorScreen(onBack = { navController.popBackStack() }) }
+            composable<OneRepMaxCalculatorRoute> { OneRepMaxCalculatorScreen(onBack = { navController.popBackStack() }) }
             composable<ExercisePickerRoute> { entry ->
                 val workoutId = entry.toRoute<ExercisePickerRoute>().workoutId
                 // Scope the view model to the Workout tab so the insert survives popping this screen.

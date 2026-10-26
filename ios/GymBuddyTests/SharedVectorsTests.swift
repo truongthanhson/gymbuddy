@@ -108,4 +108,36 @@ final class SharedVectorsTests: XCTestCase {
             }
         }
     }
+
+    func testCalculatorsMatchSharedVectors() throws {
+        struct File: Decodable {
+            struct Plates: Decodable {
+                let name: String
+                let target: Double
+                let bar: Double
+                let plates: [Double]
+                let perSide: [Double]
+                let loaded: Double
+                let remainder: Double
+            }
+            struct RepMax: Decodable {
+                struct Row: Decodable { let reps: Int; let weight: Double }
+                let oneRepMax: Double
+                let rows: [Row]
+            }
+            let plates: [Plates]
+            let repMax: RepMax
+        }
+        let file = try vectors("calculators", as: File.self)
+        for c in file.plates {
+            let load = plateLoad(target: c.target, bar: c.bar, plates: c.plates)
+            XCTAssertEqual(load.perSide, c.perSide, c.name)
+            XCTAssertEqual(load.loaded, c.loaded, accuracy: 0.01, c.name)
+            XCTAssertEqual(load.remainder, c.remainder, accuracy: 0.01, c.name)
+        }
+        for row in file.repMax.rows {
+            XCTAssertEqual(repMaxWeight(oneRepMax: file.repMax.oneRepMax, reps: row.reps), row.weight,
+                           accuracy: 0.01, "\(row.reps) reps")
+        }
+    }
 }

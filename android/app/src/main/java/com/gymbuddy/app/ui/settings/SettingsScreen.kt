@@ -43,7 +43,11 @@ import com.gymbuddy.app.ui.common.restLabel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
+fun SettingsScreen(
+    onOpenPlateCalculator: () -> Unit,
+    onOpenOneRepMaxCalculator: () -> Unit,
+    viewModel: SettingsViewModel = hiltViewModel(),
+) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var restDialogOpen by remember { mutableStateOf(false) }
@@ -96,6 +100,19 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 supportingContent = { Text(stringResource(R.string.settings_language_hint)) },
             )
         }
+        HorizontalDivider()
+
+        SectionTitle(R.string.settings_tools)
+        ListItem(
+            modifier = Modifier.clickable(onClick = onOpenPlateCalculator),
+            headlineContent = { Text(stringResource(R.string.plate_calculator)) },
+            supportingContent = { Text(stringResource(R.string.plate_calculator_hint)) },
+        )
+        ListItem(
+            modifier = Modifier.clickable(onClick = onOpenOneRepMaxCalculator),
+            headlineContent = { Text(stringResource(R.string.one_rep_max_calculator)) },
+            supportingContent = { Text(stringResource(R.string.one_rep_max_calculator_hint)) },
+        )
         HorizontalDivider()
 
         SectionTitle(R.string.settings_about)

@@ -1,0 +1,19 @@
+{
+  "description": "Plate calculator and rep-max table. Plates are loaded greedily, heaviest first, on each side; remainder = target - loaded (negative when the target is below the bar). Rep maxes invert Epley: weight = 1RM / (1 + reps/30), and 1 rep = 1RM. All values are in the display unit. Compare with tolerance 0.01.",
+  "plates": [
+    { "name": "even kg", "target": 100, "bar": 20, "plates": [25, 20, 15, 10, 5, 2.5, 1.25], "perSide": [25, 15], "loaded": 100, "remainder": 0 },
+    { "name": "small plates", "target": 142.5, "bar": 20, "plates": [25, 20, 15, 10, 5, 2.5, 1.25], "perSide": [25, 25, 10, 1.25], "loaded": 142.5, "remainder": 0 },
+    { "name": "cannot match", "target": 61, "bar": 20, "plates": [25, 20, 15, 10, 5, 2.5, 1.25], "perSide": [20], "loaded": 60, "remainder": 1 },
+    { "name": "below the bar", "target": 15, "bar": 20, "plates": [25, 20, 15, 10, 5, 2.5, 1.25], "perSide": [], "loaded": 20, "remainder": -5 },
+    { "name": "lb unsorted plates", "target": 225, "bar": 45, "plates": [2.5, 5, 10, 25, 35, 45], "perSide": [45, 45], "loaded": 225, "remainder": 0 }
+  ],
+  "repMax": {
+    "oneRepMax": 100,
+    "rows": [
+      { "reps": 1, "weight": 100 },
+      { "reps": 5, "weight": 85.7143 },
+      { "reps": 10, "weight": 75 },
+      { "reps": 12, "weight": 71.4286 }
+    ]
+  }
+}
