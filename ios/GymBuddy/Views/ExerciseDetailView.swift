@@ -10,7 +10,7 @@ private struct HistoryWorkout: Identifiable {
     var sets: [SetValues]
 }
 
-private enum DetailTab: Hashable { case history, charts, records }
+private enum DetailTab: Hashable { case about, history, charts, records }
 
 private enum ChartMetric: String, CaseIterable, Identifiable {
     case oneRepMax, maxWeight, volume
@@ -40,7 +40,7 @@ struct ExerciseDetailView: View {
     @Query private var items: [WorkoutExercise]
     @AppStorage(SettingsKey.weightUnit) private var weightUnit: WeightUnit = .kg
     @Environment(\.dismiss) private var dismiss
-    @State private var tab: DetailTab = .history
+    @State private var tab: DetailTab = .about
     @State private var metric: ChartMetric = .oneRepMax
     @State private var editing = false
 
@@ -68,6 +68,7 @@ struct ExerciseDetailView: View {
         let progress = exerciseProgress(history.map { ExerciseSession(startedAt: $0.startedAt, sets: $0.sets) })
         VStack(spacing: 0) {
             Picker("", selection: $tab) {
+                Text("About").tag(DetailTab.about)
                 Text("History").tag(DetailTab.history)
                 Text("Charts").tag(DetailTab.charts)
                 Text("Records").tag(DetailTab.records)
@@ -75,6 +76,7 @@ struct ExerciseDetailView: View {
             .pickerStyle(.segmented)
             .padding()
             switch tab {
+            case .about: aboutTab
             case .history: historyTab(history)
             case .charts: chartsTab(progress.points)
             case .records: recordsTab(progress.records)
@@ -92,6 +94,30 @@ struct ExerciseDetailView: View {
         .sheet(isPresented: $editing) { ExerciseEditorView(exercise: exercise) }
         .onChange(of: exercise.deletedAt) { _, deletedAt in
             if deletedAt != nil { dismiss() }
+        }
+    }
+
+    /// Body part, equipment and Strong-style step-by-step instructions.
+    private var aboutTab: some View {
+        let steps = ExerciseInstructions.steps(for: exercise.id)
+        return List {
+            Section {
+                let bodyPart = String(localized: BodyPart(key: exercise.bodyPart).label)
+                let category = ExerciseCategory(rawValue: exercise.category).map { String(localized: $0.label) } ?? exercise.category
+                Text(verbatim: "\(bodyPart) · \(category)")
+                    .foregroundStyle(.secondary)
+            }
+            Section("Instructions") {
+                if steps.isEmpty {
+                    Text("No instructions for this exercise.").foregroundStyle(.secondary)
+                }
+                ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(verbatim: "\(index + 1).").bold().frame(width: 24, alignment: .leading)
+                        Text(verbatim: step)
+                    }
+                }
+            }
         }
     }
 

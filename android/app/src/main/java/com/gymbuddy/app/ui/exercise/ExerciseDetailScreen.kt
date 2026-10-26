@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -46,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
+import com.gymbuddy.app.data.exercise.ExerciseEntity
+import com.gymbuddy.app.data.exercise.Instructions
 import com.gymbuddy.app.domain.BodyPart
 import com.gymbuddy.app.domain.ExerciseCategory
 import com.gymbuddy.app.domain.Record
@@ -62,7 +65,12 @@ import com.gymbuddy.app.ui.exercises.ExerciseEditorDialog
 import java.text.DateFormat
 import java.util.Date
 
-private enum class DetailTab(@StringRes val label: Int) { History(R.string.tab_history), Charts(R.string.charts), Records(R.string.records) }
+private enum class DetailTab(@StringRes val label: Int) {
+    About(R.string.about_exercise),
+    History(R.string.tab_history),
+    Charts(R.string.charts),
+    Records(R.string.records),
+}
 
 private enum class ChartMetric(@StringRes val label: Int, val value: (SessionPoint) -> Double) {
     OneRepMax(R.string.metric_one_rep_max, { it.estimatedOneRepMax }),
@@ -75,6 +83,7 @@ private enum class ChartMetric(@StringRes val label: Int, val value: (SessionPoi
 @Composable
 fun ExerciseDetailScreen(onBack: () -> Unit, viewModel: ExerciseDetailViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val instructions by viewModel.instructions.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var editing by remember { mutableStateOf(false) }
     val exercise = state.exercise
@@ -109,6 +118,7 @@ fun ExerciseDetailScreen(onBack: () -> Unit, viewModel: ExerciseDetailViewModel 
                 }
             }
             when (DetailTab.entries[tab]) {
+                DetailTab.About -> AboutTab(exercise, instructions)
                 DetailTab.History -> HistoryTab(state.history)
                 DetailTab.Charts -> ChartsTab(state.points)
                 DetailTab.Records -> RecordsTab(state)
@@ -137,6 +147,33 @@ private fun Empty(@StringRes text: Int) {
         contentAlignment = Alignment.Center,
     ) {
         Text(stringResource(text), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+/** Body part, equipment and Strong-style step-by-step instructions. */
+@Composable
+private fun AboutTab(exercise: ExerciseEntity?, instructions: Instructions?) {
+    if (exercise == null) return
+    val vietnamese = useVietnameseNames()
+    LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        item {
+            Text(
+                "${stringResource(BodyPart.fromKey(exercise.bodyPart).label)} · ${stringResource(ExerciseCategory.fromKey(exercise.category).label)}",
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        val steps = instructions?.localized(vietnamese).orEmpty()
+        if (steps.isEmpty()) {
+            item { Text(stringResource(R.string.no_instructions), color = MaterialTheme.colorScheme.onSurfaceVariant) }
+        } else {
+            item { Text(stringResource(R.string.instructions), style = MaterialTheme.typography.titleMedium) }
+            itemsIndexed(steps) { index, step ->
+                Row {
+                    Text("${index + 1}.", Modifier.width(28.dp), fontWeight = FontWeight.Bold)
+                    Text(step, Modifier.weight(1f))
+                }
+            }
+        }
     }
 }
 

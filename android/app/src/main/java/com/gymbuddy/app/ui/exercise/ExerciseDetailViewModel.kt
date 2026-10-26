@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.gymbuddy.app.data.exercise.ExerciseDao
 import com.gymbuddy.app.data.exercise.ExerciseEntity
+import com.gymbuddy.app.data.exercise.ExerciseInstructions
+import com.gymbuddy.app.data.exercise.Instructions
 import com.gymbuddy.app.data.exercise.ExerciseRepository
 import com.gymbuddy.app.data.workout.WorkoutDao
 import com.gymbuddy.app.domain.BodyPart
@@ -18,9 +20,12 @@ import com.gymbuddy.app.domain.exerciseProgress
 import com.gymbuddy.app.ui.ExerciseDetailRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -42,9 +47,15 @@ class ExerciseDetailViewModel @Inject constructor(
     exerciseDao: ExerciseDao,
     workoutDao: WorkoutDao,
     private val repository: ExerciseRepository,
+    instructionsSource: ExerciseInstructions,
 ) : ViewModel() {
 
     private val exerciseId = savedStateHandle.toRoute<ExerciseDetailRoute>().exerciseId
+
+    /** Null while loading and for custom exercises. */
+    val instructions: StateFlow<Instructions?> = flow { emit(instructionsSource.forExercise(exerciseId)) }
+        .flowOn(Dispatchers.IO)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     val state: StateFlow<ExerciseDetailState> = combine(
         exerciseDao.observeById(exerciseId),

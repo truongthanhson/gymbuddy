@@ -882,6 +882,16 @@
         }
       }
     },
+    "Instructions": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hướng dẫn"
+          }
+        }
+      }
+    },
     "Just the bar": {
       "localizations": {
         "vi": {
@@ -1158,6 +1168,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Không thư mục"
+          }
+        }
+      }
+    },
+    "No instructions for this exercise.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bài tập này chưa có hướng dẫn."
           }
         }
       }
