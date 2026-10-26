@@ -1,12 +1,16 @@
 package com.gymbuddy.app.ui.workout
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,9 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -33,6 +34,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -53,6 +55,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -67,25 +70,26 @@ import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
 import com.gymbuddy.app.domain.ExerciseCategory
 import com.gymbuddy.app.domain.REST_TIME_OPTIONS
+import com.gymbuddy.app.domain.RPE_OPTIONS
 import com.gymbuddy.app.domain.RecordKind
-import com.gymbuddy.app.domain.SetValues
-import com.gymbuddy.app.domain.liveRecords
 import com.gymbuddy.app.domain.SetField
+import com.gymbuddy.app.domain.SetValues
+import com.gymbuddy.app.domain.WeightUnit
 import com.gymbuddy.app.domain.distanceUnit
 import com.gymbuddy.app.domain.formatDuration
+import com.gymbuddy.app.domain.formatElapsed
+import com.gymbuddy.app.domain.formatRpe
+import com.gymbuddy.app.domain.formatWeight
+import com.gymbuddy.app.domain.liveRecords
 import com.gymbuddy.app.domain.parseDuration
+import com.gymbuddy.app.domain.resolveRestSeconds
 import com.gymbuddy.app.domain.setFields
 import com.gymbuddy.app.domain.startsRest
-import com.gymbuddy.app.domain.RPE_OPTIONS
-import com.gymbuddy.app.domain.formatRpe
-import com.gymbuddy.app.domain.formatElapsed
-import com.gymbuddy.app.domain.resolveRestSeconds
-import com.gymbuddy.app.domain.WeightUnit
-import com.gymbuddy.app.domain.formatWeight
 import com.gymbuddy.app.ui.common.LocalAppSettings
-import com.gymbuddy.app.ui.common.restLabel
 import com.gymbuddy.app.ui.common.displayName
+import com.gymbuddy.app.ui.common.restLabel
 import com.gymbuddy.app.ui.common.useVietnameseNames
+import com.gymbuddy.app.ui.theme.GymBuddyTheme
 import com.gymbuddy.watchlink.setLabels
 import kotlinx.coroutines.delay
 
@@ -122,7 +126,7 @@ fun ActiveWorkoutScreen(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
                             TextButton(onClick = { showRename = true }, contentPadding = PaddingValues(0.dp)) {
-                                Text(workout.workout.name, style = MaterialTheme.typography.headlineSmall)
+                                Text(workout.workout.name, style = MaterialTheme.typography.headlineMedium)
                             }
                             ElapsedText(startedAt = workout.workout.startedAt)
                         }
@@ -316,7 +320,14 @@ private fun ExerciseCard(
         )
         Spacer(Modifier.width(8.dp))
     }
-    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+    Column(
+        Modifier
+            .weight(1f)
+            .clip(MaterialTheme.shapes.large)
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .padding(start = 12.dp, end = 4.dp, top = 8.dp, bottom = 4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
         if (group != null) {
             Text(
                 stringResource(R.string.superset),
@@ -541,11 +552,11 @@ private fun SetRow(
             }
         },
     )
-    val rowColor = if (set.completed) {
-        MaterialTheme.colorScheme.primaryContainer
-    } else {
-        MaterialTheme.colorScheme.surface
-    }
+    // Done sets turn green, like ticking them off on paper.
+    val rowColor by animateColorAsState(
+        if (set.completed) GymBuddyTheme.colors.successContainer else MaterialTheme.colorScheme.surfaceContainerLow,
+        label = "setRow",
+    )
 
     SwipeToDismissBox(
         state = dismissState,
@@ -619,6 +630,13 @@ private fun SetRow(
                 FilledIconToggleButton(
                     checked = set.completed,
                     onCheckedChange = { onToggle() },
+                    shape = MaterialTheme.shapes.small,
+                    colors = IconButtonDefaults.filledIconToggleButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        checkedContainerColor = GymBuddyTheme.colors.success,
+                        checkedContentColor = GymBuddyTheme.colors.onSuccess,
+                    ),
                 ) {
                     Icon(Icons.Filled.Check, contentDescription = null)
                 }
@@ -644,13 +662,13 @@ private fun RecordBadge(records: Set<RecordKind>) {
         Icon(
             Icons.Filled.EmojiEvents,
             contentDescription = stringResource(R.string.personal_record),
-            tint = MaterialTheme.colorScheme.tertiary,
+            tint = GymBuddyTheme.colors.gold,
             modifier = Modifier.size(14.dp),
         )
         Text(
             names.joinToString(" · "),
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.tertiary,
+            color = GymBuddyTheme.colors.gold,
             textAlign = TextAlign.Center,
         )
     }
@@ -804,7 +822,7 @@ private fun <T : Any> NumberField(
             .width(ValueColumn)
             .padding(horizontal = 4.dp)
             .height(36.dp)
-            .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(6.dp)),
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh, RoundedCornerShape(8.dp)),
         contentAlignment = Alignment.Center,
     ) {
         if (text.isEmpty() && placeholder != null) {

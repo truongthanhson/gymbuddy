@@ -491,4 +491,28 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(actual, c.expected.map(insight), c.description)
         }
     }
+
+    func testChartRangesMatchSharedVectors() throws {
+        struct File: Decodable {
+            struct Filter: Decodable { let days: [Double]; let range: String; let kept: [Int] }
+            struct Available: Decodable { let days: [Double]; let ranges: [String] }
+            struct Nearest: Decodable { let xs: [Double]; let x: Double; let index: Int }
+            let filter: [Filter]
+            let available: [Available]
+            let nearestIndex: [Nearest]
+        }
+        func dates(_ days: [Double]) -> [Date] { days.map { Date(timeIntervalSince1970: $0 * 24 * 60 * 60) } }
+        let file = try vectors("chart_range", as: File.self)
+        for c in file.filter {
+            let all = dates(c.days)
+            let range = try XCTUnwrap(ChartRange(rawValue: c.range))
+            XCTAssertEqual(range.filter(all, date: { $0 }), c.kept.map { all[$0] }, "\(c.days) \(c.range)")
+        }
+        for c in file.available {
+            XCTAssertEqual(ChartRange.available(dates(c.days), date: { $0 }).map(\.rawValue), c.ranges, "\(c.days)")
+        }
+        for c in file.nearestIndex {
+            XCTAssertEqual(nearestIndex(c.xs, to: c.x), c.index, "\(c.xs) \(c.x)")
+        }
+    }
 }

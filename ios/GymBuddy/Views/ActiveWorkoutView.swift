@@ -96,6 +96,7 @@ struct ActiveWorkoutView: View {
                 }
             }
         }
+        .appBackground()
         .safeAreaInset(edge: .bottom) {
             if !editing, let state = RestTimer.shared.state {
                 RestTimerBar(state: state)
@@ -486,8 +487,8 @@ private struct RecordBadge: View {
             Image(systemName: "trophy.fill")
         }
         .labelStyle(.titleAndIcon)
-        .font(.caption2)
-        .foregroundStyle(.orange)
+        .font(.caption2.weight(.semibold))
+        .foregroundStyle(Palette.gold)
         .accessibilityLabel("Personal record")
     }
 
@@ -549,18 +550,29 @@ private struct SetRow: View {
                     }
                 }
                 .multilineTextAlignment(.center)
-                .textFieldStyle(.roundedBorder)
+                .font(.body.weight(.semibold).monospacedDigit())
+                .textFieldStyle(.plain)
+                .padding(.vertical, 6)
+                .background(
+                    set.completed ? Color.clear : Palette.raised,
+                    in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+                )
                 .frame(width: Column.value)
             }
             Button(action: onToggle) {
-                Image(systemName: set.completed ? "checkmark.square.fill" : "square")
-                    .font(.title3)
+                Image(systemName: "checkmark")
+                    .font(.subheadline.weight(.bold))
+                    .foregroundStyle(set.completed ? Color.white : Palette.secondaryText)
+                    .frame(width: 30, height: 30)
+                    .background(set.completed ? Palette.success : Palette.raised, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
             }
             .buttonStyle(.plain)
-            .foregroundStyle(set.completed ? Color.green : Color.secondary)
             .frame(width: Column.check)
+            .sensoryFeedback(.success, trigger: set.completed) { _, done in done }
         }
-        .listRowBackground(set.completed ? Color.green.opacity(0.15) : nil)
+        // Done sets turn green, like ticking them off on paper.
+        .listRowBackground(set.completed ? Palette.success.opacity(0.15) : Palette.card)
+        .animation(.easeOut(duration: 0.2), value: set.completed)
         .onChange(of: set.weightKg) { set.updatedAt = .now }
         .onChange(of: set.reps) { set.updatedAt = .now }
         .onChange(of: set.distanceM) { set.updatedAt = .now }

@@ -43,7 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gymbuddy.app.R
 import com.gymbuddy.app.domain.MeasurementKind
 import com.gymbuddy.app.domain.formatWeight
-import com.gymbuddy.app.ui.common.LineChart
+import com.gymbuddy.app.ui.charts.InteractiveLineChart
 import com.gymbuddy.app.ui.common.LocalAppSettings
 import java.text.DateFormat
 import java.util.Date
@@ -111,7 +111,7 @@ fun MeasurementDetailScreen(onBack: () -> Unit, viewModel: MeasurementDetailView
             LazyColumn(Modifier.padding(padding), contentPadding = PaddingValues(bottom = 88.dp)) {
                 if (entries.size >= 2) {
                     item {
-                        LineChart(
+                        InteractiveLineChart(
                             points = entries.reversed().map { it.measuredAt to kind.display(it.value, unit) },
                             formatValue = { "${formatWeight(it)} ${kind.symbol(unit)}" },
                             formatTime = ::formatDate,
