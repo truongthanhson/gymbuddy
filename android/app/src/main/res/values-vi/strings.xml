@@ -41,4 +41,12 @@
     <string name="finish_empty_message">Chưa có set nào được tick, buổi tập này sẽ bị hủy.</string>
     <string name="workout_name">Tên buổi tập</string>
     <string name="close">Đóng</string>
+    <string name="rest_timer">Thời gian nghỉ</string>
+    <string name="rest_over">Hết giờ nghỉ</string>
+    <string name="rest_over_message">Đến set tiếp theo rồi.</string>
+    <string name="channel_rest_countdown">Đếm ngược thời gian nghỉ</string>
+    <string name="channel_rest_done">Hết giờ nghỉ</string>
+    <string name="skip">Bỏ qua</string>
+    <string name="rest_off">Tắt</string>
+    <string name="rest_time_value">Thời gian nghỉ: %1$s</string>
 </resources>

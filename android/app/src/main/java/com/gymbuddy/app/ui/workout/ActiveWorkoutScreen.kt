@@ -1,6 +1,7 @@
 package com.gymbuddy.app.ui.workout
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
@@ -56,7 +58,9 @@ import com.gymbuddy.app.R
 import com.gymbuddy.app.data.workout.WorkoutExerciseWithSets
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
+import com.gymbuddy.app.domain.REST_TIME_OPTIONS
 import com.gymbuddy.app.domain.formatElapsed
+import com.gymbuddy.app.domain.resolveRestSeconds
 import com.gymbuddy.app.domain.formatWeight
 import com.gymbuddy.app.ui.common.displayName
 import com.gymbuddy.app.ui.common.useVietnameseNames
@@ -73,41 +77,53 @@ fun ActiveWorkoutScreen(
     var showRename by remember { mutableStateOf(false) }
     val vietnamese = useVietnameseNames()
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        item {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f)) {
-                    TextButton(onClick = { showRename = true }, contentPadding = PaddingValues(0.dp)) {
-                        Text(workout.workout.name, style = MaterialTheme.typography.headlineSmall)
+    val restTimer by viewModel.restTimerState.collectAsStateWithLifecycle()
+
+    Column(Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            item {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        TextButton(onClick = { showRename = true }, contentPadding = PaddingValues(0.dp)) {
+                            Text(workout.workout.name, style = MaterialTheme.typography.headlineSmall)
+                        }
+                        ElapsedText(startedAt = workout.workout.startedAt)
                     }
-                    ElapsedText(startedAt = workout.workout.startedAt)
+                    Button(onClick = { showFinish = true }) { Text(stringResource(R.string.finish)) }
                 }
-                Button(onClick = { showFinish = true }) { Text(stringResource(R.string.finish)) }
+            }
+            items(workout.exercises, key = { it.workoutExercise.id }) { item ->
+                ExerciseCard(
+                    item = item,
+                    title = item.exercise.displayName(vietnamese),
+                    viewModel = viewModel,
+                )
+            }
+            item {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedButton(onClick = onAddExercises, modifier = Modifier.fillMaxWidth()) {
+                        Text(stringResource(R.string.add_exercises))
+                    }
+                    TextButton(
+                        onClick = { showCancel = true },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(stringResource(R.string.cancel_workout), color = MaterialTheme.colorScheme.error)
+                    }
+                }
             }
         }
-        items(workout.exercises, key = { it.workoutExercise.id }) { item ->
-            ExerciseCard(
-                item = item,
-                title = item.exercise.displayName(vietnamese),
-                viewModel = viewModel,
+        restTimer?.let { timer ->
+            RestTimerBar(
+                state = timer,
+                onAdjust = viewModel::adjustRestTimer,
+                onSkip = viewModel::skipRestTimer,
+                onElapsed = viewModel::onRestTimerElapsed,
             )
-        }
-        item {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(onClick = onAddExercises, modifier = Modifier.fillMaxWidth()) {
-                    Text(stringResource(R.string.add_exercises))
-                }
-                TextButton(
-                    onClick = { showCancel = true },
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text(stringResource(R.string.cancel_workout), color = MaterialTheme.colorScheme.error)
-                }
-            }
         }
     }
 
@@ -195,6 +211,8 @@ private fun ExerciseCard(
     val previousFlow = remember(exerciseId) { viewModel.previousSets(exerciseId) }
     val previous by previousFlow.collectAsStateWithLifecycle(emptyList())
     var menuOpen by remember { mutableStateOf(false) }
+    var restDialogOpen by remember { mutableStateOf(false) }
+    val restSeconds = resolveRestSeconds(item.workoutExercise.restSeconds, item.exercise?.defaultRestSeconds)
 
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -207,6 +225,13 @@ private fun ExerciseCard(
             Box {
                 IconButton(onClick = { menuOpen = true }) { Icon(Icons.Filled.MoreVert, contentDescription = null) }
                 DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.rest_time_value, restLabel(restSeconds))) },
+                        onClick = {
+                            menuOpen = false
+                            restDialogOpen = true
+                        },
+                    )
                     DropdownMenuItem(
                         text = { Text(stringResource(R.string.remove_exercise)) },
                         onClick = {
@@ -221,10 +246,12 @@ private fun ExerciseCard(
         item.sets.forEachIndexed { index, set ->
             // Keyed so a swiped-away row doesn't hand its state to the next one.
             key(set.id) {
+                val previousSet = previous.getOrNull(index)
                 SetRow(
                     index = index,
                     set = set,
-                    previous = previous.getOrNull(index),
+                    previous = previousSet,
+                    onToggle = { viewModel.toggleSet(item, set, previousSet, title) },
                     viewModel = viewModel,
                 )
             }
@@ -233,7 +260,40 @@ private fun ExerciseCard(
             Text(stringResource(R.string.add_set))
         }
     }
+
+    if (restDialogOpen) {
+        AlertDialog(
+            onDismissRequest = { restDialogOpen = false },
+            title = { Text(stringResource(R.string.rest_timer)) },
+            text = {
+                Column {
+                    REST_TIME_OPTIONS.forEach { option ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    restDialogOpen = false
+                                    viewModel.setRestSeconds(item.workoutExercise.id, option)
+                                }
+                                .padding(vertical = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            RadioButton(selected = option == restSeconds, onClick = null)
+                            Text(restLabel(option), modifier = Modifier.padding(start = 12.dp))
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { restDialogOpen = false }) { Text(stringResource(R.string.close)) }
+            },
+        )
+    }
 }
+
+@Composable
+private fun restLabel(seconds: Int): String =
+    if (seconds <= 0) stringResource(R.string.rest_off) else formatElapsed(seconds.toLong())
 
 private val SetColumn = 40.dp
 private val ValueColumn = 72.dp
@@ -262,6 +322,7 @@ private fun SetRow(
     index: Int,
     set: WorkoutSetEntity,
     previous: WorkoutSetEntity?,
+    onToggle: () -> Unit,
     viewModel: WorkoutViewModel,
 ) {
     val dismissState = rememberSwipeToDismissBoxState(
@@ -329,7 +390,7 @@ private fun SetRow(
             Box(Modifier.width(CheckColumn), contentAlignment = Alignment.Center) {
                 FilledIconToggleButton(
                     checked = set.completed,
-                    onCheckedChange = { viewModel.toggleSet(set, previous) },
+                    onCheckedChange = { onToggle() },
                 ) {
                     Icon(Icons.Filled.Check, contentDescription = null)
                 }

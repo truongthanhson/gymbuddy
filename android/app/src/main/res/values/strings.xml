@@ -42,4 +42,12 @@
     <string name="finish_empty_message">No sets are ticked yet, so this workout will be discarded.</string>
     <string name="workout_name">Workout name</string>
     <string name="close">Close</string>
+    <string name="rest_timer">Rest timer</string>
+    <string name="rest_over">Rest is over</string>
+    <string name="rest_over_message">Time for your next set.</string>
+    <string name="channel_rest_countdown">Rest timer countdown</string>
+    <string name="channel_rest_done">Rest timer finished</string>
+    <string name="skip">Skip</string>
+    <string name="rest_off">Off</string>
+    <string name="rest_time_value">Rest timer: %1$s</string>
 </resources>

@@ -1,9 +1,11 @@
 import SwiftData
 import SwiftUI
+import UserNotifications
 
 @main
 struct GymBuddyApp: App {
     let container: ModelContainer
+    private let notificationDelegate = NotificationDelegate()
 
     init() {
         do {
@@ -12,6 +14,7 @@ struct GymBuddyApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
         ExerciseSeeder.seedIfNeeded(context: container.mainContext)
+        UNUserNotificationCenter.current().delegate = notificationDelegate
     }
 
     var body: some Scene {

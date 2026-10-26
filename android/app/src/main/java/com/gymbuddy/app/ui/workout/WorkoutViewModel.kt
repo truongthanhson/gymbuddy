@@ -2,9 +2,13 @@ package com.gymbuddy.app.ui.workout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gymbuddy.app.data.workout.WorkoutExerciseWithSets
 import com.gymbuddy.app.data.workout.WorkoutRepository
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
+import com.gymbuddy.app.domain.RestTimerState
+import com.gymbuddy.app.domain.resolveRestSeconds
+import com.gymbuddy.app.timer.RestTimerController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +22,12 @@ import kotlinx.coroutines.launch
 data class ActiveWorkoutState(val workout: WorkoutWithExercises?)
 
 @HiltViewModel
-class WorkoutViewModel @Inject constructor(private val repository: WorkoutRepository) : ViewModel() {
+class WorkoutViewModel @Inject constructor(
+    private val repository: WorkoutRepository,
+    private val restTimer: RestTimerController,
+) : ViewModel() {
+
+    val restTimerState: StateFlow<RestTimerState?> = restTimer.state
 
     /** Null until the database has answered, so the UI doesn't flash the start screen. */
     val state: StateFlow<ActiveWorkoutState?> = repository.observeActive()
@@ -42,13 +51,36 @@ class WorkoutViewModel @Inject constructor(private val repository: WorkoutReposi
         repository.updateSet(setId) { it.copy(reps = reps) }
     }
 
-    /** Ticking an empty set fills it from the previous session, like Strong. */
-    fun toggleSet(set: WorkoutSetEntity, previous: WorkoutSetEntity?) = launch {
+    /**
+     * Ticking an empty set fills it from the previous session, like Strong.
+     * Ticking a set starts the rest timer for its exercise; [exerciseName] labels the notification.
+     */
+    fun toggleSet(
+        item: WorkoutExerciseWithSets,
+        set: WorkoutSetEntity,
+        previous: WorkoutSetEntity?,
+        exerciseName: String,
+    ) = launch {
         if (!set.completed && set.weightKg == null && set.reps == null && previous != null) {
             repository.updateSet(set.id) { it.copy(weightKg = previous.weightKg, reps = previous.reps) }
         }
         repository.toggleSetCompleted(set.id)
+        if (!set.completed) {
+            restTimer.start(
+                resolveRestSeconds(item.workoutExercise.restSeconds, item.exercise?.defaultRestSeconds),
+                exerciseName,
+            )
+        }
     }
+
+    fun setRestSeconds(workoutExerciseId: String, seconds: Int) =
+        launch { repository.setRestSeconds(workoutExerciseId, seconds) }
+
+    fun adjustRestTimer(deltaSeconds: Int) = restTimer.adjust(deltaSeconds)
+
+    fun skipRestTimer() = restTimer.skip()
+
+    fun onRestTimerElapsed() = restTimer.finishNow()
 
     fun deleteSet(setId: String) = launch { repository.deleteSet(setId) }
 
@@ -58,6 +90,7 @@ class WorkoutViewModel @Inject constructor(private val repository: WorkoutReposi
 
     /** Finishing with no ticked sets discards the workout instead of saving an empty one. */
     fun finishWorkout(workout: WorkoutWithExercises) = launch {
+        restTimer.skip()
         val anyCompleted = workout.exercises.any { e -> e.sets.any { it.completed } }
         if (anyCompleted) {
             repository.finishWorkout(workout.workout.id)
@@ -66,7 +99,10 @@ class WorkoutViewModel @Inject constructor(private val repository: WorkoutReposi
         }
     }
 
-    fun discardWorkout(workoutId: String) = launch { repository.discardWorkout(workoutId) }
+    fun discardWorkout(workoutId: String) = launch {
+        restTimer.skip()
+        repository.discardWorkout(workoutId)
+    }
 
     private fun launch(block: suspend () -> Unit) {
         viewModelScope.launch { block() }

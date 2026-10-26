@@ -109,6 +109,13 @@ enum WorkoutService {
         save(context)
     }
 
+    /// Rest time after each set of this exercise in this workout; 0 turns the timer off.
+    static func setRestSeconds(_ seconds: Int, for item: WorkoutExercise, in context: ModelContext, now: Date = .now) {
+        item.restSeconds = seconds
+        item.updatedAt = now
+        save(context)
+    }
+
     static func rename(_ workout: Workout, to name: String, in context: ModelContext, now: Date = .now) {
         workout.name = name
         workout.updatedAt = now
