@@ -33,6 +33,7 @@
     <string name="col_set">Set</string>
     <string name="col_previous">Previous</string>
     <string name="col_reps">Reps</string>
+    <string name="col_time">Time</string>
     <string name="add_count">Add (%1$d)</string>
     <string name="no_history">No workouts yet. Finished workouts show up here.</string>
     <string name="workout_summary">%1$s · %2$s</string>

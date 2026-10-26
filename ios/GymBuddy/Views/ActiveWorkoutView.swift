@@ -149,10 +149,12 @@ private struct ExerciseSection: View {
                     WorkoutService.setNote($0, for: item, in: context)
                 }
             }
-            SetHeader(unit: weightUnit)
+            let category = exercise?.category ?? ""
+            let fields = setFields(category: category)
+            SetHeader(unit: weightUnit, fields: fields, assisted: category == ExerciseCategory.assistedBodyweight.rawValue)
             ForEach(Array(sets.enumerated()), id: \.element.id) { index, set in
                 let previousSet = previous.indices.contains(index) ? previous[index] : nil
-                SetRow(label: labels[index], set: set, previous: previousSet, unit: weightUnit) {
+                SetRow(label: labels[index], set: set, previous: previousSet, unit: weightUnit, fields: fields) {
                     let wasCompleted = set.completed
                     WorkoutService.toggle(set, previous: previousSet, in: context)
                     if !wasCompleted {
@@ -215,13 +217,25 @@ private enum Column {
 
 private struct SetHeader: View {
     let unit: WeightUnit
+    let fields: [SetField]
+    let assisted: Bool
 
     var body: some View {
         HStack {
             Text("Set").frame(width: Column.set)
             Text("Previous").frame(maxWidth: .infinity)
-            Text(verbatim: unit.symbol).frame(width: Column.value)
-            Text("Reps").frame(width: Column.value)
+            ForEach(fields, id: \.self) { field in
+                Group {
+                    switch field {
+                    // Assistance makes the lift lighter, so Strong shows it as a negative weight.
+                    case .weight: Text(verbatim: assisted ? "-\(unit.symbol)" : unit.symbol)
+                    case .reps: Text("Reps")
+                    case .distance: Text(verbatim: unit.distanceUnit.symbol)
+                    case .duration: Text("Time")
+                    }
+                }
+                .frame(width: Column.value)
+            }
             Image(systemName: "checkmark").frame(width: Column.check)
         }
         .font(.caption.bold())
@@ -235,34 +249,45 @@ private struct SetRow: View {
     @Bindable var set: WorkoutSet
     let previous: WorkoutSet?
     let unit: WeightUnit
+    let fields: [SetField]
     let onToggle: () -> Void
 
     var body: some View {
         HStack {
             SetLabel(label: label, set: set)
                 .frame(width: Column.set)
-            Text(verbatim: previous.map { previousLabel($0, unit: unit) } ?? "—")
+            Text(verbatim: previous.map { previousLabel($0, unit: unit, fields: fields) } ?? "—")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity)
-            TextField(
-                previous?.weightKg.map { formatWeight(unit.display($0)) } ?? "",
-                value: $set.weightKg.weight(in: unit),
-                format: .number
-            )
-            .keyboardType(.decimalPad)
-            .multilineTextAlignment(.center)
-            .textFieldStyle(.roundedBorder)
-            .frame(width: Column.value)
-            TextField(
-                previous?.reps.map { String($0) } ?? "",
-                value: $set.reps,
-                format: .number
-            )
-            .keyboardType(.numberPad)
-            .multilineTextAlignment(.center)
-            .textFieldStyle(.roundedBorder)
-            .frame(width: Column.value)
+            ForEach(fields, id: \.self) { field in
+                Group {
+                    switch field {
+                    case .weight:
+                        TextField(
+                            previous?.weightKg.map { formatWeight(unit.display($0)) } ?? "",
+                            value: $set.weightKg.weight(in: unit),
+                            format: .number
+                        )
+                        .keyboardType(.decimalPad)
+                    case .reps:
+                        TextField(previous?.reps.map { String($0) } ?? "", value: $set.reps, format: .number)
+                            .keyboardType(.numberPad)
+                    case .distance:
+                        TextField(
+                            previous?.distanceM.map { formatWeight(unit.distanceUnit.display($0)) } ?? "",
+                            value: $set.distanceM.distance(in: unit.distanceUnit),
+                            format: .number
+                        )
+                        .keyboardType(.decimalPad)
+                    case .duration:
+                        DurationField(seconds: $set.durationSec, placeholder: previous?.durationSec.map(formatDuration) ?? "")
+                    }
+                }
+                .multilineTextAlignment(.center)
+                .textFieldStyle(.roundedBorder)
+                .frame(width: Column.value)
+            }
             Button(action: onToggle) {
                 Image(systemName: set.completed ? "checkmark.square.fill" : "square")
                     .font(.title3)
@@ -274,6 +299,8 @@ private struct SetRow: View {
         .listRowBackground(set.completed ? Color.green.opacity(0.15) : nil)
         .onChange(of: set.weightKg) { set.updatedAt = .now }
         .onChange(of: set.reps) { set.updatedAt = .now }
+        .onChange(of: set.distanceM) { set.updatedAt = .now }
+        .onChange(of: set.durationSec) { set.updatedAt = .now }
     }
 }
 
@@ -348,12 +375,37 @@ private struct NoteField: View {
     }
 }
 
-private func previousLabel(_ set: WorkoutSet, unit: WeightUnit) -> String {
-    switch (set.weightKg, set.reps) {
-    case let (weight?, reps?): "\(unit.format(weight)) × \(reps)"
-    case let (nil, reps?): "× \(reps)"
-    case let (weight?, nil): unit.format(weight)
-    default: "—"
+/// "60 kg × 8", "× 12", "5 km 25:00" or "1:00", depending on what the exercise logs.
+private func previousLabel(_ set: WorkoutSet, unit: WeightUnit, fields: [SetField]) -> String {
+    let parts: [String] = fields.compactMap { field in
+        switch field {
+        case .weight: set.weightKg.map(unit.format)
+        case .reps: set.reps.map { "× \($0)" }
+        case .distance: set.distanceM.map { "\(formatWeight(unit.distanceUnit.display($0))) \(unit.distanceUnit.symbol)" }
+        case .duration: set.durationSec.map(formatDuration)
+        }
+    }
+    return parts.isEmpty ? "—" : parts.joined(separator: " ")
+}
+
+/// A time typed as 1:30 or 90; keeps the user's text while typing and saves the parsed seconds.
+private struct DurationField: View {
+    @Binding var seconds: Int?
+    let placeholder: String
+    @State private var text = ""
+
+    var body: some View {
+        TextField(placeholder, text: $text)
+            .keyboardType(.numbersAndPunctuation)
+            .onAppear { text = seconds.map(formatDuration) ?? "" }
+            .onChange(of: text) { _, newValue in
+                let parsed = parseDuration(newValue)
+                if parsed != seconds { seconds = parsed }
+            }
+            .onChange(of: seconds) { _, newValue in
+                // Filled in elsewhere, e.g. from the previous session.
+                if parseDuration(text) != newValue { text = newValue.map(formatDuration) ?? "" }
+            }
     }
 }
 

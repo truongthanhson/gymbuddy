@@ -239,4 +239,33 @@ final class SharedVectorsTests: XCTestCase {
             XCTAssertEqual(action.setId, c.setId)
         }
     }
+
+    func testSetFieldsMatchSharedVectors() throws {
+        struct File: Decodable {
+            struct Fields: Decodable { let category: String; let fields: [String] }
+            struct Parse: Decodable { let text: String; let seconds: Int? }
+            struct Format: Decodable { let seconds: Int; let text: String }
+            struct Distance: Decodable { let meters: Double; let unit: String; let display: Double }
+            let fields: [Fields]
+            let parseDuration: [Parse]
+            let formatDuration: [Format]
+            let distance: [Distance]
+        }
+        let file = try vectors("set_fields", as: File.self)
+        for c in file.fields {
+            XCTAssertEqual(setFields(category: c.category).map(\.rawValue), c.fields, c.category)
+        }
+        for c in file.parseDuration {
+            XCTAssertEqual(parseDuration(c.text), c.seconds, "'\(c.text)'")
+        }
+        for c in file.formatDuration {
+            XCTAssertEqual(formatDuration(c.seconds), c.text)
+        }
+        for c in file.distance {
+            let unit = try XCTUnwrap(DistanceUnit(rawValue: c.unit))
+            XCTAssertEqual(unit.display(c.meters), c.display, accuracy: 0.001)
+        }
+        XCTAssertEqual(WeightUnit.lb.distanceUnit, .mi)
+        XCTAssertEqual(WeightUnit.kg.distanceUnit, .km)
+    }
 }

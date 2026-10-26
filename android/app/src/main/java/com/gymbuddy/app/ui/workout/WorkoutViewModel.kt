@@ -12,6 +12,8 @@ import com.gymbuddy.app.data.workout.WorkoutRepository
 import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
 import com.gymbuddy.app.data.workout.WorkoutWithExercises
+import com.gymbuddy.app.data.workout.filledFrom
+import com.gymbuddy.app.data.workout.isEmpty
 import com.gymbuddy.app.domain.RestTimerState
 import com.gymbuddy.app.domain.resolveRestSeconds
 import com.gymbuddy.app.timer.RestTimerController
@@ -62,6 +64,14 @@ class WorkoutViewModel @Inject constructor(
         repository.updateSet(setId) { it.copy(reps = reps) }
     }
 
+    fun setDistance(setId: String, meters: Double?) = launch {
+        repository.updateSet(setId) { it.copy(distanceM = meters) }
+    }
+
+    fun setDuration(setId: String, seconds: Int?) = launch {
+        repository.updateSet(setId) { it.copy(durationSec = seconds) }
+    }
+
     fun setSetType(setId: String, type: SetType) = launch {
         repository.updateSet(setId) { it.copy(setType = type) }
     }
@@ -87,9 +97,7 @@ class WorkoutViewModel @Inject constructor(
         previous: WorkoutSetEntity?,
         exerciseName: String,
     ) = launch {
-        if (!set.completed && set.weightKg == null && set.reps == null && previous != null) {
-            repository.updateSet(set.id) { it.copy(weightKg = previous.weightKg, reps = previous.reps) }
-        }
+        if (!set.completed && set.isEmpty() && previous != null) repository.updateSet(set.id) { it.filledFrom(previous) }
         repository.toggleSetCompleted(set.id)
         if (!set.completed) {
             restTimer.start(
