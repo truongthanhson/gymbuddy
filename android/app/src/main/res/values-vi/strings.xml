@@ -278,6 +278,15 @@
     <string name="import_file_title">Nhập buổi tập?</string>
     <string name="import_file_text">GymBuddy sẽ thêm các buổi tập trong file này (ví dụ file xuất từ Strong) vào lịch sử. Buổi tập đã có sẽ được bỏ qua.</string>
     <string name="import_file_confirm">Nhập</string>
+    <string name="chart_range_1m">1 tháng</string>
+    <string name="chart_range_3m">3 tháng</string>
+    <string name="chart_range_6m">6 tháng</string>
+    <string name="chart_range_1y">1 năm</string>
+    <string name="chart_range_all">Tất cả</string>
+    <string name="chart_since">từ %1$s</string>
+    <string name="chart_average">TB %1$s</string>
+    <string name="chart_week_tooltip">%1$s · tuần %2$s</string>
+    <string name="chart_description">Biểu đồ từ %1$s đến %2$s, mới nhất %3$s</string>
     <string name="stat_sets">Hiệp</string>
     <string name="no_history_title">Chưa có buổi tập</string>
     <string name="no_history_hint">Hoàn thành một buổi tập để thấy nó ở đây.</string>
