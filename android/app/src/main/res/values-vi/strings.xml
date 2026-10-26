@@ -235,4 +235,7 @@
     <string name="bar_and_plates">Thanh đòn và bánh tạ</string>
     <string name="bar_and_plates_hint">Khối lượng thanh đòn và các bánh tạ bạn có, dùng cho máy tính và set khởi động</string>
     <string name="available_plates">Bánh tạ có sẵn</string>
+    <string name="about_exercise">Giới thiệu</string>
+    <string name="instructions">Hướng dẫn</string>
+    <string name="no_instructions">Bài tập này chưa có hướng dẫn.</string>
 </resources>

@@ -241,4 +241,7 @@
     <string name="bar_and_plates">Bar and plates</string>
     <string name="bar_and_plates_hint">Your bar weight and the plates you have, for the calculators and warm-up sets</string>
     <string name="available_plates">Available plates</string>
+    <string name="about_exercise">About</string>
+    <string name="instructions">Instructions</string>
+    <string name="no_instructions">No instructions for this exercise.</string>
 </resources>

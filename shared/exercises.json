@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "exercises": [
     {
       "id": "bench_press_barbell",
@@ -12,7 +12,19 @@
         "triceps",
         "shoulders"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Lie on the bench with your eyes under the bar and feet flat on the floor.",
+        "Grip the bar a little wider than shoulder width, unrack it and hold it over your shoulders.",
+        "Lower it under control to your mid chest, elbows about 45° from your body.",
+        "Press it back up until your arms are straight."
+      ],
+      "instructionsVi": [
+        "Nằm trên ghế, mắt ngay dưới thanh đòn, hai chân đặt phẳng trên sàn.",
+        "Nắm thanh rộng hơn vai một chút, nhấc khỏi giá và giữ trên vai.",
+        "Hạ thanh có kiểm soát xuống giữa ngực, khuỷu tay khoảng 45° so với thân.",
+        "Đẩy thanh lên đến khi duỗi thẳng tay."
+      ]
     },
     {
       "id": "incline_bench_press_barbell",
@@ -25,7 +37,19 @@
         "triceps",
         "shoulders"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Set the bench to 30–45° and lie back with your eyes under the bar.",
+        "Unrack the bar with a grip a little wider than your shoulders.",
+        "Lower it to your upper chest, just below the collarbones.",
+        "Press it back up over your shoulders."
+      ],
+      "instructionsVi": [
+        "Chỉnh ghế dốc 30–45°, nằm sao cho mắt ngay dưới thanh đòn.",
+        "Nhấc thanh khỏi giá, tay nắm rộng hơn vai một chút.",
+        "Hạ thanh xuống ngực trên, ngay dưới xương đòn.",
+        "Đẩy thanh lên lại trên vai."
+      ]
     },
     {
       "id": "decline_bench_press_barbell",
@@ -37,7 +61,19 @@
       "secondaryMuscles": [
         "triceps"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Lock your legs under the pads of a decline bench and lie back.",
+        "Unrack the bar with a grip a little wider than your shoulders.",
+        "Lower it to your lower chest.",
+        "Press it back up until your arms are straight."
+      ],
+      "instructionsVi": [
+        "Móc chân vào đệm của ghế dốc xuống rồi nằm xuống.",
+        "Nhấc thanh khỏi giá, tay nắm rộng hơn vai một chút.",
+        "Hạ thanh xuống ngực dưới.",
+        "Đẩy thanh lên đến khi duỗi thẳng tay."
+      ]
     },
     {
       "id": "bench_press_dumbbell",
@@ -50,7 +86,17 @@
         "triceps",
         "shoulders"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Sit on a flat bench with a dumbbell on each thigh, then lie back and bring them over your chest.",
+        "Lower the dumbbells to the sides of your chest, elbows about 45° from your body.",
+        "Press them back up until your arms are straight."
+      ],
+      "instructionsVi": [
+        "Ngồi trên ghế phẳng, đặt tạ đơn lên đùi rồi nằm xuống và đưa tạ lên trên ngực.",
+        "Hạ tạ xuống hai bên ngực, khuỷu tay khoảng 45° so với thân.",
+        "Đẩy tạ lên đến khi duỗi thẳng tay."
+      ]
     },
     {
       "id": "incline_bench_press_dumbbell",
@@ -63,7 +109,17 @@
         "triceps",
         "shoulders"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Set the bench to 30–45° and lie back with a dumbbell in each hand over your chest.",
+        "Lower the dumbbells to the sides of your upper chest.",
+        "Press them back up and slightly together."
+      ],
+      "instructionsVi": [
+        "Chỉnh ghế dốc 30–45°, nằm xuống, mỗi tay một quả tạ đơn trên ngực.",
+        "Hạ tạ xuống hai bên ngực trên.",
+        "Đẩy tạ lên và hơi khép vào nhau."
+      ]
     },
     {
       "id": "chest_fly_dumbbell",
@@ -73,7 +129,17 @@
       "bodyPart": "chest",
       "primaryMuscle": "chest",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Lie on a flat bench with the dumbbells over your chest, palms facing each other and elbows slightly bent.",
+        "Open your arms in a wide arc until you feel a stretch in your chest.",
+        "Squeeze your chest to bring the dumbbells back together."
+      ],
+      "instructionsVi": [
+        "Nằm trên ghế phẳng, tạ đơn trên ngực, lòng bàn tay hướng vào nhau, khuỷu hơi cong.",
+        "Mở rộng tay theo vòng cung đến khi thấy căng ngực.",
+        "Siết ngực để đưa tạ về lại với nhau."
+      ]
     },
     {
       "id": "cable_crossover",
@@ -83,7 +149,17 @@
       "bodyPart": "chest",
       "primaryMuscle": "chest",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Set both pulleys high, take a handle in each hand and step forward with a slight lean.",
+        "Keep your elbows slightly bent and bring the handles down and together in front of your hips.",
+        "Return slowly until you feel a stretch in your chest."
+      ],
+      "instructionsVi": [
+        "Đặt hai ròng rọc ở trên cao, mỗi tay cầm một tay nắm, bước lên và hơi nghiêng người.",
+        "Giữ khuỷu hơi cong, kéo tay nắm xuống và khép lại trước hông.",
+        "Trở về chậm đến khi thấy căng ngực."
+      ]
     },
     {
       "id": "chest_press_machine",
@@ -95,7 +171,17 @@
       "secondaryMuscles": [
         "triceps"
       ],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Adjust the seat so the handles are level with your mid chest.",
+        "Push the handles forward until your arms are straight.",
+        "Return slowly without letting the weight stack touch."
+      ],
+      "instructionsVi": [
+        "Chỉnh ghế để tay cầm ngang giữa ngực.",
+        "Đẩy tay cầm ra trước đến khi duỗi thẳng tay.",
+        "Trở về chậm, không để khối tạ chạm nhau."
+      ]
     },
     {
       "id": "pec_deck",
@@ -105,7 +191,17 @@
       "bodyPart": "chest",
       "primaryMuscle": "chest",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit with your back against the pad and hold the handles or pads at chest height.",
+        "Bring your arms together in front of your chest.",
+        "Open them slowly until you feel a stretch."
+      ],
+      "instructionsVi": [
+        "Ngồi tựa lưng vào đệm, giữ tay cầm hoặc đệm ngang ngực.",
+        "Khép hai tay lại trước ngực.",
+        "Mở tay ra chậm đến khi thấy căng ngực."
+      ]
     },
     {
       "id": "push_up",
@@ -118,7 +214,17 @@
         "triceps",
         "shoulders"
       ],
-      "defaultRestSeconds": 60
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Start in a plank with your hands a little wider than your shoulders.",
+        "Lower your body as one piece until your chest is just above the floor.",
+        "Push back up until your arms are straight."
+      ],
+      "instructionsVi": [
+        "Bắt đầu ở tư thế plank, hai tay rộng hơn vai một chút.",
+        "Hạ thân người thành một khối đến khi ngực gần chạm sàn.",
+        "Đẩy người lên đến khi duỗi thẳng tay."
+      ]
     },
     {
       "id": "chest_dip",
@@ -130,7 +236,17 @@
       "secondaryMuscles": [
         "triceps"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Support yourself on parallel bars with straight arms.",
+        "Lean forward and lower yourself until your shoulders are just below your elbows.",
+        "Push back up to straight arms."
+      ],
+      "instructionsVi": [
+        "Chống người trên xà kép, tay duỗi thẳng.",
+        "Nghiêng người về trước và hạ xuống đến khi vai thấp hơn khuỷu một chút.",
+        "Đẩy người lên đến khi tay thẳng."
+      ]
     },
     {
       "id": "deadlift_barbell",
@@ -144,7 +260,19 @@
         "hamstrings",
         "traps"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Stand with the bar over your mid foot, feet about hip width apart.",
+        "Hinge down and grip the bar just outside your legs, back flat and chest up.",
+        "Push the floor away and stand up tall, keeping the bar close to your legs.",
+        "Lower it the same way, hips back first."
+      ],
+      "instructionsVi": [
+        "Đứng với thanh đòn ở giữa bàn chân, hai chân rộng bằng hông.",
+        "Gập hông xuống, nắm thanh ngay ngoài chân, lưng thẳng, ngực mở.",
+        "Đạp sàn và đứng thẳng lên, giữ thanh sát chân.",
+        "Hạ thanh xuống theo cách ngược lại, đẩy hông ra sau trước."
+      ]
     },
     {
       "id": "romanian_deadlift_barbell",
@@ -157,7 +285,17 @@
         "glutes",
         "lower_back"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Stand holding the bar at hip height with a shoulder-width grip.",
+        "With soft knees, push your hips back and slide the bar down your thighs until you feel a stretch in your hamstrings.",
+        "Drive your hips forward to stand back up."
+      ],
+      "instructionsVi": [
+        "Đứng cầm thanh đòn ngang hông, tay rộng bằng vai.",
+        "Gối hơi chùng, đẩy hông ra sau và trượt thanh dọc đùi xuống đến khi căng đùi sau.",
+        "Đẩy hông về trước để đứng lên."
+      ]
     },
     {
       "id": "bent_over_row_barbell",
@@ -170,7 +308,17 @@
         "lats",
         "biceps"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Hold the bar with an overhand grip and hinge forward until your torso is close to parallel to the floor.",
+        "Pull the bar to your lower chest, squeezing your shoulder blades together.",
+        "Lower it under control."
+      ],
+      "instructionsVi": [
+        "Cầm thanh đòn úp tay, gập người về trước đến khi thân gần song song với sàn.",
+        "Kéo thanh lên bụng trên, siết hai bả vai lại.",
+        "Hạ thanh xuống có kiểm soát."
+      ]
     },
     {
       "id": "bent_over_row_dumbbell",
@@ -183,7 +331,17 @@
         "lats",
         "biceps"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Put one knee and hand on a bench and hold a dumbbell in the other hand.",
+        "Pull the dumbbell toward your hip, keeping your elbow close to your body.",
+        "Lower it until your arm is straight."
+      ],
+      "instructionsVi": [
+        "Đặt một gối và một tay lên ghế, tay kia cầm tạ đơn.",
+        "Kéo tạ về phía hông, giữ khuỷu sát thân.",
+        "Hạ tạ xuống đến khi duỗi thẳng tay."
+      ]
     },
     {
       "id": "pull_up",
@@ -195,7 +353,19 @@
       "secondaryMuscles": [
         "biceps"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Hang from the bar with an overhand grip a little wider than your shoulders.",
+        "Pull yourself up until your chin is over the bar.",
+        "Lower yourself until your arms are straight.",
+        "Add weight with a belt once bodyweight reps get easy."
+      ],
+      "instructionsVi": [
+        "Treo người trên xà, úp tay, nắm rộng hơn vai một chút.",
+        "Kéo người lên đến khi cằm qua xà.",
+        "Hạ người xuống đến khi duỗi thẳng tay.",
+        "Đeo thêm tạ khi kéo bằng thân trọng đã dễ."
+      ]
     },
     {
       "id": "assisted_pull_up",
@@ -207,7 +377,19 @@
       "secondaryMuscles": [
         "biceps"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Set the assistance weight, kneel or stand on the pad and grip the handles.",
+        "Pull yourself up until your chin is over the handles.",
+        "Lower yourself slowly until your arms are straight.",
+        "More assistance makes it easier."
+      ],
+      "instructionsVi": [
+        "Chọn mức hỗ trợ, quỳ hoặc đứng lên đệm và nắm tay cầm.",
+        "Kéo người lên đến khi cằm qua tay cầm.",
+        "Hạ người chậm đến khi duỗi thẳng tay.",
+        "Hỗ trợ càng nhiều càng dễ."
+      ]
     },
     {
       "id": "chin_up",
@@ -219,7 +401,17 @@
       "secondaryMuscles": [
         "biceps"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Hang from the bar with an underhand grip about shoulder width apart.",
+        "Pull yourself up until your chin is over the bar.",
+        "Lower yourself until your arms are straight."
+      ],
+      "instructionsVi": [
+        "Treo người trên xà, ngửa tay, nắm rộng bằng vai.",
+        "Kéo người lên đến khi cằm qua xà.",
+        "Hạ người xuống đến khi duỗi thẳng tay."
+      ]
     },
     {
       "id": "lat_pulldown_cable",
@@ -231,7 +423,17 @@
       "secondaryMuscles": [
         "biceps"
       ],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit with your thighs under the pads and grip the bar wider than your shoulders.",
+        "Pull the bar down to your upper chest, leading with your elbows.",
+        "Let it rise slowly until your arms are straight."
+      ],
+      "instructionsVi": [
+        "Ngồi, đùi kẹp dưới đệm, nắm thanh rộng hơn vai.",
+        "Kéo thanh xuống ngực trên, dẫn bằng khuỷu tay.",
+        "Để thanh lên chậm đến khi duỗi thẳng tay."
+      ]
     },
     {
       "id": "seated_row_cable",
@@ -244,7 +446,17 @@
         "lats",
         "biceps"
       ],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit with your feet on the platform and knees slightly bent, holding the handle with straight arms.",
+        "Pull the handle to your stomach, squeezing your shoulder blades together.",
+        "Return slowly without rounding your back."
+      ],
+      "instructionsVi": [
+        "Ngồi, chân đặt lên bệ, gối hơi cong, tay thẳng cầm tay nắm.",
+        "Kéo tay nắm về bụng, siết hai bả vai.",
+        "Trở về chậm, không gù lưng."
+      ]
     },
     {
       "id": "t_bar_row",
@@ -256,7 +468,17 @@
       "secondaryMuscles": [
         "lats"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Straddle the bar and hold the handle with your torso hinged forward and back flat.",
+        "Pull the weight toward your chest.",
+        "Lower it until your arms are straight."
+      ],
+      "instructionsVi": [
+        "Đứng hai chân hai bên thanh, cầm tay nắm, gập người về trước, lưng thẳng.",
+        "Kéo tạ về phía ngực.",
+        "Hạ xuống đến khi duỗi thẳng tay."
+      ]
     },
     {
       "id": "face_pull_cable",
@@ -268,7 +490,17 @@
       "secondaryMuscles": [
         "upper_back"
       ],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Set a rope at upper chest height and hold it with your thumbs pointing back.",
+        "Pull the rope toward your face, spreading the ends beside your ears.",
+        "Return slowly with control."
+      ],
+      "instructionsVi": [
+        "Đặt dây thừng ngang ngực trên, cầm với ngón cái hướng ra sau.",
+        "Kéo dây về phía mặt, tách hai đầu dây sang hai bên tai.",
+        "Trở về chậm có kiểm soát."
+      ]
     },
     {
       "id": "back_extension",
@@ -280,7 +512,19 @@
       "secondaryMuscles": [
         "glutes"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Set the pad just below your hips and hook your feet under the rollers.",
+        "Lower your upper body by bending at the hips.",
+        "Raise it back until your body is in a straight line.",
+        "Hold a plate to your chest to add weight."
+      ],
+      "instructionsVi": [
+        "Đặt đệm ngay dưới hông, móc chân dưới con lăn.",
+        "Hạ thân trên xuống bằng cách gập hông.",
+        "Nâng lên đến khi thân thành một đường thẳng.",
+        "Ôm bánh tạ trước ngực để tăng tạ."
+      ]
     },
     {
       "id": "shrug_barbell",
@@ -290,7 +534,17 @@
       "bodyPart": "back",
       "primaryMuscle": "traps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Stand holding the bar in front of your thighs with straight arms.",
+        "Lift your shoulders straight up toward your ears.",
+        "Pause, then lower them slowly."
+      ],
+      "instructionsVi": [
+        "Đứng cầm thanh đòn trước đùi, tay thẳng.",
+        "Nhún vai thẳng lên về phía tai.",
+        "Dừng một chút rồi hạ xuống chậm."
+      ]
     },
     {
       "id": "shrug_dumbbell",
@@ -300,7 +554,17 @@
       "bodyPart": "back",
       "primaryMuscle": "traps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand holding a dumbbell at each side with straight arms.",
+        "Lift your shoulders straight up toward your ears.",
+        "Pause, then lower them slowly."
+      ],
+      "instructionsVi": [
+        "Đứng mỗi tay cầm một tạ đơn hai bên, tay thẳng.",
+        "Nhún vai thẳng lên về phía tai.",
+        "Dừng một chút rồi hạ xuống chậm."
+      ]
     },
     {
       "id": "squat_barbell",
@@ -313,7 +577,17 @@
         "glutes",
         "hamstrings"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Rest the bar on your upper back and stand with your feet about shoulder width apart.",
+        "Sit down and back, knees tracking over your toes, until your hips are at or below knee height.",
+        "Drive up through your whole foot to stand."
+      ],
+      "instructionsVi": [
+        "Đặt thanh đòn lên lưng trên, đứng hai chân rộng bằng vai.",
+        "Ngồi xuống và ra sau, gối theo hướng mũi chân, đến khi hông ngang hoặc thấp hơn gối.",
+        "Đạp cả bàn chân để đứng lên."
+      ]
     },
     {
       "id": "front_squat_barbell",
@@ -325,7 +599,17 @@
       "secondaryMuscles": [
         "glutes"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Rest the bar on the front of your shoulders with your elbows high.",
+        "Squat down keeping your torso upright.",
+        "Drive back up to stand."
+      ],
+      "instructionsVi": [
+        "Đặt thanh đòn trước vai, khuỷu tay nâng cao.",
+        "Ngồi xuống, giữ thân người thẳng đứng.",
+        "Đạp lên để đứng dậy."
+      ]
     },
     {
       "id": "goblet_squat",
@@ -337,7 +621,17 @@
       "secondaryMuscles": [
         "glutes"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Hold a dumbbell vertically against your chest.",
+        "Squat down between your knees, keeping your chest up.",
+        "Stand back up."
+      ],
+      "instructionsVi": [
+        "Ôm một tạ đơn dựng đứng trước ngực.",
+        "Ngồi xuống giữa hai gối, giữ ngực mở.",
+        "Đứng lên lại."
+      ]
     },
     {
       "id": "leg_press",
@@ -349,7 +643,17 @@
       "secondaryMuscles": [
         "glutes"
       ],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit in the machine with your feet shoulder width apart on the platform.",
+        "Release the safeties and lower the platform until your knees are at about 90°.",
+        "Press it back up without locking your knees."
+      ],
+      "instructionsVi": [
+        "Ngồi vào máy, hai chân đặt rộng bằng vai trên bàn đạp.",
+        "Mở chốt an toàn và hạ bàn đạp đến khi gối khoảng 90°.",
+        "Đẩy lên lại, không khóa gối."
+      ]
     },
     {
       "id": "hack_squat",
@@ -361,7 +665,17 @@
       "secondaryMuscles": [
         "glutes"
       ],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand on the platform with your back and shoulders against the pads.",
+        "Release the safeties and squat down until your thighs are about parallel to the platform.",
+        "Push back up."
+      ],
+      "instructionsVi": [
+        "Đứng lên bệ, lưng và vai tựa vào đệm.",
+        "Mở chốt an toàn và ngồi xuống đến khi đùi gần song song với bệ.",
+        "Đẩy lên lại."
+      ]
     },
     {
       "id": "lunge_dumbbell",
@@ -373,7 +687,17 @@
       "secondaryMuscles": [
         "glutes"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand holding a dumbbell at each side.",
+        "Step forward and lower until both knees are bent about 90°.",
+        "Push off the front foot to return, then switch legs."
+      ],
+      "instructionsVi": [
+        "Đứng mỗi tay cầm một tạ đơn.",
+        "Bước một chân lên và hạ người đến khi hai gối gập khoảng 90°.",
+        "Đạp chân trước để về vị trí cũ, rồi đổi chân."
+      ]
     },
     {
       "id": "bulgarian_split_squat",
@@ -385,7 +709,17 @@
       "secondaryMuscles": [
         "glutes"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand in front of a bench and rest the top of your back foot on it, holding a dumbbell in each hand.",
+        "Lower until your front thigh is about parallel to the floor.",
+        "Drive up through the front foot. Do all reps, then switch legs."
+      ],
+      "instructionsVi": [
+        "Đứng trước ghế, gác mu bàn chân sau lên ghế, mỗi tay cầm một tạ đơn.",
+        "Hạ người đến khi đùi trước gần song song với sàn.",
+        "Đạp chân trước để đứng lên. Làm hết số rep rồi đổi chân."
+      ]
     },
     {
       "id": "leg_extension",
@@ -395,7 +729,17 @@
       "bodyPart": "legs",
       "primaryMuscle": "quadriceps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit with the pad on your lower shins and knees in line with the machine's pivot.",
+        "Straighten your legs.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi, đệm đặt ở cẳng chân dưới, gối thẳng hàng với trục máy.",
+        "Duỗi thẳng chân.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "lying_leg_curl",
@@ -405,7 +749,17 @@
       "bodyPart": "legs",
       "primaryMuscle": "hamstrings",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Lie face down with the pad just above your heels.",
+        "Curl your heels toward your glutes.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Nằm sấp, đệm đặt ngay trên gót chân.",
+        "Co gót chân về phía mông.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "seated_leg_curl",
@@ -415,7 +769,17 @@
       "bodyPart": "legs",
       "primaryMuscle": "hamstrings",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit with the pad just above your heels and the thigh pad locked on your legs.",
+        "Curl your heels down and under the seat.",
+        "Return slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi, đệm đặt ngay trên gót chân, đệm đùi khóa chặt chân.",
+        "Co gót xuống và vào dưới ghế.",
+        "Trở về chậm."
+      ]
     },
     {
       "id": "hip_thrust_barbell",
@@ -427,7 +791,17 @@
       "secondaryMuscles": [
         "hamstrings"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Sit with your upper back against a bench and a padded bar across your hips.",
+        "Drive through your heels to lift your hips until your body is straight from shoulders to knees.",
+        "Squeeze your glutes, then lower."
+      ],
+      "instructionsVi": [
+        "Ngồi tựa lưng trên vào ghế, thanh đòn có đệm đặt ngang hông.",
+        "Đạp gót để nâng hông đến khi thân thẳng từ vai đến gối.",
+        "Siết mông rồi hạ xuống."
+      ]
     },
     {
       "id": "standing_calf_raise",
@@ -437,7 +811,17 @@
       "bodyPart": "legs",
       "primaryMuscle": "calves",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand with the balls of your feet on the edge of the platform and the pads on your shoulders.",
+        "Rise up onto your toes as high as you can.",
+        "Lower your heels below the platform for a stretch."
+      ],
+      "instructionsVi": [
+        "Đứng với nửa trước bàn chân trên mép bệ, đệm đặt trên vai.",
+        "Kiễng gót lên cao nhất có thể.",
+        "Hạ gót xuống thấp hơn bệ để căng bắp chân."
+      ]
     },
     {
       "id": "seated_calf_raise",
@@ -447,7 +831,17 @@
       "bodyPart": "legs",
       "primaryMuscle": "calves",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit with the balls of your feet on the platform and the pad on your knees.",
+        "Raise your heels as high as you can.",
+        "Lower them slowly for a stretch."
+      ],
+      "instructionsVi": [
+        "Ngồi, nửa trước bàn chân trên bệ, đệm đặt trên gối.",
+        "Nâng gót lên cao nhất có thể.",
+        "Hạ xuống chậm để căng bắp chân."
+      ]
     },
     {
       "id": "hip_abductor",
@@ -457,7 +851,17 @@
       "bodyPart": "legs",
       "primaryMuscle": "abductors",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit with the pads on the outside of your knees.",
+        "Push your legs apart.",
+        "Return slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi, đệm đặt phía ngoài gối.",
+        "Đẩy hai chân mở ra.",
+        "Trở về chậm."
+      ]
     },
     {
       "id": "hip_adductor",
@@ -467,7 +871,17 @@
       "bodyPart": "legs",
       "primaryMuscle": "adductors",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit with the pads on the inside of your knees.",
+        "Squeeze your legs together.",
+        "Return slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi, đệm đặt phía trong gối.",
+        "Khép hai chân lại.",
+        "Trở về chậm."
+      ]
     },
     {
       "id": "overhead_press_barbell",
@@ -479,7 +893,17 @@
       "secondaryMuscles": [
         "triceps"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Stand holding the bar on the front of your shoulders, grip just wider than shoulder width.",
+        "Brace your core and press the bar straight overhead, moving your head back as it passes.",
+        "Lower it to your shoulders under control."
+      ],
+      "instructionsVi": [
+        "Đứng cầm thanh đòn trước vai, tay rộng hơn vai một chút.",
+        "Siết bụng và đẩy thanh thẳng lên đầu, ngả đầu ra sau khi thanh đi qua.",
+        "Hạ thanh về vai có kiểm soát."
+      ]
     },
     {
       "id": "shoulder_press_dumbbell",
@@ -491,7 +915,17 @@
       "secondaryMuscles": [
         "triceps"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Sit or stand with a dumbbell at each shoulder, palms forward.",
+        "Press the dumbbells overhead until your arms are straight.",
+        "Lower them back to your shoulders."
+      ],
+      "instructionsVi": [
+        "Ngồi hoặc đứng, tạ đơn ở ngang vai, lòng bàn tay hướng trước.",
+        "Đẩy tạ lên đầu đến khi duỗi thẳng tay.",
+        "Hạ tạ về ngang vai."
+      ]
     },
     {
       "id": "arnold_press",
@@ -503,7 +937,17 @@
       "secondaryMuscles": [
         "side_delts"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Hold the dumbbells in front of your shoulders with palms facing you.",
+        "Rotate your palms forward as you press the dumbbells overhead.",
+        "Reverse the rotation as you lower them."
+      ],
+      "instructionsVi": [
+        "Cầm tạ đơn trước vai, lòng bàn tay hướng vào người.",
+        "Xoay lòng bàn tay ra trước trong khi đẩy tạ lên đầu.",
+        "Xoay ngược lại khi hạ tạ xuống."
+      ]
     },
     {
       "id": "lateral_raise_dumbbell",
@@ -513,7 +957,17 @@
       "bodyPart": "shoulders",
       "primaryMuscle": "side_delts",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand with a dumbbell at each side and a slight bend in your elbows.",
+        "Raise your arms out to the sides until they are level with your shoulders.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Đứng mỗi tay một tạ đơn hai bên, khuỷu hơi cong.",
+        "Nâng tay sang hai bên đến ngang vai.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "lateral_raise_cable",
@@ -523,7 +977,17 @@
       "bodyPart": "shoulders",
       "primaryMuscle": "side_delts",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Set the pulley low and hold the handle with the hand farther from the machine.",
+        "Raise your arm out to the side until it is level with your shoulder.",
+        "Lower slowly. Do all reps, then switch sides."
+      ],
+      "instructionsVi": [
+        "Đặt ròng rọc thấp, cầm tay nắm bằng tay xa máy.",
+        "Nâng tay sang ngang đến ngang vai.",
+        "Hạ xuống chậm. Làm hết số rep rồi đổi bên."
+      ]
     },
     {
       "id": "front_raise_dumbbell",
@@ -533,7 +997,17 @@
       "bodyPart": "shoulders",
       "primaryMuscle": "front_delts",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand with the dumbbells in front of your thighs.",
+        "Raise them straight in front of you to shoulder height.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Đứng, tạ đơn trước đùi.",
+        "Nâng tạ thẳng ra trước đến ngang vai.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "reverse_fly_dumbbell",
@@ -545,7 +1019,17 @@
       "secondaryMuscles": [
         "upper_back"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Hinge forward with a flat back, dumbbells hanging under your chest.",
+        "Raise your arms out to the sides, squeezing your shoulder blades.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Gập người về trước, lưng thẳng, tạ đơn buông dưới ngực.",
+        "Nâng tay sang hai bên, siết hai bả vai.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "upright_row_barbell",
@@ -557,7 +1041,17 @@
       "secondaryMuscles": [
         "traps"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Hold the bar in front of your thighs with a grip about shoulder width apart.",
+        "Pull it up along your body to chest height, elbows leading.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Cầm thanh đòn trước đùi, tay rộng bằng vai.",
+        "Kéo thanh dọc thân lên ngang ngực, khuỷu dẫn trước.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "bicep_curl_barbell",
@@ -567,7 +1061,17 @@
       "bodyPart": "arms",
       "primaryMuscle": "biceps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Stand holding the bar with an underhand grip, arms straight.",
+        "Curl the bar up to your shoulders, keeping your elbows at your sides.",
+        "Lower it slowly."
+      ],
+      "instructionsVi": [
+        "Đứng cầm thanh đòn ngửa tay, tay duỗi thẳng.",
+        "Cuốn thanh lên vai, giữ khuỷu sát hai bên thân.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "bicep_curl_dumbbell",
@@ -577,7 +1081,17 @@
       "bodyPart": "arms",
       "primaryMuscle": "biceps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand with a dumbbell in each hand, palms forward.",
+        "Curl the dumbbells up, keeping your elbows still.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Đứng mỗi tay một tạ đơn, lòng bàn tay hướng trước.",
+        "Cuốn tạ lên, giữ khuỷu cố định.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "hammer_curl_dumbbell",
@@ -589,7 +1103,17 @@
       "secondaryMuscles": [
         "forearms"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand with a dumbbell in each hand, palms facing your body.",
+        "Curl the dumbbells up without turning your wrists.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Đứng mỗi tay một tạ đơn, lòng bàn tay hướng vào thân.",
+        "Cuốn tạ lên, không xoay cổ tay.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "preacher_curl_ez",
@@ -599,7 +1123,17 @@
       "bodyPart": "arms",
       "primaryMuscle": "biceps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Sit at the preacher bench with your upper arms on the pad, holding an EZ bar.",
+        "Curl the bar up toward your shoulders.",
+        "Lower until your arms are almost straight."
+      ],
+      "instructionsVi": [
+        "Ngồi ghế preacher, cánh tay trên đặt lên đệm, cầm thanh EZ.",
+        "Cuốn thanh lên về phía vai.",
+        "Hạ xuống đến khi tay gần thẳng."
+      ]
     },
     {
       "id": "bicep_curl_cable",
@@ -609,7 +1143,17 @@
       "bodyPart": "arms",
       "primaryMuscle": "biceps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand facing a low pulley holding the bar with an underhand grip.",
+        "Curl the bar up, keeping your elbows at your sides.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Đứng đối diện ròng rọc thấp, cầm thanh ngửa tay.",
+        "Cuốn thanh lên, giữ khuỷu sát thân.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "triceps_pushdown_cable",
@@ -619,7 +1163,17 @@
       "bodyPart": "arms",
       "primaryMuscle": "triceps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand facing a high pulley and hold the bar or rope with elbows at your sides.",
+        "Push down until your arms are straight.",
+        "Let it rise until your forearms are about parallel to the floor."
+      ],
+      "instructionsVi": [
+        "Đứng đối diện ròng rọc cao, cầm thanh hoặc dây, khuỷu sát thân.",
+        "Đẩy xuống đến khi duỗi thẳng tay.",
+        "Để trở lên đến khi cẳng tay gần song song với sàn."
+      ]
     },
     {
       "id": "triceps_extension_overhead",
@@ -629,7 +1183,17 @@
       "bodyPart": "arms",
       "primaryMuscle": "triceps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Hold one dumbbell overhead with both hands.",
+        "Lower it behind your head by bending your elbows.",
+        "Straighten your arms to raise it."
+      ],
+      "instructionsVi": [
+        "Hai tay cầm một tạ đơn trên đầu.",
+        "Gập khuỷu để hạ tạ ra sau đầu.",
+        "Duỗi thẳng tay để nâng tạ lên."
+      ]
     },
     {
       "id": "skullcrusher_barbell",
@@ -639,7 +1203,17 @@
       "bodyPart": "arms",
       "primaryMuscle": "triceps",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Lie on a bench holding the bar over your chest with straight arms.",
+        "Bend your elbows to lower the bar toward your forehead.",
+        "Straighten your arms to press it back up."
+      ],
+      "instructionsVi": [
+        "Nằm trên ghế, cầm thanh trên ngực, tay thẳng.",
+        "Gập khuỷu để hạ thanh về phía trán.",
+        "Duỗi thẳng tay để đẩy thanh lên."
+      ]
     },
     {
       "id": "close_grip_bench_press",
@@ -651,7 +1225,17 @@
       "secondaryMuscles": [
         "chest"
       ],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Lie on the bench and grip the bar about shoulder width apart.",
+        "Lower it to your lower chest, keeping your elbows close to your body.",
+        "Press it back up."
+      ],
+      "instructionsVi": [
+        "Nằm trên ghế, nắm thanh rộng bằng vai.",
+        "Hạ thanh xuống ngực dưới, giữ khuỷu sát thân.",
+        "Đẩy thanh lên lại."
+      ]
     },
     {
       "id": "triceps_dip",
@@ -663,7 +1247,17 @@
       "secondaryMuscles": [
         "chest"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Support yourself on parallel bars with straight arms and an upright body.",
+        "Lower yourself by bending your elbows, keeping them close.",
+        "Push back up to straight arms."
+      ],
+      "instructionsVi": [
+        "Chống người trên xà kép, tay thẳng, thân thẳng đứng.",
+        "Gập khuỷu để hạ người, giữ khuỷu khép.",
+        "Đẩy người lên đến khi tay thẳng."
+      ]
     },
     {
       "id": "wrist_curl_barbell",
@@ -673,7 +1267,17 @@
       "bodyPart": "arms",
       "primaryMuscle": "forearms",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Sit with your forearms on your thighs, holding the bar with palms up and wrists past your knees.",
+        "Curl the bar up using only your wrists.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi, cẳng tay đặt trên đùi, ngửa tay cầm thanh, cổ tay ra ngoài gối.",
+        "Cuốn thanh lên chỉ bằng cổ tay.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "crunch",
@@ -683,7 +1287,17 @@
       "bodyPart": "core",
       "primaryMuscle": "abs",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 60
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie on your back with your knees bent and hands by your head.",
+        "Curl your shoulders off the floor by tightening your abs.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Nằm ngửa, gối co, tay đặt cạnh đầu.",
+        "Siết bụng để cuộn vai lên khỏi sàn.",
+        "Hạ xuống chậm."
+      ]
     },
     {
       "id": "cable_crunch",
@@ -693,7 +1307,17 @@
       "bodyPart": "core",
       "primaryMuscle": "abs",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 90
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Kneel facing a high pulley, holding the rope beside your head.",
+        "Crunch down, bringing your elbows toward your knees.",
+        "Return slowly."
+      ],
+      "instructionsVi": [
+        "Quỳ đối diện ròng rọc cao, cầm dây cạnh đầu.",
+        "Gập bụng xuống, đưa khuỷu về phía gối.",
+        "Trở về chậm."
+      ]
     },
     {
       "id": "hanging_leg_raise",
@@ -705,7 +1329,17 @@
       "secondaryMuscles": [
         "hip_flexors"
       ],
-      "defaultRestSeconds": 60
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Hang from a bar with straight arms.",
+        "Raise your legs in front of you to hip height or higher.",
+        "Lower them slowly without swinging."
+      ],
+      "instructionsVi": [
+        "Treo người trên xà, tay thẳng.",
+        "Nâng chân ra trước đến ngang hông hoặc cao hơn.",
+        "Hạ chân xuống chậm, không đung đưa."
+      ]
     },
     {
       "id": "plank",
@@ -715,7 +1349,17 @@
       "bodyPart": "core",
       "primaryMuscle": "abs",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 60
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Rest on your forearms and toes with your body in a straight line.",
+        "Tighten your abs and glutes.",
+        "Hold for the time you set."
+      ],
+      "instructionsVi": [
+        "Chống bằng cẳng tay và mũi chân, thân thành một đường thẳng.",
+        "Siết bụng và mông.",
+        "Giữ trong thời gian đã đặt."
+      ]
     },
     {
       "id": "russian_twist",
@@ -725,7 +1369,17 @@
       "bodyPart": "core",
       "primaryMuscle": "obliques",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 60
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit with your knees bent and lean back slightly, feet on or off the floor.",
+        "Rotate your torso to touch the floor beside one hip, then the other.",
+        "Each touch counts as a rep."
+      ],
+      "instructionsVi": [
+        "Ngồi, gối co, hơi ngả người ra sau, chân chạm hoặc nhấc khỏi sàn.",
+        "Xoay thân chạm sàn cạnh hông bên này rồi bên kia.",
+        "Mỗi lần chạm tính là một rep."
+      ]
     },
     {
       "id": "ab_wheel",
@@ -735,7 +1389,17 @@
       "bodyPart": "core",
       "primaryMuscle": "abs",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 60
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Kneel holding the wheel under your shoulders.",
+        "Roll forward as far as you can while keeping your back flat.",
+        "Pull back to the start using your abs."
+      ],
+      "instructionsVi": [
+        "Quỳ, cầm con lăn dưới vai.",
+        "Lăn về trước xa nhất có thể, giữ lưng thẳng.",
+        "Dùng cơ bụng kéo về vị trí đầu."
+      ]
     },
     {
       "id": "power_clean",
@@ -745,7 +1409,19 @@
       "bodyPart": "olympic",
       "primaryMuscle": "full_body",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Start like a deadlift with the bar over your mid foot.",
+        "Pull the bar from the floor, then extend your hips, knees and ankles explosively.",
+        "Pull yourself under the bar and catch it on the front of your shoulders in a quarter squat.",
+        "Stand up."
+      ],
+      "instructionsVi": [
+        "Bắt đầu như deadlift, thanh ở giữa bàn chân.",
+        "Kéo thanh khỏi sàn rồi duỗi bật hông, gối và cổ chân.",
+        "Luồn người xuống dưới thanh, đỡ thanh trước vai ở tư thế ngồi nửa chừng.",
+        "Đứng lên."
+      ]
     },
     {
       "id": "clean_and_jerk",
@@ -755,7 +1431,17 @@
       "bodyPart": "olympic",
       "primaryMuscle": "full_body",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Clean the bar to the front of your shoulders and stand up.",
+        "Dip at the knees, drive up and push the bar overhead while splitting your feet.",
+        "Bring your feet together with the bar locked out overhead."
+      ],
+      "instructionsVi": [
+        "Đưa thanh lên trước vai (clean) và đứng thẳng.",
+        "Chùng gối, bật lên và đẩy thanh qua đầu, đồng thời tách chân trước sau.",
+        "Thu chân về khi thanh đã khóa thẳng trên đầu."
+      ]
     },
     {
       "id": "snatch_barbell",
@@ -765,7 +1451,19 @@
       "bodyPart": "olympic",
       "primaryMuscle": "full_body",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 180
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Grip the bar wide and start with it over your mid foot.",
+        "Pull from the floor and extend explosively.",
+        "Pull yourself under the bar and catch it overhead in a squat.",
+        "Stand up with the bar overhead."
+      ],
+      "instructionsVi": [
+        "Nắm thanh rộng, thanh ở giữa bàn chân.",
+        "Kéo khỏi sàn rồi duỗi bật người.",
+        "Luồn xuống dưới thanh và đỡ thanh trên đầu ở tư thế ngồi.",
+        "Đứng lên với thanh trên đầu."
+      ]
     },
     {
       "id": "kettlebell_swing",
@@ -778,7 +1476,17 @@
         "hamstrings",
         "lower_back"
       ],
-      "defaultRestSeconds": 120
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand with your feet wider than your hips, holding the kettlebell with both hands.",
+        "Hinge your hips back to swing it between your legs.",
+        "Snap your hips forward to swing it to chest height. Log the kettlebell's weight."
+      ],
+      "instructionsVi": [
+        "Đứng hai chân rộng hơn hông, hai tay cầm tạ ấm.",
+        "Đẩy hông ra sau để đánh tạ vào giữa hai chân.",
+        "Bật hông về trước để tạ vung lên ngang ngực. Ghi khối lượng tạ ấm."
+      ]
     },
     {
       "id": "burpee",
@@ -788,7 +1496,17 @@
       "bodyPart": "full_body",
       "primaryMuscle": "full_body",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 60
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Squat down and put your hands on the floor.",
+        "Jump your feet back into a plank and do a push-up.",
+        "Jump your feet forward, then jump up with your arms overhead."
+      ],
+      "instructionsVi": [
+        "Ngồi xuống, đặt tay xuống sàn.",
+        "Bật chân ra sau thành plank và chống đẩy một lần.",
+        "Bật chân về trước rồi nhảy lên, tay giơ cao."
+      ]
     },
     {
       "id": "running",
@@ -798,7 +1516,15 @@
       "bodyPart": "cardio",
       "primaryMuscle": "cardio",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 0
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log the distance and time of your run.",
+        "Use the note for the route or pace."
+      ],
+      "instructionsVi": [
+        "Ghi quãng đường và thời gian chạy.",
+        "Dùng ghi chú cho cung đường hoặc tốc độ."
+      ]
     },
     {
       "id": "cycling",
@@ -808,7 +1534,13 @@
       "bodyPart": "cardio",
       "primaryMuscle": "cardio",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 0
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log the distance and time of your ride, outdoors or on a bike trainer."
+      ],
+      "instructionsVi": [
+        "Ghi quãng đường và thời gian đạp xe, ngoài trời hay trên xe đạp tập."
+      ]
     },
     {
       "id": "rowing_machine",
@@ -818,7 +1550,17 @@
       "bodyPart": "cardio",
       "primaryMuscle": "cardio",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 0
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Push with your legs first, then lean back slightly and pull the handle to your lower ribs.",
+        "Return arms, then body, then legs.",
+        "Log the distance and time from the monitor."
+      ],
+      "instructionsVi": [
+        "Đạp chân trước, rồi hơi ngả người và kéo tay cầm về sườn dưới.",
+        "Trả tay, rồi thân, rồi chân về.",
+        "Ghi quãng đường và thời gian trên màn hình máy."
+      ]
     },
     {
       "id": "elliptical",
@@ -828,7 +1570,13 @@
       "bodyPart": "cardio",
       "primaryMuscle": "cardio",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 0
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log the distance and time shown by the machine."
+      ],
+      "instructionsVi": [
+        "Ghi quãng đường và thời gian máy hiển thị."
+      ]
     },
     {
       "id": "jump_rope",
@@ -838,7 +1586,17 @@
       "bodyPart": "cardio",
       "primaryMuscle": "cardio",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 60
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Jump with both feet just high enough for the rope to pass.",
+        "Turn the rope with your wrists, not your arms.",
+        "Log how long you jumped."
+      ],
+      "instructionsVi": [
+        "Bật hai chân vừa đủ cao để dây đi qua.",
+        "Quay dây bằng cổ tay, không bằng cả cánh tay.",
+        "Ghi thời gian nhảy."
+      ]
     },
     {
       "id": "stair_climber",
@@ -848,7 +1606,2118 @@
       "bodyPart": "cardio",
       "primaryMuscle": "cardio",
       "secondaryMuscles": [],
-      "defaultRestSeconds": 0
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Stand tall and hold the rails lightly.",
+        "Log the distance (or floors converted to distance) and time."
+      ],
+      "instructionsVi": [
+        "Đứng thẳng, vịn nhẹ tay vịn.",
+        "Ghi quãng đường (hoặc số tầng quy ra quãng đường) và thời gian."
+      ]
+    },
+    {
+      "id": "decline_bench_press_dumbbell",
+      "name": "Decline Bench Press (Dumbbell)",
+      "nameVi": "Đẩy ngực dốc xuống (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "lower_chest",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Lock your legs under the pads of a decline bench and hold the dumbbells over your chest.",
+        "Lower them to the sides of your lower chest.",
+        "Press them back up."
+      ],
+      "instructionsVi": [
+        "Móc chân vào đệm ghế dốc xuống, cầm tạ đơn trên ngực.",
+        "Hạ tạ xuống hai bên ngực dưới.",
+        "Đẩy tạ lên lại."
+      ]
+    },
+    {
+      "id": "incline_chest_fly_dumbbell",
+      "name": "Incline Chest Fly (Dumbbell)",
+      "nameVi": "Ép ngực dốc lên (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "upper_chest",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Lie on a 30–45° incline bench with the dumbbells over your chest and elbows slightly bent.",
+        "Open your arms in a wide arc until you feel a stretch.",
+        "Bring the dumbbells back together."
+      ],
+      "instructionsVi": [
+        "Nằm ghế dốc 30–45°, tạ đơn trên ngực, khuỷu hơi cong.",
+        "Mở rộng tay theo vòng cung đến khi căng ngực.",
+        "Khép tạ lại với nhau."
+      ]
+    },
+    {
+      "id": "incline_chest_press_machine",
+      "name": "Incline Chest Press (Machine)",
+      "nameVi": "Đẩy ngực dốc lên (máy)",
+      "category": "machine",
+      "bodyPart": "chest",
+      "primaryMuscle": "upper_chest",
+      "secondaryMuscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Adjust the seat so the handles are level with your upper chest.",
+        "Press the handles up and forward until your arms are straight.",
+        "Return slowly."
+      ],
+      "instructionsVi": [
+        "Chỉnh ghế để tay cầm ngang ngực trên.",
+        "Đẩy tay cầm lên và ra trước đến khi duỗi thẳng tay.",
+        "Trở về chậm."
+      ]
+    },
+    {
+      "id": "low_cable_fly",
+      "name": "Low Cable Fly",
+      "nameVi": "Ép ngực cáp từ dưới lên",
+      "category": "cable",
+      "bodyPart": "chest",
+      "primaryMuscle": "upper_chest",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Set both pulleys low and hold a handle in each hand, palms up.",
+        "Bring the handles up and together in front of your upper chest, elbows slightly bent.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Đặt hai ròng rọc thấp, mỗi tay một tay nắm, ngửa lòng bàn tay.",
+        "Đưa tay nắm lên và khép trước ngực trên, khuỷu hơi cong.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "smith_machine_bench_press",
+      "name": "Bench Press (Smith Machine)",
+      "nameVi": "Đẩy ngực ngang (máy Smith)",
+      "category": "machine",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Lie on a bench under the Smith machine with the bar over your mid chest.",
+        "Unhook the bar and lower it to your chest.",
+        "Press it back up and hook it when you finish."
+      ],
+      "instructionsVi": [
+        "Nằm trên ghế dưới máy Smith, thanh ngang giữa ngực.",
+        "Mở khóa thanh và hạ xuống ngực.",
+        "Đẩy thanh lên và khóa lại khi xong."
+      ]
+    },
+    {
+      "id": "floor_press_dumbbell",
+      "name": "Floor Press (Dumbbell)",
+      "nameVi": "Đẩy ngực nằm sàn (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Lie on the floor with your knees bent and a dumbbell in each hand over your chest.",
+        "Lower until your upper arms touch the floor.",
+        "Press back up."
+      ],
+      "instructionsVi": [
+        "Nằm trên sàn, gối co, mỗi tay một tạ đơn trên ngực.",
+        "Hạ đến khi cánh tay trên chạm sàn.",
+        "Đẩy lên lại."
+      ]
+    },
+    {
+      "id": "pullover_dumbbell",
+      "name": "Pullover (Dumbbell)",
+      "nameVi": "Kéo tạ qua đầu (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [
+        "lats"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Lie across or along a bench holding one dumbbell over your chest with both hands.",
+        "Lower it behind your head in an arc with slightly bent elbows.",
+        "Pull it back over your chest."
+      ],
+      "instructionsVi": [
+        "Nằm trên ghế, hai tay cầm một tạ đơn trên ngực.",
+        "Hạ tạ ra sau đầu theo vòng cung, khuỷu hơi cong.",
+        "Kéo tạ về lại trên ngực."
+      ]
+    },
+    {
+      "id": "incline_push_up",
+      "name": "Incline Push Up",
+      "nameVi": "Chống đẩy tay cao",
+      "category": "reps_only",
+      "bodyPart": "chest",
+      "primaryMuscle": "chest",
+      "secondaryMuscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Put your hands on a bench or box and walk your feet back into a plank.",
+        "Lower your chest to the edge.",
+        "Push back up. It is easier than a floor push up."
+      ],
+      "instructionsVi": [
+        "Đặt tay lên ghế hoặc bục, lùi chân ra thành plank.",
+        "Hạ ngực xuống mép ghế.",
+        "Đẩy lên lại. Dễ hơn chống đẩy dưới sàn."
+      ]
+    },
+    {
+      "id": "decline_push_up",
+      "name": "Decline Push Up",
+      "nameVi": "Chống đẩy chân cao",
+      "category": "reps_only",
+      "bodyPart": "chest",
+      "primaryMuscle": "upper_chest",
+      "secondaryMuscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Put your feet on a bench and your hands on the floor.",
+        "Lower your chest toward the floor.",
+        "Push back up."
+      ],
+      "instructionsVi": [
+        "Đặt chân lên ghế, tay chống sàn.",
+        "Hạ ngực xuống gần sàn.",
+        "Đẩy lên lại."
+      ]
+    },
+    {
+      "id": "diamond_push_up",
+      "name": "Diamond Push Up",
+      "nameVi": "Chống đẩy kim cương",
+      "category": "reps_only",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [
+        "chest"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Start in a plank with your hands together under your chest, thumbs and index fingers forming a diamond.",
+        "Lower your chest to your hands.",
+        "Push back up."
+      ],
+      "instructionsVi": [
+        "Bắt đầu tư thế plank, hai tay chụm dưới ngực, ngón cái và ngón trỏ tạo hình kim cương.",
+        "Hạ ngực xuống tay.",
+        "Đẩy lên lại."
+      ]
+    },
+    {
+      "id": "pendlay_row_barbell",
+      "name": "Pendlay Row (Barbell)",
+      "nameVi": "Kéo tạ Pendlay (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "back",
+      "primaryMuscle": "upper_back",
+      "secondaryMuscles": [
+        "lats",
+        "biceps"
+      ],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Hinge until your torso is parallel to the floor with the bar resting on the floor.",
+        "Row the bar explosively to your lower chest.",
+        "Set it back down on the floor before each rep."
+      ],
+      "instructionsVi": [
+        "Gập người đến khi thân song song sàn, thanh đặt trên sàn.",
+        "Kéo bật thanh lên bụng trên.",
+        "Đặt thanh xuống sàn trước mỗi rep."
+      ]
+    },
+    {
+      "id": "chest_supported_row_dumbbell",
+      "name": "Chest Supported Row (Dumbbell)",
+      "nameVi": "Kéo tạ tựa ngực (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "back",
+      "primaryMuscle": "upper_back",
+      "secondaryMuscles": [
+        "lats",
+        "biceps"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Lie face down on an incline bench with a dumbbell in each hand.",
+        "Row the dumbbells up, squeezing your shoulder blades.",
+        "Lower until your arms are straight."
+      ],
+      "instructionsVi": [
+        "Nằm sấp trên ghế dốc, mỗi tay một tạ đơn.",
+        "Kéo tạ lên, siết hai bả vai.",
+        "Hạ đến khi duỗi thẳng tay."
+      ]
+    },
+    {
+      "id": "seated_row_machine",
+      "name": "Seated Row (Machine)",
+      "nameVi": "Kéo ngồi (máy)",
+      "category": "machine",
+      "bodyPart": "back",
+      "primaryMuscle": "upper_back",
+      "secondaryMuscles": [
+        "lats",
+        "biceps"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit with your chest against the pad and grip the handles.",
+        "Pull the handles toward you, squeezing your shoulder blades.",
+        "Return slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi, ngực tựa đệm, nắm tay cầm.",
+        "Kéo tay cầm về phía người, siết bả vai.",
+        "Trở về chậm."
+      ]
+    },
+    {
+      "id": "lat_pulldown_close_grip",
+      "name": "Lat Pulldown (Close Grip)",
+      "nameVi": "Kéo xô hẹp tay",
+      "category": "cable",
+      "bodyPart": "back",
+      "primaryMuscle": "lats",
+      "secondaryMuscles": [
+        "biceps"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Attach a close-grip handle and sit with your thighs under the pads.",
+        "Pull the handle to your upper chest.",
+        "Let it rise slowly."
+      ],
+      "instructionsVi": [
+        "Gắn tay nắm hẹp, ngồi với đùi kẹp dưới đệm.",
+        "Kéo tay nắm xuống ngực trên.",
+        "Để trở lên chậm."
+      ]
+    },
+    {
+      "id": "straight_arm_pulldown",
+      "name": "Straight Arm Pulldown (Cable)",
+      "nameVi": "Kéo cáp tay thẳng",
+      "category": "cable",
+      "bodyPart": "back",
+      "primaryMuscle": "lats",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand facing a high pulley holding a bar with straight arms.",
+        "Push the bar down in an arc to your thighs, keeping your arms straight.",
+        "Let it rise slowly."
+      ],
+      "instructionsVi": [
+        "Đứng đối diện ròng rọc cao, tay thẳng cầm thanh.",
+        "Đẩy thanh xuống theo vòng cung đến đùi, giữ tay thẳng.",
+        "Để thanh lên chậm."
+      ]
+    },
+    {
+      "id": "single_arm_row_cable",
+      "name": "Single Arm Row (Cable)",
+      "nameVi": "Kéo cáp một tay",
+      "category": "cable",
+      "bodyPart": "back",
+      "primaryMuscle": "lats",
+      "secondaryMuscles": [
+        "biceps"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Hold a handle at chest height with one hand, arm straight.",
+        "Pull it toward your hip, keeping your elbow close.",
+        "Return slowly. Do all reps, then switch sides."
+      ],
+      "instructionsVi": [
+        "Một tay cầm tay nắm ngang ngực, tay thẳng.",
+        "Kéo về phía hông, giữ khuỷu sát thân.",
+        "Trở về chậm. Làm hết số rep rồi đổi tay."
+      ]
+    },
+    {
+      "id": "inverted_row",
+      "name": "Inverted Row",
+      "nameVi": "Kéo người dưới xà thấp",
+      "category": "reps_only",
+      "bodyPart": "back",
+      "primaryMuscle": "upper_back",
+      "secondaryMuscles": [
+        "biceps"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie under a bar set at hip height and grip it with straight arms, body straight.",
+        "Pull your chest to the bar.",
+        "Lower until your arms are straight."
+      ],
+      "instructionsVi": [
+        "Nằm dưới xà đặt ngang hông, tay thẳng nắm xà, thân thẳng.",
+        "Kéo ngực lên chạm xà.",
+        "Hạ xuống đến khi duỗi thẳng tay."
+      ]
+    },
+    {
+      "id": "rack_pull",
+      "name": "Rack Pull",
+      "nameVi": "Kéo tạ từ giá",
+      "category": "barbell",
+      "bodyPart": "back",
+      "primaryMuscle": "lower_back",
+      "secondaryMuscles": [
+        "traps",
+        "glutes"
+      ],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Set the bar on the rack pins at about knee height.",
+        "Grip it and stand up tall, pushing your hips forward.",
+        "Lower it back to the pins."
+      ],
+      "instructionsVi": [
+        "Đặt thanh trên chốt giá ngang gối.",
+        "Nắm thanh và đứng thẳng lên, đẩy hông về trước.",
+        "Hạ thanh về chốt."
+      ]
+    },
+    {
+      "id": "good_morning_barbell",
+      "name": "Good Morning (Barbell)",
+      "nameVi": "Gập người chào buổi sáng (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "hamstrings",
+      "secondaryMuscles": [
+        "lower_back",
+        "glutes"
+      ],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Rest the bar on your upper back with soft knees.",
+        "Push your hips back and lower your torso until it is near parallel to the floor.",
+        "Drive your hips forward to stand."
+      ],
+      "instructionsVi": [
+        "Đặt thanh trên lưng trên, gối hơi chùng.",
+        "Đẩy hông ra sau và hạ thân đến gần song song sàn.",
+        "Đẩy hông về trước để đứng lên."
+      ]
+    },
+    {
+      "id": "sumo_deadlift_barbell",
+      "name": "Sumo Deadlift (Barbell)",
+      "nameVi": "Deadlift sumo (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "glutes",
+      "secondaryMuscles": [
+        "quadriceps",
+        "lower_back",
+        "adductors"
+      ],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Stand with a wide stance, toes turned out and the bar over your mid foot.",
+        "Grip the bar inside your knees with your chest up.",
+        "Push your knees out and stand up tall.",
+        "Lower the bar the same way."
+      ],
+      "instructionsVi": [
+        "Đứng chân rộng, mũi chân hướng ra ngoài, thanh ở giữa bàn chân.",
+        "Nắm thanh phía trong gối, ngực mở.",
+        "Đẩy gối ra ngoài và đứng thẳng lên.",
+        "Hạ thanh xuống theo cách ngược lại."
+      ]
+    },
+    {
+      "id": "trap_bar_deadlift",
+      "name": "Deadlift (Trap Bar)",
+      "nameVi": "Deadlift thanh lục giác",
+      "category": "barbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes",
+        "lower_back",
+        "traps"
+      ],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Stand in the middle of the trap bar and grip the handles.",
+        "Brace and stand up tall.",
+        "Lower it back to the floor under control."
+      ],
+      "instructionsVi": [
+        "Đứng giữa thanh lục giác và nắm tay cầm.",
+        "Siết bụng và đứng thẳng lên.",
+        "Hạ thanh về sàn có kiểm soát."
+      ]
+    },
+    {
+      "id": "romanian_deadlift_dumbbell",
+      "name": "Romanian Deadlift (Dumbbell)",
+      "nameVi": "Romanian deadlift (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "hamstrings",
+      "secondaryMuscles": [
+        "glutes",
+        "lower_back"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand holding a dumbbell in front of each thigh.",
+        "With soft knees, push your hips back and lower the dumbbells along your legs.",
+        "Drive your hips forward to stand."
+      ],
+      "instructionsVi": [
+        "Đứng cầm tạ đơn trước đùi.",
+        "Gối hơi chùng, đẩy hông ra sau và hạ tạ dọc chân.",
+        "Đẩy hông về trước để đứng lên."
+      ]
+    },
+    {
+      "id": "single_leg_romanian_deadlift",
+      "name": "Single Leg Romanian Deadlift (Dumbbell)",
+      "nameVi": "Romanian deadlift một chân (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "hamstrings",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand on one leg holding a dumbbell in the opposite hand.",
+        "Hinge forward as your free leg extends behind you, until your torso is near parallel to the floor.",
+        "Return to standing. Do all reps, then switch legs."
+      ],
+      "instructionsVi": [
+        "Đứng một chân, tay đối diện cầm tạ đơn.",
+        "Gập người về trước, chân kia duỗi ra sau, đến khi thân gần song song sàn.",
+        "Trở về đứng thẳng. Làm hết số rep rồi đổi chân."
+      ]
+    },
+    {
+      "id": "box_squat",
+      "name": "Box Squat (Barbell)",
+      "nameVi": "Squat ngồi bục (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes",
+        "hamstrings"
+      ],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Set a box behind you at about knee height and rest the bar on your upper back.",
+        "Sit back until you touch the box without relaxing.",
+        "Drive up to stand."
+      ],
+      "instructionsVi": [
+        "Đặt bục phía sau cao ngang gối, thanh đòn trên lưng trên.",
+        "Ngồi ra sau đến khi chạm bục, không thả lỏng.",
+        "Đạp lên để đứng."
+      ]
+    },
+    {
+      "id": "smith_machine_squat",
+      "name": "Squat (Smith Machine)",
+      "nameVi": "Squat (máy Smith)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Stand under the Smith machine bar with your feet slightly in front of you.",
+        "Unhook the bar and squat down.",
+        "Stand back up and hook the bar when you finish."
+      ],
+      "instructionsVi": [
+        "Đứng dưới thanh máy Smith, chân hơi đặt ra trước.",
+        "Mở khóa thanh và ngồi xuống.",
+        "Đứng lên và khóa thanh khi xong."
+      ]
+    },
+    {
+      "id": "bodyweight_squat",
+      "name": "Air Squat",
+      "nameVi": "Squat không tạ",
+      "category": "reps_only",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Stand with your feet about shoulder width apart, arms in front.",
+        "Squat until your hips are below your knees.",
+        "Stand back up."
+      ],
+      "instructionsVi": [
+        "Đứng hai chân rộng bằng vai, tay đưa ra trước.",
+        "Ngồi xuống đến khi hông thấp hơn gối.",
+        "Đứng lên lại."
+      ]
+    },
+    {
+      "id": "walking_lunge_dumbbell",
+      "name": "Walking Lunge (Dumbbell)",
+      "nameVi": "Bước chùng chân đi bộ (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Hold a dumbbell at each side.",
+        "Step forward into a lunge, then bring the back foot through into the next step.",
+        "Count each step as a rep."
+      ],
+      "instructionsVi": [
+        "Cầm tạ đơn hai bên.",
+        "Bước lên thành tư thế lunge, rồi đưa chân sau lên bước tiếp.",
+        "Mỗi bước tính một rep."
+      ]
+    },
+    {
+      "id": "reverse_lunge_barbell",
+      "name": "Reverse Lunge (Barbell)",
+      "nameVi": "Lùi chùng chân (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Rest the bar on your upper back.",
+        "Step back and lower until both knees are bent about 90°.",
+        "Push through the front foot to return. Alternate legs."
+      ],
+      "instructionsVi": [
+        "Đặt thanh trên lưng trên.",
+        "Bước lùi một chân và hạ đến khi hai gối gập khoảng 90°.",
+        "Đạp chân trước để về. Đổi chân luân phiên."
+      ]
+    },
+    {
+      "id": "step_up_dumbbell",
+      "name": "Step Up (Dumbbell)",
+      "nameVi": "Bước lên bục (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand in front of a box holding a dumbbell at each side.",
+        "Step up with one foot and stand on the box.",
+        "Step back down. Alternate legs or do one side at a time."
+      ],
+      "instructionsVi": [
+        "Đứng trước bục, mỗi tay một tạ đơn.",
+        "Bước một chân lên và đứng trên bục.",
+        "Bước xuống. Đổi chân luân phiên hoặc làm từng bên."
+      ]
+    },
+    {
+      "id": "glute_bridge",
+      "name": "Glute Bridge",
+      "nameVi": "Nâng hông nằm sàn",
+      "category": "weighted_bodyweight",
+      "bodyPart": "legs",
+      "primaryMuscle": "glutes",
+      "secondaryMuscles": [
+        "hamstrings"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie on your back with your knees bent and feet flat.",
+        "Drive through your heels to lift your hips until your body is straight from shoulders to knees.",
+        "Lower slowly. Hold a weight on your hips to add load."
+      ],
+      "instructionsVi": [
+        "Nằm ngửa, gối co, bàn chân đặt phẳng.",
+        "Đạp gót để nâng hông đến khi thân thẳng từ vai đến gối.",
+        "Hạ xuống chậm. Đặt tạ trên hông để tăng tải."
+      ]
+    },
+    {
+      "id": "hip_thrust_machine",
+      "name": "Hip Thrust (Machine)",
+      "nameVi": "Đẩy hông (máy)",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "glutes",
+      "secondaryMuscles": [
+        "hamstrings"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Sit in the machine with the pad across your hips and upper back against the pad.",
+        "Drive your hips up until your body is straight.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi vào máy, đệm đặt ngang hông, lưng trên tựa đệm.",
+        "Đẩy hông lên đến khi thân thẳng.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "cable_pull_through",
+      "name": "Pull Through (Cable)",
+      "nameVi": "Kéo cáp qua chân",
+      "category": "cable",
+      "bodyPart": "legs",
+      "primaryMuscle": "glutes",
+      "secondaryMuscles": [
+        "hamstrings"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Face away from a low pulley holding a rope between your legs.",
+        "Hinge your hips back, letting the rope pull through.",
+        "Drive your hips forward to stand tall."
+      ],
+      "instructionsVi": [
+        "Đứng quay lưng về ròng rọc thấp, cầm dây giữa hai chân.",
+        "Đẩy hông ra sau để dây kéo qua chân.",
+        "Đẩy hông về trước để đứng thẳng."
+      ]
+    },
+    {
+      "id": "glute_kickback_cable",
+      "name": "Glute Kickback (Cable)",
+      "nameVi": "Đá chân sau (cáp)",
+      "category": "cable",
+      "bodyPart": "legs",
+      "primaryMuscle": "glutes",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Attach an ankle strap to a low pulley and face the machine.",
+        "Kick your leg back and up, squeezing your glute.",
+        "Return slowly. Do all reps, then switch legs."
+      ],
+      "instructionsVi": [
+        "Gắn đai cổ chân vào ròng rọc thấp, đứng đối diện máy.",
+        "Đá chân ra sau và lên, siết mông.",
+        "Trở về chậm. Làm hết số rep rồi đổi chân."
+      ]
+    },
+    {
+      "id": "nordic_hamstring_curl",
+      "name": "Nordic Hamstring Curl",
+      "nameVi": "Nordic gập đùi sau",
+      "category": "reps_only",
+      "bodyPart": "legs",
+      "primaryMuscle": "hamstrings",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Kneel with your ankles held down by a partner or pad.",
+        "Lower your body forward as slowly as you can, keeping your hips straight.",
+        "Catch yourself with your hands and push back up."
+      ],
+      "instructionsVi": [
+        "Quỳ, cổ chân được người khác hoặc đệm giữ chặt.",
+        "Hạ người về trước chậm nhất có thể, giữ hông thẳng.",
+        "Đỡ người bằng tay rồi đẩy lên lại."
+      ]
+    },
+    {
+      "id": "calf_raise_dumbbell",
+      "name": "Calf Raise (Dumbbell)",
+      "nameVi": "Nhón gót (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "calves",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Stand on the edge of a step holding a dumbbell.",
+        "Rise up onto your toes as high as you can.",
+        "Lower your heels below the step."
+      ],
+      "instructionsVi": [
+        "Đứng trên mép bậc, cầm tạ đơn.",
+        "Kiễng gót lên cao nhất có thể.",
+        "Hạ gót xuống thấp hơn bậc."
+      ]
+    },
+    {
+      "id": "leg_press_calf_raise",
+      "name": "Calf Press (Leg Press)",
+      "nameVi": "Nhón gót trên máy đạp đùi",
+      "category": "machine",
+      "bodyPart": "legs",
+      "primaryMuscle": "calves",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit in the leg press with the balls of your feet on the bottom edge of the platform and legs straight.",
+        "Push the platform away with your toes.",
+        "Let it come back for a stretch."
+      ],
+      "instructionsVi": [
+        "Ngồi máy đạp đùi, nửa trước bàn chân ở mép dưới bàn đạp, chân thẳng.",
+        "Đẩy bàn đạp bằng mũi chân.",
+        "Để trở về để căng bắp chân."
+      ]
+    },
+    {
+      "id": "pistol_squat",
+      "name": "Pistol Squat",
+      "nameVi": "Squat một chân",
+      "category": "reps_only",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand on one leg with the other straight in front of you.",
+        "Squat down on the standing leg as low as you can.",
+        "Stand back up. Do all reps, then switch legs."
+      ],
+      "instructionsVi": [
+        "Đứng một chân, chân kia duỗi thẳng ra trước.",
+        "Ngồi xuống bằng chân trụ thấp nhất có thể.",
+        "Đứng lên. Làm hết số rep rồi đổi chân."
+      ]
+    },
+    {
+      "id": "wall_sit",
+      "name": "Wall Sit",
+      "nameVi": "Ngồi dựa tường",
+      "category": "duration",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lean your back against a wall and slide down until your knees are at 90°.",
+        "Hold the position for the time you set."
+      ],
+      "instructionsVi": [
+        "Tựa lưng vào tường, trượt xuống đến khi gối gập 90°.",
+        "Giữ tư thế trong thời gian đã đặt."
+      ]
+    },
+    {
+      "id": "seated_shoulder_press_machine",
+      "name": "Shoulder Press (Machine)",
+      "nameVi": "Đẩy vai (máy)",
+      "category": "machine",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Adjust the seat so the handles are at shoulder height.",
+        "Press the handles overhead.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Chỉnh ghế để tay cầm ngang vai.",
+        "Đẩy tay cầm lên trên đầu.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "push_press",
+      "name": "Push Press (Barbell)",
+      "nameVi": "Đẩy vai có bật chân (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [
+        "triceps",
+        "quadriceps"
+      ],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Hold the bar on the front of your shoulders.",
+        "Dip at the knees, then drive up and press the bar overhead.",
+        "Lower it back to your shoulders."
+      ],
+      "instructionsVi": [
+        "Cầm thanh đòn trước vai.",
+        "Chùng gối rồi bật lên và đẩy thanh qua đầu.",
+        "Hạ thanh về vai."
+      ]
+    },
+    {
+      "id": "seated_overhead_press_barbell",
+      "name": "Seated Overhead Press (Barbell)",
+      "nameVi": "Đẩy vai ngồi (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Sit on an upright bench and unrack the bar at shoulder height.",
+        "Press it overhead.",
+        "Lower it to your upper chest."
+      ],
+      "instructionsVi": [
+        "Ngồi ghế thẳng lưng, nhấc thanh khỏi giá ở ngang vai.",
+        "Đẩy thanh lên trên đầu.",
+        "Hạ thanh xuống ngực trên."
+      ]
+    },
+    {
+      "id": "landmine_press",
+      "name": "Landmine Press",
+      "nameVi": "Đẩy vai landmine",
+      "category": "barbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [
+        "chest",
+        "triceps"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Wedge one end of a bar in a corner or landmine and hold the other end at your shoulder.",
+        "Press it up and forward until your arm is straight.",
+        "Lower it back to your shoulder."
+      ],
+      "instructionsVi": [
+        "Cố định một đầu thanh vào góc hoặc landmine, tay cầm đầu kia ngang vai.",
+        "Đẩy thanh lên và ra trước đến khi duỗi thẳng tay.",
+        "Hạ về ngang vai."
+      ]
+    },
+    {
+      "id": "lateral_raise_machine",
+      "name": "Lateral Raise (Machine)",
+      "nameVi": "Nâng vai ngang (máy)",
+      "category": "machine",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "side_delts",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit with the pads against the outside of your upper arms.",
+        "Raise your arms out to the sides to shoulder height.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi, đệm áp vào mặt ngoài cánh tay trên.",
+        "Nâng tay sang ngang đến ngang vai.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "reverse_fly_machine",
+      "name": "Reverse Fly (Machine)",
+      "nameVi": "Ép vai sau (máy)",
+      "category": "machine",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "rear_delts",
+      "secondaryMuscles": [
+        "upper_back"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit facing the pec deck and hold the handles with straight arms.",
+        "Pull your arms back and apart.",
+        "Return slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi quay mặt vào máy ép ngực, tay thẳng cầm tay nắm.",
+        "Kéo tay ra sau và mở rộng.",
+        "Trở về chậm."
+      ]
+    },
+    {
+      "id": "front_raise_cable",
+      "name": "Front Raise (Cable)",
+      "nameVi": "Nâng vai trước (cáp)",
+      "category": "cable",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Face away from a low pulley holding the handle between your legs.",
+        "Raise it in front of you to shoulder height.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Đứng quay lưng về ròng rọc thấp, cầm tay nắm giữa hai chân.",
+        "Nâng ra trước đến ngang vai.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "y_raise_dumbbell",
+      "name": "Y Raise (Dumbbell)",
+      "nameVi": "Nâng tay chữ Y (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "side_delts",
+      "secondaryMuscles": [
+        "upper_back"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie face down on an incline bench with light dumbbells.",
+        "Raise your arms up and out into a Y shape, thumbs up.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Nằm sấp trên ghế dốc, cầm tạ đơn nhẹ.",
+        "Nâng tay lên và mở thành hình chữ Y, ngón cái hướng lên.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "handstand_push_up",
+      "name": "Handstand Push Up",
+      "nameVi": "Chống đẩy trồng chuối",
+      "category": "reps_only",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Kick up into a handstand with your heels against a wall.",
+        "Lower your head to the floor by bending your arms.",
+        "Press back up to straight arms."
+      ],
+      "instructionsVi": [
+        "Đá chân lên trồng chuối, gót tựa vào tường.",
+        "Gập tay hạ đầu xuống sàn.",
+        "Đẩy lên đến khi tay thẳng."
+      ]
+    },
+    {
+      "id": "pike_push_up",
+      "name": "Pike Push Up",
+      "nameVi": "Chống đẩy hông cao",
+      "category": "reps_only",
+      "bodyPart": "shoulders",
+      "primaryMuscle": "front_delts",
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Start in a push up position and walk your feet in until your hips are high.",
+        "Lower the top of your head toward the floor.",
+        "Press back up."
+      ],
+      "instructionsVi": [
+        "Bắt đầu tư thế chống đẩy, bước chân vào đến khi hông nâng cao.",
+        "Hạ đỉnh đầu về phía sàn.",
+        "Đẩy lên lại."
+      ]
+    },
+    {
+      "id": "shrug_machine",
+      "name": "Shrug (Machine)",
+      "nameVi": "Nhún vai (máy)",
+      "category": "machine",
+      "bodyPart": "back",
+      "primaryMuscle": "traps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Stand or sit in the machine with the handles at your sides.",
+        "Lift your shoulders straight up.",
+        "Pause, then lower slowly."
+      ],
+      "instructionsVi": [
+        "Đứng hoặc ngồi vào máy, tay cầm hai bên.",
+        "Nhún vai thẳng lên.",
+        "Dừng một chút rồi hạ chậm."
+      ]
+    },
+    {
+      "id": "concentration_curl",
+      "name": "Concentration Curl (Dumbbell)",
+      "nameVi": "Cuốn tạ tập trung (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit with your elbow braced against the inside of your thigh, holding a dumbbell.",
+        "Curl it toward your shoulder.",
+        "Lower slowly. Do all reps, then switch arms."
+      ],
+      "instructionsVi": [
+        "Ngồi, khuỷu tì vào mặt trong đùi, cầm tạ đơn.",
+        "Cuốn tạ về phía vai.",
+        "Hạ xuống chậm. Làm hết số rep rồi đổi tay."
+      ]
+    },
+    {
+      "id": "incline_curl_dumbbell",
+      "name": "Incline Curl (Dumbbell)",
+      "nameVi": "Cuốn tạ ghế dốc (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit back on a 45° incline bench with your arms hanging straight down.",
+        "Curl the dumbbells up without moving your elbows forward.",
+        "Lower slowly for a full stretch."
+      ],
+      "instructionsVi": [
+        "Ngồi tựa ghế dốc 45°, tay buông thẳng xuống.",
+        "Cuốn tạ lên, không đưa khuỷu ra trước.",
+        "Hạ xuống chậm để căng hết."
+      ]
+    },
+    {
+      "id": "ez_bar_curl",
+      "name": "Bicep Curl (EZ Bar)",
+      "nameVi": "Cuốn tay trước (thanh EZ)",
+      "category": "barbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Hold an EZ bar on the angled grips with straight arms.",
+        "Curl it up, keeping your elbows at your sides.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Cầm thanh EZ ở chỗ nắm nghiêng, tay thẳng.",
+        "Cuốn thanh lên, giữ khuỷu sát thân.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "preacher_curl_machine",
+      "name": "Preacher Curl (Machine)",
+      "nameVi": "Cuốn tay trước preacher (máy)",
+      "category": "machine",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit with your upper arms on the pad and grip the handles.",
+        "Curl the handles up.",
+        "Lower until your arms are almost straight."
+      ],
+      "instructionsVi": [
+        "Ngồi, cánh tay trên đặt lên đệm, nắm tay cầm.",
+        "Cuốn tay cầm lên.",
+        "Hạ đến khi tay gần thẳng."
+      ]
+    },
+    {
+      "id": "reverse_curl_barbell",
+      "name": "Reverse Curl (Barbell)",
+      "nameVi": "Cuốn tay úp (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "forearms",
+      "secondaryMuscles": [
+        "biceps"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Hold the bar with an overhand grip, arms straight.",
+        "Curl it up, keeping your elbows at your sides.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Cầm thanh úp tay, tay thẳng.",
+        "Cuốn thanh lên, giữ khuỷu sát thân.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "spider_curl_dumbbell",
+      "name": "Spider Curl (Dumbbell)",
+      "nameVi": "Cuốn tạ nằm sấp (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie face down on an incline bench with your arms hanging straight down.",
+        "Curl the dumbbells up.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Nằm sấp trên ghế dốc, tay buông thẳng.",
+        "Cuốn tạ lên.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "hammer_curl_cable",
+      "name": "Hammer Curl (Cable Rope)",
+      "nameVi": "Cuốn búa (dây cáp)",
+      "category": "cable",
+      "bodyPart": "arms",
+      "primaryMuscle": "biceps",
+      "secondaryMuscles": [
+        "forearms"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Attach a rope to a low pulley and hold it with palms facing each other.",
+        "Curl the rope up, keeping your elbows still.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Gắn dây thừng vào ròng rọc thấp, cầm với lòng bàn tay hướng vào nhau.",
+        "Cuốn dây lên, giữ khuỷu cố định.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "triceps_pushdown_rope",
+      "name": "Triceps Pushdown (Rope)",
+      "nameVi": "Đẩy cáp tay sau (dây thừng)",
+      "category": "cable",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Hold a rope at a high pulley with your elbows at your sides.",
+        "Push down and spread the rope ends at the bottom.",
+        "Return until your forearms are about parallel to the floor."
+      ],
+      "instructionsVi": [
+        "Cầm dây thừng ở ròng rọc cao, khuỷu sát thân.",
+        "Đẩy xuống và tách hai đầu dây ở cuối động tác.",
+        "Trở về đến khi cẳng tay gần song song sàn."
+      ]
+    },
+    {
+      "id": "overhead_triceps_extension_cable",
+      "name": "Overhead Triceps Extension (Cable)",
+      "nameVi": "Duỗi tay sau qua đầu (cáp)",
+      "category": "cable",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Face away from the pulley holding a rope behind your head.",
+        "Straighten your arms forward and up.",
+        "Bend your elbows to return."
+      ],
+      "instructionsVi": [
+        "Quay lưng về ròng rọc, cầm dây thừng sau đầu.",
+        "Duỗi thẳng tay ra trước và lên.",
+        "Gập khuỷu để trở về."
+      ]
+    },
+    {
+      "id": "triceps_kickback_dumbbell",
+      "name": "Triceps Kickback (Dumbbell)",
+      "nameVi": "Đá tay sau (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Hinge forward with your upper arm parallel to the floor and elbow bent.",
+        "Straighten your arm behind you.",
+        "Return slowly. Do all reps, then switch arms."
+      ],
+      "instructionsVi": [
+        "Gập người, cánh tay trên song song sàn, khuỷu gập.",
+        "Duỗi thẳng tay ra sau.",
+        "Trở về chậm. Làm hết số rep rồi đổi tay."
+      ]
+    },
+    {
+      "id": "skullcrusher_dumbbell",
+      "name": "Skullcrusher (Dumbbell)",
+      "nameVi": "Nằm duỗi tay sau (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Lie on a bench with the dumbbells over your chest, palms facing each other.",
+        "Bend your elbows to lower them beside your head.",
+        "Straighten your arms."
+      ],
+      "instructionsVi": [
+        "Nằm trên ghế, tạ đơn trên ngực, lòng bàn tay hướng vào nhau.",
+        "Gập khuỷu hạ tạ xuống cạnh đầu.",
+        "Duỗi thẳng tay."
+      ]
+    },
+    {
+      "id": "bench_dip",
+      "name": "Bench Dip",
+      "nameVi": "Chống tay sau trên ghế",
+      "category": "reps_only",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [
+        "chest"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit on the edge of a bench, hands beside your hips, and slide your hips off.",
+        "Bend your elbows to lower your body.",
+        "Push back up."
+      ],
+      "instructionsVi": [
+        "Ngồi mép ghế, tay đặt cạnh hông, trượt hông ra khỏi ghế.",
+        "Gập khuỷu để hạ người.",
+        "Đẩy lên lại."
+      ]
+    },
+    {
+      "id": "triceps_dip_machine",
+      "name": "Triceps Dip (Machine)",
+      "nameVi": "Chống đẩy tay sau (máy)",
+      "category": "machine",
+      "bodyPart": "arms",
+      "primaryMuscle": "triceps",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit in the machine and grip the handles beside you.",
+        "Push the handles down until your arms are straight.",
+        "Return slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi vào máy, nắm tay cầm hai bên.",
+        "Đẩy tay cầm xuống đến khi duỗi thẳng tay.",
+        "Trở về chậm."
+      ]
+    },
+    {
+      "id": "reverse_wrist_curl",
+      "name": "Reverse Wrist Curl (Barbell)",
+      "nameVi": "Cuốn cổ tay úp (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "arms",
+      "primaryMuscle": "forearms",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Rest your forearms on your thighs, holding the bar palms down.",
+        "Lift the bar using only your wrists.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Đặt cẳng tay lên đùi, úp tay cầm thanh.",
+        "Nâng thanh chỉ bằng cổ tay.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "farmers_walk",
+      "name": "Farmer's Walk",
+      "nameVi": "Đi bộ xách tạ",
+      "category": "dumbbell",
+      "bodyPart": "full_body",
+      "primaryMuscle": "forearms",
+      "secondaryMuscles": [
+        "traps",
+        "core"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Pick up a heavy dumbbell or kettlebell in each hand.",
+        "Walk with your chest up and shoulders back.",
+        "Log the weight in each hand and the reps or steps."
+      ],
+      "instructionsVi": [
+        "Mỗi tay xách một tạ đơn hoặc tạ ấm nặng.",
+        "Đi bộ, ngực mở, vai ra sau.",
+        "Ghi khối lượng mỗi tay và số rep hoặc số bước."
+      ]
+    },
+    {
+      "id": "dead_hang",
+      "name": "Dead Hang",
+      "nameVi": "Treo xà",
+      "category": "duration",
+      "bodyPart": "arms",
+      "primaryMuscle": "forearms",
+      "secondaryMuscles": [
+        "lats"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Hang from a pull up bar with straight arms.",
+        "Hold for the time you set."
+      ],
+      "instructionsVi": [
+        "Treo người trên xà, tay thẳng.",
+        "Giữ trong thời gian đã đặt."
+      ]
+    },
+    {
+      "id": "side_plank",
+      "name": "Side Plank",
+      "nameVi": "Plank nghiêng",
+      "category": "duration",
+      "bodyPart": "core",
+      "primaryMuscle": "obliques",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie on your side and prop yourself up on one forearm, body straight.",
+        "Lift your hips and hold.",
+        "Switch sides for the next set."
+      ],
+      "instructionsVi": [
+        "Nằm nghiêng, chống bằng một cẳng tay, thân thẳng.",
+        "Nâng hông và giữ.",
+        "Đổi bên ở set sau."
+      ]
+    },
+    {
+      "id": "bicycle_crunch",
+      "name": "Bicycle Crunch",
+      "nameVi": "Gập bụng đạp xe",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "obliques",
+      "secondaryMuscles": [
+        "abs"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie on your back with your hands by your head and legs raised.",
+        "Bring one elbow toward the opposite knee as you straighten the other leg.",
+        "Alternate sides; each side counts as a rep."
+      ],
+      "instructionsVi": [
+        "Nằm ngửa, tay đặt cạnh đầu, chân nâng lên.",
+        "Đưa khuỷu về phía gối đối diện trong khi duỗi chân kia.",
+        "Luân phiên hai bên; mỗi bên tính một rep."
+      ]
+    },
+    {
+      "id": "sit_up",
+      "name": "Sit Up",
+      "nameVi": "Gập bụng ngồi dậy",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [
+        "hip_flexors"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie on your back with your knees bent and feet anchored.",
+        "Sit all the way up.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Nằm ngửa, gối co, bàn chân cố định.",
+        "Ngồi dậy hoàn toàn.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "decline_crunch",
+      "name": "Decline Crunch",
+      "nameVi": "Gập bụng ghế dốc",
+      "category": "weighted_bodyweight",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lock your feet on a decline bench and lie back.",
+        "Curl your torso up toward your knees.",
+        "Lower slowly. Hold a plate to add weight."
+      ],
+      "instructionsVi": [
+        "Móc chân vào ghế dốc và nằm xuống.",
+        "Cuộn thân lên về phía gối.",
+        "Hạ xuống chậm. Ôm bánh tạ để tăng tải."
+      ]
+    },
+    {
+      "id": "leg_raise_lying",
+      "name": "Lying Leg Raise",
+      "nameVi": "Nâng chân nằm",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [
+        "hip_flexors"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie on your back with your legs straight and hands under your hips.",
+        "Raise your legs until they point at the ceiling.",
+        "Lower them slowly without touching the floor."
+      ],
+      "instructionsVi": [
+        "Nằm ngửa, chân thẳng, tay đặt dưới hông.",
+        "Nâng chân đến khi hướng lên trần.",
+        "Hạ chân chậm, không chạm sàn."
+      ]
+    },
+    {
+      "id": "knee_raise_captains_chair",
+      "name": "Knee Raise (Captain's Chair)",
+      "nameVi": "Nâng gối trên ghế chống",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [
+        "hip_flexors"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Support yourself on the forearm pads with your back against the pad.",
+        "Raise your knees toward your chest.",
+        "Lower slowly."
+      ],
+      "instructionsVi": [
+        "Chống cẳng tay trên đệm, lưng tựa vào đệm.",
+        "Nâng gối về phía ngực.",
+        "Hạ xuống chậm."
+      ]
+    },
+    {
+      "id": "mountain_climber",
+      "name": "Mountain Climber",
+      "nameVi": "Leo núi",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [
+        "shoulders"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Start in a high plank.",
+        "Drive one knee toward your chest, then switch legs quickly.",
+        "Each knee counts as a rep."
+      ],
+      "instructionsVi": [
+        "Bắt đầu tư thế plank tay thẳng.",
+        "Đưa một gối về phía ngực rồi đổi chân nhanh.",
+        "Mỗi gối tính một rep."
+      ]
+    },
+    {
+      "id": "dead_bug",
+      "name": "Dead Bug",
+      "nameVi": "Bọ chết",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie on your back with arms pointing up and knees bent at 90° over your hips.",
+        "Lower one arm and the opposite leg toward the floor, keeping your lower back down.",
+        "Return and switch sides."
+      ],
+      "instructionsVi": [
+        "Nằm ngửa, tay hướng lên, gối gập 90° trên hông.",
+        "Hạ một tay và chân đối diện về phía sàn, giữ lưng dưới áp sàn.",
+        "Trở về rồi đổi bên."
+      ]
+    },
+    {
+      "id": "hollow_hold",
+      "name": "Hollow Hold",
+      "nameVi": "Giữ người hình thuyền",
+      "category": "duration",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Lie on your back and lift your shoulders and legs off the floor, arms overhead.",
+        "Keep your lower back pressed down.",
+        "Hold for the time you set."
+      ],
+      "instructionsVi": [
+        "Nằm ngửa, nâng vai và chân khỏi sàn, tay duỗi qua đầu.",
+        "Giữ lưng dưới áp sàn.",
+        "Giữ trong thời gian đã đặt."
+      ]
+    },
+    {
+      "id": "woodchopper_cable",
+      "name": "Woodchopper (Cable)",
+      "nameVi": "Chặt gỗ (cáp)",
+      "category": "cable",
+      "bodyPart": "core",
+      "primaryMuscle": "obliques",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Set a pulley high and hold the handle with both hands, standing side-on.",
+        "Pull it down and across your body to the opposite hip, rotating your torso.",
+        "Return slowly. Do all reps, then switch sides."
+      ],
+      "instructionsVi": [
+        "Đặt ròng rọc cao, hai tay cầm tay nắm, đứng nghiêng.",
+        "Kéo chéo xuống qua thân về hông đối diện, xoay thân.",
+        "Trở về chậm. Làm hết số rep rồi đổi bên."
+      ]
+    },
+    {
+      "id": "pallof_press",
+      "name": "Pallof Press (Cable)",
+      "nameVi": "Đẩy Pallof (cáp)",
+      "category": "cable",
+      "bodyPart": "core",
+      "primaryMuscle": "obliques",
+      "secondaryMuscles": [
+        "abs"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Stand side-on to a pulley at chest height, holding the handle at your chest.",
+        "Press it straight out without letting your torso rotate.",
+        "Bring it back. Do all reps, then switch sides."
+      ],
+      "instructionsVi": [
+        "Đứng nghiêng với ròng rọc ngang ngực, cầm tay nắm trước ngực.",
+        "Đẩy thẳng ra trước, không để thân xoay.",
+        "Kéo về. Làm hết số rep rồi đổi bên."
+      ]
+    },
+    {
+      "id": "ab_crunch_machine",
+      "name": "Ab Crunch (Machine)",
+      "nameVi": "Gập bụng (máy)",
+      "category": "machine",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Sit in the machine and hold the handles or pads.",
+        "Crunch forward by tightening your abs.",
+        "Return slowly."
+      ],
+      "instructionsVi": [
+        "Ngồi vào máy, cầm tay cầm hoặc đệm.",
+        "Siết bụng gập người về trước.",
+        "Trở về chậm."
+      ]
+    },
+    {
+      "id": "toes_to_bar",
+      "name": "Toes to Bar",
+      "nameVi": "Chạm mũi chân lên xà",
+      "category": "reps_only",
+      "bodyPart": "core",
+      "primaryMuscle": "abs",
+      "secondaryMuscles": [
+        "lats"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Hang from a bar with straight arms.",
+        "Raise your feet until they touch the bar.",
+        "Lower them under control."
+      ],
+      "instructionsVi": [
+        "Treo người trên xà, tay thẳng.",
+        "Nâng chân đến khi chạm xà.",
+        "Hạ chân xuống có kiểm soát."
+      ]
+    },
+    {
+      "id": "hang_clean",
+      "name": "Hang Clean (Barbell)",
+      "nameVi": "Hang clean (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "olympic",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Stand holding the bar at hip height.",
+        "Lower it to just above your knees, then extend your hips explosively.",
+        "Pull under and catch the bar on the front of your shoulders."
+      ],
+      "instructionsVi": [
+        "Đứng cầm thanh ngang hông.",
+        "Hạ thanh xuống ngay trên gối rồi bật hông mạnh.",
+        "Luồn xuống và đỡ thanh trước vai."
+      ]
+    },
+    {
+      "id": "hang_snatch",
+      "name": "Hang Snatch (Barbell)",
+      "nameVi": "Hang snatch (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "olympic",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Stand holding the bar with a wide grip at hip height.",
+        "Dip to above your knees and extend explosively.",
+        "Pull under and catch the bar overhead."
+      ],
+      "instructionsVi": [
+        "Đứng cầm thanh tay rộng ngang hông.",
+        "Hạ xuống trên gối rồi bật người mạnh.",
+        "Luồn xuống và đỡ thanh trên đầu."
+      ]
+    },
+    {
+      "id": "push_jerk",
+      "name": "Push Jerk (Barbell)",
+      "nameVi": "Push jerk (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "olympic",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [
+        "shoulders"
+      ],
+      "defaultRestSeconds": 180,
+      "instructions": [
+        "Hold the bar on the front of your shoulders.",
+        "Dip and drive up, pushing the bar overhead as you drop into a quarter squat.",
+        "Stand up with the bar locked out."
+      ],
+      "instructionsVi": [
+        "Cầm thanh trước vai.",
+        "Chùng gối rồi bật lên, đẩy thanh qua đầu đồng thời hạ người nửa chừng.",
+        "Đứng thẳng với thanh khóa trên đầu."
+      ]
+    },
+    {
+      "id": "thruster_barbell",
+      "name": "Thruster (Barbell)",
+      "nameVi": "Thruster (thanh đòn)",
+      "category": "barbell",
+      "bodyPart": "full_body",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "shoulders",
+        "glutes"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Hold the bar on the front of your shoulders.",
+        "Squat down, then drive up and press the bar overhead in one motion.",
+        "Lower it to your shoulders for the next rep."
+      ],
+      "instructionsVi": [
+        "Cầm thanh trước vai.",
+        "Ngồi xuống rồi bật lên và đẩy thanh qua đầu trong một động tác.",
+        "Hạ thanh về vai cho rep tiếp theo."
+      ]
+    },
+    {
+      "id": "thruster_dumbbell",
+      "name": "Thruster (Dumbbell)",
+      "nameVi": "Thruster (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "full_body",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "shoulders",
+        "glutes"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Hold a dumbbell at each shoulder.",
+        "Squat down, then drive up and press the dumbbells overhead.",
+        "Lower them to your shoulders."
+      ],
+      "instructionsVi": [
+        "Cầm tạ đơn ngang vai.",
+        "Ngồi xuống rồi bật lên và đẩy tạ qua đầu.",
+        "Hạ tạ về vai."
+      ]
+    },
+    {
+      "id": "clean_dumbbell",
+      "name": "Clean (Dumbbell)",
+      "nameVi": "Clean (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "olympic",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand with a dumbbell at each side.",
+        "Hinge slightly, then extend explosively and pull the dumbbells up.",
+        "Catch them at your shoulders in a quarter squat and stand."
+      ],
+      "instructionsVi": [
+        "Đứng mỗi tay một tạ đơn.",
+        "Hơi gập hông rồi bật mạnh và kéo tạ lên.",
+        "Đỡ tạ ở ngang vai với tư thế ngồi nửa chừng rồi đứng lên."
+      ]
+    },
+    {
+      "id": "snatch_dumbbell",
+      "name": "Snatch (Dumbbell)",
+      "nameVi": "Snatch (tạ đơn)",
+      "category": "dumbbell",
+      "bodyPart": "olympic",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Stand with a dumbbell between your feet.",
+        "Squat to grab it, then drive up explosively and pull it overhead in one motion.",
+        "Lower it and switch hands each rep or each set."
+      ],
+      "instructionsVi": [
+        "Đứng với tạ đơn giữa hai chân.",
+        "Ngồi xuống cầm tạ rồi bật lên và kéo tạ qua đầu trong một động tác.",
+        "Hạ tạ và đổi tay mỗi rep hoặc mỗi set."
+      ]
+    },
+    {
+      "id": "kettlebell_goblet_squat",
+      "name": "Goblet Squat (Kettlebell)",
+      "nameVi": "Goblet squat (tạ ấm)",
+      "category": "dumbbell",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Hold a kettlebell by the horns against your chest.",
+        "Squat down between your knees, keeping your chest up.",
+        "Stand back up."
+      ],
+      "instructionsVi": [
+        "Ôm tạ ấm bằng hai quai trước ngực.",
+        "Ngồi xuống giữa hai gối, giữ ngực mở.",
+        "Đứng lên lại."
+      ]
+    },
+    {
+      "id": "turkish_get_up",
+      "name": "Turkish Get Up (Kettlebell)",
+      "nameVi": "Đứng dậy kiểu Thổ (tạ ấm)",
+      "category": "dumbbell",
+      "bodyPart": "full_body",
+      "primaryMuscle": "shoulders",
+      "secondaryMuscles": [
+        "core"
+      ],
+      "defaultRestSeconds": 90,
+      "instructions": [
+        "Lie on your back holding a kettlebell straight up over your shoulder.",
+        "Stand up step by step while keeping the arm straight overhead.",
+        "Reverse the steps to lie back down. Alternate sides."
+      ],
+      "instructionsVi": [
+        "Nằm ngửa, một tay giơ thẳng tạ ấm trên vai.",
+        "Đứng dậy từng bước, giữ tay thẳng trên đầu.",
+        "Làm ngược lại để nằm xuống. Đổi bên luân phiên."
+      ]
+    },
+    {
+      "id": "box_jump",
+      "name": "Box Jump",
+      "nameVi": "Bật nhảy lên bục",
+      "category": "reps_only",
+      "bodyPart": "legs",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes",
+        "calves"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Stand in front of a sturdy box.",
+        "Swing your arms and jump onto the box, landing softly.",
+        "Step back down."
+      ],
+      "instructionsVi": [
+        "Đứng trước bục chắc chắn.",
+        "Vung tay và bật nhảy lên bục, tiếp đất nhẹ.",
+        "Bước xuống."
+      ]
+    },
+    {
+      "id": "jumping_jack",
+      "name": "Jumping Jack",
+      "nameVi": "Bật nhảy dang tay chân",
+      "category": "reps_only",
+      "bodyPart": "cardio",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Jump your feet out while raising your arms overhead.",
+        "Jump back to the start.",
+        "Each jump out and in counts as a rep."
+      ],
+      "instructionsVi": [
+        "Bật chân dang ra đồng thời giơ tay lên đầu.",
+        "Bật về vị trí đầu.",
+        "Mỗi lần dang ra và thu vào tính một rep."
+      ]
+    },
+    {
+      "id": "battle_ropes",
+      "name": "Battle Ropes",
+      "nameVi": "Đánh dây thừng",
+      "category": "duration",
+      "bodyPart": "cardio",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [
+        "shoulders"
+      ],
+      "defaultRestSeconds": 60,
+      "instructions": [
+        "Hold an end of the rope in each hand, knees bent.",
+        "Make waves by moving your arms up and down quickly.",
+        "Log how long you went."
+      ],
+      "instructionsVi": [
+        "Mỗi tay cầm một đầu dây, gối hơi chùng.",
+        "Tạo sóng bằng cách vung tay lên xuống nhanh.",
+        "Ghi thời gian thực hiện."
+      ]
+    },
+    {
+      "id": "sled_push",
+      "name": "Sled Push",
+      "nameVi": "Đẩy xe trượt",
+      "category": "weighted_bodyweight",
+      "bodyPart": "full_body",
+      "primaryMuscle": "quadriceps",
+      "secondaryMuscles": [
+        "glutes"
+      ],
+      "defaultRestSeconds": 120,
+      "instructions": [
+        "Load the sled and hold the handles with your body leaning forward.",
+        "Drive with short, powerful steps.",
+        "Log the added weight and the lengths pushed."
+      ],
+      "instructionsVi": [
+        "Chất tạ lên xe, cầm tay cầm, người nghiêng về trước.",
+        "Đạp chân những bước ngắn và mạnh.",
+        "Ghi khối lượng thêm và số lượt đẩy."
+      ]
+    },
+    {
+      "id": "walking",
+      "name": "Walking",
+      "nameVi": "Đi bộ",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log the distance and time of your walk."
+      ],
+      "instructionsVi": [
+        "Ghi quãng đường và thời gian đi bộ."
+      ]
+    },
+    {
+      "id": "hiking",
+      "name": "Hiking",
+      "nameVi": "Leo núi đường dài",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log the distance and time of your hike."
+      ],
+      "instructionsVi": [
+        "Ghi quãng đường và thời gian leo núi."
+      ]
+    },
+    {
+      "id": "swimming",
+      "name": "Swimming",
+      "nameVi": "Bơi",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log the distance and time of your swim."
+      ],
+      "instructionsVi": [
+        "Ghi quãng đường và thời gian bơi."
+      ]
+    },
+    {
+      "id": "running_treadmill",
+      "name": "Running (Treadmill)",
+      "nameVi": "Chạy bộ (máy chạy)",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log the distance and time shown on the treadmill."
+      ],
+      "instructionsVi": [
+        "Ghi quãng đường và thời gian máy chạy hiển thị."
+      ]
+    },
+    {
+      "id": "cycling_indoor",
+      "name": "Cycling (Indoor)",
+      "nameVi": "Đạp xe (trong nhà)",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log the distance and time shown on the bike."
+      ],
+      "instructionsVi": [
+        "Ghi quãng đường và thời gian xe đạp tập hiển thị."
+      ]
+    },
+    {
+      "id": "air_bike",
+      "name": "Air Bike",
+      "nameVi": "Xe đạp gió",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Push and pull the handles while you pedal.",
+        "Log the distance and time from the monitor."
+      ],
+      "instructionsVi": [
+        "Vừa đạp vừa đẩy kéo tay cầm.",
+        "Ghi quãng đường và thời gian trên màn hình."
+      ]
+    },
+    {
+      "id": "ski_erg",
+      "name": "Ski Erg",
+      "nameVi": "Máy trượt tuyết",
+      "category": "cardio",
+      "bodyPart": "cardio",
+      "primaryMuscle": "cardio",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Pull both handles down past your hips while hinging at the hips.",
+        "Log the distance and time from the monitor."
+      ],
+      "instructionsVi": [
+        "Kéo hai tay cầm xuống qua hông đồng thời gập hông.",
+        "Ghi quãng đường và thời gian trên màn hình."
+      ]
+    },
+    {
+      "id": "stretching",
+      "name": "Stretching",
+      "nameVi": "Giãn cơ",
+      "category": "duration",
+      "bodyPart": "other",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log how long you stretched. Use the note for what you stretched."
+      ],
+      "instructionsVi": [
+        "Ghi thời gian giãn cơ. Dùng ghi chú để ghi nhóm cơ đã giãn."
+      ]
+    },
+    {
+      "id": "yoga",
+      "name": "Yoga",
+      "nameVi": "Yoga",
+      "category": "duration",
+      "bodyPart": "other",
+      "primaryMuscle": "full_body",
+      "secondaryMuscles": [],
+      "defaultRestSeconds": 0,
+      "instructions": [
+        "Log how long your session lasted."
+      ],
+      "instructionsVi": [
+        "Ghi thời gian buổi tập."
+      ]
     }
   ]
 }
