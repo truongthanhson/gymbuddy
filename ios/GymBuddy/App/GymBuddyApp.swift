@@ -4,6 +4,7 @@ import UserNotifications
 
 @main
 struct GymBuddyApp: App {
+    @Environment(\.scenePhase) private var scenePhase
     let container: ModelContainer
     private let notificationDelegate = NotificationDelegate()
 
@@ -17,6 +18,7 @@ struct GymBuddyApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
         ExerciseSeeder.seedIfNeeded(context: container.mainContext)
+        SyncService.shared.context = container.mainContext
         UNUserNotificationCenter.current().delegate = notificationDelegate
     }
 
@@ -25,5 +27,8 @@ struct GymBuddyApp: App {
             RootView()
         }
         .modelContainer(container)
+        .onChange(of: scenePhase, initial: true) { _, phase in
+            if phase == .active { SyncService.shared.requestSync() }
+        }
     }
 }

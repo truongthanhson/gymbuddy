@@ -21,6 +21,16 @@
         }
       }
     },
+    "Account": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tài khoản"
+          }
+        }
+      }
+    },
     "Add (%lld)": {
       "localizations": {
         "vi": {
@@ -91,12 +101,32 @@
         }
       }
     },
+    "At least %lld characters": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ít nhất %lld ký tự"
+          }
+        }
+      }
+    },
     "Back": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Lưng"
+          }
+        }
+      }
+    },
+    "Back up your workouts and use them on all your devices": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sao lưu buổi tập và dùng trên mọi thiết bị"
           }
         }
       }
@@ -181,6 +211,26 @@
         }
       }
     },
+    "Changes that are not synced yet will be lost if you sign out now. (%@)": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nếu đăng xuất bây giờ, các thay đổi chưa đồng bộ sẽ bị mất. (%@)"
+          }
+        }
+      }
+    },
+    "Check your email and open the confirmation link, then sign in.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hãy mở email và bấm link xác nhận, rồi đăng nhập."
+          }
+        }
+      }
+    },
     "Chest": {
       "localizations": {
         "vi": {
@@ -197,6 +247,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bụng"
+          }
+        }
+      }
+    },
+    "Could not sync": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không đồng bộ được"
+          }
+        }
+      }
+    },
+    "Create account": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tạo tài khoản"
           }
         }
       }
@@ -331,6 +401,16 @@
         }
       }
     },
+    "Email": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email"
+          }
+        }
+      }
+    },
     "Exercises": {
       "localizations": {
         "vi": {
@@ -450,6 +530,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ngôn ngữ"
+          }
+        }
+      }
+    },
+    "Last synced %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đồng bộ lần cuối %@"
           }
         }
       }
@@ -604,6 +694,26 @@
         }
       }
     },
+    "Not signed in": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa đăng nhập"
+          }
+        }
+      }
+    },
+    "Not synced yet": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa đồng bộ"
+          }
+        }
+      }
+    },
     "OK": {
       "localizations": {
         "vi": {
@@ -640,6 +750,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Khác"
+          }
+        }
+      }
+    },
+    "Password": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mật khẩu"
           }
         }
       }
@@ -794,6 +914,46 @@
         }
       }
     },
+    "Sign in": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đăng nhập"
+          }
+        }
+      }
+    },
+    "Sign out": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đăng xuất"
+          }
+        }
+      }
+    },
+    "Sign out anyway": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vẫn đăng xuất"
+          }
+        }
+      }
+    },
+    "Sign out?": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đăng xuất?"
+          }
+        }
+      }
+    },
     "Skip": {
       "localizations": {
         "vi": {
@@ -820,6 +980,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bắt đầu tập"
+          }
+        }
+      }
+    },
+    "Sync failed: %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đồng bộ lỗi: %@"
+          }
+        }
+      }
+    },
+    "Sync is not set up in this build yet. Your data stays on this device.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bản này chưa bật đồng bộ. Dữ liệu chỉ lưu trên máy này."
+          }
+        }
+      }
+    },
+    "Sync now": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đồng bộ ngay"
+          }
+        }
+      }
+    },
+    "Syncing…": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang đồng bộ…"
           }
         }
       }
@@ -910,6 +1110,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tên buổi tập"
+          }
+        }
+      }
+    },
+    "Your workouts stay in your account and are removed from this device.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buổi tập vẫn được lưu trong tài khoản và sẽ bị xóa khỏi máy này."
           }
         }
       }

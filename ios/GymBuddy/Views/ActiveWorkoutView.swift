@@ -24,6 +24,7 @@ struct ActiveWorkoutView: View {
         RestTimer.shared.skip()
         let saveable = anyCompleted
         WorkoutService.finish(workout, in: context)
+        defer { SyncService.shared.requestSync() }
         guard saveToTemplate, saveable else { return }
         if let templateId = workout.templateId, let template = TemplateService.template(id: templateId, in: context) {
             TemplateService.update(template, from: workout, in: context)

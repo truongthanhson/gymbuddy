@@ -103,4 +103,25 @@
     <string name="category_reps_only">Reps only</string>
     <string name="category_cardio">Cardio</string>
     <string name="category_duration">Duration</string>
+    <string name="account">Account</string>
+    <string name="sync_not_configured">Sync is not set up in this build yet. Your data stays on this device.</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_in_hint">Back up your workouts and use them on all your devices</string>
+    <string name="syncing">Syncing…</string>
+    <string name="sync_failed">Sync failed: %1$s</string>
+    <string name="last_synced">Last synced %1$s</string>
+    <string name="never_synced">Not synced yet</string>
+    <string name="sync_now">Sync now</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_out_title">Sign out?</string>
+    <string name="sign_out_message">Your workouts stay in your account and are removed from this device.</string>
+    <string name="sign_out_sync_failed_title">Could not sync</string>
+    <string name="sign_out_sync_failed_message">Changes that are not synced yet will be lost if you sign out now. (%1$s)</string>
+    <string name="sign_out_anyway">Sign out anyway</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_hint">At least %1$d characters</string>
+    <string name="create_account">Create account</string>
+    <string name="confirm_email">Check your email and open the confirmation link, then sign in.</string>
+    <string name="please_wait">Please wait…</string>
 </resources>

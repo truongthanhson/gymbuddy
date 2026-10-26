@@ -51,7 +51,7 @@ android {
 }
 
 val copySharedAssets by tasks.registering(Copy::class) {
-    from(sharedDir) { include("exercises.json") }
+    from(sharedDir) { include("exercises.json", "supabase.json") }
     into(layout.buildDirectory.dir("generated/sharedAssets"))
 }
 tasks.named("preBuild") { dependsOn(copySharedAssets) }

@@ -56,6 +56,10 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
+        SectionTitle(R.string.account)
+        AccountSection()
+        HorizontalDivider()
+
         SectionTitle(R.string.settings_units)
         ListItem(
             headlineContent = { Text(stringResource(R.string.settings_weight_unit)) },

@@ -102,4 +102,25 @@
     <string name="category_reps_only">Chỉ đếm số lần</string>
     <string name="category_cardio">Cardio</string>
     <string name="category_duration">Thời gian</string>
+    <string name="account">Tài khoản</string>
+    <string name="sync_not_configured">Bản này chưa bật đồng bộ. Dữ liệu chỉ lưu trên máy này.</string>
+    <string name="sign_in">Đăng nhập</string>
+    <string name="sign_in_hint">Sao lưu buổi tập và dùng trên mọi thiết bị</string>
+    <string name="syncing">Đang đồng bộ…</string>
+    <string name="sync_failed">Đồng bộ lỗi: %1$s</string>
+    <string name="last_synced">Đồng bộ lần cuối %1$s</string>
+    <string name="never_synced">Chưa đồng bộ</string>
+    <string name="sync_now">Đồng bộ ngay</string>
+    <string name="sign_out">Đăng xuất</string>
+    <string name="sign_out_title">Đăng xuất?</string>
+    <string name="sign_out_message">Buổi tập vẫn được lưu trong tài khoản và sẽ bị xóa khỏi máy này.</string>
+    <string name="sign_out_sync_failed_title">Không đồng bộ được</string>
+    <string name="sign_out_sync_failed_message">Nếu đăng xuất bây giờ, các thay đổi chưa đồng bộ sẽ bị mất. (%1$s)</string>
+    <string name="sign_out_anyway">Vẫn đăng xuất</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="password_hint">Ít nhất %1$d ký tự</string>
+    <string name="create_account">Tạo tài khoản</string>
+    <string name="confirm_email">Hãy mở email và bấm link xác nhận, rồi đăng nhập.</string>
+    <string name="please_wait">Vui lòng chờ…</string>
 </resources>

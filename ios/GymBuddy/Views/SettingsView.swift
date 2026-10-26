@@ -12,6 +12,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                AccountSection()
                 Section("Units") {
                     Picker("Weight", selection: $weightUnit) {
                         ForEach(WeightUnit.allCases) { unit in
