@@ -1272,26 +1272,6 @@
         }
       }
     },
-    "Muscle groups and body weight charts come with GymBuddy Pro": {
-      "localizations": {
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Biểu đồ nhóm cơ và cân nặng có trong GymBuddy Pro"
-          }
-        }
-      }
-    },
-    "Muscle groups and body weight on your profile": {
-      "localizations": {
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nhóm cơ và cân nặng trên trang hồ sơ"
-          }
-        }
-      }
-    },
     "My templates": {
       "localizations": {
         "vi": {
@@ -1912,16 +1892,6 @@
         }
       }
     },
-    "Sets per muscle group, last %lld days": {
-      "localizations": {
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Số set theo nhóm cơ, %lld ngày qua"
-          }
-        }
-      }
-    },
     "Sets that are not ticked will be removed.": {
       "localizations": {
         "vi": {
@@ -2488,6 +2458,330 @@
           "stringUnit": {
             "state": "translated",
             "value": "tuần %@"
+          }
+        }
+      }
+    },
+    "Training since %@": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tập từ %@"
+          }
+        }
+      }
+    },
+    "Volume, records, top exercises, muscle groups and more stats come with GymBuddy Pro": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khối lượng, kỷ lục, bài tập nhiều nhất, nhóm cơ và nhiều thống kê khác có trong GymBuddy Pro"
+          }
+        }
+      }
+    },
+    "%lld h": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld giờ"
+          }
+        }
+      }
+    },
+    "Total time": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tổng thời gian"
+          }
+        }
+      }
+    },
+    "Total volume": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tổng khối lượng"
+          }
+        }
+      }
+    },
+    "Sets done": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set đã tập"
+          }
+        }
+      }
+    },
+    "Consistency": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Độ đều đặn"
+          }
+        }
+      }
+    },
+    "%lld weeks": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld tuần"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld week"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld weeks"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Current streak": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chuỗi hiện tại"
+          }
+        }
+      }
+    },
+    "Longest streak": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chuỗi dài nhất"
+          }
+        }
+      }
+    },
+    "Last %lld weeks, one square per day": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld tuần qua, mỗi ô là một ngày"
+          }
+        }
+      }
+    },
+    "Volume per week": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khối lượng mỗi tuần"
+          }
+        }
+      }
+    },
+    "Sets per muscle group": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số set theo nhóm cơ"
+          }
+        }
+      }
+    },
+    "Period": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khoảng thời gian"
+          }
+        }
+      }
+    },
+    "%lld days": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ngày"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld day"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld days"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Beat your best estimated 1RM on an exercise to set a record.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vượt 1RM ước tính tốt nhất của một bài tập để lập kỷ lục."
+          }
+        }
+      }
+    },
+    "Personal records": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kỷ lục cá nhân"
+          }
+        }
+      }
+    },
+    "%lld estimated 1RM records in total": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tổng cộng %lld kỷ lục 1RM ước tính"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld estimated 1RM record in total"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld estimated 1RM records in total"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Most trained exercises": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bài tập nhiều nhất"
+          }
+        }
+      }
+    },
+    "%@ vs. 3 months before": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ so với 3 tháng trước"
+          }
+        }
+      }
+    },
+    "Training habits": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thói quen tập"
+          }
+        }
+      }
+    },
+    "Average workout": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thời lượng trung bình"
+          }
+        }
+      }
+    },
+    "%lld min": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld phút"
+          }
+        }
+      }
+    },
+    "Favorite day": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngày tập nhiều nhất"
+          }
+        }
+      }
+    },
+    "Rest between workouts (90 days)": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nghỉ giữa các buổi (90 ngày)"
+          }
+        }
+      }
+    },
+    "%@ days": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ngày"
+          }
+        }
+      }
+    },
+    "Advanced stats on your profile": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thống kê nâng cao trên trang hồ sơ"
           }
         }
       }

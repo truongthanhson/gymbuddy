@@ -264,11 +264,10 @@
     <plurals name="sets_of_exercise">
         <item quantity="other">%1$d × %2$s</item>
     </plurals>
-    <string name="sets_per_muscle_group">Số set theo nhóm cơ, %1$d ngày qua</string>
     <string name="no_sets_yet">Chưa có set nào hoàn thành.</string>
     <string name="not_enough_weights">Ghi cân nặng ít nhất hai lần trong mục Đo để xem biểu đồ.</string>
-    <string name="pro_dashboard_locked">Biểu đồ nhóm cơ và cân nặng có trong GymBuddy Pro</string>
-    <string name="pro_feature_dashboard">Nhóm cơ và cân nặng trên trang hồ sơ</string>
+    <string name="pro_dashboard_locked">Khối lượng, kỷ lục, bài tập nhiều nhất, nhóm cơ và nhiều thống kê khác có trong GymBuddy Pro</string>
+    <string name="pro_feature_dashboard">Thống kê nâng cao trên trang hồ sơ</string>
     <string name="settings_theme">Giao diện</string>
     <string name="theme_system">Theo máy</string>
     <string name="theme_light">Sáng</string>
@@ -293,4 +292,34 @@
     <plurals name="workout_count">
         <item quantity="other">%1$d buổi tập</item>
     </plurals>
+    <string name="training_since">Tập từ %1$s</string>
+    <string name="stat_workouts">Buổi tập</string>
+    <string name="hours_short">%1$d giờ</string>
+    <string name="stat_total_time">Tổng thời gian</string>
+    <string name="stat_total_volume">Tổng khối lượng</string>
+    <string name="stat_total_sets">Set đã tập</string>
+    <string name="consistency">Độ đều đặn</string>
+    <plurals name="weeks_count">
+        <item quantity="other">%d tuần</item>
+    </plurals>
+    <string name="streak_current">Chuỗi hiện tại</string>
+    <string name="streak_best">Chuỗi dài nhất</string>
+    <string name="heatmap_caption">%1$d tuần qua, mỗi ô là một ngày</string>
+    <string name="volume_per_week">Khối lượng mỗi tuần</string>
+    <string name="sets_per_muscle_group_title">Số set theo nhóm cơ</string>
+    <string name="days_short">%1$d ngày</string>
+    <string name="personal_records">Kỷ lục cá nhân</string>
+    <string name="no_records_yet">Vượt 1RM ước tính tốt nhất của một bài tập để lập kỷ lục.</string>
+    <plurals name="records_total">
+        <item quantity="other">Tổng cộng %d kỷ lục 1RM ước tính</item>
+    </plurals>
+    <string name="estimated_one_rep_max_short">1RM ≈ %1$s</string>
+    <string name="top_exercises">Bài tập nhiều nhất</string>
+    <string name="vs_previous_months">%1$s so với 3 tháng trước</string>
+    <string name="training_habits">Thói quen tập</string>
+    <string name="average_duration">Thời lượng trung bình</string>
+    <string name="minutes_short">%1$d phút</string>
+    <string name="favorite_day">Ngày tập nhiều nhất</string>
+    <string name="average_rest_days">Nghỉ giữa các buổi (90 ngày)</string>
+    <string name="days_decimal">%1$s ngày</string>
 </resources>
