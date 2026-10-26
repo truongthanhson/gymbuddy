@@ -9,14 +9,16 @@ import com.gymbuddy.app.data.workout.SetType
 import com.gymbuddy.app.data.workout.WorkoutEntity
 import com.gymbuddy.app.data.workout.WorkoutExerciseEntity
 import com.gymbuddy.app.data.workout.WorkoutSetEntity
-import com.gymbuddy.app.domain.BodyPart
 import com.gymbuddy.app.domain.CsvExercise
 import com.gymbuddy.app.domain.CsvSet
 import com.gymbuddy.app.domain.CsvWorkout
 import com.gymbuddy.app.domain.ExerciseCategory
 import com.gymbuddy.app.domain.WeightUnit
+import com.gymbuddy.app.domain.categoryFromName
 import com.gymbuddy.app.domain.exportCsv
+import com.gymbuddy.app.domain.guessBodyPart
 import com.gymbuddy.app.domain.importCsv
+import com.gymbuddy.app.domain.libraryName
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -76,25 +78,32 @@ class CsvRepository @Inject constructor(
         var imported = 0
         var skipped = 0
         db.withTransaction {
-            val byName = exerciseDao.getAllLive()
+            val live = exerciseDao.getAllLive()
+            val byName = live
                 // associateBy keeps the last of equal names, so built-in exercises go last to win over custom ones.
                 .sortedByDescending { it.isCustom }
                 .associateBy { it.name.lowercase() }
                 .toMutableMap()
+            val library = live.filterNot { it.isCustom }.map { it.name to it.bodyPart }
             for (workout in workouts) {
                 val startedAt = runCatching { format.parse(workout.date)?.time }.getOrNull() ?: continue
                 if (workoutDao.countMatching(startedAt, workout.name) > 0) {
                     skipped++
                     continue
                 }
-                insert(workout, startedAt, byName)
+                insert(workout, startedAt, byName, library)
                 imported++
             }
         }
         ImportResult(imported, skipped)
     }
 
-    private suspend fun insert(workout: CsvWorkout, startedAt: Long, byName: MutableMap<String, ExerciseEntity>) {
+    private suspend fun insert(
+        workout: CsvWorkout,
+        startedAt: Long,
+        byName: MutableMap<String, ExerciseEntity>,
+        library: List<Pair<String, String>>,
+    ) {
         val now = System.currentTimeMillis()
         val endedAt = startedAt + (workout.durationSec ?: 0) * 1000L
         val workoutId = UUID.randomUUID().toString()
@@ -105,7 +114,8 @@ class CsvRepository @Inject constructor(
             ),
         )
         workout.exercises.forEachIndexed { index, exercise ->
-            val exerciseId = byName.getOrPut(exercise.name.lowercase()) { createExercise(exercise, now) }.id
+            val exerciseId = (byName[exercise.name.lowercase()] ?: byName[libraryName(exercise.name).lowercase()])?.id
+                ?: createExercise(exercise, library, now).also { byName[exercise.name.lowercase()] = it }.id
             val workoutExerciseId = UUID.randomUUID().toString()
             workoutDao.upsertWorkoutExercise(
                 WorkoutExerciseEntity(
@@ -126,13 +136,13 @@ class CsvRepository @Inject constructor(
         }
     }
 
-    private suspend fun createExercise(exercise: CsvExercise, now: Long): ExerciseEntity {
+    private suspend fun createExercise(exercise: CsvExercise, library: List<Pair<String, String>>, now: Long): ExerciseEntity {
         val entity = ExerciseEntity(
             id = UUID.randomUUID().toString(),
             name = exercise.name,
             nameVi = null,
             category = guessCategory(exercise).key,
-            bodyPart = BodyPart.OTHER.key,
+            bodyPart = guessBodyPart(exercise.name, library),
             primaryMuscle = null,
             secondaryMuscles = emptyList(),
             defaultRestSeconds = null,
@@ -146,12 +156,8 @@ class CsvRepository @Inject constructor(
 
     /** Strong names exercises like "Bench Press (Dumbbell)"; otherwise go by what the sets record. */
     private fun guessCategory(exercise: CsvExercise): ExerciseCategory {
-        val name = exercise.name.lowercase()
+        categoryFromName(exercise.name)?.let { key -> ExerciseCategory.entries.firstOrNull { it.key == key }?.let { return it } }
         return when {
-            "(barbell)" in name -> ExerciseCategory.BARBELL
-            "(dumbbell)" in name -> ExerciseCategory.DUMBBELL
-            "(machine)" in name -> ExerciseCategory.MACHINE
-            "(cable)" in name -> ExerciseCategory.CABLE
             exercise.sets.any { it.distanceM != null } -> ExerciseCategory.CARDIO
             exercise.sets.any { it.weightKg != null } -> ExerciseCategory.BARBELL
             exercise.sets.any { it.reps != null } -> ExerciseCategory.REPS_ONLY

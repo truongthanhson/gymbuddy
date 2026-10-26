@@ -248,6 +248,51 @@
           ]
         }
       ]
+    },
+    {
+      "name": "strong export with rest timer rows",
+      "defaultUnit": "kg",
+      "text": "Date,Workout Name,Duration,Exercise Name,Set Order,Weight,Reps,Distance,Seconds,Notes,Workout Notes,RPE\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",W,40.0,10.0,0,0.0,\"\",\"\",\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",Rest Timer,0,0.0,0,90.0,,,\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",1,60.0,8.0,0,0.0,,,\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",Rest Timer,0,0.0,0,90.0,,,\n2025-06-26 11:57:00,\"Full Body Workout\",48m,\"Bench Press (Barbell)\",F,60.0,6.0,0,0.0,,,\n",
+      "workouts": [
+        {
+          "date": "2025-06-26 11:57:00",
+          "name": "Full Body Workout",
+          "durationSec": 2880,
+          "note": null,
+          "exercises": [
+            {
+              "name": "Bench Press (Barbell)",
+              "note": null,
+              "sets": [
+                {
+                  "setType": "warmup",
+                  "weightKg": 40,
+                  "reps": 10,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                },
+                {
+                  "setType": "normal",
+                  "weightKg": 60,
+                  "reps": 8,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                },
+                {
+                  "setType": "failure",
+                  "weightKg": 60,
+                  "reps": 6,
+                  "distanceM": null,
+                  "seconds": null,
+                  "rpe": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "export": [

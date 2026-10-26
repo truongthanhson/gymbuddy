@@ -74,6 +74,7 @@ enum CsvService {
         for exercise in live.sorted(by: { !$0.isCustom && $1.isCustom }) where byName[exercise.name.lowercased()] == nil {
             byName[exercise.name.lowercased()] = exercise
         }
+        let library = live.filter { !$0.isCustom }.map { ($0.name, $0.bodyPart) }
         let existing = try context.fetch(FetchDescriptor<Workout>(predicate: #Predicate { $0.deletedAt == nil }))
         var seen = Set(existing.map { "\($0.startedAt.timeIntervalSince1970)|\($0.name)" })
         let formatter = dateFormatter
@@ -97,12 +98,12 @@ enum CsvService {
             context.insert(workout)
             for (index, entry) in csv.exercises.enumerated() {
                 let exercise: Exercise
-                if let known = byName[entry.name.lowercased()] {
+                if let known = byName[entry.name.lowercased()] ?? byName[libraryName(entry.name).lowercased()] {
                     exercise = known
                 } else {
                     exercise = Exercise(
                         id: UUID().uuidString, name: entry.name, category: guessCategory(entry).rawValue,
-                        bodyPart: BodyPart.other.rawValue, isCustom: true
+                        bodyPart: guessBodyPart(entry.name, library: library), isCustom: true
                     )
                     context.insert(exercise)
                     byName[entry.name.lowercased()] = exercise
@@ -132,11 +133,7 @@ enum CsvService {
 
     /// Strong names exercises like "Bench Press (Dumbbell)"; otherwise go by what the sets record.
     private static func guessCategory(_ exercise: CsvExercise) -> ExerciseCategory {
-        let name = exercise.name.lowercased()
-        if name.contains("(barbell)") { return .barbell }
-        if name.contains("(dumbbell)") { return .dumbbell }
-        if name.contains("(machine)") { return .machine }
-        if name.contains("(cable)") { return .cable }
+        if let category = categoryFromName(exercise.name).flatMap(ExerciseCategory.init(rawValue:)) { return category }
         if exercise.sets.contains(where: { $0.distanceM != nil }) { return .cardio }
         if exercise.sets.contains(where: { $0.weightKg != nil }) { return .barbell }
         if exercise.sets.contains(where: { $0.reps != nil }) { return .repsOnly }
