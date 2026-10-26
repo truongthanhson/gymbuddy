@@ -264,4 +264,8 @@
     <plurals name="sets_of_exercise">
         <item quantity="other">%1$d × %2$s</item>
     </plurals>
+    <string name="settings_theme">Giao diện</string>
+    <string name="theme_system">Theo máy</string>
+    <string name="theme_light">Sáng</string>
+    <string name="theme_dark">Tối</string>
 </resources>
