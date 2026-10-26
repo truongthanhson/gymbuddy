@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="buddy_name">Buddy</string>
+    <string name="buddy_first_workout">Ghi buổi tập đầu tiên, Buddy sẽ bắt đầu gợi ý mức tạ, ngày nghỉ và lúc cần giảm tải.</string>
+    <string name="buddy_all_good">Bạn đang đi đúng hướng. Cứ tiếp tục ghi, Buddy sẽ báo khi có điều cần chú ý.</string>
+    <string name="buddy_inactive">Đã %1$d ngày bạn chưa tập. Một buổi nhẹ hôm nay sẽ giúp bạn lấy lại nhịp.</string>
+    <string name="buddy_deload">%1$s đang chững lại. Tuần này thử giảm tải: %2$s × %3$d.</string>
+    <string name="buddy_volume_spike">Tuần này %1$s đã %2$d set, nhiều hơn tuần trước trên 30%%. Cẩn thận quá tải.</string>
+    <string name="buddy_neglected">Bạn chưa tập %1$s %2$d ngày rồi.</string>
+    <string name="buddy_streak">%1$d tuần liên tiếp đạt mục tiêu. Giữ vững nhé!</string>
+    <string name="buddy_ready">Sẵn sàng: %1$s</string>
+    <string name="buddy_recovering">Đang hồi phục: %1$s</string>
+    <string name="buddy_hours">%1$s (%2$d giờ)</string>
+    <string name="buddy_more">Thêm %1$d gợi ý</string>
+    <string name="buddy_less">Thu gọn</string>
+    <string name="buddy_target">Buddy: %1$s × %2$d</string>
+    <string name="buddy_target_increase">tăng tạ</string>
+    <string name="buddy_target_repeat">thêm 1 rep</string>
+    <string name="buddy_target_deload">giảm tải</string>
+    <string name="buddy_next_time">Lần tới</string>
+    <string name="buddy_next_time_line">%1$s: %2$s × %3$d</string>
+</resources>
