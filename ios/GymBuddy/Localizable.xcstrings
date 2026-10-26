@@ -251,6 +251,16 @@
         }
       }
     },
+    "Off": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tắt"
+          }
+        }
+      }
+    },
     "Olympic": {
       "localizations": {
         "vi": {
@@ -311,6 +321,26 @@
         }
       }
     },
+    "Rest is over": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hết giờ nghỉ"
+          }
+        }
+      }
+    },
+    "Rest timer": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thời gian nghỉ"
+          }
+        }
+      }
+    },
     "Search exercises": {
       "localizations": {
         "vi": {
@@ -351,12 +381,32 @@
         }
       }
     },
+    "Skip": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ qua"
+          }
+        }
+      }
+    },
     "Start an empty workout": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Bắt đầu buổi tập trống"
+          }
+        }
+      }
+    },
+    "Time for your next set.": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đến set tiếp theo rồi."
           }
         }
       }

@@ -1,0 +1,22 @@
+{
+  "description": "Rest timer. resolve: workoutExerciseRest ?? exerciseDefault ?? appDefault (120), negatives clamp to 0, 0 = off. remaining = ceil(max(0, endsAt - now) / 1000) seconds. adjust(delta): endsAt += delta, total = max(1, total + delta); null when remaining <= 0.",
+  "resolve": [
+    { "workoutExerciseRest": 90, "exerciseDefault": 180, "expected": 90 },
+    { "workoutExerciseRest": null, "exerciseDefault": 180, "expected": 180 },
+    { "workoutExerciseRest": null, "exerciseDefault": null, "expected": 120 },
+    { "workoutExerciseRest": 0, "exerciseDefault": 180, "expected": 0 },
+    { "workoutExerciseRest": null, "exerciseDefault": 0, "expected": 0 }
+  ],
+  "remaining": [
+    { "startSeconds": 120, "elapsedMillis": 0, "expected": 120 },
+    { "startSeconds": 120, "elapsedMillis": 500, "expected": 120 },
+    { "startSeconds": 120, "elapsedMillis": 1000, "expected": 119 },
+    { "startSeconds": 120, "elapsedMillis": 119001, "expected": 1 },
+    { "startSeconds": 120, "elapsedMillis": 125000, "expected": 0 }
+  ],
+  "adjust": [
+    { "startSeconds": 60, "elapsedMillis": 10000, "deltaSeconds": 15, "expectedRemaining": 65, "expectedTotal": 75 },
+    { "startSeconds": 60, "elapsedMillis": 10000, "deltaSeconds": -15, "expectedRemaining": 35, "expectedTotal": 45 },
+    { "startSeconds": 60, "elapsedMillis": 50000, "deltaSeconds": -15, "expectedRemaining": null, "expectedTotal": null }
+  ]
+}

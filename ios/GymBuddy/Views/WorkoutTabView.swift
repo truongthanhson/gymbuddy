@@ -18,6 +18,7 @@ struct WorkoutTabView: View {
                 List {
                     Section("Quick start") {
                         Button("Start an empty workout") {
+                            RestTimer.requestAuthorization()
                             WorkoutService.startEmptyWorkout(
                                 name: String(localized: "Workout"),
                                 in: context

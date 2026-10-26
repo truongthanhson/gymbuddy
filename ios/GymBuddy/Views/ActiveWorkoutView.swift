@@ -30,11 +30,16 @@ struct ActiveWorkoutView: View {
                 }
             }
             ForEach(workout.liveExercises) { item in
-                ExerciseSection(item: item, title: namesById[item.exerciseId]?.displayName ?? item.exerciseId)
+                ExerciseSection(item: item, exercise: namesById[item.exerciseId])
             }
             Section {
                 Button("Add exercises") { showPicker = true }
                 Button("Cancel workout", role: .destructive) { showCancel = true }
+            }
+        }
+        .safeAreaInset(edge: .bottom) {
+            if let state = RestTimer.shared.state {
+                RestTimerBar(state: state)
             }
         }
         .navigationTitle(workout.name)
@@ -58,7 +63,10 @@ struct ActiveWorkoutView: View {
             }
         }
         .alert("Finish workout?", isPresented: $showFinish) {
-            Button("Finish") { WorkoutService.finish(workout, in: context) }
+            Button("Finish") {
+                RestTimer.shared.skip()
+                WorkoutService.finish(workout, in: context)
+            }
             Button("Keep going", role: .cancel) {}
         } message: {
             Text(anyCompleted
@@ -66,7 +74,10 @@ struct ActiveWorkoutView: View {
                  : "No sets are ticked yet, so this workout will be discarded.")
         }
         .alert("Cancel workout?", isPresented: $showCancel) {
-            Button("Cancel workout", role: .destructive) { WorkoutService.discard(workout, in: context) }
+            Button("Cancel workout", role: .destructive) {
+                RestTimer.shared.skip()
+                WorkoutService.discard(workout, in: context)
+            }
             Button("Keep going", role: .cancel) {}
         } message: {
             Text("All logged sets in this workout will be lost.")
@@ -85,14 +96,27 @@ struct ActiveWorkoutView: View {
 private struct ExerciseSection: View {
     @Environment(\.modelContext) private var context
     let item: WorkoutExercise
-    let title: String
+    let exercise: Exercise?
+
+    private var title: String { exercise?.displayName ?? item.exerciseId }
+
+    private var restSeconds: Int {
+        resolveRestSeconds(workoutExerciseRest: item.restSeconds, exerciseDefault: exercise?.defaultRestSeconds)
+    }
 
     var body: some View {
         let previous = WorkoutService.previousSets(for: item.exerciseId, in: context)
         Section {
             SetHeader()
             ForEach(Array(item.liveSets.enumerated()), id: \.element.id) { index, set in
-                SetRow(index: index, set: set, previous: previous.indices.contains(index) ? previous[index] : nil)
+                let previousSet = previous.indices.contains(index) ? previous[index] : nil
+                SetRow(index: index, set: set, previous: previousSet) {
+                    let wasCompleted = set.completed
+                    WorkoutService.toggle(set, previous: previousSet, in: context)
+                    if !wasCompleted {
+                        RestTimer.shared.start(seconds: restSeconds, exerciseName: title)
+                    }
+                }
                     .swipeActions(edge: .trailing) {
                         Button("Delete set", role: .destructive) {
                             WorkoutService.delete(set, in: context)
@@ -108,6 +132,21 @@ private struct ExerciseSection: View {
                     .textCase(nil)
                 Spacer()
                 Menu {
+                    Menu {
+                        ForEach(restTimeOptions, id: \.self) { option in
+                            Button {
+                                WorkoutService.setRestSeconds(option, for: item, in: context)
+                            } label: {
+                                if option == restSeconds {
+                                    Label(restLabel(option), systemImage: "checkmark")
+                                } else {
+                                    Text(verbatim: restLabel(option))
+                                }
+                            }
+                        }
+                    } label: {
+                        Label("Rest timer", systemImage: "timer")
+                    }
                     Button("Remove exercise", role: .destructive) {
                         WorkoutService.remove(item, in: context)
                     }
@@ -140,10 +179,10 @@ private struct SetHeader: View {
 }
 
 private struct SetRow: View {
-    @Environment(\.modelContext) private var context
     let index: Int
     @Bindable var set: WorkoutSet
     let previous: WorkoutSet?
+    let onToggle: () -> Void
 
     var body: some View {
         HStack {
@@ -170,9 +209,7 @@ private struct SetRow: View {
             .multilineTextAlignment(.center)
             .textFieldStyle(.roundedBorder)
             .frame(width: Column.value)
-            Button {
-                WorkoutService.toggle(set, previous: previous, in: context)
-            } label: {
+            Button(action: onToggle) {
                 Image(systemName: set.completed ? "checkmark.square.fill" : "square")
                     .font(.title3)
             }
@@ -193,4 +230,8 @@ private func previousLabel(_ set: WorkoutSet) -> String {
     case let (weight?, nil): "\(formatWeight(weight)) kg"
     default: "—"
     }
+}
+
+func restLabel(_ seconds: Int) -> String {
+    seconds <= 0 ? String(localized: "Off") : formatElapsed(seconds)
 }

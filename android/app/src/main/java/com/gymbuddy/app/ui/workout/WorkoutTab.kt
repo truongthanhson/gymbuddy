@@ -1,5 +1,9 @@
 package com.gymbuddy.app.ui.workout
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +37,14 @@ fun WorkoutTab(
         }
         current.workout == null -> {
             val defaultName = stringResource(R.string.default_workout_name)
-            StartWorkoutScreen(onStartEmpty = { viewModel.startEmptyWorkout(defaultName) })
+            // The rest timer needs notifications; ask when the first workout starts.
+            val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
+            StartWorkoutScreen(onStartEmpty = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+                viewModel.startEmptyWorkout(defaultName)
+            })
         }
         else -> ActiveWorkoutScreen(
             workout = current.workout,
