@@ -136,4 +136,17 @@
     <string name="no_exercise_history">No completed sets for this exercise yet.</string>
     <string name="not_enough_for_chart">Finish this exercise in at least two workouts to see a chart.</string>
     <string name="one_rep_max_short">1RM %1$s</string>
+    <string name="settings_tools">Tools</string>
+    <string name="plate_calculator">Plate calculator</string>
+    <string name="plate_calculator_hint">Which plates to load on each side of the bar</string>
+    <string name="one_rep_max_calculator">1RM calculator</string>
+    <string name="one_rep_max_calculator_hint">Estimate your one-rep max from any set</string>
+    <string name="target_weight">Target weight</string>
+    <string name="bar_weight">Bar</string>
+    <string name="weight">Weight</string>
+    <string name="plates_per_side">Plates per side</string>
+    <string name="no_plates_needed">Just the bar</string>
+    <string name="loaded_weight">Loaded: %1$s</string>
+    <string name="plate_remainder">%1$s off the target with these plates</string>
+    <string name="rep_max_row">%1$d reps</string>
 </resources>

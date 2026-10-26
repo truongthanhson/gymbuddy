@@ -36,6 +36,10 @@ struct SettingsView: View {
                 } footer: {
                     Text("The default rest timer is used when an exercise has no rest time of its own. The app language is chosen in the Settings app.")
                 }
+                Section("Tools") {
+                    NavigationLink("Plate calculator") { PlateCalculatorView() }
+                    NavigationLink("1RM calculator") { OneRepMaxCalculatorView() }
+                }
                 Section("About") {
                     LabeledContent("GymBuddy", value: version)
                 }

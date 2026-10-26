@@ -1,6 +1,26 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ off the target with these plates": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lệch %@ so với mục tiêu với bộ đĩa này"
+          }
+        }
+      }
+    },
+    "%lld reps": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld rep"
+          }
+        }
+      }
+    },
     "(copy)": {
       "localizations": {
         "vi": {
@@ -17,6 +37,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "1RM %@"
+          }
+        }
+      }
+    },
+    "1RM calculator": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tính 1RM"
           }
         }
       }
@@ -137,6 +167,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sao lưu buổi tập và dùng trên mọi thiết bị"
+          }
+        }
+      }
+    },
+    "Bar": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thanh đòn"
           }
         }
       }
@@ -574,6 +614,16 @@
         }
       }
     },
+    "Just the bar": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chỉ thanh đòn"
+          }
+        }
+      }
+    },
     "Keep going": {
       "localizations": {
         "vi": {
@@ -620,6 +670,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chân"
+          }
+        }
+      }
+    },
+    "Loaded": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã lắp"
           }
         }
       }
@@ -860,6 +920,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Các buổi tập cũ vẫn giữ các set của bài tập này."
+          }
+        }
+      }
+    },
+    "Plate calculator": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tính đĩa tạ"
+          }
+        }
+      }
+    },
+    "Plates per side": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đĩa mỗi bên"
           }
         }
       }
@@ -1124,6 +1204,16 @@
         }
       }
     },
+    "Target weight": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mức tạ mục tiêu"
+          }
+        }
+      }
+    },
     "Template name": {
       "localizations": {
         "vi": {
@@ -1160,6 +1250,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Đến set tiếp theo rồi."
+          }
+        }
+      }
+    },
+    "Tools": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Công cụ"
           }
         }
       }
