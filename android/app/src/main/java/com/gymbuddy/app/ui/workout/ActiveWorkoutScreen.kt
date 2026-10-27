@@ -6,11 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,7 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -48,7 +47,6 @@ import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -56,6 +54,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -118,7 +119,6 @@ fun ActiveWorkoutScreen(
         LazyColumn(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {
                 if (editHeader != null) {
@@ -135,16 +135,18 @@ fun ActiveWorkoutScreen(
                     }
                 }
             }
-            item {
-                NoteField(
-                    note = workout.workout.note,
-                    placeholder = stringResource(R.string.workout_note_placeholder),
-                    onNoteChange = { viewModel.setWorkoutNote(workout.workout.id, it) },
-                )
+            item(contentType = "note") {
+                Box(Modifier.padding(top = 16.dp)) {
+                    NoteField(
+                        note = workout.workout.note,
+                        placeholder = stringResource(R.string.workout_note_placeholder),
+                        onNoteChange = { viewModel.setWorkoutNote(workout.workout.id, it) },
+                    )
+                }
             }
             val groups = workout.exercises.map { it.workoutExercise.supersetGroup }
-            itemsIndexed(workout.exercises, key = { _, it -> it.workoutExercise.id }, contentType = { _, _ -> "exercise" }) { index, item ->
-                ExerciseCard(
+            workout.exercises.forEachIndexed { index, item ->
+                exerciseItems(
                     item = item,
                     title = item.exercise.displayName(vietnamese),
                     index = index,
@@ -157,7 +159,7 @@ fun ActiveWorkoutScreen(
                 )
             }
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(Modifier.padding(top = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedButton(onClick = onAddExercises, modifier = Modifier.fillMaxWidth()) {
                         Text(stringResource(R.string.add_exercises))
                     }
@@ -275,8 +277,11 @@ private fun ElapsedText(startedAt: Long) {
     )
 }
 
-@Composable
-private fun ExerciseCard(
+/**
+ * One exercise as lazy items: a header, one item per set and an "Add set" footer, drawn as one card. Splitting
+ * the card lets the list compose a set at a time while scrolling, instead of a whole exercise in one frame.
+ */
+private fun LazyListScope.exerciseItems(
     item: WorkoutExerciseWithSets,
     title: String,
     index: Int,
@@ -287,18 +292,76 @@ private fun ExerciseCard(
     onReplace: () -> Unit,
     viewModel: WorkoutViewModel,
 ) {
+    val id = item.workoutExercise.id
+    val group = groups[index]
+    item(key = "$id:header", contentType = "exerciseHeader") {
+        CardPart(group, CardEdge.TOP, Modifier.padding(top = 16.dp)) {
+            ExerciseHeader(item, title, index, groups, workoutId, editing, onReplace, viewModel)
+        }
+    }
+    val labels = setLabels(item.sets.map { it.setType.name.lowercase() })
+    itemsIndexed(item.sets, key = { _, set -> set.id }, contentType = { _, _ -> "set" }) { setIndex, set ->
+        CardPart(group, CardEdge.MIDDLE) {
+            ExerciseSetRow(item, set, setIndex, labels[setIndex], title, index, groups, startedAt, editing, viewModel)
+        }
+    }
+    item(key = "$id:footer", contentType = "exerciseFooter") {
+        CardPart(group, CardEdge.BOTTOM) {
+            TextButton(onClick = { viewModel.addSet(id) }, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.add_set))
+            }
+        }
+    }
+}
+
+private enum class CardEdge { TOP, MIDDLE, BOTTOM }
+
+/** A slice of an exercise card; exercises of one superset share a coloured bar on the left, like Strong. */
+@Composable
+private fun CardPart(group: Int?, edge: CardEdge, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    val corners = MaterialTheme.shapes.large
+    val shape = when (edge) {
+        CardEdge.TOP -> corners.copy(bottomStart = CornerSize(0), bottomEnd = CornerSize(0))
+        CardEdge.MIDDLE -> RectangleShape
+        CardEdge.BOTTOM -> corners.copy(topStart = CornerSize(0), topEnd = CornerSize(0))
+    }
+    val bar = group?.let { supersetColor(it) }
+    Box(
+        modifier
+            .then(
+                if (bar == null) {
+                    Modifier
+                } else {
+                    Modifier
+                        .drawBehind { drawRect(bar, size = Size(4.dp.toPx(), size.height)) }
+                        .padding(start = 12.dp)
+                },
+            )
+            .clip(shape)
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .padding(
+                start = 12.dp,
+                end = 4.dp,
+                top = if (edge == CardEdge.TOP) 8.dp else 0.dp,
+                bottom = 4.dp,
+            ),
+    ) { content() }
+}
+
+@Composable
+private fun ExerciseHeader(
+    item: WorkoutExerciseWithSets,
+    title: String,
+    index: Int,
+    groups: List<Int?>,
+    workoutId: String,
+    editing: Boolean,
+    onReplace: () -> Unit,
+    viewModel: WorkoutViewModel,
+) {
     val group = groups[index]
     val isLast = index == groups.lastIndex
     val exerciseId = item.workoutExercise.exerciseId
-    // In an edited workout, "Previous" is the session before that one.
-    val previousFlow = remember(exerciseId, startedAt) { viewModel.previousSets(exerciseId, before = startedAt) }
-    val previous by previousFlow.collectAsStateWithLifecycle()
-    val historyFlow = remember(exerciseId, startedAt) { viewModel.historySets(exerciseId, before = startedAt) }
-    val history by historyFlow.collectAsStateWithLifecycle()
-    // Warm-up sets never count as records.
-    val records = remember(history, item.sets) {
-        liveRecords(history, item.sets.map { SetValues(it.weightKg, it.reps, it.completed && it.setType != SetType.WARMUP) })
-    }
     var menuOpen by remember { mutableStateOf(false) }
     var restDialogOpen by remember { mutableStateOf(false) }
     var noteOpen by remember { mutableStateOf(false) }
@@ -309,25 +372,7 @@ private fun ExerciseCard(
         settings.defaultRestSeconds,
     )
 
-    Row(Modifier.height(IntrinsicSize.Min)) {
-    if (group != null) {
-        // Exercises of one superset share a coloured bar, like Strong.
-        Box(
-            Modifier
-                .width(4.dp)
-                .fillMaxHeight()
-                .background(supersetColor(group), RoundedCornerShape(2.dp)),
-        )
-        Spacer(Modifier.width(8.dp))
-    }
-    Column(
-        Modifier
-            .weight(1f)
-            .clip(MaterialTheme.shapes.large)
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
-            .padding(start = 12.dp, end = 4.dp, top = 8.dp, bottom = 4.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-    ) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
         if (group != null) {
             Text(
                 stringResource(R.string.superset),
@@ -439,29 +484,7 @@ private fun ExerciseCard(
         }
         if (!editing) BuddyTargetHint(exerciseId)
         val category = item.exercise?.category ?: ""
-        val fields = setFields(category)
-        SetHeader(settings.weightUnit, fields, assisted = category == ExerciseCategory.ASSISTED_BODYWEIGHT.key)
-        val labels = setLabels(item.sets.map { it.setType.name.lowercase() })
-        item.sets.forEachIndexed { setIndex, set ->
-            // Keyed so a swiped-away row doesn't hand its state to the next one.
-            key(set.id) {
-                val previousSet = previous.getOrNull(setIndex)
-                SetRow(
-                    label = labels[setIndex],
-                    set = set,
-                    previous = previousSet,
-                    records = records[setIndex],
-                    onToggle = { viewModel.toggleSet(item, set, previousSet, title, !editing && startsRest(groups, index)) },
-                    unit = settings.weightUnit,
-                    fields = fields,
-                    viewModel = viewModel,
-                )
-            }
-        }
-        TextButton(onClick = { viewModel.addSet(item.workoutExercise.id) }, modifier = Modifier.fillMaxWidth()) {
-            Text(stringResource(R.string.add_set))
-        }
-    }
+        SetHeader(settings.weightUnit, setFields(category), assisted = category == ExerciseCategory.ASSISTED_BODYWEIGHT.key)
     }
 
     if (restDialogOpen) {
@@ -492,6 +515,44 @@ private fun ExerciseCard(
             },
         )
     }
+}
+
+@Composable
+private fun ExerciseSetRow(
+    item: WorkoutExerciseWithSets,
+    set: WorkoutSetEntity,
+    setIndex: Int,
+    label: String,
+    title: String,
+    index: Int,
+    groups: List<Int?>,
+    startedAt: Long,
+    editing: Boolean,
+    viewModel: WorkoutViewModel,
+) {
+    val exerciseId = item.workoutExercise.exerciseId
+    // In an edited workout, "Previous" is the session before that one. Both flows are cached per exercise.
+    val previous by remember(exerciseId, startedAt) { viewModel.previousSets(exerciseId, before = startedAt) }
+        .collectAsStateWithLifecycle()
+    val history by remember(exerciseId, startedAt) { viewModel.historySets(exerciseId, before = startedAt) }
+        .collectAsStateWithLifecycle()
+    // Warm-up sets never count as records.
+    val records = remember(history, item.sets, setIndex) {
+        liveRecords(history, item.sets.map { SetValues(it.weightKg, it.reps, it.completed && it.setType != SetType.WARMUP) })
+            .getOrElse(setIndex) { emptySet() }
+    }
+    val settings = LocalAppSettings.current
+    val previousSet = previous.getOrNull(setIndex)
+    SetRow(
+        label = label,
+        set = set,
+        previous = previousSet,
+        records = records,
+        onToggle = { viewModel.toggleSet(item, set, previousSet, title, !editing && startsRest(groups, index)) },
+        unit = settings.weightUnit,
+        fields = setFields(item.exercise?.category ?: ""),
+        viewModel = viewModel,
+    )
 }
 
 @Composable
