@@ -1,6 +1,6 @@
 {
-  "url": "",
-  "anonKey": "",
+  "url": "https://uvjighmbzodhawqkdcrx.supabase.co",
+  "anonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2amlnaG1iem9kaGF3cWtkY3J4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwODQ1MjAsImV4cCI6MjEwODY2MDUyMH0.U14EiXm0gKctNutu3VS25u1bGWiW4LtK8zxE0ZzcS28",
   "googleWebClientId": "",
   "appleSignIn": false
 }
