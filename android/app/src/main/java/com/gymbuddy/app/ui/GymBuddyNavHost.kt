@@ -1,6 +1,11 @@
 package com.gymbuddy.app.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -28,7 +33,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -105,6 +112,9 @@ fun GymBuddyNavHost() {
 
     Scaffold(
         bottomBar = {
+            // Only the five tabs show the bar; every screen opened from them is its own full screen, so Back always
+            // returns to where it was opened from and a tab tap can't land in the middle of another tab's screens.
+            if (destination?.isTab() == false) return@Scaffold
             NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer, tonalElevation = 0.dp) {
                 Tab.entries.forEach { tab ->
                     // Type-safe routes of argument-less objects use the class's qualified name as the route.
@@ -130,6 +140,11 @@ fun GymBuddyNavHost() {
             navController = navController,
             startDestination = WorkoutRoute,
             modifier = Modifier.padding(padding),
+            // Tabs cross-fade; a screen opened from a tab slides in over it and slides back out on Back.
+            enterTransition = { if (switchingTabs()) fadeIn(tween(TRANSITION_MS)) else slideIn(SlideDirection.Start) },
+            exitTransition = { if (switchingTabs()) fadeOut(tween(TRANSITION_MS)) else slideOut(SlideDirection.Start) },
+            popEnterTransition = { if (switchingTabs()) fadeIn(tween(TRANSITION_MS)) else slideIn(SlideDirection.End) },
+            popExitTransition = { if (switchingTabs()) fadeOut(tween(TRANSITION_MS)) else slideOut(SlideDirection.End) },
         ) {
             composable<HistoryRoute> {
                 HistoryScreen(
@@ -261,6 +276,21 @@ fun GymBuddyNavHost() {
         }
     }
 }
+
+private val tabRoutes = Tab.entries.map { it.route::class.qualifiedName }.toSet()
+
+private fun NavDestination.isTab() = route in tabRoutes
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.switchingTabs() =
+    initialState.destination.isTab() && targetState.destination.isTab()
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.slideIn(direction: SlideDirection) =
+    slideIntoContainer(direction, tween(TRANSITION_MS))
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.slideOut(direction: SlideDirection) =
+    slideOutOfContainer(direction, tween(TRANSITION_MS))
+
+private const val TRANSITION_MS = 250
 
 private fun NavController.navigateToTab(route: Any) = navigate(route) {
     popUpTo(graph.findStartDestination().id) { saveState = true }
