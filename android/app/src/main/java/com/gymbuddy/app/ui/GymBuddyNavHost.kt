@@ -6,6 +6,8 @@ import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -25,8 +27,12 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -61,6 +67,7 @@ import com.gymbuddy.app.ui.tools.BarAndPlatesScreen
 import com.gymbuddy.app.ui.tools.OneRepMaxCalculatorScreen
 import com.gymbuddy.app.ui.tools.PlateCalculatorScreen
 import com.gymbuddy.app.ui.tools.WarmupCalculatorScreen
+import com.gymbuddy.app.ui.workout.ActiveWorkoutBar
 import com.gymbuddy.app.ui.workout.WorkoutTab
 import com.gymbuddy.app.ui.workout.WorkoutViewModel
 import com.gymbuddy.app.ui.buddy.BuddyChatScreen
@@ -109,29 +116,46 @@ fun GymBuddyNavHost() {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val destination = backStackEntry?.destination
     val isPro = LocalIsPro.current
+    // Minimizing the workout goes back to the tab the user came from.
+    var lastTab by rememberSaveable { mutableStateOf(Tab.History) }
+    LaunchedEffect(destination) {
+        Tab.entries.firstOrNull { it != Tab.Workout && destination?.route == it.route::class.qualifiedName }?.let { lastTab = it }
+    }
+    // The start destination, so it is always on the back stack once the graph is set.
+    val workoutEntry = remember(backStackEntry) { backStackEntry?.let { navController.getBackStackEntry<WorkoutRoute>() } }
+    val workoutViewModel: WorkoutViewModel? = workoutEntry?.let { hiltViewModel(it) }
+    val activeWorkout = workoutViewModel?.state?.collectAsStateWithLifecycle()?.value?.workout
 
     Scaffold(
         bottomBar = {
             // Only the five tabs show the bar; every screen opened from them is its own full screen, so Back always
             // returns to where it was opened from and a tab tap can't land in the middle of another tab's screens.
             if (destination?.isTab() == false) return@Scaffold
-            NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer, tonalElevation = 0.dp) {
-                Tab.entries.forEach { tab ->
-                    // Type-safe routes of argument-less objects use the class's qualified name as the route.
-                    val selected = destination?.route == tab.route::class.qualifiedName
-                    NavigationBarItem(
-                        selected = selected,
-                        onClick = { navController.navigateToTab(tab.route) },
-                        icon = { Icon(if (selected) tab.selectedIcon else tab.icon, contentDescription = null) },
-                        label = { Text(stringResource(tab.label)) },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.primary,
-                            selectedTextColor = MaterialTheme.colorScheme.onSurface,
-                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        ),
-                    )
+            val onWorkoutTab = destination?.route == WorkoutRoute::class.qualifiedName
+            // A workout in progress takes the whole screen; minimized, it sits in a bar above the tabs.
+            if (onWorkoutTab && activeWorkout != null) return@Scaffold
+            Column {
+                if (workoutViewModel != null && !onWorkoutTab) {
+                    ActiveWorkoutBar(workoutViewModel, onOpen = { navController.navigateToTab(WorkoutRoute) })
+                }
+                NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer, tonalElevation = 0.dp) {
+                    Tab.entries.forEach { tab ->
+                        // Type-safe routes of argument-less objects use the class's qualified name as the route.
+                        val selected = destination?.route == tab.route::class.qualifiedName
+                        NavigationBarItem(
+                            selected = selected,
+                            onClick = { navController.navigateToTab(tab.route) },
+                            icon = { Icon(if (selected) tab.selectedIcon else tab.icon, contentDescription = null) },
+                            label = { Text(stringResource(tab.label)) },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = MaterialTheme.colorScheme.primary,
+                                selectedTextColor = MaterialTheme.colorScheme.onSurface,
+                                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            ),
+                        )
+                    }
                 }
             }
         },
@@ -139,7 +163,8 @@ fun GymBuddyNavHost() {
         NavHost(
             navController = navController,
             startDestination = WorkoutRoute,
-            modifier = Modifier.padding(padding),
+            // Consumed so screens inside don't pad for the system bars again, and the keyboard pads only past the tabs.
+            modifier = Modifier.padding(padding).consumeWindowInsets(padding),
             // Tabs cross-fade; a screen opened from a tab slides in over it and slides back out on Back.
             enterTransition = { if (switchingTabs()) fadeIn(tween(TRANSITION_MS)) else slideIn(SlideDirection.Start) },
             exitTransition = { if (switchingTabs()) fadeOut(tween(TRANSITION_MS)) else slideOut(SlideDirection.Start) },
@@ -186,6 +211,7 @@ fun GymBuddyNavHost() {
                     onOpenPaywall = { navController.navigate(PaywallRoute) },
                     onOpenBuddy = { navController.navigate(BuddyRoute) },
                     onOpenBuddyReport = { navController.navigate(BuddyReportRoute) },
+                    onCollapse = { navController.navigateToTab(lastTab.route) },
                 )
             }
             composable<BuddyReportRoute> {

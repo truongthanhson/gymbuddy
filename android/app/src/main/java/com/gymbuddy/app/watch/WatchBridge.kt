@@ -96,7 +96,7 @@ class WatchBridge @Inject constructor(
         val items = workoutDao.getWorkoutWithExercises(item.workoutId)?.exercises.orEmpty()
         val position = items.indexOfFirst { it.workoutExercise.id == item.id }
         if (!startsRest(items.map { it.workoutExercise.supersetGroup }, position)) return
-        withContext(Dispatchers.Main) { restTimer.start(seconds, exercise.displayName(vietnamese)) }
+        withContext(Dispatchers.Main) { restTimer.start(seconds, exercise.displayName(vietnamese), setId) }
     }
 
     private suspend fun publish(state: WatchState) {

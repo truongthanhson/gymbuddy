@@ -50,6 +50,8 @@
     <string name="skip">Skip</string>
     <string name="rest_off">Off</string>
     <string name="rest_time_value">Rest timer: %1$s</string>
+    <string name="rest_remaining">Rest %1$s</string>
+    <string name="minimize_workout">Minimize workout</string>
     <string name="templates">Templates</string>
     <string name="my_templates">My templates</string>
     <string name="new_template">New template</string>

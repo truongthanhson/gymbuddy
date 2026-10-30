@@ -49,6 +49,8 @@
     <string name="skip">Bỏ qua</string>
     <string name="rest_off">Tắt</string>
     <string name="rest_time_value">Thời gian nghỉ: %1$s</string>
+    <string name="rest_remaining">Nghỉ %1$s</string>
+    <string name="minimize_workout">Thu nhỏ buổi tập</string>
     <string name="templates">Mẫu buổi tập</string>
     <string name="my_templates">Mẫu của tôi</string>
     <string name="new_template">Mẫu mới</string>

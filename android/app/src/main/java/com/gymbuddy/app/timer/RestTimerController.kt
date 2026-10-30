@@ -19,8 +19,8 @@ class RestTimerController @Inject constructor(private val notifier: RestTimerNot
 
     private var label: String = ""
 
-    fun start(seconds: Int, exerciseName: String) {
-        val next = RestTimerState.start(seconds, now()) ?: return
+    fun start(seconds: Int, exerciseName: String, setId: String? = null) {
+        val next = RestTimerState.start(seconds, now(), setId) ?: return
         label = exerciseName
         apply(next)
     }

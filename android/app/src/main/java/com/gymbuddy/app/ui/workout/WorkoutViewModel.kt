@@ -159,6 +159,7 @@ class WorkoutViewModel @Inject constructor(
                     settings.settings.value.defaultRestSeconds,
                 ),
                 exerciseName,
+                set.id,
             )
         }
     }

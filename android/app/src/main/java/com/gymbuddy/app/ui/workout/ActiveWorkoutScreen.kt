@@ -1,5 +1,6 @@
 package com.gymbuddy.app.ui.workout
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,16 +26,20 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FilledIconToggleButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -58,6 +64,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -74,6 +81,7 @@ import com.gymbuddy.app.domain.ExerciseCategory
 import com.gymbuddy.app.domain.REST_TIME_OPTIONS
 import com.gymbuddy.app.domain.RPE_OPTIONS
 import com.gymbuddy.app.domain.RecordKind
+import com.gymbuddy.app.domain.RestTimerState
 import com.gymbuddy.app.domain.SetField
 import com.gymbuddy.app.domain.SetValues
 import com.gymbuddy.app.domain.WeightUnit
@@ -105,6 +113,7 @@ fun ActiveWorkoutScreen(
     viewModel: WorkoutViewModel,
     onAddExercises: () -> Unit,
     onReplaceExercise: (workoutExerciseId: String) -> Unit,
+    onCollapse: () -> Unit = {},
     editHeader: (@Composable (onRename: () -> Unit) -> Unit)? = null,
 ) {
     val editing = editHeader != null
@@ -114,8 +123,10 @@ fun ActiveWorkoutScreen(
     val vietnamese = useVietnameseNames()
 
     val restTimer by viewModel.restTimerState.collectAsStateWithLifecycle()
+    // The workout covers the tabs, so Back minimizes it instead of leaving the app.
+    BackHandler(enabled = !editing, onBack = onCollapse)
 
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize().imePadding()) {
         LazyColumn(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(16.dp),
@@ -125,6 +136,9 @@ fun ActiveWorkoutScreen(
                     editHeader { showRename = true }
                 } else {
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        IconButton(onClick = onCollapse) {
+                            Icon(Icons.Filled.KeyboardArrowDown, contentDescription = stringResource(R.string.minimize_workout))
+                        }
                         Column(Modifier.weight(1f)) {
                             TextButton(onClick = { showRename = true }, contentPadding = PaddingValues(0.dp)) {
                                 Text(workout.workout.name, style = MaterialTheme.typography.headlineMedium)
@@ -154,6 +168,7 @@ fun ActiveWorkoutScreen(
                     workoutId = workout.workout.id,
                     startedAt = workout.workout.startedAt,
                     editing = editing,
+                    restTimer = restTimer,
                     onReplace = { onReplaceExercise(item.workoutExercise.id) },
                     viewModel = viewModel,
                 )
@@ -289,11 +304,14 @@ private fun LazyListScope.exerciseItems(
     workoutId: String,
     startedAt: Long,
     editing: Boolean,
+    restTimer: RestTimerState?,
     onReplace: () -> Unit,
     viewModel: WorkoutViewModel,
 ) {
     val id = item.workoutExercise.id
     val group = groups[index]
+    // History has no rest timer, and in a superset only the last exercise rests.
+    val showsRest = !editing && startsRest(groups, index)
     item(key = "$id:header", contentType = "exerciseHeader") {
         CardPart(group, CardEdge.TOP, Modifier.padding(top = 16.dp)) {
             ExerciseHeader(item, title, index, groups, workoutId, editing, onReplace, viewModel)
@@ -302,7 +320,10 @@ private fun LazyListScope.exerciseItems(
     val labels = setLabels(item.sets.map { it.setType.name.lowercase() })
     itemsIndexed(item.sets, key = { _, set -> set.id }, contentType = { _, _ -> "set" }) { setIndex, set ->
         CardPart(group, CardEdge.MIDDLE) {
-            ExerciseSetRow(item, set, setIndex, labels[setIndex], title, index, groups, startedAt, editing, viewModel)
+            Column {
+                ExerciseSetRow(item, set, setIndex, labels[setIndex], title, index, groups, startedAt, editing, viewModel)
+                if (showsRest) SetRest(item, restTimer?.takeIf { it.setId == set.id }, viewModel)
+            }
         }
     }
     item(key = "$id:footer", contentType = "exerciseFooter") {
@@ -488,31 +509,102 @@ private fun ExerciseHeader(
     }
 
     if (restDialogOpen) {
-        AlertDialog(
-            onDismissRequest = { restDialogOpen = false },
-            title = { Text(stringResource(R.string.rest_timer)) },
-            text = {
-                Column {
-                    REST_TIME_OPTIONS.forEach { option ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    restDialogOpen = false
-                                    viewModel.setRestSeconds(item.workoutExercise.id, option)
-                                }
-                                .padding(vertical = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            RadioButton(selected = option == restSeconds, onClick = null)
-                            Text(restLabel(option), modifier = Modifier.padding(start = 12.dp))
-                        }
+        RestTimeDialog(
+            restSeconds = restSeconds,
+            onSelect = {
+                restDialogOpen = false
+                viewModel.setRestSeconds(item.workoutExercise.id, it)
+            },
+            onDismiss = { restDialogOpen = false },
+        )
+    }
+}
+
+@Composable
+private fun RestTimeDialog(restSeconds: Int, onSelect: (Int) -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.rest_timer)) },
+        text = {
+            Column {
+                REST_TIME_OPTIONS.forEach { option ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onSelect(option) }
+                            .padding(vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(selected = option == restSeconds, onClick = null)
+                        Text(restLabel(option), modifier = Modifier.padding(start = 12.dp))
                     }
                 }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) }
+        },
+    )
+}
+
+/** The rest after a set, like Strong: how long it is, or the countdown while it runs. Tapping it changes the rest time. */
+@Composable
+private fun SetRest(item: WorkoutExerciseWithSets, running: RestTimerState?, viewModel: WorkoutViewModel) {
+    val restSeconds = resolveRestSeconds(
+        item.workoutExercise.restSeconds,
+        item.exercise?.defaultRestSeconds,
+        LocalAppSettings.current.defaultRestSeconds,
+    )
+    if (restSeconds <= 0 && running == null) return
+    var dialogOpen by remember { mutableStateOf(false) }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(24.dp)
+            .clickable { dialogOpen = true }
+            .padding(end = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        if (running != null) {
+            val now by produceState(System.currentTimeMillis(), running) {
+                while (true) {
+                    value = System.currentTimeMillis()
+                    delay(250)
+                }
+            }
+            LinearProgressIndicator(
+                progress = { running.progress(now) },
+                modifier = Modifier.weight(1f).height(4.dp),
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.primaryContainer,
+                strokeCap = StrokeCap.Round,
+                gapSize = 0.dp,
+                drawStopIndicator = {},
+            )
+            Text(
+                formatElapsed(running.remainingSeconds(now).toLong()),
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        } else {
+            val color = MaterialTheme.colorScheme.onSurfaceVariant
+            HorizontalDivider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outlineVariant)
+            Icon(Icons.Outlined.Timer, contentDescription = stringResource(R.string.rest_timer), tint = color, modifier = Modifier.size(14.dp))
+            Text(formatElapsed(restSeconds.toLong()), style = MaterialTheme.typography.labelSmall, color = color)
+            HorizontalDivider(Modifier.weight(1f), color = MaterialTheme.colorScheme.outlineVariant)
+        }
+    }
+
+    if (dialogOpen) {
+        RestTimeDialog(
+            restSeconds = restSeconds,
+            onSelect = {
+                dialogOpen = false
+                viewModel.setRestSeconds(item.workoutExercise.id, it)
             },
-            confirmButton = {
-                TextButton(onClick = { restDialogOpen = false }) { Text(stringResource(R.string.close)) }
-            },
+            onDismiss = { dialogOpen = false },
         )
     }
 }
@@ -660,6 +752,7 @@ private fun SetRow(
                         parse = ::parseDecimal,
                         placeholder = previous?.weightKg?.let { formatWeight(unit.display(it)) },
                         input = InputKind.DECIMAL,
+                        completed = set.completed,
                         onValueChange = { viewModel.setWeight(set.id, it?.let(unit::toKg)) },
                     )
                     SetField.REPS -> NumberField(
@@ -668,6 +761,7 @@ private fun SetRow(
                         parse = { it.toIntOrNull() },
                         placeholder = previous?.reps?.toString(),
                         input = InputKind.INTEGER,
+                        completed = set.completed,
                         onValueChange = { viewModel.setReps(set.id, it) },
                     )
                     SetField.DISTANCE -> NumberField(
@@ -676,6 +770,7 @@ private fun SetRow(
                         parse = ::parseDecimal,
                         placeholder = previous?.distanceM?.let { formatWeight(unit.distanceUnit.display(it)) },
                         input = InputKind.DECIMAL,
+                        completed = set.completed,
                         onValueChange = { viewModel.setDistance(set.id, it?.let(unit.distanceUnit::toMeters)) },
                     )
                     SetField.DURATION -> NumberField(
@@ -684,6 +779,7 @@ private fun SetRow(
                         parse = ::parseDuration,
                         placeholder = previous?.durationSec?.let(::formatDuration),
                         input = InputKind.DURATION,
+                        completed = set.completed,
                         onValueChange = { viewModel.setDuration(set.id, it) },
                     )
                 }
@@ -864,7 +960,10 @@ private enum class InputKind(val keyboard: KeyboardType, val allows: (Char) -> B
     DURATION(KeyboardType.Text, { it.isDigit() || it == ':' }),
 }
 
-/** A compact numeric input that keeps the user's text while typing and saves the parsed value. */
+/**
+ * A compact numeric input that keeps the user's text while typing and saves the parsed value.
+ * An entered value is tinted so it can't be mistaken for the previous session's placeholder.
+ */
 @Composable
 private fun <T : Any> NumberField(
     value: T?,
@@ -872,6 +971,7 @@ private fun <T : Any> NumberField(
     parse: (String) -> T?,
     placeholder: String?,
     input: InputKind,
+    completed: Boolean,
     onValueChange: (T?) -> Unit,
 ) {
     var text by remember { mutableStateOf(value?.let(format) ?: "") }
@@ -879,12 +979,23 @@ private fun <T : Any> NumberField(
     LaunchedEffect(value) {
         if (parse(text) != value) text = value?.let(format) ?: ""
     }
+    val filled = text.isNotEmpty()
+    val container = when {
+        completed -> GymBuddyTheme.colors.success.copy(alpha = 0.15f)
+        filled -> MaterialTheme.colorScheme.primaryContainer
+        else -> MaterialTheme.colorScheme.surfaceContainerHigh
+    }
+    val textColor = when {
+        completed -> GymBuddyTheme.colors.onSuccessContainer
+        filled -> MaterialTheme.colorScheme.onPrimaryContainer
+        else -> LocalContentColor.current
+    }
     Box(
         Modifier
             .width(ValueColumn)
             .padding(horizontal = 4.dp)
             .height(36.dp)
-            .background(MaterialTheme.colorScheme.surfaceContainerHigh, RoundedCornerShape(8.dp)),
+            .background(container, RoundedCornerShape(8.dp)),
         contentAlignment = Alignment.Center,
     ) {
         if (text.isEmpty() && placeholder != null) {
@@ -900,7 +1011,8 @@ private fun <T : Any> NumberField(
             singleLine = true,
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 textAlign = TextAlign.Center,
-                color = LocalContentColor.current,
+                color = textColor,
+                fontWeight = FontWeight.SemiBold,
             ),
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             keyboardOptions = KeyboardOptions(

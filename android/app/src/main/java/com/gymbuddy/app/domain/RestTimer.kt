@@ -9,8 +9,11 @@ const val DEFAULT_REST_SECONDS = 120
 fun resolveRestSeconds(workoutExerciseRest: Int?, exerciseDefault: Int?, appDefault: Int = DEFAULT_REST_SECONDS): Int =
     (workoutExerciseRest ?: exerciseDefault ?: appDefault).coerceAtLeast(0)
 
-/** A running rest timer. Times are epoch milliseconds so the state survives the UI going away. */
-data class RestTimerState(val endsAtMillis: Long, val totalSeconds: Int) {
+/**
+ * A running rest timer. Times are epoch milliseconds so the state survives the UI going away.
+ * [setId] is the set whose completion started it, so that set can show the countdown.
+ */
+data class RestTimerState(val endsAtMillis: Long, val totalSeconds: Int, val setId: String? = null) {
 
     fun remainingSeconds(nowMillis: Long): Int =
         ceil((endsAtMillis - nowMillis).coerceAtLeast(0) / 1000.0).toInt()
@@ -21,13 +24,13 @@ data class RestTimerState(val endsAtMillis: Long, val totalSeconds: Int) {
 
     /** Adds (or with a negative delta removes) time; null when that leaves no rest. */
     fun adjusted(deltaSeconds: Int, nowMillis: Long): RestTimerState? {
-        val next = RestTimerState(endsAtMillis + deltaSeconds * 1000L, (totalSeconds + deltaSeconds).coerceAtLeast(1))
+        val next = copy(endsAtMillis = endsAtMillis + deltaSeconds * 1000L, totalSeconds = (totalSeconds + deltaSeconds).coerceAtLeast(1))
         return if (next.remainingSeconds(nowMillis) <= 0) null else next
     }
 
     companion object {
-        fun start(seconds: Int, nowMillis: Long): RestTimerState? =
-            if (seconds <= 0) null else RestTimerState(nowMillis + seconds * 1000L, seconds)
+        fun start(seconds: Int, nowMillis: Long, setId: String? = null): RestTimerState? =
+            if (seconds <= 0) null else RestTimerState(nowMillis + seconds * 1000L, seconds, setId)
     }
 }
 

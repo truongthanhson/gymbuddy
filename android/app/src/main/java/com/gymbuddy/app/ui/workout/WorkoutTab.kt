@@ -52,6 +52,7 @@ fun WorkoutTab(
     onOpenPaywall: () -> Unit,
     onOpenBuddy: () -> Unit,
     onOpenBuddyReport: () -> Unit,
+    onCollapse: () -> Unit,
     viewModel: WorkoutViewModel = hiltViewModel(),
     templatesViewModel: TemplatesViewModel = hiltViewModel(),
 ) {
@@ -104,6 +105,7 @@ fun WorkoutTab(
             viewModel = viewModel,
             onAddExercises = { onAddExercises(current.workout.workout.id) },
             onReplaceExercise = { onReplaceExercise(current.workout.workout.id, it) },
+            onCollapse = onCollapse,
         )
     }
 }
