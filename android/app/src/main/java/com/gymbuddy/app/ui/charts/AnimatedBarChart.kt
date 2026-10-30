@@ -40,6 +40,7 @@ private const val BAR_SHARE = 0.6f
 /**
  * Vertical bars that grow in one after another, with a dashed average line. Touching or dragging across the bars
  * highlights one and shows [tooltip] for it; tapping it again clears the highlight.
+ * When the bars are too narrow for their [valueLabel]s, the values are left to the tooltip; dates thin out the same way.
  */
 @Composable
 fun AnimatedBarChart(
@@ -49,6 +50,7 @@ fun AnimatedBarChart(
     modifier: Modifier = Modifier,
     chartHeight: Dp = 180.dp,
     averageLabel: ((Double) -> String)? = null,
+    valueLabel: (Int) -> String = { it.toString() },
     description: String = "",
 ) {
     if (values.isEmpty()) return
@@ -59,6 +61,7 @@ fun AnimatedBarChart(
     val tabular = TextStyle(fontFeatureSettings = "tnum")
     val labelStyle = MaterialTheme.typography.labelSmall.merge(tabular).copy(color = chartColors.chartLabel)
     val countStyle = MaterialTheme.typography.labelMedium.merge(tabular).copy(color = colors.onSurface)
+    val smallCountStyle = MaterialTheme.typography.labelSmall.merge(tabular).copy(color = colors.onSurface)
     val tooltipStyle = MaterialTheme.typography.labelMedium.merge(tabular).copy(color = colors.inverseOnSurface)
 
     val grow = remember { Animatable(0f) }
@@ -96,11 +99,21 @@ fun AnimatedBarChart(
     ) {
         val labelHeight = measurer.measure(AnnotatedString("0"), labelStyle).size.height.toFloat()
         val countHeight = measurer.measure(AnnotatedString("0"), countStyle).size.height.toFloat()
-        val top = countHeight + 4.dp.toPx()
+        // The average's legend gets a row of its own so it can't sit on a bar's value.
+        val legendHeight = if (averageLabel != null) labelHeight + 4.dp.toPx() else 0f
+        val top = legendHeight + countHeight + 4.dp.toPx()
         val bottom = size.height - labelHeight - 6.dp.toPx()
         val plot = bottom - top
         val slot = size.width / values.size
         val barWidth = slot * 0.62f
+        val gap = 4.dp.toPx()
+        val counts = listOf(countStyle, smallCountStyle).firstNotNullOfOrNull { style ->
+            values.map { measurer.measure(AnnotatedString(valueLabel(it)), style) }
+                .takeIf { texts -> texts.all { it.size.width + gap <= slot } }
+        }
+        val dates = labels.map { measurer.measure(AnnotatedString(it), labelStyle) }
+        // Every other date, counted back from the latest, when they don't fit side by side.
+        val dateStride = if (dates.all { it.size.width + gap <= slot }) 1 else 2
         val share = if (values.size > 1) BAR_SHARE else 1f
         val step = if (values.size > 1) (1f - share) / (values.size - 1) else 0f
 
@@ -119,14 +132,17 @@ fun AnimatedBarChart(
                     cornerRadius = CornerRadius(6.dp.toPx().coerceAtMost(barWidth / 2)),
                 )
             }
-            val count = measurer.measure(AnnotatedString(value.toString()), countStyle)
-            drawText(
-                count,
-                topLeft = Offset(i * slot + (slot - count.size.width) / 2, bottom - h - count.size.height - 2.dp.toPx()),
-                alpha = local * alpha,
-            )
-            val label = measurer.measure(AnnotatedString(labels.getOrElse(i) { "" }), labelStyle)
-            drawText(label, topLeft = Offset(i * slot + (slot - label.size.width) / 2, size.height - label.size.height))
+            counts?.get(i)?.let { count ->
+                drawText(
+                    count,
+                    topLeft = Offset(i * slot + (slot - count.size.width) / 2, bottom - h - count.size.height - 2.dp.toPx()),
+                    alpha = local * alpha,
+                )
+            }
+            val label = dates.getOrNull(i)
+            if (label != null && (values.lastIndex - i) % dateStride == 0) {
+                drawText(label, topLeft = Offset(i * slot + (slot - label.size.width) / 2, size.height - label.size.height))
+            }
         }
 
         if (averageLabel != null && average > 0) {
@@ -139,13 +155,16 @@ fun AnimatedBarChart(
                 pathEffect = PathEffect.dashPathEffect(floatArrayOf(5.dp.toPx(), 4.dp.toPx())),
             )
             val text = measurer.measure(AnnotatedString(averageLabel(average)), labelStyle)
-            drawRoundRect(
-                colors.surface.copy(alpha = 0.85f),
-                topLeft = Offset(size.width - text.size.width - 6.dp.toPx(), y - text.size.height - 2.dp.toPx()),
-                size = Size(text.size.width + 4.dp.toPx(), text.size.height.toFloat()),
-                cornerRadius = CornerRadius(4.dp.toPx()),
+            val textLeft = size.width - text.size.width
+            val swatchY = text.size.height / 2f
+            drawLine(
+                colors.onSurfaceVariant.copy(alpha = 0.7f),
+                Offset(textLeft - 18.dp.toPx(), swatchY),
+                Offset(textLeft - 4.dp.toPx(), swatchY),
+                strokeWidth = 1.dp.toPx(),
+                pathEffect = PathEffect.dashPathEffect(floatArrayOf(5.dp.toPx(), 4.dp.toPx())),
             )
-            drawText(text, topLeft = Offset(size.width - text.size.width - 4.dp.toPx(), y - text.size.height - 2.dp.toPx()))
+            drawText(text, topLeft = Offset(textLeft, 0f))
         }
 
         selected?.let { i ->

@@ -197,6 +197,7 @@ fun ProfileScreen(
                     firstWeekStart = s.firstWeekStart - (VOLUME_WEEKS - CHART_WEEKS) * WEEK_MILLIS,
                     tooltipValue = { "${formatCompact(it.toDouble())} ${unit.symbol}" },
                     showAverage = false,
+                    valueLabel = ::formatShort,
                 )
             }
         }
@@ -326,6 +327,14 @@ private fun formatCompact(value: Double): String = when {
     else -> "%.2fM".format(value / 1_000_000)
 }
 
+/** "850", "4.2k", "26k", "1.2M": short enough to sit above a narrow bar. */
+private fun formatShort(value: Int): String = when {
+    value < 1_000 -> value.toString()
+    value < 9_950 -> "%.1fk".format(value / 1_000.0)
+    value < 999_500 -> "${(value + 500) / 1_000}k"
+    else -> "%.1fM".format(value / 1_000_000.0)
+}
+
 private fun weightText(kg: Double, unit: WeightUnit): String = "${formatWeight(Math.round(unit.display(kg) * 10) / 10.0)} ${unit.symbol}"
 
 private fun signed(value: Double, unit: WeightUnit): String {
@@ -453,6 +462,7 @@ private fun WeekBars(
     firstWeekStart: Long,
     tooltipValue: @Composable (Int) -> String,
     showAverage: Boolean = true,
+    valueLabel: (Int) -> String = { it.toString() },
 ) {
     val zone = remember { ZoneId.systemDefault() }
     val format = remember { DateTimeFormatter.ofPattern("d/M") }
@@ -471,6 +481,7 @@ private fun WeekBars(
         labels = labels,
         tooltip = { tooltips[it] },
         averageLabel = if (showAverage) ({ average.format("%.1f".format(it)) }) else null,
+        valueLabel = valueLabel,
         description = tooltips.joinToString(", "),
         chartHeight = 180.dp,
     )
