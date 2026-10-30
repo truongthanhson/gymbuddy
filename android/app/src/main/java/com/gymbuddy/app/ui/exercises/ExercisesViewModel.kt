@@ -1,5 +1,9 @@
 package com.gymbuddy.app.ui.exercises
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gymbuddy.app.data.exercise.ExerciseDao
@@ -20,7 +24,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 data class ExercisesUiState(
-    val query: String = "",
     val bodyPart: BodyPart? = null,
     val exercises: List<ExerciseEntity> = emptyList(),
 )
@@ -32,18 +35,20 @@ class ExercisesViewModel @Inject constructor(
     private val repository: ExerciseRepository,
 ) : ViewModel() {
 
-    private val query = MutableStateFlow("")
+    // Compose state, not a flow: the search field must read back what was typed right away, or the IME loses its place.
+    var query by mutableStateOf("")
+        private set
     private val bodyPart = MutableStateFlow<BodyPart?>(null)
 
     val uiState: StateFlow<ExercisesUiState> =
-        combine(query, bodyPart) { q, bp -> q to bp }
+        combine(snapshotFlow { query.trim() }, bodyPart) { q, bp -> q to bp }
             .flatMapLatest { (q, bp) ->
-                dao.observe(q.trim(), bp?.key).map { ExercisesUiState(q, bp, it) }
+                dao.observe(q, bp?.key).map { ExercisesUiState(bp, it) }
             }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ExercisesUiState())
 
     fun onQueryChange(value: String) {
-        query.value = value
+        query = value
     }
 
     fun onBodyPartSelected(value: BodyPart?) {

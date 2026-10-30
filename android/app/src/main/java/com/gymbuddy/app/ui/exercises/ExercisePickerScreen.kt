@@ -60,6 +60,7 @@ fun ExercisePickerScreen(
         },
     ) { padding ->
         ExerciseBrowser(
+            query = viewModel.query,
             state = state,
             onQueryChange = viewModel::onQueryChange,
             onBodyPartSelected = viewModel::onBodyPartSelected,

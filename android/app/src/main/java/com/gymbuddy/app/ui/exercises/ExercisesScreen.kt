@@ -60,6 +60,7 @@ fun ExercisesScreen(onOpenExercise: (String) -> Unit, viewModel: ExercisesViewMo
         Column(Modifier.padding(padding)) {
             ScreenHeader(stringResource(R.string.tab_exercises))
             ExerciseBrowser(
+                query = viewModel.query,
                 state = state,
                 onQueryChange = viewModel::onQueryChange,
                 onBodyPartSelected = viewModel::onBodyPartSelected,
@@ -80,6 +81,7 @@ fun ExercisesScreen(onOpenExercise: (String) -> Unit, viewModel: ExercisesViewMo
 /** Search field, body-part chips and the exercise list; used by the Exercises tab and the exercise picker. */
 @Composable
 fun ExerciseBrowser(
+    query: String,
     state: ExercisesUiState,
     onQueryChange: (String) -> Unit,
     onBodyPartSelected: (BodyPart?) -> Unit,
@@ -91,7 +93,7 @@ fun ExerciseBrowser(
 
     Column(modifier.fillMaxSize()) {
         OutlinedTextField(
-            value = state.query,
+            value = query,
             onValueChange = onQueryChange,
             modifier = Modifier
                 .fillMaxWidth()
