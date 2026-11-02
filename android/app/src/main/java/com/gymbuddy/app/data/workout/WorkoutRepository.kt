@@ -6,6 +6,7 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.gymbuddy.app.domain.SetValues
+import com.gymbuddy.app.domain.supersetsAfterReorder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -114,17 +115,23 @@ class WorkoutRepository @Inject constructor(private val db: GymBuddyDatabase) {
         dao.upsertWorkoutExercise(item.copy(deletedAt = now, updatedAt = now))
     }
 
-    /** Moves an exercise [delta] places up (negative) or down in the workout. */
-    suspend fun moveExercise(workoutId: String, workoutExerciseId: String, delta: Int) = db.withTransaction {
+    /**
+     * Puts the exercises in the order of [orderedIds]; ones added since the order was made keep their place at the end.
+     * An exercise dragged away from its superset partner leaves the superset.
+     */
+    suspend fun reorderExercises(workoutId: String, orderedIds: List<String>) = db.withTransaction {
         val items = dao.getWorkoutWithExercises(workoutId)?.exercises?.map { it.workoutExercise } ?: return@withTransaction
-        val from = items.indexOfFirst { it.id == workoutExerciseId }
-        val to = from + delta
-        if (from < 0 || to !in items.indices) return@withTransaction
-        val reordered = items.toMutableList().apply { add(to, removeAt(from)) }
+        val byId = items.associateBy { it.id }
+        val reordered = orderedIds.mapNotNull { byId[it] } + items.filterNot { it.id in orderedIds }
+        val groups = supersetsAfterReorder(reordered.map { it.supersetGroup })
         val now = clock()
         dao.upsertWorkoutExercises(
             reordered.mapIndexedNotNull { index, item ->
-                if (item.sortOrder == index) null else item.copy(sortOrder = index, updatedAt = now)
+                if (item.sortOrder == index && item.supersetGroup == groups[index]) {
+                    null
+                } else {
+                    item.copy(sortOrder = index, supersetGroup = groups[index], updatedAt = now)
+                }
             },
         )
     }

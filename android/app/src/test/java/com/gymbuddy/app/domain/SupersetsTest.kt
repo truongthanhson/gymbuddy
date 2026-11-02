@@ -43,4 +43,12 @@ class SupersetsTest {
             }
         }
     }
+
+    @Test
+    fun afterReorderMatchesSharedVectors() {
+        for (c in file["afterReorder"]!!.jsonArray.map { it.jsonObject }) {
+            val result = supersetsAfterReorder(groups(c["groups"]!!.jsonArray))
+            assertEquals(c["note"]!!.jsonPrimitive.content, groups(c["result"]!!.jsonArray), result)
+        }
+    }
 }

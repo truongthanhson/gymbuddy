@@ -164,8 +164,8 @@ class WorkoutViewModel @Inject constructor(
         }
     }
 
-    fun moveExercise(workoutId: String, workoutExerciseId: String, delta: Int) =
-        launch { repository.moveExercise(workoutId, workoutExerciseId, delta) }
+    fun reorderExercises(workoutId: String, orderedIds: List<String>) =
+        launch { repository.reorderExercises(workoutId, orderedIds) }
 
     fun replaceExercise(workoutExerciseId: String, exerciseId: String) =
         launch { repository.replaceExercise(workoutExerciseId, exerciseId) }

@@ -120,6 +120,7 @@ fun ActiveWorkoutScreen(
     var showFinish by remember { mutableStateOf(false) }
     var showCancel by remember { mutableStateOf(false) }
     var showRename by remember { mutableStateOf(false) }
+    var showReorder by remember { mutableStateOf(false) }
     val vietnamese = useVietnameseNames()
 
     val restTimer by viewModel.restTimerState.collectAsStateWithLifecycle()
@@ -170,6 +171,7 @@ fun ActiveWorkoutScreen(
                     editing = editing,
                     restTimer = restTimer,
                     onReplace = { onReplaceExercise(item.workoutExercise.id) },
+                    onReorder = { showReorder = true },
                     viewModel = viewModel,
                 )
             }
@@ -275,6 +277,16 @@ fun ActiveWorkoutScreen(
             },
         )
     }
+
+    if (showReorder) {
+        ReorderExercisesSheet(
+            exercises = workout.exercises.map {
+                ReorderEntry(it.workoutExercise.id, it.exercise.displayName(vietnamese), it.workoutExercise.supersetGroup)
+            },
+            onReorder = { viewModel.reorderExercises(workout.workout.id, it) },
+            onDismiss = { showReorder = false },
+        )
+    }
 }
 
 @Composable
@@ -306,6 +318,7 @@ private fun LazyListScope.exerciseItems(
     editing: Boolean,
     restTimer: RestTimerState?,
     onReplace: () -> Unit,
+    onReorder: () -> Unit,
     viewModel: WorkoutViewModel,
 ) {
     val id = item.workoutExercise.id
@@ -314,7 +327,7 @@ private fun LazyListScope.exerciseItems(
     val showsRest = !editing && startsRest(groups, index)
     item(key = "$id:header", contentType = "exerciseHeader") {
         CardPart(group, CardEdge.TOP, Modifier.padding(top = 16.dp)) {
-            ExerciseHeader(item, title, index, groups, workoutId, editing, onReplace, viewModel)
+            ExerciseHeader(item, title, index, groups, workoutId, editing, onReplace, onReorder, viewModel)
         }
     }
     val labels = setLabels(item.sets.map { it.setType.name.lowercase() })
@@ -378,6 +391,7 @@ private fun ExerciseHeader(
     workoutId: String,
     editing: Boolean,
     onReplace: () -> Unit,
+    onReorder: () -> Unit,
     viewModel: WorkoutViewModel,
 ) {
     val group = groups[index]
@@ -439,21 +453,12 @@ private fun ExerciseHeader(
                             },
                         )
                     }
-                    if (index > 0) {
+                    if (groups.size > 1) {
                         DropdownMenuItem(
-                            text = { Text(stringResource(R.string.move_up)) },
+                            text = { Text(stringResource(R.string.reorder_exercises)) },
                             onClick = {
                                 menuOpen = false
-                                viewModel.moveExercise(workoutId, item.workoutExercise.id, -1)
-                            },
-                        )
-                    }
-                    if (!isLast) {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.move_down)) },
-                            onClick = {
-                                menuOpen = false
-                                viewModel.moveExercise(workoutId, item.workoutExercise.id, 1)
+                                onReorder()
                             },
                         )
                     }
@@ -648,7 +653,7 @@ private fun ExerciseSetRow(
 }
 
 @Composable
-private fun supersetColor(group: Int) = listOf(
+internal fun supersetColor(group: Int) = listOf(
     MaterialTheme.colorScheme.tertiary,
     MaterialTheme.colorScheme.secondary,
     MaterialTheme.colorScheme.primary,

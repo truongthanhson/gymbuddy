@@ -14,5 +14,10 @@
   "removeFromSuperset": [
     { "note": "the group goes away when one is left", "groups": [1, 1, null], "index": 0, "result": [null, null, null] },
     { "note": "the others stay together", "groups": [1, 1, 1], "index": 2, "result": [1, 1, null] }
+  ],
+  "afterReorder": [
+    { "note": "a pair that stays together keeps its group", "groups": [1, 1, null], "result": [1, 1, null] },
+    { "note": "an exercise dragged away from its partner leaves the superset", "groups": [1, null, 1], "result": [null, null, null] },
+    { "note": "only the straggler leaves a group of three", "groups": [1, 1, null, 1], "result": [1, 1, null, null] }
   ]
 }

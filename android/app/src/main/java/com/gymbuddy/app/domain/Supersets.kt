@@ -27,3 +27,8 @@ fun removeFromSuperset(groups: List<Int?>, index: Int): List<Int?> {
     if (result.count { it == group } == 1) result.replaceAll { if (it == group) null else it }
     return result
 }
+
+/** Groups after the exercises were reordered: an exercise no longer next to another of its group leaves it. */
+fun supersetsAfterReorder(groups: List<Int?>): List<Int?> = groups.mapIndexed { index, group ->
+    group?.takeIf { groups.getOrNull(index - 1) == it || groups.getOrNull(index + 1) == it }
+}
