@@ -1242,32 +1242,12 @@
         }
       }
     },
-    "Move down": {
-      "localizations": {
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chuyển xuống"
-          }
-        }
-      }
-    },
     "Move to folder": {
       "localizations": {
         "vi": {
           "stringUnit": {
             "state": "translated",
             "value": "Chuyển thư mục"
-          }
-        }
-      }
-    },
-    "Move up": {
-      "localizations": {
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chuyển lên"
           }
         }
       }
@@ -1738,6 +1718,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Đổi tên thư mục"
+          }
+        }
+      }
+    },
+    "Reorder exercises": {
+      "localizations": {
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sắp xếp lại bài tập"
           }
         }
       }

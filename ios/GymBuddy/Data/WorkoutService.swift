@@ -111,14 +111,16 @@ enum WorkoutService {
         save(context)
     }
 
-    /// Moves an exercise `delta` places up (negative) or down in the workout.
-    static func move(_ item: WorkoutExercise, by delta: Int, in workout: Workout, context: ModelContext, now: Date = .now) {
-        var items = workout.liveExercises
-        guard let from = items.firstIndex(where: { $0.id == item.id }), items.indices.contains(from + delta) else { return }
-        items.insert(items.remove(at: from), at: from + delta)
-        for (index, e) in items.enumerated() where e.sortOrder != index {
-            e.sortOrder = index
-            e.updatedAt = now
+    /// Puts the exercises in the order of `orderedIds`; one dragged away from its superset partner leaves the superset.
+    static func reorderExercises(in workout: Workout, orderedIds: [UUID], context: ModelContext, now: Date = .now) {
+        let items = workout.liveExercises
+        let byId = Dictionary(items.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        let reordered = orderedIds.compactMap { byId[$0] } + items.filter { !orderedIds.contains($0.id) }
+        let groups = supersetsAfterReorder(groups: reordered.map(\.supersetGroup))
+        for (index, item) in reordered.enumerated() where item.sortOrder != index || item.supersetGroup != groups[index] {
+            item.sortOrder = index
+            item.supersetGroup = groups[index]
+            item.updatedAt = now
         }
         save(context)
     }

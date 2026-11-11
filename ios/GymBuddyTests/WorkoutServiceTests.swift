@@ -140,7 +140,8 @@ final class WorkoutServiceTests: XCTestCase {
         WorkoutService.addExercises(["a", "b", "c"], to: workout, in: context)
         let b = try XCTUnwrap(workout.liveExercises.first { $0.exerciseId == "b" })
 
-        WorkoutService.move(b, by: -1, in: workout, context: context)
+        let ids = workout.liveExercises.map(\.id)
+        WorkoutService.reorderExercises(in: workout, orderedIds: [ids[1], ids[0], ids[2]], context: context)
         XCTAssertEqual(workout.liveExercises.map(\.exerciseId), ["b", "a", "c"])
 
         WorkoutService.replace(b, with: "z", in: context)
@@ -149,6 +150,12 @@ final class WorkoutServiceTests: XCTestCase {
 
         WorkoutService.updateSupersets(in: workout, context: context) { supersetWithNext(groups: $0, index: 0) }
         XCTAssertEqual(workout.liveExercises.map(\.supersetGroup), [1, 1, nil])
+
+        // Dragging the first exercise to the end splits it from its partner.
+        let ordered = workout.liveExercises.map(\.id)
+        WorkoutService.reorderExercises(in: workout, orderedIds: [ordered[1], ordered[2], ordered[0]], context: context)
+        XCTAssertEqual(workout.liveExercises.map(\.exerciseId), ["a", "c", "z"])
+        XCTAssertEqual(workout.liveExercises.map(\.supersetGroup), [nil, nil, nil])
     }
 
     func testEditingAFinishedWorkoutAndPerformingItAgain() throws {

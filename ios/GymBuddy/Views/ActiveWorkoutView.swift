@@ -20,6 +20,7 @@ struct ActiveWorkoutView: View {
     @State private var showRename = false
     @State private var newName = ""
     @State private var replacing: WorkoutExercise?
+    @State private var showReorder = false
     @State private var showDelete = false
     @State private var showDuration = false
     @State private var durationText = ""
@@ -82,7 +83,8 @@ struct ActiveWorkoutView: View {
                     editing: editing,
                     index: index,
                     groups: groups,
-                    onReplace: { replacing = item }
+                    onReplace: { replacing = item },
+                    onReorder: { showReorder = true }
                 )
             }
             Section {
@@ -164,6 +166,9 @@ struct ActiveWorkoutView: View {
             ExercisePickerView(single: true) { ids in
                 if let id = ids.first { WorkoutService.replace(item, with: id, in: context) }
             }
+        }
+        .sheet(isPresented: $showReorder) {
+            ReorderExercisesSheet(workout: workout, names: namesById)
         }
         .confirmationDialog("Finish workout?", isPresented: $showFinish, titleVisibility: .visible) {
             Button("Finish") { finish(saveToTemplate: false) }
@@ -276,6 +281,7 @@ private struct ExerciseSection: View {
     let index: Int
     let groups: [Int?]
     let onReplace: () -> Void
+    let onReorder: () -> Void
     @State private var noteOpen = false
     // Looked up once per exercise, not on every redraw: typing a weight redraws the section.
     @State private var previous: [WorkoutSet] = []
@@ -399,18 +405,9 @@ private struct ExerciseSection: View {
                             Label("Add note", systemImage: "note.text")
                         }
                     }
-                    if index > 0 {
-                        Button {
-                            WorkoutService.move(item, by: -1, in: workout, context: context)
-                        } label: {
-                            Label("Move up", systemImage: "arrow.up")
-                        }
-                    }
-                    if !isLast {
-                        Button {
-                            WorkoutService.move(item, by: 1, in: workout, context: context)
-                        } label: {
-                            Label("Move down", systemImage: "arrow.down")
+                    if groups.count > 1 {
+                        Button(action: onReorder) {
+                            Label("Reorder exercises", systemImage: "arrow.up.arrow.down")
                         }
                     }
                     if !isLast && (group == nil || groups[index + 1] != group) {
@@ -448,6 +445,46 @@ private struct ExerciseSection: View {
 
 private func supersetColor(_ group: Int) -> Color {
     [Color.orange, .purple, .teal, .pink][((group % 4) + 4) % 4]
+}
+
+/// The workout's exercises as a plain list with drag handles, like Strong's "Reorder exercises".
+/// Each drop saves the new order; an exercise dragged away from its superset partner leaves the superset.
+private struct ReorderExercisesSheet: View {
+    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
+    let workout: Workout
+    let names: [String: Exercise]
+    @State private var items: [WorkoutExercise] = []
+
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(items) { item in
+                    HStack(spacing: 12) {
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(item.supersetGroup.map(supersetColor) ?? .clear)
+                            .frame(width: 4, height: 28)
+                        Text(verbatim: names[item.exerciseId]?.displayName ?? item.exerciseId)
+                            .lineLimit(1)
+                    }
+                }
+                .onMove { from, to in
+                    items.move(fromOffsets: from, toOffset: to)
+                    WorkoutService.reorderExercises(in: workout, orderedIds: items.map(\.id), context: context)
+                }
+            }
+            .environment(\.editMode, .constant(.active))
+            .navigationTitle("Reorder exercises")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+        .onAppear { items = workout.liveExercises }
+    }
 }
 
 private enum Column {

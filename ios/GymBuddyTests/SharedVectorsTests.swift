@@ -282,9 +282,11 @@ final class SharedVectorsTests: XCTestCase {
         struct File: Decodable {
             struct Rest: Decodable { let groups: [Int?]; let results: [Bool] }
             struct Edit: Decodable { let note: String; let groups: [Int?]; let index: Int; let result: [Int?] }
+            struct Reorder: Decodable { let note: String; let groups: [Int?]; let result: [Int?] }
             let startsRest: [Rest]
             let supersetWithNext: [Edit]
             let removeFromSuperset: [Edit]
+            let afterReorder: [Reorder]
         }
         let file = try vectors("supersets", as: File.self)
         for c in file.startsRest {
@@ -295,6 +297,9 @@ final class SharedVectorsTests: XCTestCase {
         }
         for c in file.removeFromSuperset {
             XCTAssertEqual(removeFromSuperset(groups: c.groups, index: c.index), c.result, c.note)
+        }
+        for c in file.afterReorder {
+            XCTAssertEqual(supersetsAfterReorder(groups: c.groups), c.result, c.note)
         }
     }
 

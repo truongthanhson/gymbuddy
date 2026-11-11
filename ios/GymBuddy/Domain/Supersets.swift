@@ -29,3 +29,13 @@ func removeFromSuperset(groups: [Int?], index: Int) -> [Int?] {
     }
     return result
 }
+
+/// Groups after the exercises were reordered: an exercise no longer next to another of its group leaves it.
+func supersetsAfterReorder(groups: [Int?]) -> [Int?] {
+    groups.indices.map { index in
+        guard let group = groups[index] else { return nil }
+        let before = index > 0 ? groups[index - 1] : nil
+        let after = index + 1 < groups.count ? groups[index + 1] : nil
+        return before == group || after == group ? group : nil
+    }
+}
