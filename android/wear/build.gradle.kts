@@ -18,6 +18,12 @@ android {
         versionName = "0.1.0"
     }
 
+    signingConfigs {
+        getByName("debug") {
+            storeFile = rootProject.file("debug.keystore")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
